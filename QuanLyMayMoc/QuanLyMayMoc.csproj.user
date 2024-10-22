@@ -5,7 +5,22 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
-    <None Update="MainWindow.xaml">
+    <Page Update="TongHopMayTheoKy.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="DanhSachNhanVien.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="QuanLyMayMoc.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="DichVuTheoThang.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MainPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <None Update="ShellWindow.xaml">
       <SubType>Designer</SubType>
     </None>
     <None Update="Package.appxmanifest">
