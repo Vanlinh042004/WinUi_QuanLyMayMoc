@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "QuanLyMayMoc (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "QuanLyMayMoc (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "E:\\Windows\\QuanLyMayMoc\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{5477E61F-3B1D-4C7B-9093-37C5DCFBD30E}|QuanLyMayMoc\\QuanLyMayMoc.csproj|e:\\windows\\quanlymaymoc\\quanlymaymoc\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{5477E61F-3B1D-4C7B-9093-37C5DCFBD30E}|QuanLyMayMoc\\QuanLyMayMoc.csproj|solutionrelative:quanlymaymoc\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5477E61F-3B1D-4C7B-9093-37C5DCFBD30E}|QuanLyMayMoc\\QuanLyMayMoc.csproj|e:\\windows\\quanlymaymoc\\quanlymaymoc\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{5477E61F-3B1D-4C7B-9093-37C5DCFBD30E}|QuanLyMayMoc\\QuanLyMayMoc.csproj|solutionrelative:quanlymaymoc\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5477E61F-3B1D-4C7B-9093-37C5DCFBD30E}|QuanLyMayMoc\\QuanLyMayMoc.csproj|e:\\windows\\quanlymaymoc\\quanlymaymoc\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5477E61F-3B1D-4C7B-9093-37C5DCFBD30E}|QuanLyMayMoc\\QuanLyMayMoc.csproj|solutionrelative:quanlymaymoc\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "App.xaml",
+              "DocumentMoniker": "E:\\Windows\\QuanLyMayMoc\\QuanLyMayMoc\\App.xaml",
+              "RelativeDocumentMoniker": "QuanLyMayMoc\\App.xaml",
+              "ToolTip": "E:\\Windows\\QuanLyMayMoc\\QuanLyMayMoc\\App.xaml",
+              "RelativeToolTip": "QuanLyMayMoc\\App.xaml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-10-22T03:43:57.387Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "E:\\Windows\\QuanLyMayMoc\\QuanLyMayMoc\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "QuanLyMayMoc\\MainWindow.xaml.cs",
+              "ToolTip": "E:\\Windows\\QuanLyMayMoc\\QuanLyMayMoc\\MainWindow.xaml.cs",
+              "RelativeToolTip": "QuanLyMayMoc\\MainWindow.xaml.cs",
+              "ViewState": "AQIAABQAAAAAAAAAAAAhwBkAAAAbAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-22T02:22:52.404Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "E:\\Windows\\QuanLyMayMoc\\QuanLyMayMoc\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "QuanLyMayMoc\\MainWindow.xaml",
+              "ToolTip": "E:\\Windows\\QuanLyMayMoc\\QuanLyMayMoc\\MainWindow.xaml",
+              "RelativeToolTip": "QuanLyMayMoc\\MainWindow.xaml",
+              "ViewState": "AQIAACQAAAAAAAAAAAAAADIAAAA+AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-10-22T02:15:35.913Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
