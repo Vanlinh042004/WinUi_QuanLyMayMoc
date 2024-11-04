@@ -15,12 +15,13 @@
     <Content Remove="Assets\imageholder.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="AboutUs.xaml" />
     <None Remove="DanhSachNhanVien.xaml" />
     <None Remove="DichVuTheoThang.xaml" />
     <None Remove="MainPage.xaml" />
+    <None Remove="PhanHoi.xaml" />
     <None Remove="QuanLyMayMoc.xaml" />
     <None Remove="TongHopMayTheoKy.xaml" />
+    <None Remove="VeChungToi.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -51,9 +52,12 @@
     <None Update="Assets\imageholder.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="PhanHoi.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="AboutUs.xaml">
+    <Page Update="VeChungToi.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

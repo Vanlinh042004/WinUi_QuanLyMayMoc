@@ -121,7 +121,13 @@ namespace QuanLyMayMoc
         private void VeChungToiButton(object sender, RoutedEventArgs e)
         {
             //navigate to the AboutUs page
-            this.FrameContent.Navigate(typeof(AboutUs));
+            this.FrameContent.Navigate(typeof(VeChungToi));
+        }
+
+        private void PhanHoiButton(object sender, RoutedEventArgs e)
+        {
+            //navigate to the Feedback page
+            this.FrameContent.Navigate(typeof(PhanHoi));
         }
     }
 }

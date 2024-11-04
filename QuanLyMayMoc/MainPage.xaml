@@ -46,7 +46,7 @@
             <MenuBarItem Title="Hỗ trợ" Margin="0,0,10,0">
                 <MenuFlyoutItem Text="Về chúng tôi" Click="VeChungToiButton"/>
                 <MenuFlyoutSeparator/>
-                <MenuFlyoutItem Text="Phản hồi"/>
+                <MenuFlyoutItem Text="Phản hồi" Click="PhanHoiButton"/>
             </MenuBarItem>
         </MenuBar>
 
