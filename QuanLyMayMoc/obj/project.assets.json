@@ -1188,28 +1188,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\MY PC\\.nuget\\packages\\": {},
-    "C:\\Program Files\\DevExpress 22.1\\Components\\Offline Packages": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\Nhat\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\Windows\\QuanLyMayMoc\\QuanLyMayMoc\\QuanLyMayMoc.csproj",
+      "projectUniqueName": "D:\\Visual Studio\\WindowsProgramming\\LinhRepo\\QuanLyMayMoc\\QuanLyMayMoc.csproj",
       "projectName": "QuanLyMayMoc",
-      "projectPath": "E:\\Windows\\QuanLyMayMoc\\QuanLyMayMoc\\QuanLyMayMoc.csproj",
-      "packagesPath": "C:\\Users\\MY PC\\.nuget\\packages\\",
-      "outputPath": "E:\\Windows\\QuanLyMayMoc\\QuanLyMayMoc\\obj\\",
+      "projectPath": "D:\\Visual Studio\\WindowsProgramming\\LinhRepo\\QuanLyMayMoc\\QuanLyMayMoc.csproj",
+      "packagesPath": "C:\\Users\\Nhat\\.nuget\\packages\\",
+      "outputPath": "D:\\Visual Studio\\WindowsProgramming\\LinhRepo\\QuanLyMayMoc\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files\\DevExpress 22.1\\Components\\Offline Packages",
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\MY PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 22.1.config",
+        "C:\\Users\\Nhat\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -1218,9 +1213,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\DevExpress 22.1\\Components\\System\\Components\\Packages": {},
-        "https://api.nuget.org/v3/index.json": {},
-        "https://nuget.devexpress.com/25UaJfohFn4D9YjdmkekOu3YpgKr2rTn25JrAeNcnsY3PuDLFi/api": {}
+        "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net6.0-windows10.0.19041": {
@@ -1266,43 +1259,43 @@
         "downloadDependencies": [
           {
             "name": "Microsoft.AspNetCore.App.Runtime.win-arm64",
-            "version": "[6.0.29, 6.0.29]"
+            "version": "[6.0.35, 6.0.35]"
           },
           {
             "name": "Microsoft.AspNetCore.App.Runtime.win-x64",
-            "version": "[6.0.29, 6.0.29]"
+            "version": "[6.0.35, 6.0.35]"
           },
           {
             "name": "Microsoft.AspNetCore.App.Runtime.win-x86",
-            "version": "[6.0.29, 6.0.29]"
+            "version": "[6.0.35, 6.0.35]"
           },
           {
             "name": "Microsoft.NETCore.App.Runtime.win-arm64",
-            "version": "[6.0.29, 6.0.29]"
+            "version": "[6.0.35, 6.0.35]"
           },
           {
             "name": "Microsoft.NETCore.App.Runtime.win-x64",
-            "version": "[6.0.29, 6.0.29]"
+            "version": "[6.0.35, 6.0.35]"
           },
           {
             "name": "Microsoft.NETCore.App.Runtime.win-x86",
-            "version": "[6.0.29, 6.0.29]"
+            "version": "[6.0.35, 6.0.35]"
           },
           {
             "name": "Microsoft.Windows.SDK.NET.Ref",
-            "version": "[10.0.19041.31, 10.0.19041.31]"
+            "version": "[10.0.19041.43, 10.0.19041.43]"
           },
           {
             "name": "Microsoft.WindowsDesktop.App.Runtime.win-arm64",
-            "version": "[6.0.29, 6.0.29]"
+            "version": "[6.0.35, 6.0.35]"
           },
           {
             "name": "Microsoft.WindowsDesktop.App.Runtime.win-x64",
-            "version": "[6.0.29, 6.0.29]"
+            "version": "[6.0.35, 6.0.35]"
           },
           {
             "name": "Microsoft.WindowsDesktop.App.Runtime.win-x86",
-            "version": "[6.0.29, 6.0.29]"
+            "version": "[6.0.35, 6.0.35]"
           }
         ],
         "frameworkReferences": {
@@ -1313,7 +1306,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403\\RuntimeIdentifierGraph.json"
       }
     },
     "runtimes": {
