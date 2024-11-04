@@ -52,6 +52,7 @@
 
 
         <!-- Đường phân tách giữa MenuBar và Main Content -->
+        <Rectangle Fill="Gray" Height="1" VerticalAlignment="Bottom" Grid.Row="0"/>
 
 
         <!-- Nội dung chính của ứng dụng -->
@@ -60,6 +61,8 @@
             </Frame>
         </Grid>
 
+        <!--Đường phân tách giữa Main Content và Footer-->
+        <Rectangle Fill="Gray" Height="1" VerticalAlignment="Top" Grid.Row="2"/>
         <!-- Footer -->
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10" Grid.Row="2" >
             <Button Style="{StaticResource AccentButtonStyle}" Content="Dịch vụ theo tháng" Margin="4" Padding="4" Click="dichVuTheoThangButton"/>

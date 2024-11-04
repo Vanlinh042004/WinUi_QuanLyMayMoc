@@ -27,5 +27,17 @@ namespace QuanLyMayMoc
         {
             this.InitializeComponent();
         }
+
+        
+
+        private void LinhKienButton(object sender, RoutedEventArgs e)
+        {
+            this.FrameContent.Navigate(typeof(LinhKien));
+        }
+
+        private void LoiButton(object sender, RoutedEventArgs e)
+        {
+            this.FrameContent.Navigate(typeof(Loi));
+        }
     }
 }

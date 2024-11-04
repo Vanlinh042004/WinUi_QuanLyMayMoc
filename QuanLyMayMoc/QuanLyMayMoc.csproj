@@ -14,6 +14,8 @@
   <ItemGroup>
     <None Remove="DanhSachNhanVien.xaml" />
     <None Remove="DichVuTheoThang.xaml" />
+    <None Remove="LinhKien.xaml" />
+    <None Remove="Loi.xaml" />
     <None Remove="MainPage.xaml" />
     <None Remove="QuanLyMayMoc.xaml" />
     <None Remove="TongHopMayTheoKy.xaml" />
@@ -30,8 +32,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.1.35" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.230913002" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
+    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.115.5" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
@@ -42,6 +46,16 @@
   -->
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
     <ProjectCapability Include="Msix" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="LinhKien.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Loi.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="TongHopMayTheoKy.xaml">

@@ -5,6 +5,12 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="LinhKien.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Loi.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="TongHopMayTheoKy.xaml">
       <SubType>Designer</SubType>
     </Page>
