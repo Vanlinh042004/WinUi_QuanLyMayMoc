@@ -68,7 +68,6 @@
                 <Button x:ConnectionId='2' Content="Thêm Linh kiện" Width="150" Margin="20" Style="{StaticResource AccentButtonStyle}" Foreground="Black" BorderBrush="Black" BorderThickness="1"                          />
                 <Button x:ConnectionId='3' Content="Xóa Linh kiện" Width="150" Margin="10" Style="{StaticResource AccentButtonStyle}" Foreground="Black" BorderBrush="Black" BorderThickness="1"                             />
                 <Button x:ConnectionId='4' Content="Xóa tất cả" Width="150" Margin="10" Style="{StaticResource AccentButtonStyle}" Foreground="Black" BorderBrush="Black" BorderThickness="1"                                />
-                <Button Content="Tìm kiếm" Width="150" Margin="10" Style="{StaticResource AccentButtonStyle}" Foreground="Black" BorderBrush="Black" BorderThickness="1"/>
             </StackPanel>
         </Grid>
     </Grid>

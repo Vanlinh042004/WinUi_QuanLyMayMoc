@@ -1,14 +1,26 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "E:\\Windows\\WinUi_QuanLyMayMoc\\",
+  "WorkspaceRootPath": "C:\\Users\\Nhat\\Desktop\\temp\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{5477E61F-3B1D-4C7B-9093-37C5DCFBD30E}|QuanLyMayMoc\\QuanLyMayMoc.csproj|e:\\windows\\winui_quanlymaymoc\\quanlymaymoc\\linhkien.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "AbsoluteMoniker": "D:0:0:{5477E61F-3B1D-4C7B-9093-37C5DCFBD30E}|QuanLyMayMoc\\QuanLyMayMoc.csproj|c:\\users\\nhat\\desktop\\temp\\quanlymaymoc\\linhkien.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5477E61F-3B1D-4C7B-9093-37C5DCFBD30E}|QuanLyMayMoc\\QuanLyMayMoc.csproj|solutionrelative:quanlymaymoc\\linhkien.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5477E61F-3B1D-4C7B-9093-37C5DCFBD30E}|QuanLyMayMoc\\QuanLyMayMoc.csproj|c:\\users\\nhat\\desktop\\temp\\quanlymaymoc\\linhkien.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{5477E61F-3B1D-4C7B-9093-37C5DCFBD30E}|QuanLyMayMoc\\QuanLyMayMoc.csproj|solutionrelative:quanlymaymoc\\linhkien.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5477E61F-3B1D-4C7B-9093-37C5DCFBD30E}|QuanLyMayMoc\\QuanLyMayMoc.csproj|e:\\windows\\winui_quanlymaymoc\\quanlymaymoc\\linhkien.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5477E61F-3B1D-4C7B-9093-37C5DCFBD30E}|QuanLyMayMoc\\QuanLyMayMoc.csproj|solutionrelative:quanlymaymoc\\linhkien.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5477E61F-3B1D-4C7B-9093-37C5DCFBD30E}|QuanLyMayMoc\\QuanLyMayMoc.csproj|c:\\users\\nhat\\desktop\\temp\\quanlymaymoc\\dichvutheothang.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5477E61F-3B1D-4C7B-9093-37C5DCFBD30E}|QuanLyMayMoc\\QuanLyMayMoc.csproj|solutionrelative:quanlymaymoc\\dichvutheothang.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5477E61F-3B1D-4C7B-9093-37C5DCFBD30E}|QuanLyMayMoc\\QuanLyMayMoc.csproj|c:\\users\\nhat\\desktop\\temp\\quanlymaymoc\\dichvutheothang.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{5477E61F-3B1D-4C7B-9093-37C5DCFBD30E}|QuanLyMayMoc\\QuanLyMayMoc.csproj|solutionrelative:quanlymaymoc\\dichvutheothang.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5477E61F-3B1D-4C7B-9093-37C5DCFBD30E}|QuanLyMayMoc\\QuanLyMayMoc.csproj|c:\\users\\nhat\\desktop\\temp\\quanlymaymoc\\dataprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5477E61F-3B1D-4C7B-9093-37C5DCFBD30E}|QuanLyMayMoc\\QuanLyMayMoc.csproj|solutionrelative:quanlymaymoc\\dataprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,33 +30,68 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "LinhKien.xaml.cs",
-              "DocumentMoniker": "E:\\Windows\\WinUi_QuanLyMayMoc\\QuanLyMayMoc\\LinhKien.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\Nhat\\Desktop\\temp\\QuanLyMayMoc\\LinhKien.xaml.cs",
               "RelativeDocumentMoniker": "QuanLyMayMoc\\LinhKien.xaml.cs",
-              "ToolTip": "E:\\Windows\\WinUi_QuanLyMayMoc\\QuanLyMayMoc\\LinhKien.xaml.cs",
+              "ToolTip": "C:\\Users\\Nhat\\Desktop\\temp\\QuanLyMayMoc\\LinhKien.xaml.cs",
               "RelativeToolTip": "QuanLyMayMoc\\LinhKien.xaml.cs",
-              "ViewState": "AQIAABgAAAAAAAAAAAAAANIAAAAAAAAA",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-03T17:25:57.188Z",
+              "WhenOpened": "2024-11-04T12:21:51.275Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "LinhKien.xaml",
-              "DocumentMoniker": "E:\\Windows\\WinUi_QuanLyMayMoc\\QuanLyMayMoc\\LinhKien.xaml",
+              "DocumentMoniker": "C:\\Users\\Nhat\\Desktop\\temp\\QuanLyMayMoc\\LinhKien.xaml",
               "RelativeDocumentMoniker": "QuanLyMayMoc\\LinhKien.xaml",
-              "ToolTip": "E:\\Windows\\WinUi_QuanLyMayMoc\\QuanLyMayMoc\\LinhKien.xaml",
+              "ToolTip": "C:\\Users\\Nhat\\Desktop\\temp\\QuanLyMayMoc\\LinhKien.xaml",
               "RelativeToolTip": "QuanLyMayMoc\\LinhKien.xaml",
-              "ViewState": "AQIAAC0AAAAAAAAAAAAAABsAAABMAAAA",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-11-02T15:43:44.776Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-04T12:21:47.398Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "DichVuTheoThang.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\Nhat\\Desktop\\temp\\QuanLyMayMoc\\DichVuTheoThang.xaml.cs",
+              "RelativeDocumentMoniker": "QuanLyMayMoc\\DichVuTheoThang.xaml.cs",
+              "ToolTip": "C:\\Users\\Nhat\\Desktop\\temp\\QuanLyMayMoc\\DichVuTheoThang.xaml.cs",
+              "RelativeToolTip": "QuanLyMayMoc\\DichVuTheoThang.xaml.cs",
+              "ViewState": "AgIAAJYAAAAAAAAAAAAowAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-04T12:21:42.681Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "DichVuTheoThang.xaml",
+              "DocumentMoniker": "C:\\Users\\Nhat\\Desktop\\temp\\QuanLyMayMoc\\DichVuTheoThang.xaml",
+              "RelativeDocumentMoniker": "QuanLyMayMoc\\DichVuTheoThang.xaml",
+              "ToolTip": "C:\\Users\\Nhat\\Desktop\\temp\\QuanLyMayMoc\\DichVuTheoThang.xaml",
+              "RelativeToolTip": "QuanLyMayMoc\\DichVuTheoThang.xaml",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-11-04T12:21:39.674Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "DataProvider.cs",
+              "DocumentMoniker": "C:\\Users\\Nhat\\Desktop\\temp\\QuanLyMayMoc\\DataProvider.cs",
+              "RelativeDocumentMoniker": "QuanLyMayMoc\\DataProvider.cs",
+              "ToolTip": "C:\\Users\\Nhat\\Desktop\\temp\\QuanLyMayMoc\\DataProvider.cs",
+              "RelativeToolTip": "QuanLyMayMoc\\DataProvider.cs",
+              "ViewState": "AgIAAAoBAAAAAAAAAAA9wKYAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-04T12:21:07.764Z"
             }
           ]
         }

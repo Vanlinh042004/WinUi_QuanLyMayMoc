@@ -24,7 +24,7 @@
         <MenuBar HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0,0,0,0" Padding="10" Background="{ThemeResource TextFillColorInverse}" Foreground="{ThemeResource TextFillColorPrimary}">
 
             <MenuBarItem Title="Tệp tin" Margin="0,0,10,0">
-                <MenuFlyoutItem Text="Tạo dự án mới"/>
+                <MenuFlyoutItem x:ConnectionId='9' Text="Tạo dự án mới"                        />
                 <MenuFlyoutSeparator/>
                 <MenuFlyoutItem Text="Mở dự án"/>
                 <MenuFlyoutSeparator/>
@@ -44,9 +44,9 @@
             </MenuBarItem>
 
             <MenuBarItem Title="Hỗ trợ" Margin="0,0,10,0">
-                <MenuFlyoutItem Text="Về chúng tôi"/>
+                <MenuFlyoutItem x:ConnectionId='7' Text="Về chúng tôi"                         />
                 <MenuFlyoutSeparator/>
-                <MenuFlyoutItem Text="Phản hồi"/>
+                <MenuFlyoutItem x:ConnectionId='8' Text="Phản hồi"                      />
             </MenuBarItem>
         </MenuBar>
 
@@ -65,10 +65,10 @@
         <Rectangle Fill="Gray" Height="1" VerticalAlignment="Top" Grid.Row="2"/>
         <!-- Footer -->
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10" Grid.Row="2" >
-            <Button x:ConnectionId='2' Style="{StaticResource AccentButtonStyle}" Content="Dịch vụ theo tháng" Margin="4" Padding="4"                              />
-            <Button x:ConnectionId='3' Style="{StaticResource AccentButtonStyle}" Content="Quản lý máy móc" Margin="4" Padding="4"                           />
-            <Button x:ConnectionId='4' Style="{StaticResource AccentButtonStyle}" Content="Danh sách nhân viên" Margin="4" Padding="4"                               />
-            <Button x:ConnectionId='5' Style="{StaticResource AccentButtonStyle}" Content="Tổng hợp máy theo kỳ" Margin="4" Padding="4"                               />
+            <Button x:ConnectionId='2' Style="{StaticResource AccentButtonStyle}" Name="DichVuTheoThang"  Content="Dịch vụ theo tháng" Margin="4" Padding="4"                              />
+            <Button x:ConnectionId='3' Style="{StaticResource AccentButtonStyle}" Name="QuanLyMayMoc" Content="Quản lý máy móc" Margin="4" Padding="4"                           />
+            <Button x:ConnectionId='4' Style="{StaticResource AccentButtonStyle}" Name="DanhSachNhanVien"  Content="Danh sách nhân viên" Margin="4" Padding="4"                               />
+            <Button x:ConnectionId='5' Style="{StaticResource AccentButtonStyle}" Name="TongHopMayTheoKy" Content="Tổng hợp máy theo kỳ" Margin="4" Padding="4"                               />
         </StackPanel>
     </Grid>
 </Page>

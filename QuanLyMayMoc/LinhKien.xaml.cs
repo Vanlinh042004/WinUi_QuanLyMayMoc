@@ -16,6 +16,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.System;
 using Windows.UI;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -37,7 +38,9 @@ namespace QuanLyMayMoc
         {
             this.InitializeComponent();
             HideFirstRow(); // Thêm dòng đầu tiên
-            string m_tempPath = "E:\\Windows\\WinUi_QuanLyMayMoc\\Template\\DuAnMau\\db_QuanLyMayMoc.sqlite3";
+            //string m_tempPath = "E:\\Windows\\WinUi_QuanLyMayMoc\\Template\\DuAnMau\\db_QuanLyMayMoc.sqlite3";
+            //C: \Users\Nhat\Desktop\temp\DataBase
+            string m_tempPath = "C:\\Users\\Nhat\\Desktop\\temp\\DataBase\\db_QuanLyMayMoc.sqlite3";
             DataProvider.InstanceTHDA.changePath(m_tempPath);
             string dbString = $"SELECT GM.MaHieu, GM.Ten, GM.Gia " +
                               $" FROM Tbl_MTC_ChiTietGiaMay GM";

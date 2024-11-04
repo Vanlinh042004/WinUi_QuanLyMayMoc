@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Visual Studio\\WindowsProgramming\\LinhRepo\\QuanLyMayMoc\\QuanLyMayMoc.csproj": {}
+    "C:\\Users\\Nhat\\Desktop\\temp\\QuanLyMayMoc\\QuanLyMayMoc.csproj": {}
   },
   "projects": {
-    "D:\\Visual Studio\\WindowsProgramming\\LinhRepo\\QuanLyMayMoc\\QuanLyMayMoc.csproj": {
+    "C:\\Users\\Nhat\\Desktop\\temp\\QuanLyMayMoc\\QuanLyMayMoc.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Visual Studio\\WindowsProgramming\\LinhRepo\\QuanLyMayMoc\\QuanLyMayMoc.csproj",
+        "projectUniqueName": "C:\\Users\\Nhat\\Desktop\\temp\\QuanLyMayMoc\\QuanLyMayMoc.csproj",
         "projectName": "QuanLyMayMoc",
-        "projectPath": "D:\\Visual Studio\\WindowsProgramming\\LinhRepo\\QuanLyMayMoc\\QuanLyMayMoc.csproj",
+        "projectPath": "C:\\Users\\Nhat\\Desktop\\temp\\QuanLyMayMoc\\QuanLyMayMoc.csproj",
         "packagesPath": "C:\\Users\\Nhat\\.nuget\\packages\\",
-        "outputPath": "D:\\Visual Studio\\WindowsProgramming\\LinhRepo\\QuanLyMayMoc\\obj\\",
+        "outputPath": "C:\\Users\\Nhat\\Desktop\\temp\\QuanLyMayMoc\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

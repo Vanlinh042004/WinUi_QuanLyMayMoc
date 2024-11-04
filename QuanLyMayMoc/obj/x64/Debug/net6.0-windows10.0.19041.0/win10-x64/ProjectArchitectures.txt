@@ -1,1 +1,1 @@
-E:\Windows\WinUi_QuanLyMayMoc\QuanLyMayMoc\QuanLyMayMoc.csproj;x64
+C:\Users\Nhat\Desktop\temp\QuanLyMayMoc\QuanLyMayMoc.csproj;x64
