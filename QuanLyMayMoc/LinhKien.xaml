@@ -1,0 +1,74 @@
+<Page
+    x:Class="QuanLyMayMoc.LinhKien"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:QuanLyMayMoc"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <TextBlock Text="CHI TIẾT GIÁ LINH KIỆN AOSMITH ĐÀ NẴNG"
+                   HorizontalAlignment="Center"
+                   FontSize="24"
+                   FontWeight="Bold"
+                   Margin="0,0,0,10"
+                   Foreground="Black"/>
+        </Grid>
+        <!-- Tiêu đề cột và nội dung cuộn -->
+        <Grid Grid.Row="1" HorizontalAlignment="Center"  Background="Gray" >
+            <!-- Tiêu đề cột cố định -->
+            <Grid Padding="5" RowSpacing="5" ColumnSpacing="5" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200" />
+                    <ColumnDefinition Width="600"/>
+                    <ColumnDefinition Width="350"/>
+                </Grid.ColumnDefinitions>
+                <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <TextBlock Text="MÃ SẢN PHẨM"  FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
+                </Border>
+                <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <TextBlock Text="TÊN SẢN PHẨM" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
+                </Border>
+                <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <TextBlock Text="GIÁ SẢN PHẨM" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
+                </Border>
+            </Grid>
+        </Grid>
+
+
+
+
+        <Grid Grid.Row="2" HorizontalAlignment="Center">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Height="Auto">
+                <Grid Padding="10" RowSpacing="5" ColumnSpacing="5" Background="White" x:Name="DataEntryGrid">
+                    <Grid x:Name="InputGrid" ColumnSpacing="5" RowSpacing="5">
+                        <Grid.ColumnDefinitions>
+               
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="600"/>
+                            <ColumnDefinition Width="350"/>
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </Grid>
+            </ScrollViewer>
+        </Grid>
+
+        <Grid Grid.Row="3">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+                <Button Content="Thêm Linh kiện" Width="150" Margin="20" Style="{StaticResource AccentButtonStyle}" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnAddRowDataClick"/>
+                <Button Content="Xóa Linh kiện" Width="150" Margin="10" Style="{StaticResource AccentButtonStyle}" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnDeleteRowDataClick"/>
+                <Button Content="Xóa tất cả" Width="150" Margin="10" Style="{StaticResource AccentButtonStyle}" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnDeleteAllRowDataClick"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Page>
