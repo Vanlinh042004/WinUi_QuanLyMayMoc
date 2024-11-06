@@ -26,6 +26,7 @@ namespace QuanLyMayMoc
         public MainPage()
         {
             this.InitializeComponent();
+           
         }
 
         private void dichVuTheoThangButton(object sender, RoutedEventArgs e)

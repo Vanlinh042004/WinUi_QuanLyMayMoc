@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -23,9 +23,58 @@ namespace QuanLyMayMoc
     /// </summary>
     public sealed partial class DanhSachNhanVien : Page
     {
+        
+        public MainViewModel ViewModel
+        {
+            get; set;
+        }
+       
+
         public DanhSachNhanVien()
         {
             this.InitializeComponent();
+
+            // Initialize the list with sample data
+            ViewModel = new MainViewModel();
+        }
+
+
+
+        private void OnAddEmployeeClicked(object sender, RoutedEventArgs e)
+        {
+            AddEmployeePopup.IsOpen = true; // Mở popup
+        }
+
+        // Sự kiện khi nhấn nút "Hủy"
+        private void OnCancelEmployeeClicked(object sender, RoutedEventArgs e)
+        {
+            AddEmployeePopup.IsOpen = false; // Đóng popup
+        }
+
+      
+        private void OnSaveEmployeeClicked(object sender, RoutedEventArgs e)
+        {
+            
+            var newEmployee = new Employee
+            {
+                MaNhanVien = MaNhanVienInput.Text ?? "Mặc định",
+                HoTen = HoTenInput.Text ?? "Không rõ",
+                ChucVu = (ChucVuInput.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "Nhân viên",
+                GioiTinh = (GioiTinhInput.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "Khác",
+                NgaySinh = NgaySinhInput.SelectedDate?.Date ?? DateTime.MinValue,
+                CCCD = CCCDInput.Text ?? "Không có",
+                SoDienThoai = SoDienThoaiInput.Text ?? "Không có",
+                Email = EmailInput.Text ?? "Không có",
+                DiaChi = DiaChiInput.Text ?? "Không có",
+                AnhDaiDien = string.IsNullOrWhiteSpace(AnhDaiDienInput.Text) ? "No Image" : AnhDaiDienInput.Text, // Kiểm tra xem có nhập ảnh không
+            };
+
+          
+            ViewModel.Employees.Add(newEmployee);
+           
+            AddEmployeePopup.IsOpen = false;
         }
     }
 }
+
+

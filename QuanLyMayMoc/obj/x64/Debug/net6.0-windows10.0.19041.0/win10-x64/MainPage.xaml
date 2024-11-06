@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="QuanLyMayMoc.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:QuanLyMayMoc"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid Background="Black">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Row for MenuBar -->
+            <RowDefinition Height="*"/>
+            <!-- Row for Main Content -->
+            <RowDefinition Height="Auto"/>
+            <!-- Row for Footer -->
+        </Grid.RowDefinitions>
+
+
+        <!-- MenuBar -->
+        <MenuBar HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0,0,0,0" Padding="10" Background="{ThemeResource TextFillColorInverse}" Foreground="{ThemeResource TextFillColorPrimary}">
+
+            <MenuBarItem Title="Tệp tin" Margin="0,0,10,0">
+                <MenuFlyoutItem Text="Tạo dự án mới"/>
+                <MenuFlyoutSeparator/>
+                <MenuFlyoutItem Text="Mở dự án"/>
+                <MenuFlyoutSeparator/>
+                <MenuFlyoutItem Text="Lưu"/>
+                <MenuFlyoutSeparator/>
+                <MenuFlyoutItem Text="Lưu với tên khác"/>
+                <MenuFlyoutSeparator/>
+                <MenuFlyoutItem Text="Exit"/>
+            </MenuBarItem>
+
+            <MenuBarItem Title="Chia sẻ dự án" Margin="0,0,10,0"/>
+
+            <MenuBarItem Title="Hướng dẫn" Margin="0,0,10,0">
+                <MenuFlyoutItem Text="Demo"/>
+                <MenuFlyoutSeparator/>
+                <MenuFlyoutItem Text="Hướng dẫn sử dụng"/>
+            </MenuBarItem>
+
+            <MenuBarItem Title="Hỗ trợ" Margin="0,0,10,0">
+                <MenuFlyoutItem Text="Về chúng tôi"/>
+                <MenuFlyoutSeparator/>
+                <MenuFlyoutItem Text="Phản hồi"/>
+            </MenuBarItem>
+        </MenuBar>
+
+
+        <!-- Đường phân tách giữa MenuBar và Main Content -->
+
+
+        <!-- Nội dung chính của ứng dụng -->
+        <Grid Grid.Row="1" Background="LightGray" Margin="10">
+            <Frame x:ConnectionId='6' Name="FrameContent">
+            </Frame>
+        </Grid>
+
+        <!-- Footer -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10" Grid.Row="2" >
+            <Button x:ConnectionId='2' Style="{StaticResource AccentButtonStyle}" Content="Dịch vụ theo tháng" Margin="4" Padding="4"                              />
+            <Button x:ConnectionId='3' Style="{StaticResource AccentButtonStyle}" Content="Quản lý máy móc" Margin="4" Padding="4"                           />
+            <Button x:ConnectionId='4' Style="{StaticResource AccentButtonStyle}" Content="Danh sách nhân viên" Margin="4" Padding="4"                               />
+            <Button x:ConnectionId='5' Style="{StaticResource AccentButtonStyle}" Content="Tổng hợp máy theo kỳ" Margin="4" Padding="4"                               />
+        </StackPanel>
+    </Grid>
+</Page>
+
