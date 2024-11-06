@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuanLyMayMoc
+namespace QuanLyMayMoc.ViewModel
 {
     public class Service : INotifyPropertyChanged
     {
@@ -140,7 +140,7 @@ namespace QuanLyMayMoc
                     int.TryParse(value, out int stt); // Chuyển đổi value thành int
                     Stt = stt; // Gán giá trị cho Stt
                     break;
-                
+
                 case 2:
                     MaSoCV = value; // Mã số công việc
                     break;

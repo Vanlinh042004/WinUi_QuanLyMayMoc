@@ -2,37 +2,7 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup />
   <ItemGroup>
-    <Page Update="VeChungToi.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <None Update="App.xaml">
-      <SubType>Designer</SubType>
-    </None>
-    <Page Update="LinhKien.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Loi.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="PhanHoi.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="TongHopMayTheoKy.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="DanhSachNhanVien.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="QuanLyMayMoc.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="DichVuTheoThang.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="MainPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <None Update="ShellWindow.xaml">
       <SubType>Designer</SubType>
     </None>
     <None Update="Package.appxmanifest">

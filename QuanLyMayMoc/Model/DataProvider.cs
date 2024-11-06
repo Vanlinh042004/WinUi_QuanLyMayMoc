@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Dapper;
 
-namespace QuanLyMayMoc
+namespace QuanLyMayMoc.Model
 {
     public class DataProvider
     {
@@ -28,8 +28,8 @@ namespace QuanLyMayMoc
 
         public static DataProvider InstanceTHDA
         {
-            get { if (instanceTHDA == null) instanceTHDA = new DataProvider(); return DataProvider.instanceTHDA; }
-            private set { DataProvider.instanceTHDA = value; }
+            get { if (instanceTHDA == null) instanceTHDA = new DataProvider(); return instanceTHDA; }
+            private set { instanceTHDA = value; }
         }
         public DataProvider()
         {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuanLyMayMoc
+namespace QuanLyMayMoc.Model
 {
     public class Employee : INotifyPropertyChanged
     {
@@ -124,7 +124,7 @@ namespace QuanLyMayMoc
             get => _diaChi;
             set { _diaChi = value; OnPropertyChanged(nameof(DiaChi)); }
         }
-        
+
         public string NhanVienVanPhongCongTruong
         {
             get => _nhanVienVanPhongCongTruong;

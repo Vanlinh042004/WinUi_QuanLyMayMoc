@@ -1,4 +1,4 @@
-﻿using QuanLyMayMoc;
+﻿using QuanLyMayMoc.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuanLyMayMoc
+namespace QuanLyMayMoc.ViewModel
 {
     public class MockDao : IDao
     {
@@ -83,8 +83,8 @@ namespace QuanLyMayMoc
             GhiChu = "Sửa chữa bo mạch",
         },
     };
-    
-    public ObservableCollection<Employee> GetEmployees()
+
+        public ObservableCollection<Employee> GetEmployees()
         {
             var result = new ObservableCollection<Employee>()
             {
@@ -97,7 +97,7 @@ namespace QuanLyMayMoc
                     NgaySinh = new DateTime(1990, 1, 1), // Ngày sinh
                     MaSoThue = "123456789",
                     TrangThai = "Đang làm việc",
-                    AnhDaiDien = "Assets/linh.jpg",
+                    AnhDaiDien = "../Assets/linh.jpg",
                     DanToc = "Kinh", // Dân tộc
                     SoNguoiPhuThuoc = "0", // Số người phụ thuộc
                     CCCD = "123456789012", // Số CCCD
@@ -116,7 +116,7 @@ namespace QuanLyMayMoc
                     NgaySinh = new DateTime(1985, 5, 20), // Ngày sinh
                     MaSoThue = "987654321",
                     TrangThai = "Đang làm việc",
-                    AnhDaiDien = "Assets/man.jpg",
+                    AnhDaiDien = "../Assets/man.jpg",
                     DanToc = "Kinh", // Dân tộc
                     SoNguoiPhuThuoc = "1", // Số người phụ thuộc
                     CCCD = "987654321098", // Số CCCD
@@ -136,7 +136,7 @@ namespace QuanLyMayMoc
                     NgaySinh = new DateTime(1992, 3, 15), // Ngày sinh
                     MaSoThue = "654321987",
                     TrangThai = "Đang làm việc",
-                    AnhDaiDien = "Assets/ducnhat.jpg",
+                    AnhDaiDien = "../Assets/ducnhat.jpg",
                     DanToc = "Kinh", // Dân tộc
                     SoNguoiPhuThuoc = "2", // Số người phụ thuộc
                     CCCD = "456789123456", // Số CCCD
@@ -156,7 +156,7 @@ namespace QuanLyMayMoc
                     NgaySinh = new DateTime(1980, 8, 30), // Ngày sinh
                     MaSoThue = "321654987",
                     TrangThai = "Đang làm việc",
-                    AnhDaiDien = "Assets/hanh.jpg",
+                    AnhDaiDien = "../Assets/hanh.jpg",
                     DanToc = "Kinh", // Dân tộc
                     SoNguoiPhuThuoc = "3", // Số người phụ thuộc
                     CCCD = "789123456789", // Số CCCD
@@ -168,15 +168,15 @@ namespace QuanLyMayMoc
                     },
             };
 
-         return result;
-          }
+            return result;
+        }
         public ObservableCollection<Service> GetServices()
         {
             var result = services;
             return result;
 
         }
-            public ObservableCollection<Service> GetServices(DateTime date)
+        public ObservableCollection<Service> GetServices(DateTime date)
         {
             var allServices = new ObservableCollection<Service>()
     {
@@ -260,7 +260,7 @@ namespace QuanLyMayMoc
                             where service.Ngay.Date == date.Date
                             select service;
 
-              
+
                 return new ObservableCollection<Service>(query);
             }
         }
@@ -268,10 +268,10 @@ namespace QuanLyMayMoc
 
         public MockDao()
         {
-           
+
         }
-        
-   
+
+
 
 
 

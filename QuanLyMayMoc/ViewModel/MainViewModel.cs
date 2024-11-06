@@ -5,14 +5,15 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using QuanLyMayMoc.Model;
 
-namespace QuanLyMayMoc
+namespace QuanLyMayMoc.ViewModel
 {
 
 
     public class MainViewModel
-{
-      
+    {
+
 
         private Service _currentSelectedService;
         public Service CurrentSelectedService
@@ -38,10 +39,10 @@ namespace QuanLyMayMoc
 
 
         public ObservableCollection<Employee> Employees
-    {
-        get; set;
-    }
-    public ObservableCollection<Service> Services
+        {
+            get; set;
+        }
+        public ObservableCollection<Service> Services
         {
             get; set;
         }
@@ -51,23 +52,23 @@ namespace QuanLyMayMoc
 
 
         public MainViewModel()
-    {
-        IDao dao = new MockDao();
-        Employees = dao.GetEmployees();
-        Services=dao.GetServices();
-        //LoadData(Ngay);
-    
+        {
+            IDao dao = new MockDao();
+            Employees = dao.GetEmployees();
+            Services = dao.GetServices();
+            //LoadData(Ngay);
+
         }
 
         public void LoadData(DateTime ngay)
         {
-            IDao _dao=new MockDao();
-            var items = _dao.GetServices( Ngay);
+            IDao _dao = new MockDao();
+            var items = _dao.GetServices(Ngay);
             Services = new ObservableCollection<Service>(items);
-           
+
 
         }
-       
+
 
         public void RemoveSelectedService()
         {
@@ -81,7 +82,7 @@ namespace QuanLyMayMoc
         {
 
             Services.Clear();
-               
+
         }
 
 
