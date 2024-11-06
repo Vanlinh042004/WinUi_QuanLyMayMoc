@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Reflection.Metadata;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
@@ -40,7 +41,17 @@ namespace QuanLyMayMoc
             HideFirstRow(); // Thêm dòng đầu tiên
             //string m_tempPath = "E:\\Windows\\WinUi_QuanLyMayMoc\\Template\\DuAnMau\\db_QuanLyMayMoc.sqlite3";
             //C: \Users\Nhat\Desktop\temp\DataBase
-            string m_tempPath = "C:\\Users\\Nhat\\Desktop\\temp\\DataBase\\db_QuanLyMayMoc.sqlite3";
+            //string m_tempPath = "C:\\Users\\Nhat\\Desktop\\temp\\DataBase\\db_QuanLyMayMoc.sqlite3";
+
+            // làm sao link đường dẫn tương đối đến folder Database trong solution
+            //string m_tempPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "QuanLyMayMoc", "Database", "db_QuanLyMayMoc.sqlite3");
+
+            string projectRoot = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.Parent.Parent.Parent.FullName;
+            string databasePath = Path.Combine(projectRoot, "Database", "db_QuanLyMayMoc.sqlite3");
+
+            string m_tempPath = databasePath;
+
+
             DataProvider.InstanceTHDA.changePath(m_tempPath);
             string dbString = $"SELECT GM.MaHieu, GM.Ten, GM.Gia " +
                               $" FROM Tbl_MTC_ChiTietGiaMay GM";
