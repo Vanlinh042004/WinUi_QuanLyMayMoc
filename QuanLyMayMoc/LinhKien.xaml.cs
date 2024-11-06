@@ -39,11 +39,6 @@ namespace QuanLyMayMoc
         {
             this.InitializeComponent();
             HideFirstRow(); // Thêm dòng đầu tiên
-            //string m_tempPath = "E:\\Windows\\WinUi_QuanLyMayMoc\\Template\\DuAnMau\\db_QuanLyMayMoc.sqlite3";
-            //C: \Users\Nhat\Desktop\temp\DataBase
-            //string m_tempPath = "C:\\Users\\Nhat\\Desktop\\temp\\DataBase\\db_QuanLyMayMoc.sqlite3";
-
-            // làm sao link đường dẫn tương đối đến folder Database trong solution
             //string m_tempPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "QuanLyMayMoc", "Database", "db_QuanLyMayMoc.sqlite3");
 
             string projectRoot = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.Parent.Parent.Parent.FullName;
@@ -53,8 +48,8 @@ namespace QuanLyMayMoc
 
 
             DataProvider.InstanceTHDA.changePath(m_tempPath);
-            string dbString = $"SELECT GM.MaHieu, GM.Ten, GM.Gia " +
-                              $" FROM Tbl_MTC_ChiTietGiaMay GM";
+            string dbString = $"SELECT GM.Ten,GM.MaHieu, GM.Gia " +
+                              $" FROM Tbl_MTC_GiaLinhKien GM";
             DataTable InforMay = DataProvider.InstanceTHDA.ExecuteQuery(dbString);
             PopulateGrid(InforMay);
         }
@@ -173,13 +168,13 @@ namespace QuanLyMayMoc
                 string value = textBox.Text;
 
                 // Lưu giá trị vào cơ sở dữ liệu
-                SaveToDatabase(value);
+                //SaveToDatabase(value);
             }
         }
 
         private void SaveToDatabase(string value)
         {
-            string query = $"UPDATE Tbl_MTC_ChiTietGiaMay" +
+            string query = $"UPDATE Tbl_MTC_GiaLinhKien" +
                            $"SET Ten = 'Ha Loi'" +
                            $"WHERE MaHieu = @MaHieu";
             DataProvider.InstanceTHDA.ExecuteNonQuery(query, parameter: new object[] {value});
@@ -221,7 +216,7 @@ namespace QuanLyMayMoc
         }
         #endregion
 
-        // Add event handlers for TextBox hover effects
+     
 
 
 
@@ -301,7 +296,7 @@ namespace QuanLyMayMoc
         private void DeleteRowFromDatabase(string maSanPham)
         {
             string query = $"DELETE" +
-                             $" FROM Tbl_MTC_ChiTietGiaMay " +
+                             $" FROM Tbl_MTC_GiaLinhKien " +
                              $" WHERE MaHieu = @MaHieu";
             DataProvider.InstanceTHDA.ExecuteNonQuery(query, parameter: new object[] {maSanPham});
         }    
@@ -338,7 +333,7 @@ namespace QuanLyMayMoc
         private void DeleteAllRowFromDatabase()
         {
             string query = $"DELETE" +
-                           $" FROM Tbl_MTC_ChiTietGiaMay ";
+                           $" FROM Tbl_MTC_GiaLinhKien  ";
             DataProvider.InstanceTHDA.ExecuteNonQuery(query);
         }
 
