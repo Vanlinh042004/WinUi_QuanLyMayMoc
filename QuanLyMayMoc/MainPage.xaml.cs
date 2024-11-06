@@ -12,6 +12,7 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using System.Text.RegularExpressions;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -87,15 +88,18 @@ namespace QuanLyMayMoc
             string projectName;
 
 
+            string pattern = @"^(?!\d)[A-Za-z0-9_]+$";
+
             // Check if the user clicked "OK"
             if (result == ContentDialogResult.Primary)
             {
                 // Retrieve the project name
                 projectName = projectNameTextBox.Text;
 
-                if (!string.IsNullOrEmpty(projectName))
+                // Check if the project name is a valid file name
+                if (!string.IsNullOrEmpty(projectName) && Regex.IsMatch(projectName, pattern))
                 {
-                    // Enable specific options if a project name is provided
+                    // Enable specific options if a valid project name is provided
                     DichVuTheoThang.IsEnabled = true;
                     QuanLyMayMoc.IsEnabled = true;
                     DanhSachNhanVien.IsEnabled = true;
@@ -106,11 +110,11 @@ namespace QuanLyMayMoc
                 }
                 else
                 {
-                    // Optionally, show a warning if no name was entered
+                    // Show a warning if the project name is invalid
                     await new ContentDialog
                     {
                         Title = "Lỗi",
-                        Content = "Tên dự án không được để trống.",
+                        Content = "Tên dự án không hợp lệ. Vui lòng nhập tên không chứa khoảng trắng, ký tự đặc biệt và không bắt đầu bằng số.",
                         CloseButtonText = "OK",
                         XamlRoot = this.XamlRoot
                     }.ShowAsync();
