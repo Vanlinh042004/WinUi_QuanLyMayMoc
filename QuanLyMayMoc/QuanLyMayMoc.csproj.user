@@ -2,9 +2,21 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup />
   <ItemGroup>
+    <Page Update="VeChungToi.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="LinhKien.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Loi.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="PhanHoi.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="TongHopMayTheoKy.xaml">
       <SubType>Designer</SubType>
     </Page>

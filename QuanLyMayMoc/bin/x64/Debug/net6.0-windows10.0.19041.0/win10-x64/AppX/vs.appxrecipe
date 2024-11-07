@@ -29,7 +29,7 @@
     <AppXManifest Include="E:\DOANWINDOW2\WinUi_QuanLyMayMoc\QuanLyMayMoc\bin\x64\Debug\net6.0-windows10.0.19041.0\win10-x64\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2024-11-06T02:50:47.822</Modified>
+      <Modified>2024-11-06T08:18:14.255</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
@@ -43,11 +43,11 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="E:\DOANWINDOW2\WinUi_QuanLyMayMoc\QuanLyMayMoc\bin\x64\Debug\net6.0-windows10.0.19041.0\win10-x64\QuanLyMayMoc.dll">
       <PackagePath>QuanLyMayMoc.dll</PackagePath>
-      <Modified>2024-11-06T02:50:47.321</Modified>
+      <Modified>2024-11-06T08:18:13.830</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="E:\DOANWINDOW2\WinUi_QuanLyMayMoc\QuanLyMayMoc\obj\x64\Debug\net6.0-windows10.0.19041.0\win10-x64\apphost.exe">
       <PackagePath>QuanLyMayMoc.exe</PackagePath>
-      <Modified>2024-11-06T02:50:47.326</Modified>
+      <Modified>2024-11-06T08:18:13.873</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="E:\DOANWINDOW2\WinUi_QuanLyMayMoc\QuanLyMayMoc\Assets\LockScreenLogo.scale-200.png">
       <PackagePath>Assets\LockScreenLogo.scale-200.png</PackagePath>

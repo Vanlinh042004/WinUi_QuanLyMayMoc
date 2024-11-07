@@ -19,17 +19,13 @@ using Windows.Foundation.Collections;
 namespace QuanLyMayMoc
 {
     /// <summary>
-    /// An empty window that can be used on its own or navigated to within a Frame.
+    /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class ShellWindow : Window
+    public sealed partial class VeChungToi : Page
     {
-        public ShellWindow()
+        public VeChungToi()
         {
             this.InitializeComponent();
-            // set the WindowFrame to mainpage
-            this.RootFrame.Navigate(typeof(MainPage));
-
-
         }
     }
 }

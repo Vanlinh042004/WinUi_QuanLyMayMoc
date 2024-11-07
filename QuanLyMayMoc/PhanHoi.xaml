@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Page
-    x:Class="QuanLyMayMoc.TongHopMayTheoKy"
+    x:Class="QuanLyMayMoc.PhanHoi"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:QuanLyMayMoc"
@@ -10,6 +10,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <TextBlock>Đây là trang tổng hợp máy theo kỳ</TextBlock>
+        <!-- WebView2 Control to load a webpage -->
+        <WebView2 x:Name="MyWebView" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
     </Grid>
 </Page>

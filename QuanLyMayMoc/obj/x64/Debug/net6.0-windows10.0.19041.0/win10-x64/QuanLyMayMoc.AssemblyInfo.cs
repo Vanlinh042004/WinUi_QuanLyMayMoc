@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("QuanLyMayMoc")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+49f7e5f7a2661170388c179d013023d90dd48c59")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+996e12533aa7628beb0d50c9f7c8173b9793b275")]
 [assembly: System.Reflection.AssemblyProductAttribute("QuanLyMayMoc")]
 [assembly: System.Reflection.AssemblyTitleAttribute("QuanLyMayMoc")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

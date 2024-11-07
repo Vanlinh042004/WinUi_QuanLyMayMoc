@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8">
 <Page
     x:Class="QuanLyMayMoc.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -24,7 +24,7 @@
         <MenuBar HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0,0,0,0" Padding="10" Background="{ThemeResource TextFillColorInverse}" Foreground="{ThemeResource TextFillColorPrimary}">
 
             <MenuBarItem Title="Tệp tin" Margin="0,0,10,0">
-                <MenuFlyoutItem Text="Tạo dự án mới"/>
+                <MenuFlyoutItem Text="Tạo dự án mới" Click="TaoDuAnMoiClick"/>
                 <MenuFlyoutSeparator/>
                 <MenuFlyoutItem Text="Mở dự án"/>
                 <MenuFlyoutSeparator/>
@@ -44,14 +44,15 @@
             </MenuBarItem>
 
             <MenuBarItem Title="Hỗ trợ" Margin="0,0,10,0">
-                <MenuFlyoutItem Text="Về chúng tôi"/>
+                <MenuFlyoutItem Text="Về chúng tôi" Click="VeChungToiButton"/>
                 <MenuFlyoutSeparator/>
-                <MenuFlyoutItem Text="Phản hồi"/>
+                <MenuFlyoutItem Text="Phản hồi" Click="PhanHoiButton"/>
             </MenuBarItem>
         </MenuBar>
 
 
         <!-- Đường phân tách giữa MenuBar và Main Content -->
+        <Rectangle Fill="Gray" Height="1" VerticalAlignment="Bottom" Grid.Row="0"/>
 
 
         <!-- Nội dung chính của ứng dụng -->
@@ -60,12 +61,14 @@
             </Frame>
         </Grid>
 
+        <!--Đường phân tách giữa Main Content và Footer-->
+        <Rectangle Fill="Gray" Height="1" VerticalAlignment="Top" Grid.Row="2"/>
         <!-- Footer -->
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10" Grid.Row="2" >
-            <Button Style="{StaticResource AccentButtonStyle}" Content="Dịch vụ theo tháng" Margin="4" Padding="4" Click="dichVuTheoThangButton"/>
-            <Button Style="{StaticResource AccentButtonStyle}" Content="Quản lý máy móc" Margin="4" Padding="4" Click="quanLyMayMocButton"/>
-            <Button Style="{StaticResource AccentButtonStyle}" Content="Danh sách nhân viên" Margin="4" Padding="4" Click="danhSachNhanVienButton"/>
-            <Button Style="{StaticResource AccentButtonStyle}" Content="Tổng hợp máy theo kỳ" Margin="4" Padding="4" Click="tongHopMayTheoKyButton"/>
+            <Button Style="{StaticResource AccentButtonStyle}" Name="DichVuTheoThang"  Content="Dịch vụ theo tháng" Margin="4" Padding="4" Click="dichVuTheoThangButton"/>
+            <Button Style="{StaticResource AccentButtonStyle}" Name="QuanLyMayMoc" Content="Quản lý máy móc" Margin="4" Padding="4" Click="quanLyMayMocButton"/>
+            <Button Style="{StaticResource AccentButtonStyle}" Name="DanhSachNhanVien"  Content="Danh sách nhân viên" Margin="4" Padding="4" Click="danhSachNhanVienButton"/>
+            <Button Style="{StaticResource AccentButtonStyle}" Name="TongHopMayTheoKy" Content="Tổng hợp máy theo kỳ" Margin="4" Padding="4" Click="tongHopMayTheoKyButton"/>
         </StackPanel>
     </Grid>
 </Page>
