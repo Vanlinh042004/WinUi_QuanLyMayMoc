@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuanLyMayMoc.ViewModel
+namespace QuanLyMayMoc
 {
     public class Service : INotifyPropertyChanged
     {
