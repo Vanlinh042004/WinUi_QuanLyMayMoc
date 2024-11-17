@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using QuanLyMayMoc.Model;
+using QuanLyMayMoc.Service;
 
 namespace QuanLyMayMoc.ViewModel
 {
@@ -13,27 +14,27 @@ namespace QuanLyMayMoc.ViewModel
 
     public class MainViewModel
     {
+        IDao _dao;
 
-
-        private Service _currentSelectedService;
-        public Service CurrentSelectedService
+        private Task _currentSelectedTask;
+        public Task CurrentSelectedTask
         {
-            get => _currentSelectedService;
+            get => _currentSelectedTask;
             set
             {
-                _currentSelectedService = value;
-                OnPropertyChanged(nameof(CurrentSelectedService)); // Nếu ViewModel hỗ trợ INotifyPropertyChanged
+                _currentSelectedTask = value;
+                OnPropertyChanged(nameof(CurrentSelectedTask)); // Nếu ViewModel hỗ trợ INotifyPropertyChanged
             }
         }
 
-        private ObservableCollection<Service> _filteredServices;
-        public ObservableCollection<Service> FilteredServices
+        private ObservableCollection<Task> _filteredTasks;
+        public ObservableCollection<Task> FilteredTasks
         {
-            get => _filteredServices;
+            get => _filteredTasks;
             set
             {
-                _filteredServices = value;
-                OnPropertyChanged(nameof(FilteredServices));
+                _filteredTasks = value;
+                OnPropertyChanged(nameof(FilteredTasks));
             }
         }
 
@@ -42,7 +43,7 @@ namespace QuanLyMayMoc.ViewModel
         {
             get; set;
         }
-        public ObservableCollection<Service> Services
+        public ObservableCollection<Task> Tasks
         {
             get; set;
         }
@@ -53,9 +54,9 @@ namespace QuanLyMayMoc.ViewModel
 
         public MainViewModel()
         {
-            IDao dao = new MockDao();
-            Employees = dao.GetEmployees();
-            Services = dao.GetServices();
+            _dao = ServiceFactory.GetChildOf(typeof(IDao)) as IDao;
+            Employees = _dao.GetEmployees();
+            Tasks = _dao.GetTasks();
             //LoadData(Ngay);
 
         }
@@ -63,25 +64,25 @@ namespace QuanLyMayMoc.ViewModel
         public void LoadData(DateTime ngay)
         {
             IDao _dao = new MockDao();
-            var items = _dao.GetServices(Ngay);
-            Services = new ObservableCollection<Service>(items);
+            var items = _dao.GetTasks(Ngay);
+            Tasks = new ObservableCollection<Task>(items);
 
 
         }
 
 
-        public void RemoveSelectedService()
+        public void RemoveSelectedTask()
         {
-            if (CurrentSelectedService != null)
+            if (CurrentSelectedTask != null)
             {
-                Services.Remove(CurrentSelectedService);
-                CurrentSelectedService = null; // Clear selection
+                Tasks.Remove(CurrentSelectedTask);
+                CurrentSelectedTask = null; // Clear selection
             }
         }
-        public void RemoveAllService()
+        public void RemoveAllTask()
         {
 
-            Services.Clear();
+            Tasks.Clear();
 
         }
 

@@ -20,6 +20,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.System;
 using Windows.UI;
+using Npgsql;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -34,22 +35,15 @@ namespace QuanLyMayMoc
         private int currentRow = 1;
         private int Columns = 3;
         private int selectedRow = -1; // Hàng được chọn để xóa
+        private string connectionString = "Host=127.0.0.1;Port=5432;Username=postgres;Password=1234;Database=machine";
         public Loi()
         {
             this.InitializeComponent();
             HideFirstRow(); // Thêm dòng đầu tiên
-            //string m_tempPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "QuanLyMayMoc", "Database", "db_QuanLyMayMoc.sqlite3");
+                            //string m_tempPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "QuanLyMayMoc", "Database", "db_QuanLyMayMoc.sqlite3");
 
-            string projectRoot = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.Parent.Parent.Parent.FullName;
-            string databasePath = Path.Combine(projectRoot, "Database", "db_QuanLyMayMoc.sqlite3");
-
-            string m_tempPath = databasePath;
-
-
-            DataProvider.InstanceTHDA.changePath(m_tempPath);
-            string dbString = $"SELECT GM.MaHieu, GM.Ten, GM.Gia " +
-                              $" FROM Tbl_MTC_ChiTietGiaMay GM";
-            DataTable InforMay = DataProvider.InstanceTHDA.ExecuteQuery(dbString);
+            string dbString = "SELECT mahieu, tenloi, giaban FROM loi";
+            DataTable InforMay = ExecuteQuery(dbString);
             PopulateGrid(InforMay);
         }
 
@@ -73,7 +67,6 @@ namespace QuanLyMayMoc
 
         private void PopulateGrid(DataTable dataTable)
         {
-            // Xóa các hàng hiện có (trừ hàng đầu tiên ẩn)
             for (int i = InputGrid.Children.Count - 1; i >= 0; i--)
             {
                 var element = InputGrid.Children[i];
@@ -83,14 +76,12 @@ namespace QuanLyMayMoc
                 }
             }
 
-            // Xóa các định nghĩa hàng hiện có (trừ hàng đầu tiên ẩn)
             for (int row = InputGrid.RowDefinitions.Count - 1; row > 0; row--)
             {
                 InputGrid.RowDefinitions.RemoveAt(row);
             }
 
-            // Thêm các hàng mới dựa trên DataTable
-            int rowIndex = 1; // Bắt đầu từ 1 để bỏ qua hàng ẩn
+            int rowIndex = 1;
             foreach (DataRow row in dataTable.Rows)
             {
                 InputGrid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
@@ -123,8 +114,27 @@ namespace QuanLyMayMoc
                 }
                 rowIndex++;
             }
-            currentRow = rowIndex; // Đặt lại số hàng hiện tại
+            currentRow = rowIndex;
         }
+
+        private DataTable ExecuteQuery(string query)
+        {
+            DataTable dataTable = new DataTable();
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    using (var reader = command.ExecuteReader())
+                    {
+                        dataTable.Load(reader);
+                    }
+                }
+            }
+            return dataTable;
+        }
+
+
         // Thêm dòng mới
         #region AddNewRow
         private void AddNewRow()
@@ -167,7 +177,7 @@ namespace QuanLyMayMoc
                 string value = textBox.Text;
 
                 // Lưu giá trị vào cơ sở dữ liệu
-               // SaveToDatabase(value);
+                // SaveToDatabase(value);
             }
         }
 
@@ -328,10 +338,10 @@ namespace QuanLyMayMoc
             DataProvider.InstanceTHDA.ExecuteNonQuery(query);
         }
     }
-    public class ServiceData_Loi
-    {
-        public string MASP { get; set; }
-        public string TENSP { get; set; }
-        public string GIA { get; set; }
-    }
+    //public class ServiceData_Loi
+    //{
+    //    public string MASP { get; set; }
+    //    public string TENSP { get; set; }
+    //    public string GIA { get; set; }
+    //}
 }
