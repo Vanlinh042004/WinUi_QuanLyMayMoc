@@ -23,10 +23,10 @@ namespace QuanLyMayMoc
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
+
     public sealed partial class MainPage : Page
     {
-        public string maDuAn;
-        public string projectName;
+       
         public MainPage()
         {
             this.InitializeComponent();
@@ -88,7 +88,7 @@ namespace QuanLyMayMoc
 
 
             //Var stores the name of the project
-           
+
 
 
             string pattern = @"^(?!\d)[A-Za-z0-9_]+$";
@@ -97,7 +97,7 @@ namespace QuanLyMayMoc
             if (result == ContentDialogResult.Primary)
             {
                 // Retrieve the project name
-                projectName = projectNameTextBox.Text;
+                string projectName = projectNameTextBox.Text;
 
 
                 // Check if the project name is a valid file name
@@ -111,7 +111,10 @@ namespace QuanLyMayMoc
 
                     string date = DateTime.Now.ToString("yyyy_MM_dd");
                     string time = DateTime.Now.ToString("HH_mm_ss");
-                    maDuAn = projectName +"("+date +"-"+ time+")";
+                    string maDuAn = projectName + "(" + date + "-" + time + ")";
+                    AppData.ProjectID = maDuAn;
+                    AppData.ProjectName = projectName;
+                    AppData.ProjectTimeCreate = DateTime.Now;
                 }
                 else
                 {
@@ -143,7 +146,7 @@ namespace QuanLyMayMoc
 
         private async void LuuDuAnClick(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(maDuAn))
+            if (string.IsNullOrEmpty(AppData.ProjectID))
             {
                 await new ContentDialog
                 {
@@ -154,7 +157,6 @@ namespace QuanLyMayMoc
                 }.ShowAsync();
                 return;
             }
-
             string connectionString = "Host=127.0.0.1;Port=5432;Username=postgres;Password=1234;Database=machine";
 
             try
@@ -167,29 +169,33 @@ namespace QuanLyMayMoc
                     string insertDuanQuery = "INSERT INTO duan (maduan, tenduan,ngaythuchien) VALUES (@maDuAn, @tenDuAn,@ngaythuchien)";
                     using (var command = new NpgsqlCommand(insertDuanQuery, connection))
                     {
-                        command.Parameters.AddWithValue("@maDuAn", maDuAn);
-                        command.Parameters.AddWithValue("@tenDuAn", projectName); // Thay thế bằng tên dự án thực tế nếu cần
-                        command.Parameters.AddWithValue("@ngaythuchien", DateTime.Now); // Thay thế bằng tên dự án thực tế nếu cần
+                        command.Parameters.AddWithValue("@maDuAn", AppData.ProjectID);
+                        command.Parameters.AddWithValue("@tenDuAn", AppData.ProjectName); // Thay thế bằng tên dự án thực tế nếu cần
+                        command.Parameters.AddWithValue("@ngaythuchien", AppData.ProjectTimeCreate); // Thay thế bằng tên dự án thực tế nếu cần
                         await command.ExecuteNonQueryAsync();
                     }
 
-                    //Chèn vào bảng congviec
-                    //string insertCongViecQuery = "INSERT INTO congviec (ma_du_an, ten_cong_viec) VALUES (@maDuAn, @tenCongViec)";
-                    //using (var command = new NpgsqlCommand(insertCongViecQuery, connection))
-                    //{
-                    //    command.Parameters.AddWithValue("@maDuAn", maDuAn);
-                    //    command.Parameters.AddWithValue("@tenCongViec", "Tên công việc"); // Thay thế bằng tên công việc thực tế nếu cần
-                    //    await command.ExecuteNonQueryAsync();
-                    //}
 
-                    //Chèn vào bảng loi
-                    //string insertLoiQuery = "INSERT INTO loi (ma_du_an, ten_loi) VALUES (@maDuAn, @tenLoi)";
-                    //using (var command = new NpgsqlCommand(insertLoiQuery, connection))
-                    //{
-                    //    command.Parameters.AddWithValue("@maDuAn", maDuAn);
-                    //    command.Parameters.AddWithValue("@tenLoi", "Tên lỗi"); // Thay thế bằng tên lỗi thực tế nếu cần
-                    //    await command.ExecuteNonQueryAsync();
-                    //}
+
+
+                    // Chèn vào bảng Loi_DuAn
+                    string insertLoiDuAnQuery = @" INSERT INTO Loi_DuAn (mahieuduan, mahieu, tenloi, giaban, maduan)
+                                                   SELECT CONCAT(mahieu, '_', @maDuAn), mahieu, tenloi, giaban, @maDuAn
+                                                   FROM loi_tam";
+                    using (var command = new NpgsqlCommand(insertLoiDuAnQuery, connection))
+                    {
+                        command.Parameters.AddWithValue("@maDuAn", AppData.ProjectID);
+                        await command.ExecuteNonQueryAsync();
+                    }
+                    // Chèn vào bảng LinhKien_DuAn
+                    string insertLinhKienDuAnQuery = @" INSERT INTO LinhKien_DuAn (mahieuduan, mahieu, tenlinhkien, giaban, maduan)
+                                                   SELECT CONCAT(mahieu,'_', @maDuAn), mahieu, tenlinhkien, giaban, @maDuAn
+                                                   FROM linhkien_tam";
+                    using (var command = new NpgsqlCommand(insertLinhKienDuAnQuery, connection))
+                    {
+                        command.Parameters.AddWithValue("@maDuAn", AppData.ProjectID);
+                        await command.ExecuteNonQueryAsync();
+                    }
                 }
 
                 await new ContentDialog
