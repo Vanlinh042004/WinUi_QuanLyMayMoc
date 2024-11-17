@@ -338,10 +338,10 @@ namespace QuanLyMayMoc
             DataProvider.InstanceTHDA.ExecuteNonQuery(query);
         }
     }
-    public class ServiceData_Loi
-    {
-        public string MASP { get; set; }
-        public string TENSP { get; set; }
-        public string GIA { get; set; }
-    }
+    //public class ServiceData_Loi
+    //{
+    //    public string MASP { get; set; }
+    //    public string TENSP { get; set; }
+    //    public string GIA { get; set; }
+    //}
 }

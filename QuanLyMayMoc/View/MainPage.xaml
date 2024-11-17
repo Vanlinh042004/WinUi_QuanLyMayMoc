@@ -28,7 +28,7 @@
                 <MenuFlyoutSeparator/>
                 <MenuFlyoutItem Text="Mở dự án"/>
                 <MenuFlyoutSeparator/>
-                <MenuFlyoutItem Text="Lưu"/>
+                <MenuFlyoutItem Text="Lưu dự án" Click="LuuDuAnClick"/>
                 <MenuFlyoutSeparator/>
                 <MenuFlyoutItem Text="Lưu với tên khác"/>
                 <MenuFlyoutSeparator/>

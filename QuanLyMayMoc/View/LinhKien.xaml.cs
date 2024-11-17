@@ -349,10 +349,10 @@ namespace QuanLyMayMoc
         }
 
     }
-    public class ServiceData_LinhKien
-    {
-        public string MASP { get; set; }
-        public string TENSP { get; set; }
-        public string GIA { get; set; }
-    }
+    //public class ServiceData_LinhKien
+    //{
+    //    public string MASP { get; set; }
+    //    public string TENSP { get; set; }
+    //    public string GIA { get; set; }
+    //}
 }
