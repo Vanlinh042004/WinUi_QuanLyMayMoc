@@ -46,15 +46,11 @@
             </Grid>
         </Grid>
 
-
-
-
         <Grid Grid.Row="2" HorizontalAlignment="Center">
             <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Height="Auto">
                 <Grid Padding="10" RowSpacing="5" ColumnSpacing="5" Background="White" x:Name="DataEntryGrid">
                     <Grid x:Name="InputGrid" ColumnSpacing="5" RowSpacing="5">
                         <Grid.ColumnDefinitions>
-
                             <ColumnDefinition Width="200"/>
                             <ColumnDefinition Width="600"/>
                             <ColumnDefinition Width="350"/>

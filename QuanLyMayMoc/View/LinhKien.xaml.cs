@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using Npgsql;
 using QuanLyMayMoc.Model;
 using System;
 using System.Collections.Generic;
@@ -34,24 +35,17 @@ namespace QuanLyMayMoc
         private int currentRow = 1;
         private int Columns = 3;
         private int selectedRow = -1; // Hàng được chọn để xóa
+        private string connectionString = "Host=127.0.0.1;Port=5432;Username=postgres;Password=1234;Database=machine";
 
 
         public LinhKien()
         {
             this.InitializeComponent();
             HideFirstRow(); // Thêm dòng đầu tiên
-            //string m_tempPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "QuanLyMayMoc", "Database", "db_QuanLyMayMoc.sqlite3");
+                            //string m_tempPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "QuanLyMayMoc", "Database", "db_QuanLyMayMoc.sqlite3");
 
-            string projectRoot = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.Parent.Parent.Parent.FullName;
-            string databasePath = Path.Combine(projectRoot, "Database", "db_QuanLyMayMoc.sqlite3");
-
-            string m_tempPath = databasePath;
-
-
-            DataProvider.InstanceTHDA.changePath(m_tempPath);
-            string dbString = $"SELECT GM.Ten,GM.MaHieu, GM.Gia " +
-                              $" FROM Tbl_MTC_GiaLinhKien GM";
-            DataTable InforMay = DataProvider.InstanceTHDA.ExecuteQuery(dbString);
+            string dbString = "SELECT mahieu, tenlinhkien, giaban FROM linhkien";
+            DataTable InforMay = ExecuteQuery(dbString);
             PopulateGrid(InforMay);
         }
 
@@ -127,6 +121,22 @@ namespace QuanLyMayMoc
             currentRow = rowIndex; // Đặt lại số hàng hiện tại
         }
 
+        private DataTable ExecuteQuery(string query)
+        {
+            DataTable dataTable = new DataTable();
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    using (var reader = command.ExecuteReader())
+                    {
+                        dataTable.Load(reader);
+                    }
+                }
+            }
+            return dataTable;
+        }
         // Thêm dòng mới
         #region AddNewRow
         private void AddNewRow()
