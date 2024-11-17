@@ -96,6 +96,7 @@ namespace QuanLyMayMoc
                 // Retrieve the project name
                 projectName = projectNameTextBox.Text;
 
+
                 // Check if the project name is a valid file name
                 if (!string.IsNullOrEmpty(projectName) && Regex.IsMatch(projectName, pattern))
                 {
@@ -105,8 +106,9 @@ namespace QuanLyMayMoc
                     DanhSachNhanVien.IsEnabled = true;
                     TongHopMayTheoKy.IsEnabled = true;
 
-                    // Log or use the project name if needed
-                    System.Diagnostics.Debug.WriteLine($"Project created: {projectName}");
+                    string date = DateTime.Now.ToString("yyyy_MM_dd");
+                    string time = DateTime.Now.ToString("HH_mm_ss");
+                    string maDuAn = projectName + date + time;
                 }
                 else
                 {
@@ -120,6 +122,8 @@ namespace QuanLyMayMoc
                     }.ShowAsync();
                 }
             }
+
+
         }
 
         private void VeChungToiButton(object sender, RoutedEventArgs e)
