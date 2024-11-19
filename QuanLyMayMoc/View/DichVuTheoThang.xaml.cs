@@ -30,9 +30,10 @@ namespace QuanLyMayMoc
     /// </summary>
     public sealed partial class DichVuTheoThang : Page
     {
+        private string connectionString = "Host=127.0.0.1;Port=5432;Username=postgres;Password=1234;Database=machine";
         private int currentRow = 1;
         //  private int previousRow = 1;
-        private int Columns = 17;
+        private int Columns = 16;
         private Dictionary<int, Task> rowTaskDictionary = new Dictionary<int, Task>();
 
         public MainViewModel ViewModel
@@ -198,8 +199,44 @@ namespace QuanLyMayMoc
             // Check if the user clicked OK
             if (result == ContentDialogResult.Primary)
             {
-                // Perform deletion
+                // Perform deletion in ViewModel
+                var selectedTask = ViewModel.CurrentSelectedTask; // Lưu lại dữ liệu trước khi xóa
                 ViewModel.RemoveSelectedTask();
+
+                // Perform deletion in database
+                if (selectedTask != null)
+                {
+                    try
+                    {
+                        string deleteQuery = "DELETE FROM congviectamthoi WHERE macvduan = @macvduan";
+
+                        using (var connection = new NpgsqlConnection(connectionString))
+                        {
+                            await connection.OpenAsync();
+
+                            using (var command = new NpgsqlCommand(deleteQuery, connection))
+                            {
+                                command.Parameters.AddWithValue("@macvduan", selectedTask.MaCVDuAn);
+
+                                await command.ExecuteNonQueryAsync();
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        // Handle exceptions
+                        ContentDialog errorDialog = new ContentDialog
+                        {
+                            Title = "Lỗi",
+                            Content = $"Không thể xóa dòng trong cơ sở dữ liệu. Lỗi: {ex.Message}",
+                            CloseButtonText = "OK",
+                            XamlRoot = this.XamlRoot
+                        };
+
+                        await errorDialog.ShowAsync();
+                        return; // Thoát nếu lỗi xảy ra
+                    }
+                }
 
                 // Show success message
                 ContentDialog successDialog = new ContentDialog
@@ -214,13 +251,14 @@ namespace QuanLyMayMoc
             }
         }
 
+
         private async void OnDeleteAllRowDataClick(object sender, RoutedEventArgs e)
         {
             // Create the confirmation dialog
             ContentDialog deleteDialog = new ContentDialog
             {
                 Title = "Xác nhận xóa",
-                Content = "Bạn có chắc chắn muốn xóa tất cả dòng ?",
+                Content = "Bạn có chắc chắn muốn xóa tất cả dòng?",
                 PrimaryButtonText = "OK",
                 CloseButtonText = "Hủy",
                 XamlRoot = this.XamlRoot // Set the XamlRoot here
@@ -232,19 +270,48 @@ namespace QuanLyMayMoc
             // Check if the user clicked OK
             if (result == ContentDialogResult.Primary)
             {
-                // Perform deletion
-                ViewModel.RemoveAllTask();
-
-                // Show success message
-                ContentDialog successDialog = new ContentDialog
+                try
                 {
-                    Title = "Xóa thành công",
-                    Content = "Tất cả các dòng đã được xóa thành công.",
-                    CloseButtonText = "OK",
-                    XamlRoot = this.XamlRoot // Set the XamlRoot here too
-                };
+                    // Perform deletion in ViewModel
+                    ViewModel.RemoveAllTask();
 
-                await successDialog.ShowAsync();
+                    // Perform deletion in the database
+                    string deleteQuery = "DELETE FROM congviectamthoi";
+
+                    using (var connection = new NpgsqlConnection(connectionString))
+                    {
+                        await connection.OpenAsync();
+
+                        using (var command = new NpgsqlCommand(deleteQuery, connection))
+                        {
+                            await command.ExecuteNonQueryAsync();
+                        }
+                    }
+
+                    // Show success message
+                    ContentDialog successDialog = new ContentDialog
+                    {
+                        Title = "Xóa thành công",
+                        Content = "Tất cả các dòng đã được xóa thành công trong cơ sở dữ liệu và giao diện.",
+                        CloseButtonText = "OK",
+                        XamlRoot = this.XamlRoot // Set the XamlRoot here too
+                    };
+
+                    await successDialog.ShowAsync();
+                }
+                catch (Exception ex)
+                {
+                    // Handle exceptions
+                    ContentDialog errorDialog = new ContentDialog
+                    {
+                        Title = "Lỗi",
+                        Content = $"Không thể xóa tất cả dòng trong cơ sở dữ liệu. Lỗi: {ex.Message}",
+                        CloseButtonText = "OK",
+                        XamlRoot = this.XamlRoot
+                    };
+
+                    await errorDialog.ShowAsync();
+                }
             }
         }
         private void ClearInputRows()
@@ -287,24 +354,40 @@ namespace QuanLyMayMoc
         {
             // var newTask = new Task() { MaDuAn=AppData.ProjectID};
             //  ShowNotSuccessMessage("Tất cả các dòng mới đã được lưu thành công.");
-            string connectionString = "Host=127.0.0.1;Port=5432;Username=postgres;Password=1234;Database=machine";
+
 
             foreach (var entry in rowTaskDictionary)
             {
                 entry.Value.MaDuAn = AppData.ProjectID;
-                entry.Value.MaCVDuAn = entry.Value.MaDuAn + entry.Value.MaNV;
+
+                // Truy vấn số lượng dòng hiện tại từ congviectamthoi
+                int currentRowCount;
+                using (var connection = new NpgsqlConnection(connectionString))
+                {
+                    await connection.OpenAsync();
+                    using (var countCommand = new NpgsqlCommand("SELECT COUNT(*) FROM congviectamthoi", connection))
+                    {
+                        currentRowCount = Convert.ToInt32(await countCommand.ExecuteScalarAsync());
+                    }
+                }
+
+                // Gán MaCVDuAn dựa trên số lượng dòng hiện có + 1
+                string date = DateTime.Now.ToString("yyyy_MM_dd");
+                string time = DateTime.Now.ToString("HH_mm_ss");
+                entry.Value.MaCVDuAn = AppData.ProjectID +"_"+date+"_"+ time+"_"+(currentRowCount + 1).ToString();
+
                 SaveRowData(entry.Key);
                 ViewModel.Tasks.Add(entry.Value);
 
                 // Prepare the INSERT statement for all fields
                 string insertCongViecQuery = @"
-       INSERT INTO congviec (
-    stt,macvduan, ngaythuchien, hotenkh, sdt, diachi, tendichvu, manv, tennv, malinhkien, 
-    tenlinhkien, soluonglinhkien, maloi, tenloi, soluongloi, phidichvu, ghichu
-) VALUES (
-    @stt,@macvduan, @ngaythuchien, @hotenkh, @sdt, @diachi, @tendichvu, @manv, @tennv, @malinhkien, 
-    @tenlinhkien, @soluonglinhkien, @maloi, @tenloi, @soluongloi, @phidichvu, @ghichu
-)";
+        INSERT INTO congviectamthoi (
+            stt, macvduan, ngaythuchien, hotenkh, sdt, diachi, tendichvu, manv, tennv, malinhkien, 
+            tenlinhkien, soluonglinhkien, maloi, tenloi, soluongloi, phidichvu, ghichu, maduan
+        ) VALUES (
+            @stt, @macvduan, @ngaythuchien, @hotenkh, @sdt, @diachi, @tendichvu, @manv, @tennv, @malinhkien, 
+            @tenlinhkien, @soluonglinhkien, @maloi, @tenloi, @soluongloi, @phidichvu, @ghichu, @maduan
+        )";
 
                 using (var connection = new NpgsqlConnection(connectionString))
                 {
@@ -313,31 +396,31 @@ namespace QuanLyMayMoc
                     using (var command = new NpgsqlCommand(insertCongViecQuery, connection))
                     {
                         // Add parameters to the command
-                        command.Parameters.AddWithValue("@stt", entry.Value.Stt); 
+                        command.Parameters.AddWithValue("@stt", entry.Value.Stt);
                         command.Parameters.AddWithValue("@macvduan", entry.Value.MaCVDuAn); // Mã công việc
-                        command.Parameters.AddWithValue("@ngaythuchien", entry.Value.NgayThucHien == DateTime.MinValue ? (object)DBNull.Value : entry.Value.NgayThucHien); // Ngày thực hiện
-                        command.Parameters.AddWithValue("@hotenkh", entry.Value.HoTenKH ?? (object)DBNull.Value); // Tên khách hàng
-                        command.Parameters.AddWithValue("@sdt", entry.Value.SDT ?? (object)DBNull.Value); // Số điện thoại
-                        command.Parameters.AddWithValue("@diachi", entry.Value.DiaChi ?? (object)DBNull.Value); // Địa chỉ
-                        command.Parameters.AddWithValue("@tendichvu", entry.Value.TenDichVu ?? (object)DBNull.Value); // Tên dịch vụ
-                        command.Parameters.AddWithValue("@manv", entry.Value.MaNV ?? (object)DBNull.Value); // Mã nhân viên
-                        command.Parameters.AddWithValue("@tennv", entry.Value.TenNV ?? (object)DBNull.Value); // Tên nhân viên
-                        command.Parameters.AddWithValue("@malinhkien", entry.Value.MaLK ?? (object)DBNull.Value); // Mã linh kiện
-                        command.Parameters.AddWithValue("@tenlinhkien", entry.Value.TenLK ?? (object)DBNull.Value); // Tên linh kiện
-                        command.Parameters.AddWithValue("@soluonglinhkien", entry.Value.SoLuongLK); // Số lượng linh kiện
-                        command.Parameters.AddWithValue("@maloi", entry.Value.MaLoi ?? (object)DBNull.Value); // Mã lỗi
-                        command.Parameters.AddWithValue("@tenloi", entry.Value.TenLoi ?? (object)DBNull.Value); // Tên lỗi
-                        command.Parameters.AddWithValue("@soluongloi", entry.Value.SoLuongLoi); // Số lượng lỗi
-                        command.Parameters.AddWithValue("@phidichvu", entry.Value.PhiDichVu); // Phí dịch vụ
-                        command.Parameters.AddWithValue("@ghichu", entry.Value.GhiChu ?? (object)DBNull.Value); // Ghi chú
-                       // command.Parameters.AddWithValue("@maduan", entry.Value.MaDuAn ?? (object)DBNull.Value); // Mã dự án
-
+                        command.Parameters.AddWithValue("@ngaythuchien", entry.Value.NgayThucHien == DateTime.MinValue ? (object)DBNull.Value : entry.Value.NgayThucHien);
+                        command.Parameters.AddWithValue("@hotenkh", entry.Value.HoTenKH ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@sdt", entry.Value.SDT ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@diachi", entry.Value.DiaChi ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@tendichvu", entry.Value.TenDichVu ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@manv", entry.Value.MaNV ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@tennv", entry.Value.TenNV ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@malinhkien", entry.Value.MaLK ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@tenlinhkien", entry.Value.TenLK ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@soluonglinhkien", entry.Value.SoLuongLK);
+                        command.Parameters.AddWithValue("@maloi", entry.Value.MaLoi ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@tenloi", entry.Value.TenLoi ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@soluongloi", entry.Value.SoLuongLoi);
+                        command.Parameters.AddWithValue("@phidichvu", entry.Value.PhiDichVu);
+                        command.Parameters.AddWithValue("@ghichu", entry.Value.GhiChu ?? (object)DBNull.Value);
+                        command.Parameters.AddWithValue("@maduan", entry.Value.MaDuAn ?? (object)DBNull.Value);
 
                         // Execute the query
                         await command.ExecuteNonQueryAsync();
                     }
                 }
             }
+
 
 
             rowTaskDictionary.Clear();
@@ -361,7 +444,7 @@ namespace QuanLyMayMoc
         {
             ContentDialog successDialog = new ContentDialog
             {
-                Title = "Fail",
+                Title = "Thất bại",
                 Content = message,
                 CloseButtonText = "OK",
                 XamlRoot = this.XamlRoot // Set the XamlRoot here too
@@ -372,23 +455,23 @@ namespace QuanLyMayMoc
 
         private void OnFilterByDateClick(object sender, RoutedEventArgs e)
         {
-            //if (filterDatePicker.SelectedDate.HasValue)
-            //{
-            //    DateTime selectedDate = filterDatePicker.Date.DateTime;
+            if (filterDatePicker.SelectedDate.HasValue)
+            {
+                DateTime selectedDate = filterDatePicker.Date.Date;
 
-            //    ViewModel.LoadData(selectedDate);
-            //    ShowSuccessMessage("Vui lòng chọn ngày lại!");
-            //}
-            //else
-            //{
-            //    ShowNotSuccessMessage("Vui lòng chọn ngày!");
-            //}
+                ViewModel.LoadDataFilter(selectedDate);
+               
+            }
+            else
+            {
+                ShowNotSuccessMessage("Vui lòng chọn ngày!");
+            }
 
         }
 
         private void OnClearFilterClick(object sender, RoutedEventArgs e)
         {
-
+            ViewModel.LoadDataFilter();
         }
 
         

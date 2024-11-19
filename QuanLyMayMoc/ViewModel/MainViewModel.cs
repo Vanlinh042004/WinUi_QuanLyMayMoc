@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Npgsql;
 using QuanLyMayMoc.Model;
 using QuanLyMayMoc.Service;
 
@@ -15,6 +17,7 @@ namespace QuanLyMayMoc.ViewModel
     public class MainViewModel
     {
         IDao _dao;
+
 
         private Task _currentSelectedTask;
         public Task CurrentSelectedTask
@@ -27,16 +30,7 @@ namespace QuanLyMayMoc.ViewModel
             }
         }
 
-        private ObservableCollection<Task> _filteredTasks;
-        public ObservableCollection<Task> FilteredTasks
-        {
-            get => _filteredTasks;
-            set
-            {
-                _filteredTasks = value;
-                OnPropertyChanged(nameof(FilteredTasks));
-            }
-        }
+      
 
 
         public ObservableCollection<Employee> Employees
@@ -61,14 +55,35 @@ namespace QuanLyMayMoc.ViewModel
 
         }
 
-        public void LoadData(DateTime ngay)
+        public void LoadDataFilter(DateTime ngaythuchien)
         {
-            IDao _dao = new MockDao();
-            var items = _dao.GetTasks(Ngay);
-            Tasks = new ObservableCollection<Task>(items);
+           
+            
+                Tasks.Clear();
+            
 
-
+            var filteredTasks = _dao.GetTasksFromTemp(ngaythuchien);
+            foreach (var task in filteredTasks)
+            {
+                Tasks.Add(task);
+            }
         }
+
+        public void LoadDataFilter()
+        {
+            
+            
+                Tasks.Clear();
+            
+
+            var allTasks = _dao.GetTasksFromTemp();
+            foreach (var task in allTasks)
+            {
+                Tasks.Add(task);
+            }
+        }
+
+
 
 
         public void RemoveSelectedTask()

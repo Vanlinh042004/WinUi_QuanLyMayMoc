@@ -163,54 +163,52 @@ namespace QuanLyMayMoc
                     Stt = stt; // Gán giá trị cho Stt
                     break;
 
+                
                 case 2:
-                    MaCVDuAn = value; // Mã số công việc
-                    break;
-                case 3:
                     HoTenKH = value; // Họ tên khách hàng
                     break;
-                case 4:
+                case 3:
                     SDT = value; // Số điện thoại
                     break;
-                case 5:
+                case 4:
                     DiaChi = value; // Địa chỉ
                     break;
-                case 6:
+                case 5:
                    TenDichVu = value; // Loại model
                     break;
-                case 7:
+                case 6:
                     int.TryParse(value, out int phi); // Chuyển đổi value thành int                 
                     PhiDichVu = phi; // Model
                     break;
-                case 8:
+                case 7:
                     MaLK = value; // Model
                     break;              
                
            
-                case 9:
+                case 8:
                     TenLK = value; // Model
                     break;
-                case 10:
+                case 9:
                     int.TryParse(value, out int sllk); // Chuyển đổi value thành int                 
                     SoLuongLK = sllk;
                     break;
-                case 11:
+                case 10:
                     MaLoi = value; // Kỹ thuật viên thực hiện
                     break;
-                case 12:
+                case 11:
                     TenLoi = value; // Model
                     break;
-                case 13:
+                case 12:
                     int.TryParse(value, out int sll); // Chuyển đổi value thành int                              
                     SoLuongLoi = sll; // Mã linh kiện
                     break;
-                case 14:
+                case 13:
                     MaNV = value; // Tên dịch vụ
                     break;
-                case 15:
+                case 14:
                     TenNV = value; // Tên dịch vụ
                     break;
-                case 16:
+                case 15:
                     GhiChu = value; // Ghi chú
                     break;
                 default:

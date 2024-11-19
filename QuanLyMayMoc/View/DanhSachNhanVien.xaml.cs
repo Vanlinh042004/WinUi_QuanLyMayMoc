@@ -27,13 +27,13 @@ namespace QuanLyMayMoc
     /// </summary>
     public sealed partial class DanhSachNhanVien : Page
     {
-       
+
 
         public MainViewModel ViewModel
         {
             get; set;
         }
-       
+
 
         public DanhSachNhanVien()
         {
@@ -62,7 +62,7 @@ namespace QuanLyMayMoc
             // Create a new employee object
             var newEmployee = new Employee
             {
-                MaNhanVien = MaNhanVienInput.Text ??"Không có",// Default to -1 if input is null or invalid
+                MaNhanVien = MaNhanVienInput.Text ?? "Không có",// Default to -1 if input is null or invalid
                 HoTen = HoTenInput.Text ?? "Không rõ",
                 GioiTinh = (GioiTinhInput.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "Khác",
                 NgaySinh = NgaySinhInput.SelectedDate?.Date ?? DateTime.MinValue,
@@ -84,13 +84,13 @@ namespace QuanLyMayMoc
 
             // SQL query to insert a new employee into the database
             string insertEmployeeQuery = @"
-        INSERT INTO nhanvien 
-        (manvduan,manv, hoten, gioitinh, ngaysinh, diachi, sdt, email,phongban, cccd,trangthai,ngaykyhopdong  ) 
+        INSERT INTO nhanvientamthoi 
+        (manvduan,manv, hoten, gioitinh, ngaysinh, diachi, sdt, email,phongban, cccd,trangthai,ngaykyhopdong,maduan  ) 
         VALUES 
-        (@manvduan,@manv, @hoten, @gioitinh, @ngaysinh, @diachi, @sdt, @email,@phongban, @cccd, @trangthai,@ngaykyhopdong)";
+        (@manvduan,@manv, @hoten, @gioitinh, @ngaysinh, @diachi, @sdt, @email,@phongban, @cccd, @trangthai,@ngaykyhopdong,@maduan)";
 
-            //try
-            //{
+            try
+            {
                 // Open a connection to the database
                 using (var connection = new NpgsqlConnection(connectionString))
                 {
@@ -99,7 +99,7 @@ namespace QuanLyMayMoc
                     // Prepare the SQL command with parameters
                     using (var command = new NpgsqlCommand(insertEmployeeQuery, connection))
                     {
-                        command.Parameters.AddWithValue("@manvduan", newEmployee.MaNhanVien+AppData.ProjectID);
+                        command.Parameters.AddWithValue("@manvduan", newEmployee.MaNhanVien + AppData.ProjectID);
                         command.Parameters.AddWithValue("@manv", newEmployee.MaNhanVien);
                         command.Parameters.AddWithValue("@hoten", newEmployee.HoTen);
                         command.Parameters.AddWithValue("@gioitinh", newEmployee.GioiTinh);
@@ -111,26 +111,30 @@ namespace QuanLyMayMoc
                         command.Parameters.AddWithValue("@cccd", newEmployee.CCCD);
                         command.Parameters.AddWithValue("@trangthai", newEmployee.TrangThai);
                         command.Parameters.AddWithValue("@ngaykyhopdong", newEmployee.NgayKyHD);
-                       // command.Parameters.AddWithValue("@anhdaidien", newEmployee.AnhDaiDien);
-                      //  command.Parameters.AddWithValue("@maduan", newEmployee.MaDuAn);
+                        // command.Parameters.AddWithValue("@anhdaidien", newEmployee.AnhDaiDien);
+                        command.Parameters.AddWithValue("@maduan", newEmployee.MaDuAn);
 
                         // Execute the SQL command
                         await command.ExecuteNonQueryAsync();
                     }
-                //}
+                    //}
 
-                // Close the popup after successful save
-                AddEmployeePopup.IsOpen = false;
+                    // Close the popup after successful save
+                    AddEmployeePopup.IsOpen = false;
 
-                // Optionally, show a confirmation message
-                ShowSuccessMessage("Tất cả các dòng mới đã được lưu thành công.");
+                    // Optionally, show a confirmation message
+                    ShowSuccessMessage("Nhân viên được lưu  thành công");
+                }
             }
-            //catch (Exception ex)
-            //{
-            //    // Handle any errors during the database operation
-            //    ShowNotSuccessMessage("Tất cả các dòng không được lưu thành công.");
-            //}
-        }
+
+            catch (Exception ex)
+            {
+                // Handle any errors during the database operation
+                ShowNotSuccessMessage("Nhân không được lưu thành công.");
+            }
+        
+    }
+        
         private async void ShowSuccessMessage(string message)
         {
             ContentDialog successDialog = new ContentDialog

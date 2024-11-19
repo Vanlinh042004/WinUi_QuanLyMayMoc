@@ -309,52 +309,141 @@ namespace QuanLyMayMoc
                 {
                     await connection.OpenAsync();
 
-                    // insert vào bảng du an
-                    string insertDuanQuery = "INSERT INTO duan (maduan, tenduan,ngaythuchien) VALUES (@maDuAn, @tenDuAn,@ngaythuchien)";
-                    using (var command = new NpgsqlCommand(insertDuanQuery, connection))
+                    // Kiểm tra xem dự án đã tồn tại hay chưa
+                    string checkDuAnQuery = "SELECT COUNT(1) FROM duan WHERE maduan = @maDuAn";
+                    long duAnExists;
+
+                    using (var command = new NpgsqlCommand(checkDuAnQuery, connection))
                     {
                         command.Parameters.AddWithValue("@maDuAn", AppData.ProjectID);
-                        command.Parameters.AddWithValue("@tenDuAn", AppData.ProjectName); // Thay thế bằng tên dự án thực tế nếu cần
-                        command.Parameters.AddWithValue("@ngaythuchien", AppData.ProjectTimeCreate); // Thay thế bằng tên dự án thực tế nếu cần
-                        await command.ExecuteNonQueryAsync();
+                        duAnExists = (long)await command.ExecuteScalarAsync();
                     }
 
-                    // update  bảng loi
-                    string updateLoi = "UPDATE loi_duan SET maduan = @maduan where maduan is NULL";
-                    using (var command = new NpgsqlCommand(updateLoi, connection))
+                    // Nếu cần dùng kiểu `int` ở các đoạn code khác, bạn có thể chuyển đổi về `int` an toàn:
+                    int duAnExistsAsInt = (int)duAnExists;
+
+                    if (duAnExists == 0)
                     {
-                        command.Parameters.AddWithValue("@maduan", maDuAn);
-
-                        await command.ExecuteNonQueryAsync();
+                        // Nếu dự án chưa tồn tại, thêm vào bảng `duan`
+                        string insertDuanQuery = "INSERT INTO duan (maduan, tenduan, ngaythuchien) VALUES (@maDuAn, @tenDuAn, @ngayThucHien)";
+                        using (var command = new NpgsqlCommand(insertDuanQuery, connection))
+                        {
+                            command.Parameters.AddWithValue("@maDuAn", AppData.ProjectID);
+                            command.Parameters.AddWithValue("@tenDuAn", AppData.ProjectName);
+                            command.Parameters.AddWithValue("@ngayThucHien", AppData.ProjectTimeCreate);
+                            await command.ExecuteNonQueryAsync();
+                        }
                     }
 
-                    // update  bảng nhanvien
-                    string updateNhanVien = "UPDATE nhanvien SET maduan = @maduan where maduan is NULL";
-                    using (var command = new NpgsqlCommand(updateNhanVien, connection))
+                    // Dù dự án đã tồn tại hay mới được thêm, tiến hành insert dữ liệu từ các bảng tạm thời
+                    // Thêm dữ liệu từ nhanvientamthoi vào nhanvien
+                    string insertNhanVien = @"
+                        INSERT INTO nhanvien (
+                            manvduan,
+                            manv,
+                            hoten,
+                            dantoc,
+                            gioitinh,
+                            ngaysinh,
+                            diachi,
+                            sdt,
+                            email,
+                            phongban,
+                            cccd,
+                            trangthai,
+                            ngaykyhopdong,
+                            maduan
+                        )
+                        SELECT 
+                            manvduan,
+                            manv,
+                            hoten,
+                            dantoc,
+                            gioitinh,
+                            ngaysinh,
+                            diachi,
+                            sdt,
+                            email,
+                            phongban,
+                            cccd,
+                            trangthai,
+                            ngaykyhopdong,
+                            maduan
+                        FROM nhanvientamthoi
+                        WHERE maduan = @maDuAn;
+                    ";
+
+                    using (var command = new NpgsqlCommand(insertNhanVien, connection))
                     {
-                        command.Parameters.AddWithValue("@maduan", maDuAn);
-
+                        command.Parameters.AddWithValue("@maDuAn", AppData.ProjectID);
                         await command.ExecuteNonQueryAsync();
                     }
 
-                    // update  bảng congviec
-                    string updateCongViec = "UPDATE congviec SET maduan = @maduan where maduan is NULL";
-                    using (var command = new NpgsqlCommand(updateCongViec, connection))
+                    // Thêm dữ liệu từ congviectamthoi vào congviec
+                    string insertCongViec = @"
+                        INSERT INTO congviec (
+                            macvduan,
+                            stt,
+                            tendichvu,
+                            ngaythuchien,
+                            hotenkh,
+                            sdt,
+                            diachi,
+                            manv,
+                            tennv,
+                            malinhkien,
+                            tenlinhkien,
+                            soluonglinhkien,
+                            maloi,
+                            tenloi,
+                            soluongloi,
+                            phidichvu,
+                            ghichu,
+                            maduan
+                        )
+                        SELECT 
+                            macvduan,
+                            stt,
+                            tendichvu,
+                            ngaythuchien,
+                            hotenkh,
+                            sdt,
+                            diachi,
+                            manv,
+                            tennv,
+                            malinhkien,
+                            tenlinhkien,
+                            soluonglinhkien,
+                            maloi,
+                            tenloi,
+                            soluongloi,
+                            phidichvu,
+                            ghichu,
+                            maduan
+                        FROM congviectamthoi
+                        WHERE maduan = @maDuAn;
+                    ";
+
+                    using (var command = new NpgsqlCommand(insertCongViec, connection))
                     {
-                        command.Parameters.AddWithValue("@maduan", maDuAn);
-
+                        command.Parameters.AddWithValue("@maDuAn", AppData.ProjectID);
                         await command.ExecuteNonQueryAsync();
                     }
 
-                    // update  bảng linhkien
+                    // Xóa tất cả các dòng trong nhanvientamthoi và congviectamthoi
+                    string deleteTempTables = @"
+                        DELETE FROM nhanvientamthoi WHERE maduan = @maDuAn;
+                        DELETE FROM congviectamthoi WHERE maduan = @maDuAn;
+                    ";
 
-                    string updateLinhKien = "UPDATE linhkien_duan SET maduan = @maduan where maduan is NULL";
-                    using (var command = new NpgsqlCommand(updateLinhKien, connection))
+                    using (var command = new NpgsqlCommand(deleteTempTables, connection))
                     {
-                        command.Parameters.AddWithValue("@maduan", maDuAn);
-
+                        command.Parameters.AddWithValue("@maDuAn", AppData.ProjectID);
                         await command.ExecuteNonQueryAsync();
                     }
+
+
+
                 }
 
                 await new ContentDialog

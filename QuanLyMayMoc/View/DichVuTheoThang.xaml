@@ -47,93 +47,99 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>-->
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition Width="304"/>
-                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="80"/>
+                            <ColumnDefinition Width="305"/>
+                            <ColumnDefinition Width="300"/>
                             <ColumnDefinition Width="200"/>
                             <ColumnDefinition Width="150"/>
-                            <ColumnDefinition Width="150"/>
-                            <ColumnDefinition Width="150"/>
-                            <ColumnDefinition Width="150"/>
-                            <ColumnDefinition Width="150"/>
-                            <ColumnDefinition Width="180"/>
-                            <ColumnDefinition Width="150"/>
-                            <ColumnDefinition Width="150"/>
-                            <ColumnDefinition Width="150"/>
                             <ColumnDefinition Width="300"/>
-                            <ColumnDefinition Width="150"/>
-                            <ColumnDefinition Width="150"/>
-                            <ColumnDefinition Width="150"/>
-                            <ColumnDefinition Width="150"/>
-                            <ColumnDefinition Width="150"/>
-                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="230"/>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="350"/>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="200"/>
                         </Grid.ColumnDefinitions>
 
                         <!-- Tiêu đề cột -->
-                        <Border BorderBrush="Black" BorderThickness="1"  Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Border BorderBrush="Black" BorderThickness="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <TextBlock Text="STT" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
                         </Border>
 
-                        <Border BorderBrush="Black" BorderThickness="1"  Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <TextBlock Text="NGÀY THỰC HIỆN" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
                         </Border>
 
-                        <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                            <TextBlock Text="MÃ CV Dự Án" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
-                        </Border>
-
-                        <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Border BorderBrush="Black" BorderThickness="1" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <TextBlock Text="HỌ VÀ TÊN KH" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
                         </Border>
 
-                        <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0" Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Border BorderBrush="Black" BorderThickness="1" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <TextBlock Text="SĐT" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
                         </Border>
 
-                        <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0" Grid.Column="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Border BorderBrush="Black" BorderThickness="1" Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <TextBlock Text="ĐỊA CHỈ" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
                         </Border>
 
-                        <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0" Grid.Column="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Border BorderBrush="Black" BorderThickness="1" Grid.Column="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <TextBlock Text="TÊN DỊCH VỤ" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
                         </Border>
 
-                        <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0" Grid.Column="7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Border BorderBrush="Black" BorderThickness="1" Grid.Column="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <TextBlock Text="PHÍ DỊCH VỤ" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
                         </Border>
 
-                        <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0" Grid.Column="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Border BorderBrush="Black" BorderThickness="1" Grid.Column="7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <TextBlock Text="MÃ LINH KIỆN" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
                         </Border>
 
-                        <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0" Grid.Column="9" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Border BorderBrush="Black" BorderThickness="1" Grid.Column="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <TextBlock Text="TÊN LINH KIỆN" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
                         </Border>
-                        <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0" Grid.Column="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+                        <Border BorderBrush="Black" BorderThickness="1" Grid.Column="9" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <TextBlock Text="SỐ LƯỢNG LINH KIỆN" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
                         </Border>
 
-                        <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0" Grid.Column="11" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Border BorderBrush="Black" BorderThickness="1" Grid.Column="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <TextBlock Text="MÃ LÕI" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
                         </Border>
-                        <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0" Grid.Column="12" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+                        <Border BorderBrush="Black" BorderThickness="1" Grid.Column="11" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <TextBlock Text="TÊN LÕI" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
                         </Border>
 
-                        <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0" Grid.Column="13" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Border BorderBrush="Black" BorderThickness="1" Grid.Column="12" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <TextBlock Text="SỐ LƯỢNG LÕI" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
                         </Border>
 
-                        <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0" Grid.Column="14" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Border BorderBrush="Black" BorderThickness="1" Grid.Column="13" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <TextBlock Text="MÃ NHÂN VIÊN" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
                         </Border>
-                        <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0" Grid.Column="15" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+                        <Border BorderBrush="Black" BorderThickness="1" Grid.Column="14" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <TextBlock Text="TÊN NHÂN VIÊN" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
                         </Border>
 
-
-                        <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0" Grid.Column="16" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Border BorderBrush="Black" BorderThickness="1" Grid.Column="15" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <TextBlock Text="GHI CHÚ" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
+                        </Border>
+
+                        <Border BorderBrush="Black" BorderThickness="1" Grid.Column="16" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <TextBlock Text="MÃ CV DỰ ÁN" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
+                        </Border>
+
+                        <Border BorderBrush="Black" BorderThickness="1" Grid.Column="17" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <TextBlock Text="MÃ DỰ ÁN" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
                         </Border>
 
                     </Grid>
@@ -147,89 +153,89 @@
                   BorderBrush="{Binding IsSelected, Converter={StaticResource BooleanToBorderBrushConverter}}" >
                                         <!-- Thêm Padding cho Grid -->
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="100"/>
-                                            <ColumnDefinition Width="304"/>
-                                            <ColumnDefinition Width="150"/>
+                                            <ColumnDefinition Width="80"/>
+                                            <ColumnDefinition Width="305"/>
+                                            <ColumnDefinition Width="300"/>
                                             <ColumnDefinition Width="200"/>
-                                            <ColumnDefinition Width="150"/>
-                                            <ColumnDefinition Width="150"/>
-                                            <ColumnDefinition Width="150"/>
-                                            <ColumnDefinition Width="150"/>
-                                            <ColumnDefinition Width="150"/>
-                                            <ColumnDefinition Width="180"/>
-                                            <ColumnDefinition Width="150"/>
-                                            <ColumnDefinition Width="150"/>
                                             <ColumnDefinition Width="150"/>
                                             <ColumnDefinition Width="300"/>
-                                            <ColumnDefinition Width="150"/>
-                                            <ColumnDefinition Width="150"/>
-                                            <ColumnDefinition Width="150"/>
                                             <ColumnDefinition Width="200"/>
-                                            <ColumnDefinition Width="150"/>
-                                            <ColumnDefinition Width="150"/>
+                                            <ColumnDefinition Width="200"/>
+                                            <ColumnDefinition Width="200"/>
+                                            <ColumnDefinition Width="230"/>
+                                            <ColumnDefinition Width="200"/>
+                                            <ColumnDefinition Width="200"/>
+                                            <ColumnDefinition Width="200"/>
+                                            <ColumnDefinition Width="200"/>
+                                            <ColumnDefinition Width="200"/>
+                                            <ColumnDefinition Width="200"/>
+                                            <ColumnDefinition Width="350"/>
+                                            <ColumnDefinition Width="200"/>
+                                            <ColumnDefinition Width="200"/>
+                                            <ColumnDefinition Width="200"/>
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto"/>
                                         </Grid.RowDefinitions>
 
                                         <!-- Thêm khoảng cách giữa các hàng và cột -->
-                                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Row="0" Grid.Column="0" Margin="0,0,5,0">
-                                            <!-- Thay đổi Margin -->
+                                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="0" Margin="0,0,5,0">
                                             <TextBlock Text="{x:Bind Stt}" Foreground="Red" Margin="5" />
                                         </Border>
                                         <Border BorderBrush="Gray" BorderThickness="2" CornerRadius="5" Grid.Column="1" Margin="0,0,5,0">
                                             <TextBlock Text="{x:Bind NgayThucHien}" Foreground="Red" Margin="5"/>
                                         </Border>
                                         <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="2" Margin="0,0,5,0">
-                                            <TextBlock Text="{x:Bind MaCVDuAn}" Foreground="Red" Margin="5"/>
-                                        </Border>
-                                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="3" Margin="0,0,5,0">
                                             <TextBlock Text="{x:Bind HoTenKH}" Foreground="Red" Margin="5"/>
                                         </Border>
-                                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="4" Margin="0,0,5,0">
+                                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="3" Margin="0,0,5,0">
                                             <TextBlock Text="{x:Bind SDT}" Foreground="Red" Margin="5"/>
                                         </Border>
-                                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="5" Margin="0,0,5,0">
+                                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="4" Margin="0,0,5,0">
                                             <TextBlock Text="{x:Bind DiaChi}" Foreground="Red" Margin="5"/>
                                         </Border>
-                                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="6" Margin="0,0,5,0">
+                                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="5" Margin="0,0,5,0">
                                             <TextBlock Text="{x:Bind TenDichVu}" Foreground="Red" Margin="5"/>
                                         </Border>
-                                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="7" Margin="0,0,5,0">
+                                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="6" Margin="0,0,5,0">
                                             <TextBlock Text="{x:Bind PhiDichVu}" Foreground="Red" Margin="5"/>
                                         </Border>
-                                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="8" Margin="0,0,5,0">
+                                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="7" Margin="0,0,5,0">
                                             <TextBlock Text="{x:Bind MaLK}" Foreground="Red" Margin="5"/>
                                         </Border>
-                                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="9" Margin="0,0,5,0">
+                                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="8" Margin="0,0,5,0">
                                             <TextBlock Text="{x:Bind TenLK}" Foreground="Red" Margin="5"/>
                                         </Border>
-                                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="10" Margin="0,0,5,0">
+                                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="9" Margin="0,0,5,0">
                                             <TextBlock Text="{x:Bind SoLuongLK}" Foreground="Red" Margin="5"/>
                                         </Border>
-                                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="11" Margin="0,0,5,0">
+                                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="10" Margin="0,0,5,0">
                                             <TextBlock Text="{x:Bind MaLoi}" Foreground="Red" Margin="5"/>
                                         </Border>
-                                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="12" Margin="0,0,5,0">
+                                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="11" Margin="0,0,5,0">
                                             <TextBlock Text="{x:Bind TenLoi}" Foreground="Red" Margin="5"/>
                                         </Border>
-
-                                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="13" Margin="0,0,5,0">
+                                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="12" Margin="0,0,5,0">
                                             <TextBlock Text="{x:Bind SoLuongLoi}" Foreground="Red" Margin="5"/>
                                         </Border>
-                                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="14" Margin="0,0,5,0">
+                                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="13" Margin="0,0,5,0">
                                             <TextBlock Text="{x:Bind MaNV}" Foreground="Red" Margin="5"/>
                                         </Border>
-                                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="15" Margin="0,0,5,0">
+                                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="14" Margin="0,0,5,0">
                                             <TextBlock Text="{x:Bind TenNV}" Foreground="Red" Margin="5"/>
                                         </Border>
-
-                                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="16" Margin="0,0,5,0">
+                                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="15" Margin="0,0,5,0">
                                             <TextBlock Text="{x:Bind GhiChu}" Foreground="Red" Margin="5"/>
+                                        </Border>
+                                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="16" Margin="0,0,5,0">
+                                            <TextBlock Text="{x:Bind MaCVDuAn}" Foreground="Red" Margin="5"/>
                                         </Border>
                                         <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="17" Margin="0,0,5,0">
                                             <TextBlock Text="{x:Bind MaDuAn}" Foreground="Red" Margin="5"/>
                                         </Border>
+                                     
+
+
                                     </Grid>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
@@ -240,26 +246,26 @@
                         <!-- Lưới nhập liệu -->
                         <Grid x:Name="InputGrid" >
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="100"/>
-                                <ColumnDefinition Width="304"/>
-                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="80"/>
+                                <ColumnDefinition Width="305"/>
+                                <ColumnDefinition Width="300"/>
                                 <ColumnDefinition Width="200"/>
                                 <ColumnDefinition Width="150"/>
-                                <ColumnDefinition Width="150"/>
-                                <ColumnDefinition Width="150"/>
-                                <ColumnDefinition Width="150"/>
-                                <ColumnDefinition Width="150"/>
-                                <ColumnDefinition Width="180"/>
-                                <ColumnDefinition Width="150"/>
-                                <ColumnDefinition Width="150"/>
-                                <ColumnDefinition Width="150"/>
                                 <ColumnDefinition Width="300"/>
-                                <ColumnDefinition Width="150"/>
-                                <ColumnDefinition Width="150"/>
-                                <ColumnDefinition Width="150"/>
-                                <ColumnDefinition Width="150"/>
-                                <ColumnDefinition Width="150"/>
-                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="230"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="200"/>
                             </Grid.ColumnDefinitions>
 
 
