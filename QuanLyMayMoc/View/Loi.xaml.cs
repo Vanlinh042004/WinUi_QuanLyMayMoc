@@ -35,7 +35,7 @@ namespace QuanLyMayMoc
         private int currentRow = 1;
         private int Columns = 3;
         private int selectedRow = -1; // Hàng được chọn để xóa
-        private string connectionString = "Host=127.0.0.1;Port=5432;Username=postgres;Password=1234;Database=machine";
+        private string connectionString = "Host=127.0.0.1;Port=5432;Username=postgres;Password=1234;Database=postgres";
         public Loi()
         {
             this.InitializeComponent();
@@ -140,7 +140,7 @@ namespace QuanLyMayMoc
             using (var connection = new NpgsqlConnection(connectionString))
             {
                 connection.Open();
-                string insertQuery = @" INSERT INTO loi_tam (mahieu, tenloi, giaban)
+                string insertQuery = @" INSERT INTO loi_duan (mahieuduan, tenloi, giaban)
                                         SELECT mahieu, tenloi, giaban
                                         FROM loi";
                 using (var command = new NpgsqlCommand(insertQuery, connection))

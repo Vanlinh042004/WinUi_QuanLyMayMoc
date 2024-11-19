@@ -35,7 +35,7 @@ namespace QuanLyMayMoc
         private int currentRow = 1;
         private int Columns = 3;
         private int selectedRow = -1; // Hàng được chọn để xóa
-        private string connectionString = "Host=127.0.0.1;Port=5432;Username=postgres;Password=1234;Database=machine";
+        private string connectionString = "Host=127.0.0.1;Port=5432;Username=postgres;Password=1234;Database=postgres";
 
 
         public LinhKien()
@@ -141,9 +141,10 @@ namespace QuanLyMayMoc
             using (var connection = new NpgsqlConnection(connectionString))
             {
                 connection.Open();
-                string insertQuery = @" INSERT INTO linhkien_tam (mahieu, tenlinhkien, giaban)
+                string insertQuery = @" INSERT INTO linhkien_duan (@mahieu, mahieuduan, tenlinhkien, giaban)
                                         SELECT mahieu, tenlinhkien, giaban
-                                        FROM linhkien";
+                                        FROM linhkien
+                                        WHERE mahieu is not null";
                 using (var command = new NpgsqlCommand(insertQuery, connection))
                 {
                     command.ExecuteNonQuery();

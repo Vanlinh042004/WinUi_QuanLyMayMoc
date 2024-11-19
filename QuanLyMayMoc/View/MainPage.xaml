@@ -26,7 +26,7 @@
             <MenuBarItem Title="Tệp tin" Margin="0,0,10,0">
                 <MenuFlyoutItem Text="Tạo dự án mới" Click="TaoDuAnMoiClick"/>
                 <MenuFlyoutSeparator/>
-                <MenuFlyoutItem Text="Mở dự án"/>
+                <MenuFlyoutItem Text="Mở dự án" Click="MoDuAnClick"/>
                 <MenuFlyoutSeparator/>
                 <MenuFlyoutItem Text="Lưu dự án" Click="LuuDuAnClick"/>
                 <MenuFlyoutSeparator/>
