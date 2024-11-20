@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuanLyMayMoc
+namespace QuanLyMayMoc.Model
 {
-    public class Service : INotifyPropertyChanged
+    public partial class Service : INotifyPropertyChanged
     {
         private int _stt;
         private DateTime _ngay;

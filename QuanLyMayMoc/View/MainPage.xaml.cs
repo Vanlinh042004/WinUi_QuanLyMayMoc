@@ -331,8 +331,8 @@ namespace QuanLyMayMoc
                     if (duAnExists == 0)
                     {
                         // Nếu dự án chưa tồn tại, thêm vào bảng `duan`
-                        string insertDuanQuery = "INSERT INTO duan (maduan, tenduan, ngaythuchien) VALUES (@maDuAn, @tenDuAn, @ngayThucHien)";
-                        using (var command = new NpgsqlCommand(insertDuanQuery, connection))
+                        string insertNewDuanQuery = "INSERT INTO duan (maduan, tenduan, ngaythuchien) VALUES (@maDuAn, @tenDuAn, @ngayThucHien)";
+                        using (var command = new NpgsqlCommand(insertNewDuanQuery, connection))
                         {
                             command.Parameters.AddWithValue("@maDuAn", AppData.ProjectID);
                             command.Parameters.AddWithValue("@tenDuAn", AppData.ProjectName);
@@ -430,9 +430,8 @@ namespace QuanLyMayMoc
                         WHERE maduan = @maDuAn;
                     ";
 
-                    using (var command = new NpgsqlCommand(insertCongViec, connection))
-                    // Chèn vào bảng duan
-                    string insertDuanQuery = "INSERT INTO duan (maduan, tenduan,ngaythuchien) VALUES (@maDuAn, @tenDuAn,@ngaythuchien)";
+                        // Chèn vào bảng duan
+                    string insertDuanQuery = @"INSERT INTO duan (maduan, tenduan,ngaythuchien) VALUES (@maDuAn, @tenDuAn,@ngaythuchien)";
                     using (var command = new NpgsqlCommand(insertDuanQuery, connection))
                     {
                         command.Parameters.AddWithValue("@maDuAn", AppData.ProjectID);
@@ -460,7 +459,6 @@ namespace QuanLyMayMoc
                         DELETE FROM congviectamthoi WHERE maduan = @maDuAn;
                     ";
 
-                    using (var command = new NpgsqlCommand(deleteTempTables, connection))
                     // Chèn vào bảng LinhKien_DuAn
                     string insertLinhKienDuAnQuery = @" INSERT INTO LinhKien_DuAn (mahieuduan, mahieu, tenlinhkien, giaban, maduan)
                                                    SELECT CONCAT(mahieu,'_', @maDuAn), mahieu, tenlinhkien, giaban, @maDuAn

@@ -136,7 +136,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Service\DataAccess\" />
     <Folder Include="View\" />
   </ItemGroup>
 
