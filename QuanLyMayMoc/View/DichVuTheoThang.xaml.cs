@@ -19,6 +19,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI;
 using Npgsql;
+using System.Threading.Tasks;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -95,6 +96,22 @@ namespace QuanLyMayMoc
                     AddHoverEffect(datePicker, Colors.Red, Colors.Black); // Reuse hover effect
                     element = datePicker;
                 }
+                else if (col==2)
+                {
+                    var autoSuggestBox = new AutoSuggestBox
+                    {
+                        Margin = new Thickness(2),
+                        PlaceholderText = $"Nhập họ tên khách hàng",
+                        Width = 300,
+                        Background = new SolidColorBrush(Colors.White),
+                        Foreground = new SolidColorBrush(Colors.Black),
+                        BorderBrush = new SolidColorBrush(Colors.Black),
+                        BorderThickness = new Thickness(1)
+                    };
+                    autoSuggestBox.TextChanged += AutoSuggestBox_TextChanged;
+                    autoSuggestBox.SuggestionChosen += AutoSuggestBox_SuggestionChosen;
+                    element = autoSuggestBox;
+                }
                 else
                 {
                     var textBox = new TextBox
@@ -117,6 +134,39 @@ namespace QuanLyMayMoc
             }
             currentRow++; // Tăng số hàng hiện tại
 
+        }
+
+        private async void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                var query = sender.Text;
+
+                if (!string.IsNullOrEmpty(query))
+                {
+                    try
+                    {
+                        var suggestions = ViewModel.GetCustomerNames(query);
+                        sender.ItemsSource = suggestions;
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine($"Error fetching suggestions: {ex.Message}");
+                    }
+                }
+                else
+                {
+                    sender.ItemsSource = null;
+                }
+            }
+        }
+
+        
+
+
+        private void AutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        {
+            sender.Text = args.SelectedItem.ToString();
         }
 
 
@@ -332,8 +382,18 @@ namespace QuanLyMayMoc
                     var element = InputGrid.Children
                         .OfType<FrameworkElement>()
                         .FirstOrDefault(e => Grid.GetRow(e) == rowIndex && Grid.GetColumn(e) == col);
+                    if (element is AutoSuggestBox autoSuggestBox)
+                    {
+                        // Kiểm tra xem giá trị có tồn tại trong danh sách gợi ý hay không
+                        //if (string.IsNullOrWhiteSpace(autoSuggestBox.Text) || !currentSuggestions.Contains(autoSuggestBox.Text))
+                        //{
+                        //    ShowNotSuccessMessage($"Họ tên khách hàng không hợp lệ tại hàng {rowIndex + 1}. Vui lòng chọn từ danh sách.");
+                        //    return; // Ngừng lưu nếu dữ liệu không hợp lệ
+                        //}
+                        service.HoTenKH = autoSuggestBox.Text; // Gán dữ liệu hợp lệ
+                    }
 
-                    if (element is TextBox textBox)
+                    else if (element is TextBox textBox)
                     {
                         service.SetPropertyForColumn(col, textBox.Text);
                     }
@@ -424,7 +484,7 @@ namespace QuanLyMayMoc
 
 
             rowTaskDictionary.Clear();
-            ShowSuccessMessage("Tất cả các dòng mới đã được lưu thành công.");
+           // ShowSuccessMessage("Tất cả các dòng mới đã được lưu thành công.");
 
             ClearInputRows();
         }

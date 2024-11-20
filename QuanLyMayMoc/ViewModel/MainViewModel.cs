@@ -83,6 +83,11 @@ namespace QuanLyMayMoc.ViewModel
             }
         }
 
+        public List<string> GetCustomerNames(string query)
+        {
+            // Gọi phương thức trong PostgresSqlDao với ProjectID
+            return _dao.GetCustomerNamesFromDatabase(query);
+        }
 
 
 

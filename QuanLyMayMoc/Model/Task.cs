@@ -163,7 +163,7 @@ namespace QuanLyMayMoc
                     Stt = stt; // Gán giá trị cho Stt
                     break;
 
-                
+
                 case 2:
                     HoTenKH = value; // Họ tên khách hàng
                     break;
