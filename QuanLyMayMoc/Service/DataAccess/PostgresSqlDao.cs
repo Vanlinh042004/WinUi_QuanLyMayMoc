@@ -121,19 +121,66 @@ FROM congviec;";
         }
         public ObservableCollection<Task> GetTasksFromTemp()
         {
-            string query = @"
+            ObservableCollection<Task> tasks = new ObservableCollection<Task>();
+
+           string query = @"
+        SELECT 
+    stt, ngaythuchien, hotenkh, sdt, diachi, tendichvu, 
+    manv, tennv, malinhkien, tenlinhkien, soluonglinhkien, 
+    maloi, tenloi, soluongloi, phidichvu, ghichu, maduan,macvduan
+FROM congviec
+ WHERE maduan=@maduan;";
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@maduan", AppData.ProjectID);
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            tasks.Add(new Task
+                            {
+                                Stt = reader.IsDBNull(0) ? 0 : reader.GetInt32(0), // STT
+                                NgayThucHien = reader.IsDBNull(1) ? DateTime.MinValue : reader.GetDateTime(1), // NgayThucHien
+                                HoTenKH = reader.IsDBNull(2) ? null : reader.GetString(2), // HoTenKH
+                                SDT = reader.IsDBNull(3) ? null : reader.GetString(3), // SDT
+                                DiaChi = reader.IsDBNull(4) ? null : reader.GetString(4), // DiaChi
+                                TenDichVu = reader.IsDBNull(5) ? null : reader.GetString(5), // TenDichVu
+                                MaNV = reader.IsDBNull(6) ? null : reader.GetString(6), // MaNV
+                                TenNV = reader.IsDBNull(7) ? null : reader.GetString(7), // TenNV
+                                MaLK = reader.IsDBNull(8) ? null : reader.GetString(8), // MaLinhKien
+                                TenLK = reader.IsDBNull(9) ? null : reader.GetString(9), // TenLinhKien
+                                SoLuongLK = reader.IsDBNull(10) ? 0 : reader.GetInt32(10), // SoLuongLinhKien
+                                MaLoi = reader.IsDBNull(11) ? null : reader.GetString(11), // MaLoi
+                                TenLoi = reader.IsDBNull(12) ? null : reader.GetString(12), // TenLoi
+                                SoLuongLoi = reader.IsDBNull(13) ? 0 : reader.GetInt32(13), // SoLuongLoi
+                                PhiDichVu = reader.IsDBNull(14) ? 0 : reader.GetInt32(14), // PhiDichVu
+                                GhiChu = reader.IsDBNull(15) ? null : reader.GetString(15), // GhiChu
+                                MaDuAn = reader.IsDBNull(16) ? null : reader.GetString(16),// MaDuAn
+                                MaCVDuAn = reader.IsDBNull(17) ? null : reader.GetString(17) // MacvDuAn
+                                                                                             // MaCVDuAn = reader.IsDBNull(17) ? null : reader.GetString(17) // MacvDuAn
+                            });
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+
+            string querytemp = @"
         SELECT 
     stt, ngaythuchien, hotenkh, sdt, diachi, tendichvu, 
     manv, tennv, malinhkien, tenlinhkien, soluonglinhkien, 
     maloi, tenloi, soluongloi, phidichvu, ghichu, maduan,macvduan
 FROM congviectamthoi;";
 
-            ObservableCollection<Task> tasks = new ObservableCollection<Task>();
+        
 
             using (var connection = new NpgsqlConnection(connectionString))
             {
                 connection.Open();
-                using (var command = new NpgsqlCommand(query, connection))
+                using (var command = new NpgsqlCommand(querytemp, connection))
                 {
                     using (var reader = command.ExecuteReader())
                     {
@@ -165,7 +212,11 @@ FROM congviectamthoi;";
                     }
 
                 }
+                connection.Close();
             }
+
+          
+
 
             return tasks;
         }
@@ -175,7 +226,6 @@ FROM congviectamthoi;";
         public ObservableCollection<Task> GetTasksFromTemp(DateTime ngaythuchien)
         {
             var tasks = new ObservableCollection<Task>();
-
             try
             {
                 // Chuỗi kết nối tới cơ sở dữ liệu
@@ -189,10 +239,68 @@ FROM congviectamthoi;";
             stt, ngaythuchien, hotenkh, sdt, diachi, tendichvu, 
             manv, tennv, malinhkien, tenlinhkien, soluonglinhkien, 
             maloi, tenloi, soluongloi, phidichvu, ghichu, maduan, macvduan
+        FROM congviec
+        WHERE ngaythuchien = @ngaythuchien and  maduan = @maduan";
+
+                    using (var command = new NpgsqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@ngaythuchien", ngaythuchien);
+                        command.Parameters.AddWithValue("@maduan", AppData.ProjectID);
+                        using (var reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                tasks.Add(new Task
+                                {
+                                    Stt = reader.IsDBNull(0) ? 0 : reader.GetInt32(0), // STT
+                                    NgayThucHien = reader.IsDBNull(1) ? DateTime.MinValue : reader.GetDateTime(1), // NgayThucHien
+                                    HoTenKH = reader.IsDBNull(2) ? null : reader.GetString(2), // HoTenKH
+                                    SDT = reader.IsDBNull(3) ? null : reader.GetString(3), // SDT
+                                    DiaChi = reader.IsDBNull(4) ? null : reader.GetString(4), // DiaChi
+                                    TenDichVu = reader.IsDBNull(5) ? null : reader.GetString(5), // TenDichVu
+                                    MaNV = reader.IsDBNull(6) ? null : reader.GetString(6), // MaNV
+                                    TenNV = reader.IsDBNull(7) ? null : reader.GetString(7), // TenNV
+                                    MaLK = reader.IsDBNull(8) ? null : reader.GetString(8), // MaLinhKien
+                                    TenLK = reader.IsDBNull(9) ? null : reader.GetString(9), // TenLinhKien
+                                    SoLuongLK = reader.IsDBNull(10) ? 0 : reader.GetInt32(10), // SoLuongLinhKien
+                                    MaLoi = reader.IsDBNull(11) ? null : reader.GetString(11), // MaLoi
+                                    TenLoi = reader.IsDBNull(12) ? null : reader.GetString(12), // TenLoi
+                                    SoLuongLoi = reader.IsDBNull(13) ? 0 : reader.GetInt32(13), // SoLuongLoi
+                                    PhiDichVu = reader.IsDBNull(14) ? 0 : reader.GetInt32(14), // PhiDichVu
+                                    GhiChu = reader.IsDBNull(15) ? null : reader.GetString(15), // GhiChu
+                                    MaDuAn = reader.IsDBNull(16) ? null : reader.GetString(16), // MaDuAn
+                                    MaCVDuAn = reader.IsDBNull(17) ? null : reader.GetString(17) // MacvDuAn
+                                });
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                // Xử lý lỗi nếu có
+                Debug.WriteLine($"Lỗi khi tải dữ liệu: {ex.Message}");
+            }
+
+            try
+            {
+                // Chuỗi kết nối tới cơ sở dữ liệu
+                using (var connection = new NpgsqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    // Truy vấn dữ liệu theo ngày thực hiện
+                    string querytemp = @"
+        SELECT 
+            stt, ngaythuchien, hotenkh, sdt, diachi, tendichvu, 
+            manv, tennv, malinhkien, tenlinhkien, soluonglinhkien, 
+            maloi, tenloi, soluongloi, phidichvu, ghichu, maduan, macvduan
         FROM congviectamthoi
         WHERE ngaythuchien = @ngaythuchien";
 
-                    using (var command = new NpgsqlCommand(query, connection))
+                    using (var command = new NpgsqlCommand(querytemp, connection))
                     {
                         command.Parameters.AddWithValue("@ngaythuchien", ngaythuchien);
 
@@ -224,6 +332,7 @@ FROM congviectamthoi;";
                             }
                         }
                     }
+                    connection.Close();
                 }
             }
             catch (Exception ex)
@@ -231,6 +340,8 @@ FROM congviectamthoi;";
                 // Xử lý lỗi nếu có
                 Debug.WriteLine($"Lỗi khi tải dữ liệu: {ex.Message}");
             }
+
+           
 
             return tasks;
         }
