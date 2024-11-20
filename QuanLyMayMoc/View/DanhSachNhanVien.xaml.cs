@@ -80,7 +80,7 @@ namespace QuanLyMayMoc
             ViewModel.Employees.Add(newEmployee);
 
             // Connection string for the database
-            string connectionString = "Host=127.0.0.1;Port=5432;Username=postgres;Password=1234;Database=machine";
+            string connectionString = "Host=127.0.0.1;Port=5432;Username=postgres;Password=1234;Database=postgres";
 
             // SQL query to insert a new employee into the database
             string insertEmployeeQuery = @"
