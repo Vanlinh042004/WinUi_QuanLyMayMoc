@@ -45,6 +45,8 @@ namespace QuanLyMayMoc
             string dbString = "SELECT mahieu, tenloi, giaban FROM loi";
             DataTable InforMay = ExecuteQuery(dbString);
             PopulateGrid(InforMay);
+            SaveToLoiTam(); // Lưu dữ liệu từ bảng loi vào bảng loi_Tam
+
         }
 
 
@@ -134,6 +136,20 @@ namespace QuanLyMayMoc
             return dataTable;
         }
 
+        private void SaveToLoiTam()
+        {
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+                string insertQuery = @" INSERT INTO loi_tam (mahieu, tenloi, giaban)
+                                        SELECT mahieu, tenloi, giaban
+                                        FROM loi";
+                using (var command = new NpgsqlCommand(insertQuery, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
 
         // Thêm dòng mới
         #region AddNewRow
@@ -345,3 +361,4 @@ namespace QuanLyMayMoc
     //    public string GIA { get; set; }
     //}
 }
+

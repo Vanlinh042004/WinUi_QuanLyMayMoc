@@ -1,0 +1,5 @@
+- Xong rồi nhá Nhật:
+  - Tạo lại db (mời Nhật vào rồi đó)
+  - Tạo ra hai bảng Lõi với LinhKien gốc + 2 bảng liên quan tới dự án (khóa chính là MaHieuDuAn)
+  - Sửa khóa chính của 3 bảng còn lại luôn nha
+- Check của Mẫn dùm nhen.

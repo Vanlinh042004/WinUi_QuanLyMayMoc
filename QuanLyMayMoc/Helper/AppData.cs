@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace QuanLyMayMoc
 {
-    // AppData.cs
     public static class AppData
     {
         public static string ProjectID { get; set; }

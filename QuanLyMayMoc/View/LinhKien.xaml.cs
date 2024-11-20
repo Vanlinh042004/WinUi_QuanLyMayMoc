@@ -42,11 +42,10 @@ namespace QuanLyMayMoc
         {
             this.InitializeComponent();
             HideFirstRow(); // Thêm dòng đầu tiên
-                            //string m_tempPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "QuanLyMayMoc", "Database", "db_QuanLyMayMoc.sqlite3");
-
             string dbString = "SELECT mahieu, tenlinhkien, giaban FROM linhkien";
             DataTable InforMay = ExecuteQuery(dbString);
             PopulateGrid(InforMay);
+            SaveToLinhKienTam(); // Lưu dữ liệu từ bảng linhkien vào bảng LinhKien_Tam
         }
 
         private void HideFirstRow()
@@ -136,6 +135,21 @@ namespace QuanLyMayMoc
                 }
             }
             return dataTable;
+        }
+
+        private void SaveToLinhKienTam()
+        {
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+                string insertQuery = @" INSERT INTO linhkien_tam (mahieu, tenlinhkien, giaban)
+                                        SELECT mahieu, tenlinhkien, giaban
+                                        FROM linhkien";
+                using (var command = new NpgsqlCommand(insertQuery, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+            }
         }
         // Thêm dòng mới
         #region AddNewRow
@@ -356,3 +370,4 @@ namespace QuanLyMayMoc
     //    public string GIA { get; set; }
     //}
 }
+
