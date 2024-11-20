@@ -9,30 +9,53 @@ namespace QuanLyMayMoc.Model
 {
     public class Employee : INotifyPropertyChanged
     {
-        private string _hoTen;
+        private string _maNhanVienDuAn;
+      
         private string _maNhanVien;
-        private string _chucVu;
-        private string _gioiTinh;
-        private DateTime _ngayKyHD;
-        private DateTime _ngaySinh;
-        private string _maSoThue;
-        private string _trangThai;
-        private string _anhDaiDien; // Path to the image
+        private string _hoTen;
         private string _danToc;
-        private string _soNguoiPhuThuoc;
+        private string _gioiTinh;
+        private DateTime _ngaySinh;
+        private string _diaChi;
+        private string _soDienThoai;
+        private string _email;
+        private string _phongBan;
         private string _CCCD;
+        private string _trangThai;
+        // private string _chucVu;
+
+        private DateTime _ngayKyHD;
+       
+       // private string _maSoThue;
+      
+        private string _anhDaiDien; // Path to the image
+       
+      //  private string _soNguoiPhuThuoc;
+     
 
         // Contact Information
-        private string _phongBan;
-        private string _email;
-        private string _soDienThoai;
-        private string _diaChi;
-        private string _nhanVienVanPhongCongTruong;
+      
+       
+      
+       
+        private string _maDuAn;
+        
+      //  private string _nhanVienVanPhongCongTruong;
 
         public string HoTen
         {
             get => _hoTen;
             set { _hoTen = value; OnPropertyChanged(nameof(HoTen)); }
+        }
+        public string MaDuAn
+        {
+            get => _maDuAn;
+            set { _maDuAn = value; OnPropertyChanged(nameof(MaDuAn)); }
+        }
+        public string MaNhanVienDuAn
+        {
+            get => _maNhanVienDuAn;
+            set { _maNhanVienDuAn = value; OnPropertyChanged(nameof(MaNhanVienDuAn)); }
         }
 
         public string MaNhanVien
@@ -41,11 +64,11 @@ namespace QuanLyMayMoc.Model
             set { _maNhanVien = value; OnPropertyChanged(nameof(MaNhanVien)); }
         }
 
-        public string ChucVu
-        {
-            get => _chucVu;
-            set { _chucVu = value; OnPropertyChanged(nameof(ChucVu)); }
-        }
+        //public string ChucVu
+        //{
+        //    get => _chucVu;
+        //    set { _chucVu = value; OnPropertyChanged(nameof(ChucVu)); }
+        //}
         public string GioiTinh
         {
             get => _gioiTinh;
@@ -64,11 +87,11 @@ namespace QuanLyMayMoc.Model
             set { _ngaySinh = value; OnPropertyChanged(nameof(NgaySinh)); }
         }
 
-        public string MaSoThue
-        {
-            get => _maSoThue;
-            set { _maSoThue = value; OnPropertyChanged(nameof(MaSoThue)); }
-        }
+        //public string MaSoThue
+        //{
+        //    get => _maSoThue;
+        //    set { _maSoThue = value; OnPropertyChanged(nameof(MaSoThue)); }
+        //}
 
         public string TrangThai
         {
@@ -88,11 +111,11 @@ namespace QuanLyMayMoc.Model
             set { _danToc = value; OnPropertyChanged(nameof(DanToc)); }
         }
 
-        public string SoNguoiPhuThuoc
-        {
-            get => _soNguoiPhuThuoc;
-            set { _soNguoiPhuThuoc = value; OnPropertyChanged(nameof(SoNguoiPhuThuoc)); }
-        }
+        //public string SoNguoiPhuThuoc
+        //{
+        //    get => _soNguoiPhuThuoc;
+        //    set { _soNguoiPhuThuoc = value; OnPropertyChanged(nameof(SoNguoiPhuThuoc)); }
+        //}
 
         public string CCCD
         {
@@ -125,11 +148,11 @@ namespace QuanLyMayMoc.Model
             set { _diaChi = value; OnPropertyChanged(nameof(DiaChi)); }
         }
 
-        public string NhanVienVanPhongCongTruong
-        {
-            get => _nhanVienVanPhongCongTruong;
-            set { _nhanVienVanPhongCongTruong = value; OnPropertyChanged(nameof(NhanVienVanPhongCongTruong)); }
-        }
+        //public string NhanVienVanPhongCongTruong
+        //{
+        //    get => _nhanVienVanPhongCongTruong;
+        //    set { _nhanVienVanPhongCongTruong = value; OnPropertyChanged(nameof(NhanVienVanPhongCongTruong)); }
+        //}
 
         public event PropertyChangedEventHandler PropertyChanged;
 

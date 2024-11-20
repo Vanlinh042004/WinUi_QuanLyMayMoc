@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace QuanLyMayMoc.Model
 {
-    public class Loi : INotifyPropertyChanged
+    public class LinhKien : INotifyPropertyChanged
     {
         private string _masp;
         private string _tensp;

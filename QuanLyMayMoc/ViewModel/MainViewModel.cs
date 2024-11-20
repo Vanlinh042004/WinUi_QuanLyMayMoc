@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Npgsql;
 using QuanLyMayMoc.Model;
+using QuanLyMayMoc.Service;
 
 namespace QuanLyMayMoc.ViewModel
 {
@@ -13,36 +16,28 @@ namespace QuanLyMayMoc.ViewModel
 
     public class MainViewModel
     {
+        IDao _dao;
 
 
-        private Service _currentSelectedService;
-        public Service CurrentSelectedService
+        private Task _currentSelectedTask;
+        public Task CurrentSelectedTask
         {
-            get => _currentSelectedService;
+            get => _currentSelectedTask;
             set
             {
-                _currentSelectedService = value;
-                OnPropertyChanged(nameof(CurrentSelectedService)); // Nếu ViewModel hỗ trợ INotifyPropertyChanged
+                _currentSelectedTask = value;
+                OnPropertyChanged(nameof(CurrentSelectedTask)); // Nếu ViewModel hỗ trợ INotifyPropertyChanged
             }
         }
 
-        private ObservableCollection<Service> _filteredServices;
-        public ObservableCollection<Service> FilteredServices
-        {
-            get => _filteredServices;
-            set
-            {
-                _filteredServices = value;
-                OnPropertyChanged(nameof(FilteredServices));
-            }
-        }
+      
 
 
         public ObservableCollection<Employee> Employees
         {
             get; set;
         }
-        public ObservableCollection<Service> Services
+        public ObservableCollection<Task> Tasks
         {
             get; set;
         }
@@ -53,35 +48,56 @@ namespace QuanLyMayMoc.ViewModel
 
         public MainViewModel()
         {
-            IDao dao = new MockDao();
-            Employees = dao.GetEmployees();
-            Services = dao.GetServices();
+            _dao = ServiceFactory.GetChildOf(typeof(IDao)) as IDao;
+            Employees = _dao.GetEmployees();
+            Tasks = _dao.GetTasks();
             //LoadData(Ngay);
 
         }
 
-        public void LoadData(DateTime ngay)
+        public void LoadDataFilter(DateTime ngaythuchien)
         {
-            IDao _dao = new MockDao();
-            var items = _dao.GetServices(Ngay);
-            Services = new ObservableCollection<Service>(items);
+           
+            
+                Tasks.Clear();
+            
 
-
-        }
-
-
-        public void RemoveSelectedService()
-        {
-            if (CurrentSelectedService != null)
+            var filteredTasks = _dao.GetTasksFromTemp(ngaythuchien);
+            foreach (var task in filteredTasks)
             {
-                Services.Remove(CurrentSelectedService);
-                CurrentSelectedService = null; // Clear selection
+                Tasks.Add(task);
             }
         }
-        public void RemoveAllService()
+
+        public void LoadDataFilter()
+        {
+            
+            
+                Tasks.Clear();
+            
+
+            var allTasks = _dao.GetTasksFromTemp();
+            foreach (var task in allTasks)
+            {
+                Tasks.Add(task);
+            }
+        }
+
+
+
+
+        public void RemoveSelectedTask()
+        {
+            if (CurrentSelectedTask != null)
+            {
+                Tasks.Remove(CurrentSelectedTask);
+                CurrentSelectedTask = null; // Clear selection
+            }
+        }
+        public void RemoveAllTask()
         {
 
-            Services.Clear();
+            Tasks.Clear();
 
         }
 

@@ -135,6 +135,7 @@ namespace QuanLyMayMoc
             }
             return dataTable;
         }
+
         private void SaveToLoiTam()
         {
             using (var connection = new NpgsqlConnection(connectionString))
@@ -192,7 +193,7 @@ namespace QuanLyMayMoc
                 string value = textBox.Text;
 
                 // Lưu giá trị vào cơ sở dữ liệu
-               // SaveToDatabase(value);
+                // SaveToDatabase(value);
             }
         }
 
@@ -360,3 +361,4 @@ namespace QuanLyMayMoc
     //    public string GIA { get; set; }
     //}
 }
+
