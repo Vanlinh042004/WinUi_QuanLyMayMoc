@@ -136,6 +136,7 @@ namespace QuanLyMayMoc
             }
             return dataTable;
         }
+
         private void SaveToLinhKienTam()
         {
             using (var connection = new NpgsqlConnection(connectionString))
@@ -202,7 +203,7 @@ namespace QuanLyMayMoc
             string query = $"UPDATE Tbl_MTC_GiaLinhKien" +
                            $"SET Ten = 'Ha Loi'" +
                            $"WHERE MaHieu = @MaHieu";
-            DataProvider.InstanceTHDA.ExecuteNonQuery(query, parameter: new object[] {value});
+            DataProvider.InstanceTHDA.ExecuteNonQuery(query, parameter: new object[] { value });
         }
 
         private void AddHoverEffect(Control controlElement, Color hoverColor, Color normalColor)
@@ -241,7 +242,7 @@ namespace QuanLyMayMoc
         }
         #endregion
 
-     
+
 
 
 
@@ -282,7 +283,7 @@ namespace QuanLyMayMoc
 
                     if (element is Border border && border.Child is TextBlock textBlock)
                     {
-                       
+
                         if (textBlock.Text == maSanPham)
                         {
                             selectedRow = i;
@@ -323,8 +324,8 @@ namespace QuanLyMayMoc
             string query = $"DELETE" +
                              $" FROM Tbl_MTC_GiaLinhKien " +
                              $" WHERE MaHieu = @MaHieu";
-            DataProvider.InstanceTHDA.ExecuteNonQuery(query, parameter: new object[] {maSanPham});
-        }    
+            DataProvider.InstanceTHDA.ExecuteNonQuery(query, parameter: new object[] { maSanPham });
+        }
 
 
 
@@ -370,3 +371,4 @@ namespace QuanLyMayMoc
     //    public string GIA { get; set; }
     //}
 }
+

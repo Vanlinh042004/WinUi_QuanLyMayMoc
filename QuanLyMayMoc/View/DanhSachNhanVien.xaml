@@ -5,7 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:QuanLyMayMoc"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local1="using:QuanLyMayMoc.ViewModel" xmlns:local2="using:QuanLyMayMoc.Model"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local1="using:QuanLyMayMoc" xmlns:local2="using:QuanLyMayMoc.Model"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -24,6 +24,10 @@
                     <Grid>
                       
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
@@ -119,9 +123,9 @@
                         <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="3" Grid.Column="1">
                             <TextBlock Text="Chức vụ:" FontWeight="Bold" Foreground="White" Margin="5"/>
                         </Border>
-                        <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="3" Grid.Column="2">
+                        <!--<Border BorderBrush="Gray" BorderThickness="1" Grid.Row="3" Grid.Column="2">
                             <TextBlock Text="{x:Bind ChucVu}" Foreground="White" Margin="5"/>
-                        </Border>
+                        </Border>-->
 
                         <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="4" Grid.Column="1">
                             <TextBlock Text="Ngày kí HĐ:" FontWeight="Bold" Foreground="White" Margin="5"/>
@@ -133,9 +137,9 @@
                         <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="5" Grid.Column="1">
                             <TextBlock Text="Mã số thuế:" FontWeight="Bold" Foreground="White" Margin="5"/>
                         </Border>
-                        <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="5" Grid.Column="2">
+                        <!--<Border BorderBrush="Gray" BorderThickness="1" Grid.Row="5" Grid.Column="2">
                             <TextBlock Text="{x:Bind MaSoThue}" Foreground="White" Margin="2"/>
-                        </Border>
+                        </Border>-->
 
                         <!-- Cột 3: Thông tin liên hệ -->
                         <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="0" Grid.Column="7" Grid.ColumnSpan="4">
@@ -152,9 +156,9 @@
                         <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="2" Grid.Column="7">
                             <TextBlock Text="Số người phụ thuộc:" FontWeight="Bold" Foreground="White" Margin="5"/>
                         </Border>
-                        <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="2" Grid.Column="8">
+                        <!--<Border BorderBrush="Gray" BorderThickness="1" Grid.Row="2" Grid.Column="8">
                             <TextBlock Text="{x:Bind SoNguoiPhuThuoc}" Foreground="White" Margin="5"/>
-                        </Border>
+                        </Border>-->
 
                         <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="3" Grid.Column="7">
                             <TextBlock Text="Phòng ban:" FontWeight="Bold" Foreground="White" Margin="5"/>
@@ -178,10 +182,10 @@
                         </Border>
 
                         <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="2" Grid.Column="9">
-                            <TextBlock Text="Nhân viên văn phòng-công trường:" FontWeight="Bold" Foreground="White" Margin="5"/>
+                            <TextBlock Text="Mã dự án:" FontWeight="Bold" Foreground="White" Margin="5"/>
                         </Border>
                         <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="2" Grid.Column="10">
-                            <TextBlock Text="{x:Bind NhanVienVanPhongCongTruong}" Foreground="White" Margin="5"/>
+                            <TextBlock Text="{x:Bind MaDuAn}" Foreground="White" Margin="5"/>
                         </Border>
                         
                     </Grid>
@@ -237,11 +241,11 @@
                              Grid.Row="1" Grid.Column="0" PlaceholderText="Nhập mã nhân viên" />
                         <TextBox Header="Họ tên" x:Name="HoTenInput" 
                              Grid.Row="1" Grid.Column="1" PlaceholderText="Nhập họ và tên" />
-                        <ComboBox Header="Chức vụ" x:Name="ChucVuInput" Grid.Row="3" Grid.Column="2">
-                                <ComboBoxItem Content="Nhân viên" />
-                                <ComboBoxItem Content="Trưởng phòng" />
+                        <!--<ComboBox Header="Phòng ban" x:Name="PhongBanInput" Grid.Row="3" Grid.Column="2">
+                                <ComboBoxItem Content="Văn phòng" />
+                                <ComboBoxItem Content="Công trường" />
                                 <ComboBoxItem Content="Giám đốc" />
-                            </ComboBox>
+                            </ComboBox>-->
                         <ComboBox Header="Giới tính" x:Name="GioiTinhInput" Grid.Row="1" Grid.Column="2">
                             <ComboBoxItem Content="Nam" />
                             <ComboBoxItem Content="Nữ" />
@@ -252,6 +256,8 @@
                         <TextBox Header="Email" x:Name="EmailInput" Grid.Row="2" Grid.Column="1" />
                         <TextBox Header="Địa chỉ" x:Name="DiaChiInput" Grid.Row="2" Grid.Column="2" />
                         <TextBox Header="Ảnh đại diện" x:Name="AnhDaiDienInput" Grid.Row="2" Grid.Column="3" />
+                        <TextBox Header="Trạng thái" x:Name="TrangThaiInput" Grid.Row="3" Grid.Column="3" />
+                        <TextBox Header="Phòng ban" x:Name="PhongBanInput" Grid.Row="3" Grid.Column="2" />
 
                         <!-- Nút Lưu và Hủy -->
                         

@@ -12,4 +12,5 @@ namespace QuanLyMayMoc
         public static string ProjectName { get; set; }
         public static DateTime ProjectTimeCreate { get; set; }
     }
+
 }
