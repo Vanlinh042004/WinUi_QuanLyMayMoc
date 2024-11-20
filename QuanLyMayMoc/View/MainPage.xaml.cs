@@ -157,6 +157,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System.Text.RegularExpressions;
 using Npgsql;
+using QuanLyMayMoc.View;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -166,10 +167,10 @@ namespace QuanLyMayMoc
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-
     public sealed partial class MainPage : Page
     {
         public string maDuAn;
+
         public string projectName;
 
         public MainPage()
@@ -306,6 +307,7 @@ namespace QuanLyMayMoc
                 }.ShowAsync();
                 return;
             }
+
 
             string connectionString = "Host=127.0.0.1;Port=5432;Username=postgres;Password=1234;Database=postgres";
 
@@ -447,7 +449,7 @@ namespace QuanLyMayMoc
                     // Chèn vào bảng Loi_DuAn
                     string insertLoiDuAnQuery = @" INSERT INTO Loi_DuAn (mahieuduan, mahieu, tenloi, giaban, maduan)
                                                    SELECT CONCAT(mahieu, '_', @maDuAn), mahieu, tenloi, giaban, @maDuAn
-                                                   FROM loi_tam";
+                                                   FROM loi_duan";
                     using (var command = new NpgsqlCommand(insertLoiDuAnQuery, connection))
                     {
                         command.Parameters.AddWithValue("@maDuAn", AppData.ProjectID);
@@ -464,7 +466,7 @@ namespace QuanLyMayMoc
                     // Chèn vào bảng LinhKien_DuAn
                     string insertLinhKienDuAnQuery = @" INSERT INTO LinhKien_DuAn (mahieuduan, mahieu, tenlinhkien, giaban, maduan)
                                                    SELECT CONCAT(mahieu,'_', @maDuAn), mahieu, tenlinhkien, giaban, @maDuAn
-                                                   FROM linhkien_tam";
+                                                   FROM linhkien_duan";
                     using (var command = new NpgsqlCommand(insertLinhKienDuAnQuery, connection))
                     {
                         command.Parameters.AddWithValue("@maDuAn", AppData.ProjectID);
@@ -493,5 +495,9 @@ namespace QuanLyMayMoc
             }
         }
 
+        private void MoDuAnClick(object sender, RoutedEventArgs e)
+        {
+            this.FrameContent.Navigate(typeof(MoDuAn));
+        }
     }
 }

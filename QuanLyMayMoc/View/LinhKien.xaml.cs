@@ -142,9 +142,10 @@ namespace QuanLyMayMoc
             using (var connection = new NpgsqlConnection(connectionString))
             {
                 connection.Open();
-                string insertQuery = @" INSERT INTO linhkien_tam (mahieu, tenlinhkien, giaban)
+                string insertQuery = @" INSERT INTO linhkien_duan (@mahieu, mahieuduan, tenlinhkien, giaban)
                                         SELECT mahieu, tenlinhkien, giaban
-                                        FROM linhkien";
+                                        FROM linhkien
+                                        WHERE mahieu is not null";
                 using (var command = new NpgsqlCommand(insertQuery, connection))
                 {
                     command.ExecuteNonQuery();

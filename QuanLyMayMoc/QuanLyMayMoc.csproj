@@ -24,6 +24,8 @@
     <None Remove="QuanLyMayMoc.xaml" />
     <None Remove="TongHopMayTheoKy.xaml" />
     <None Remove="VeChungToi.xaml" />
+    <None Remove="View\BlankPage1.xaml" />
+    <None Remove="View\MoDuAn.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -91,6 +93,12 @@
     <None Update="Assets\imageholder.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="View\MoDuAn.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="View\BlankPage1.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="PhanHoi.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -134,9 +142,6 @@
     <Page Update="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="View\" />
   </ItemGroup>
 
   <!-- 
