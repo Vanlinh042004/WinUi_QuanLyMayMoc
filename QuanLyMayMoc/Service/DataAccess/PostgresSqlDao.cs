@@ -423,5 +423,69 @@ FROM congviectamthoi;";
                 }
             }
         }
+
+        public List<string> GetCustomerNamesFromDatabase(string query)
+        {
+            var customerNames = new List<string>(); // Danh sách tên khách hàng sẽ trả về
+
+            try
+            {
+                using (var connection = new NpgsqlConnection(connectionString))
+                {
+                    connection.Open(); // Mở kết nối
+
+                    // Truy vấn SQL từ bảng congviectamthoi
+                    string sqlQueryTemp = @"
+            SELECT DISTINCT hotenkh 
+            FROM congviectamthoi
+            WHERE hotenkh ILIKE @query
+            LIMIT 10";
+
+                    using (var command = new NpgsqlCommand(sqlQueryTemp, connection))
+                    {
+                        command.Parameters.AddWithValue("@query", $"%{query}%");
+
+                        using (var reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                customerNames.Add(reader.GetString(0));
+                            }
+                        }
+                    }
+
+                    // Truy vấn SQL từ bảng congviec
+                    string sqlQuery = @"
+            SELECT DISTINCT hotenkh 
+            FROM congviec
+            WHERE maduan = @maduan AND hotenkh ILIKE @query
+            LIMIT 10";
+
+                    using (var command = new NpgsqlCommand(sqlQuery, connection))
+                    {
+                        command.Parameters.AddWithValue("@query", $"%{query}%");
+                        command.Parameters.AddWithValue("@maduan", AppData.ProjectID);
+
+                        using (var reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                customerNames.Add(reader.GetString(0));
+                            }
+                        }
+                    }
+
+                    connection.Close(); // Đóng kết nối
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Lỗi khi lấy dữ liệu: {ex.Message}");
+            }
+
+            return customerNames; // Trả về danh sách tên khách hàng
+        }
+
     }
+
 }

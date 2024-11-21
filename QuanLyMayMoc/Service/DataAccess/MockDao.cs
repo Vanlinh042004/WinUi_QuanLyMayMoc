@@ -174,7 +174,7 @@ namespace QuanLyMayMoc
             }
             return result;
         }
-
+        public List<string> GetCustomerNamesFromDatabase(string query) { return new List<string>(); }
 
         public ObservableCollection<Task> GetTasks(DateTime date)
         {
