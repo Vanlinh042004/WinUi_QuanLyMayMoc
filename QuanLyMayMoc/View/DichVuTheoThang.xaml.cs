@@ -31,7 +31,7 @@ namespace QuanLyMayMoc
     /// </summary>
     public sealed partial class DichVuTheoThang : Page
     {
-        private string connectionString = "Host=127.0.0.1;Port=5432;Username=postgres;Password=1234;Database=postgres";
+        private string connectionString = "Host=127.0.0.1;Port=5432;Username=postgres;Password=1234;Database=machine";
         private int currentRow = 1;
        
         private int Columns = 16;

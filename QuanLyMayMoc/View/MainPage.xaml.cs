@@ -111,7 +111,7 @@
 
 //                    // Log or use the project name if needed
 //                    System.Diagnostics.Debug.WriteLine($"Project created: {projectName}");
-                   
+
 //                }
 //                else
 //                {
@@ -157,7 +157,6 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System.Text.RegularExpressions;
 using Npgsql;
-using QuanLyMayMoc.View;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -170,9 +169,7 @@ namespace QuanLyMayMoc
     public sealed partial class MainPage : Page
     {
         public string maDuAn;
-
         public string projectName;
-
         public MainPage()
         {
             this.InitializeComponent();
@@ -243,8 +240,7 @@ namespace QuanLyMayMoc
             if (result == ContentDialogResult.Primary)
             {
                 // Retrieve the project name
-                string projectName = projectNameTextBox.Text;
-
+                projectName = projectNameTextBox.Text;
 
 
                 // Check if the project name is a valid file name
@@ -258,11 +254,10 @@ namespace QuanLyMayMoc
 
                     string date = DateTime.Now.ToString("yyyy_MM_dd");
                     string time = DateTime.Now.ToString("HH_mm_ss");
-                    maDuAn = projectName  + date + "_" + time ;
-                    AppData.ProjectID=maDuAn;
-                    AppData.ProjectName= projectName;
-                    AppData.ProjectTimeCreate=DateTime.Now;
-
+                    maDuAn = projectName + date + "_" + time;
+                    AppData.ProjectID = maDuAn;
+                    AppData.ProjectName = projectName;
+                    AppData.ProjectTimeCreate = DateTime.Now;
                 }
                 else
                 {
@@ -294,9 +289,7 @@ namespace QuanLyMayMoc
 
         private async void LuuDuAnClick(object sender, RoutedEventArgs e)
         {
-
-            if (string.IsNullOrEmpty(AppData.ProjectID))
-
+            if (string.IsNullOrEmpty(maDuAn))
             {
                 await new ContentDialog
                 {
@@ -308,8 +301,7 @@ namespace QuanLyMayMoc
                 return;
             }
 
-
-            string connectionString = "Host=127.0.0.1;Port=5432;Username=postgres;Password=1234;Database=postgres";
+            string connectionString = "Host=127.0.0.1;Port=5432;Username=postgres;Password=1234;Database=machine";
 
             try
             {
@@ -333,8 +325,8 @@ namespace QuanLyMayMoc
                     if (duAnExists == 0)
                     {
                         // Nếu dự án chưa tồn tại, thêm vào bảng `duan`
-                        string insertNewDuanQuery = "INSERT INTO duan (maduan, tenduan, ngaythuchien) VALUES (@maDuAn, @tenDuAn, @ngayThucHien)";
-                        using (var command = new NpgsqlCommand(insertNewDuanQuery, connection))
+                        string insertDuanQuery = "INSERT INTO duan (maduan, tenduan, ngaythuchien) VALUES (@maDuAn, @tenDuAn, @ngayThucHien)";
+                        using (var command = new NpgsqlCommand(insertDuanQuery, connection))
                         {
                             command.Parameters.AddWithValue("@maDuAn", AppData.ProjectID);
                             command.Parameters.AddWithValue("@tenDuAn", AppData.ProjectName);
@@ -432,24 +424,7 @@ namespace QuanLyMayMoc
                         WHERE maduan = @maDuAn;
                     ";
 
-                        // Chèn vào bảng duan
-                    string insertDuanQuery = @"INSERT INTO duan (maduan, tenduan,ngaythuchien) VALUES (@maDuAn, @tenDuAn,@ngaythuchien)";
-                    using (var command = new NpgsqlCommand(insertDuanQuery, connection))
-                    {
-                        command.Parameters.AddWithValue("@maDuAn", AppData.ProjectID);
-                        command.Parameters.AddWithValue("@tenDuAn", AppData.ProjectName); // Thay thế bằng tên dự án thực tế nếu cần
-                        command.Parameters.AddWithValue("@ngaythuchien", AppData.ProjectTimeCreate); // Thay thế bằng tên dự án thực tế nếu cần
-                        await command.ExecuteNonQueryAsync();
-                    }
-
-
-
-
-                    // Chèn vào bảng Loi_DuAn
-                    string insertLoiDuAnQuery = @" INSERT INTO Loi_DuAn (mahieuduan, mahieu, tenloi, giaban, maduan)
-                                                   SELECT CONCAT(mahieu, '_', @maDuAn), mahieu, tenloi, giaban, @maDuAn
-                                                   FROM loi_duan";
-                    using (var command = new NpgsqlCommand(insertLoiDuAnQuery, connection))
+                    using (var command = new NpgsqlCommand(insertCongViec, connection))
                     {
                         command.Parameters.AddWithValue("@maDuAn", AppData.ProjectID);
                         await command.ExecuteNonQueryAsync();
@@ -461,15 +436,13 @@ namespace QuanLyMayMoc
                         DELETE FROM congviectamthoi WHERE maduan = @maDuAn;
                     ";
 
-                    // Chèn vào bảng LinhKien_DuAn
-                    string insertLinhKienDuAnQuery = @" INSERT INTO LinhKien_DuAn (mahieuduan, mahieu, tenlinhkien, giaban, maduan)
-                                                   SELECT CONCAT(mahieu,'_', @maDuAn), mahieu, tenlinhkien, giaban, @maDuAn
-                                                   FROM linhkien_duan";
-                    using (var command = new NpgsqlCommand(insertLinhKienDuAnQuery, connection))
+                    using (var command = new NpgsqlCommand(deleteTempTables, connection))
                     {
                         command.Parameters.AddWithValue("@maDuAn", AppData.ProjectID);
                         await command.ExecuteNonQueryAsync();
                     }
+
+
 
                 }
 
@@ -495,7 +468,7 @@ namespace QuanLyMayMoc
 
         private void MoDuAnClick(object sender, RoutedEventArgs e)
         {
-            this.FrameContent.Navigate(typeof(MoDuAn));
+
         }
     }
 }
