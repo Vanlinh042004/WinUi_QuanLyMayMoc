@@ -158,10 +158,10 @@ namespace QuanLyMayMoc
         {
             switch (col)
             {
-                case 0:
-                    int.TryParse(value, out int stt); // Chuyển đổi value thành int
-                    Stt = stt; // Gán giá trị cho Stt
-                    break;
+                //case 0:
+                //    int.TryParse(value, out int stt); // Chuyển đổi value thành int
+                //    Stt = stt; // Gán giá trị cho Stt
+                //    break;
 
 
                 case 2:

@@ -15,10 +15,10 @@ namespace QuanLyMayMoc
        
         public ObservableCollection<Task> GetTasks();
         public ObservableCollection<Task> GetTasksFromTemp();
-        public ObservableCollection<Task> GetTasksFromTemp(DateTime ngaythuchien);
+        public ObservableCollection<Task> GetTasksFromTemp(DateTime? ngaythuchien, string keyword);
         public List<string> GetCustomerNamesFromDatabase(string query);
         public ObservableCollection<Project> GetProjects();
-        public void AddTask(Task newTask);
+       
     }
 
 

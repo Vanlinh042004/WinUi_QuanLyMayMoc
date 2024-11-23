@@ -81,7 +81,7 @@ namespace QuanLyMayMoc
 };
 
         public ObservableCollection<Task> GetTasksFromTemp() { return services; }
-        public ObservableCollection<Task> GetTasksFromTemp(DateTime ngaythuchien) {  return services; }
+        public ObservableCollection<Task> GetTasksFromTemp(DateTime? ngaythuchien, string keyword) {  return services; }
 
         public ObservableCollection<Employee> GetEmployees()
         {
