@@ -54,7 +54,7 @@ namespace QuanLyMayMoc.ViewModel
             _dao = ServiceFactory.GetChildOf(typeof(IDao)) as IDao;
             Employees = _dao.GetEmployees();
             Tasks = _dao.GetTasks();
-            //LoadData(Ngay);
+           
 
         }
 
@@ -88,7 +88,7 @@ namespace QuanLyMayMoc.ViewModel
 
         public List<string> GetCustomerNames(string query)
         {
-            // Gọi phương thức trong PostgresSqlDao với ProjectID
+          
             return _dao.GetCustomerNamesFromDatabase(query);
         }
 
@@ -104,7 +104,7 @@ namespace QuanLyMayMoc.ViewModel
                 var selectedTask = CurrentSelectedTask; // Lưu lại dữ liệu trước khi xóa
 
 
-                // Perform deletion in database
+               
                 if (selectedTask != null)
                 {
                     try
@@ -113,12 +113,12 @@ namespace QuanLyMayMoc.ViewModel
                         {
                             await connection.OpenAsync();
 
-                            // Begin a transaction to ensure consistency
+                          
                             using (var transaction = await connection.BeginTransactionAsync())
                             {
                                 try
                                 {
-                                    // 1. Xóa công việc
+                                   
                                     string deleteQueryTemp = "DELETE FROM congviectamthoi WHERE macvduan = @macvduan";
                                     using (var command = new NpgsqlCommand(deleteQueryTemp, connection))
                                     {
@@ -132,7 +132,7 @@ namespace QuanLyMayMoc.ViewModel
                                         await command.ExecuteNonQueryAsync();
                                     }
 
-                                    // 2. Cập nhật lại `stt` của các công việc đứng sau
+                                  
                                     string updateQueryTemp = @"
                                 UPDATE congviectamthoi
                                 SET stt = stt - 1
@@ -155,12 +155,12 @@ namespace QuanLyMayMoc.ViewModel
                                         await command.ExecuteNonQueryAsync();
                                     }
 
-                                    // Commit the transaction
+                                  
                                     await transaction.CommitAsync();
                                 }
                                 catch
                                 {
-                                    // Rollback if something goes wrong
+                                   
                                     await transaction.RollbackAsync();
                                     throw;
                                 }
@@ -169,7 +169,7 @@ namespace QuanLyMayMoc.ViewModel
                     }
                     catch (Exception ex)
                     {
-                        // Handle exceptions
+                        
                         ContentDialog errorDialog = new ContentDialog
                         {
                             Title = "Lỗi",
@@ -179,11 +179,11 @@ namespace QuanLyMayMoc.ViewModel
                         };
 
                         await errorDialog.ShowAsync();
-                        return; // Thoát nếu lỗi xảy ra
+                        return; 
                     }
                 }
             }
-            CurrentSelectedTask = null; // Clear selection
+            CurrentSelectedTask = null; 
         }
         public void RemoveAllTask()
         {

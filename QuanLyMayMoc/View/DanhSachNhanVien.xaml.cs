@@ -59,10 +59,10 @@ namespace QuanLyMayMoc
 
         private async void OnSaveEmployeeClicked(object sender, RoutedEventArgs e)
         {
-            // Create a new employee object
+           
             var newEmployee = new Employee
             {
-                MaNhanVien = MaNhanVienInput.Text ?? "Không có",// Default to -1 if input is null or invalid
+                MaNhanVien = MaNhanVienInput.Text ?? "Không có",
                 HoTen = HoTenInput.Text ?? "Không rõ",
                 GioiTinh = (GioiTinhInput.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "Khác",
                 NgaySinh = NgaySinhInput.SelectedDate?.Date ?? DateTime.MinValue,
@@ -72,31 +72,31 @@ namespace QuanLyMayMoc
                 DiaChi = DiaChiInput.Text ?? "Không có",
                 TrangThai = TrangThaiInput.Text ?? "Không có",
                 PhongBan = PhongBanInput.Text ?? "Không có",
-                AnhDaiDien = string.IsNullOrWhiteSpace(AnhDaiDienInput.Text) ? "No Image" : AnhDaiDienInput.Text, // Default if no image provided
+                AnhDaiDien = string.IsNullOrWhiteSpace(AnhDaiDienInput.Text) ? "No Image" : AnhDaiDienInput.Text, 
                 MaDuAn = AppData.ProjectID,
             };
 
-            // Add the new employee to the ViewModel
+           
             ViewModel.Employees.Add(newEmployee);
 
-            // Connection string for the database
+           
             string connectionString = "Host=127.0.0.1;Port=5432;Username=postgres;Password=1234;Database=postgres";
 
-            // SQL query to insert a new employee into the database
+           
             string insertEmployeeQuery = @"
-        INSERT INTO nhanvientamthoi 
-        (manvduan,manv, hoten, gioitinh, ngaysinh, diachi, sdt, email,phongban, cccd,trangthai,ngaykyhopdong,maduan  ) 
-        VALUES 
-        (@manvduan,@manv, @hoten, @gioitinh, @ngaysinh, @diachi, @sdt, @email,@phongban, @cccd, @trangthai,@ngaykyhopdong,@maduan)";
+                INSERT INTO nhanvientamthoi 
+                (manvduan,manv, hoten, gioitinh, ngaysinh, diachi, sdt, email,phongban, cccd,trangthai,ngaykyhopdong,maduan  ) 
+                VALUES 
+                (@manvduan,@manv, @hoten, @gioitinh, @ngaysinh, @diachi, @sdt, @email,@phongban, @cccd, @trangthai,@ngaykyhopdong,@maduan)";
 
             try
             {
-                // Open a connection to the database
+               
                 using (var connection = new NpgsqlConnection(connectionString))
                 {
                     await connection.OpenAsync();
 
-                    // Prepare the SQL command with parameters
+                  
                     using (var command = new NpgsqlCommand(insertEmployeeQuery, connection))
                     {
                         command.Parameters.AddWithValue("@manvduan", newEmployee.MaNhanVien + AppData.ProjectID);
@@ -111,25 +111,25 @@ namespace QuanLyMayMoc
                         command.Parameters.AddWithValue("@cccd", newEmployee.CCCD);
                         command.Parameters.AddWithValue("@trangthai", newEmployee.TrangThai);
                         command.Parameters.AddWithValue("@ngaykyhopdong", newEmployee.NgayKyHD);
-                        // command.Parameters.AddWithValue("@anhdaidien", newEmployee.AnhDaiDien);
+                      
                         command.Parameters.AddWithValue("@maduan", newEmployee.MaDuAn);
 
-                        // Execute the SQL command
+                     
                         await command.ExecuteNonQueryAsync();
                     }
-                    //}
+                   
 
-                    // Close the popup after successful save
+                  
                     AddEmployeePopup.IsOpen = false;
 
-                    // Optionally, show a confirmation message
+                   
                     ShowSuccessMessage("Nhân viên được lưu  thành công");
                 }
             }
 
             catch (Exception ex)
             {
-                // Handle any errors during the database operation
+               
                 ShowNotSuccessMessage("Nhân không được lưu thành công.");
             }
         
@@ -142,7 +142,7 @@ namespace QuanLyMayMoc
                 Title = "Thành công",
                 Content = message,
                 CloseButtonText = "OK",
-                XamlRoot = this.XamlRoot // Set the XamlRoot here too
+                XamlRoot = this.XamlRoot 
             };
 
             await successDialog.ShowAsync();
@@ -154,7 +154,7 @@ namespace QuanLyMayMoc
                 Title = "Fail",
                 Content = message,
                 CloseButtonText = "OK",
-                XamlRoot = this.XamlRoot // Set the XamlRoot here too
+                XamlRoot = this.XamlRoot 
             };
 
             await successDialog.ShowAsync();

@@ -45,34 +45,34 @@ namespace QuanLyMayMoc
         public DichVuTheoThang()
         {
             this.InitializeComponent();
-            HideFirstRow(); // Thêm dòng đầu tiên
+            HideFirstRow(); 
             ViewModel = new MainViewModel();
 
         }
         private void HideFirstRow()
         {
-            // Tạo một hàng ẩn ở vị trí row 0
+            
             InputGrid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
 
-            // Tạo một phần tử rỗng và ẩn nó
+         
             var emptyElement = new TextBox
             {
-                Visibility = Visibility.Collapsed // Ẩn phần tử ở dòng đầu tiên
+                Visibility = Visibility.Collapsed 
             };
 
-            // Đặt phần tử vào row 0 và column 0 (có thể là dòng tiêu đề hoặc dòng không mong muốn)
+           
             Grid.SetRow(emptyElement, 0);
             Grid.SetColumn(emptyElement, 0);
             InputGrid.Children.Add(emptyElement);
         }
-        // Thêm dòng mới vào ExcelGrid
+      
         private void AddNewRow()
         {
             var newTask = new Task();
 
-            // Lưu trữ đối tượng Task mới vào Dictionary
+           
             rowTaskDictionary[currentRow] = newTask;
-            // Thêm dòng mới vào Grid
+           
             InputGrid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
 
             for (int col = 1; col < Columns; col++)
@@ -81,7 +81,6 @@ namespace QuanLyMayMoc
 
 
 
-                // Example usage for DatePicker and TextBox
                 if (col == 1)
                 {
                     var datePicker = new DatePicker
@@ -93,7 +92,7 @@ namespace QuanLyMayMoc
                         BorderBrush = new SolidColorBrush(Colors.Black),
                         BorderThickness = new Thickness(1),
                     };
-                    AddHoverEffect(datePicker, Colors.Red, Colors.Black); // Reuse hover effect
+                    AddHoverEffect(datePicker, Colors.Red, Colors.Black); 
                     element = datePicker;
                 }
                 else if (col==2)
@@ -123,7 +122,7 @@ namespace QuanLyMayMoc
                         BorderBrush = new SolidColorBrush(Colors.Black),
                         BorderThickness = new Thickness(1)
                     };
-                    AddHoverEffect(textBox, Colors.Red, Colors.Black); // Reuse hover effect
+                    AddHoverEffect(textBox, Colors.Red, Colors.Black); 
                     element = textBox;
                 }
 
@@ -176,35 +175,35 @@ namespace QuanLyMayMoc
 
             AddNewRow();
         }
-        // Add event handlers for TextBox and DatePicker hover effects
+       
         private void AddHoverEffect(Control controlElement, Color hoverColor, Color normalColor)
         {
-            // Handle PointerEntered event (hover start)
+           
             controlElement.PointerMoved += (sender, e) =>
             {
                 if (controlElement is DatePicker datePicker)
                 {
-                    datePicker.BorderBrush = new SolidColorBrush(hoverColor);  // Change to hover color
+                    datePicker.BorderBrush = new SolidColorBrush(hoverColor);  
                 }
                 else if (controlElement is TextBox textBox)
                 {
-                    textBox.Foreground = new SolidColorBrush(hoverColor);  // Change to hover color
+                    textBox.Foreground = new SolidColorBrush(hoverColor);  
                 }
-                //controlElement.BorderBrush = new SolidColorBrush(hoverColor);  // Change to hover color
+              
             };
 
-            // Handle PointerExited event (hover end)
+         
             controlElement.PointerExited += (sender, e) =>
             {
                 if (controlElement is DatePicker datePicker)
                 {
-                    datePicker.BorderBrush = new SolidColorBrush(normalColor);  // Change back to normal color
+                    datePicker.BorderBrush = new SolidColorBrush(normalColor);  
                 }
                 else if (controlElement is TextBox textBox)
                 {
-                    textBox.Foreground = new SolidColorBrush(normalColor);  // Change back to normal color
+                    textBox.Foreground = new SolidColorBrush(normalColor);  
                 }
-                //controlElement.BorderBrush = new SolidColorBrush(normalColor);  // Change back to normal color
+               
             };
         }
         private void OnTaskTapped(object sender, TappedRoutedEventArgs e)
@@ -214,55 +213,53 @@ namespace QuanLyMayMoc
             {
                 ViewModel.CurrentSelectedTask = selectedTask;
             }
-            // Lấy Grid (hoặc sender) và chuyển đổi thành Task
+          
             var grid = sender as Grid;
             var service = grid.DataContext as Task;
 
-            // Đặt lại trạng thái IsSelected cho tất cả các dòng
+          
             foreach (var item in ViewModel.Tasks)
             {
-                item.IsSelected = false; // Bỏ chọn các dòng khác
+                item.IsSelected = false; 
             }
 
-            // Đánh dấu dòng đã chọn
+          
             service.IsSelected = true;
 
-            // Cập nhật lại danh sách để hiển thị sự thay đổi
-            //  ViewModel.OnPropertyChanged(nameof(ViewModel.Tasks)); // Nếu cần
         }
 
         private async void OnDeleteRowDataClick(object sender, RoutedEventArgs e)
         {
-            // Create the confirmation dialog
+           
             ContentDialog deleteDialog = new ContentDialog
             {
                 Title = "Xác nhận xóa",
                 Content = "Bạn có chắc chắn muốn xóa dòng này?",
                 PrimaryButtonText = "OK",
                 CloseButtonText = "Hủy",
-                XamlRoot = this.XamlRoot // Set the XamlRoot here
+                XamlRoot = this.XamlRoot 
             };
 
-            // Show the dialog and get the result
+           
             ContentDialogResult result = await deleteDialog.ShowAsync();
 
-            // Check if the user clicked OK
+          
             if (result == ContentDialogResult.Primary)
             {
-                // Perform deletion in ViewModel
+               
                
                 ViewModel.RemoveSelectedTask();
 
-                // Perform deletion in database
+               
               
 
-                // Show success message
+              
                 ContentDialog successDialog = new ContentDialog
                 {
                     Title = "Xóa thành công",
                     Content = "Dòng đã được xóa thành công.",
                     CloseButtonText = "OK",
-                    XamlRoot = this.XamlRoot // Set the XamlRoot here too
+                    XamlRoot = this.XamlRoot 
                 };
 
                 await successDialog.ShowAsync();
@@ -274,28 +271,28 @@ namespace QuanLyMayMoc
 
         private async void OnDeleteAllRowDataClick(object sender, RoutedEventArgs e)
         {
-            // Create the confirmation dialog
+           
             ContentDialog deleteDialog = new ContentDialog
             {
                 Title = "Xác nhận xóa",
                 Content = "Bạn có chắc chắn muốn xóa tất cả dòng?",
                 PrimaryButtonText = "OK",
                 CloseButtonText = "Hủy",
-                XamlRoot = this.XamlRoot // Set the XamlRoot here
+                XamlRoot = this.XamlRoot 
             };
 
-            // Show the dialog and get the result
+         
             ContentDialogResult result = await deleteDialog.ShowAsync();
 
-            // Check if the user clicked OK
+          
             if (result == ContentDialogResult.Primary)
             {
                 try
                 {
-                    // Perform deletion in ViewModel
+                   
                     ViewModel.RemoveAllTask();
 
-                    // Perform deletion in the database
+                   
                     string deleteQuery = "DELETE FROM congviectamthoi";
 
                     using (var connection = new NpgsqlConnection(connectionString))
@@ -308,20 +305,20 @@ namespace QuanLyMayMoc
                         }
                     }
 
-                    // Show success message
+                   
                     ContentDialog successDialog = new ContentDialog
                     {
                         Title = "Xóa thành công",
                         Content = "Tất cả các dòng đã được xóa thành công trong cơ sở dữ liệu và giao diện.",
                         CloseButtonText = "OK",
-                        XamlRoot = this.XamlRoot // Set the XamlRoot here too
+                        XamlRoot = this.XamlRoot 
                     };
 
                     await successDialog.ShowAsync();
                 }
                 catch (Exception ex)
                 {
-                    // Handle exceptions
+                   
                     ContentDialog errorDialog = new ContentDialog
                     {
                         Title = "Lỗi",
@@ -354,13 +351,8 @@ namespace QuanLyMayMoc
                         .FirstOrDefault(e => Grid.GetRow(e) == rowIndex && Grid.GetColumn(e) == col);
                     if (element is AutoSuggestBox autoSuggestBox)
                     {
-                        // Kiểm tra xem giá trị có tồn tại trong danh sách gợi ý hay không
-                        //if (string.IsNullOrWhiteSpace(autoSuggestBox.Text) || !currentSuggestions.Contains(autoSuggestBox.Text))
-                        //{
-                        //    ShowNotSuccessMessage($"Họ tên khách hàng không hợp lệ tại hàng {rowIndex + 1}. Vui lòng chọn từ danh sách.");
-                        //    return; // Ngừng lưu nếu dữ liệu không hợp lệ
-                        //}
-                        service.HoTenKH = autoSuggestBox.Text; // Gán dữ liệu hợp lệ
+                       
+                        service.HoTenKH = autoSuggestBox.Text; 
                     }
 
                     else if (element is TextBox textBox)
@@ -386,13 +378,13 @@ namespace QuanLyMayMoc
             {
                 entry.Value.MaDuAn = AppData.ProjectID;
 
-                // Truy vấn giá trị stt lớn nhất từ hai bảng congviectamthoi và congviec
+              
                 int maxStt = 0;
                 using (var connection = new NpgsqlConnection(connectionString))
                 {
                     await connection.OpenAsync();
 
-                    // Truy vấn stt lớn nhất từ congviectamthoi và congviec
+                  
                     string maxSttQuery = @"
                 SELECT COALESCE(MAX(stt), 0)
                 FROM (
@@ -408,7 +400,7 @@ namespace QuanLyMayMoc
                     }
                 }
 
-                // Gán stt mới = maxStt + 1
+             
                 int stt = maxStt + 1;
                 entry.Value.Stt = stt;
 
@@ -474,7 +466,7 @@ namespace QuanLyMayMoc
                 Title = "Thành công",
                 Content = message,
                 CloseButtonText = "OK",
-                XamlRoot = this.XamlRoot // Set the XamlRoot here too
+                XamlRoot = this.XamlRoot 
             };
 
             await successDialog.ShowAsync();
@@ -486,7 +478,7 @@ namespace QuanLyMayMoc
                 Title = "Thất bại",
                 Content = message,
                 CloseButtonText = "OK",
-                XamlRoot = this.XamlRoot // Set the XamlRoot here too
+                XamlRoot = this.XamlRoot 
             };
 
             await successDialog.ShowAsync();
@@ -499,11 +491,11 @@ namespace QuanLyMayMoc
                 DateTime selectedDate = filterDatePicker.Date.Date; // Lấy giá trị ngày đã chọn
                 string keyword = SearchTextBox.Text; // Lấy từ khóa từ hộp tìm kiếm
 
-                ViewModel.LoadDataFilter(selectedDate, keyword); // Gọi hàm ViewModel để tải dữ liệu
+                ViewModel.LoadDataFilter(selectedDate, keyword); 
             }
             else
             {
-                ShowNotSuccessMessage("Vui lòng chọn ngày!"); // Hiển thị thông báo khi ngày chưa được chọn
+                ShowNotSuccessMessage("Vui lòng chọn ngày!"); 
             }
         }
 
@@ -520,10 +512,10 @@ namespace QuanLyMayMoc
                 ? filterDatePicker.SelectedDate.Value.Date // Lấy giá trị ngày nếu có
                 : DateTime.MinValue; // Ngày mặc định nếu không chọn
 
-            // Lấy từ khóa tìm kiếm từ TextBox
+           
             string keyword = SearchTextBox.Text;
 
-            // Gọi hàm LoadDataFilter với giá trị ngày và từ khóa
+          
             ViewModel.LoadDataFilter(selectedDate, keyword);
         }
 
