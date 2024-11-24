@@ -54,7 +54,8 @@ namespace QuanLyMayMoc.ViewModel
             _dao = ServiceFactory.GetChildOf(typeof(IDao)) as IDao;
             Employees = _dao.GetEmployees();
             Tasks = _dao.GetTasks();
-           
+            linhkien = _dao.GetAllLinhKien();
+
 
         }
 
@@ -199,5 +200,11 @@ namespace QuanLyMayMoc.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+
+
+        public ObservableCollection<Linhkien> linhkien
+        {
+            get; set;
+        }
     }
 }

@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace QuanLyMayMoc.Model
 {
-    public class LinhKien : INotifyPropertyChanged
+    public class Linhkien : INotifyPropertyChanged
     {
         private string _masp;
         private string _tensp;
-        private string _giaban;
+        private double _giaban;
 
 
         public string MaSanPham
@@ -25,7 +25,7 @@ namespace QuanLyMayMoc.Model
             get => _tensp;
             set { _tensp = value; OnPropertyChanged(nameof(TenSanPham)); }
         }
-        public string GiaBan
+        public double GiaBan
         {
             get => _giaban;
             set { _giaban = value; OnPropertyChanged(nameof(GiaBan)); }

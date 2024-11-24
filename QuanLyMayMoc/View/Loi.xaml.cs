@@ -45,7 +45,7 @@ namespace QuanLyMayMoc
             string dbString = "SELECT mahieu, tenloi, giaban FROM loi";
             DataTable InforMay = ExecuteQuery(dbString);
             PopulateGrid(InforMay);
-            SaveToLoiTam(); // Lưu dữ liệu từ bảng loi vào bảng loi_Tam
+            //SaveToLoiTam(); // Lưu dữ liệu từ bảng loi vào bảng loi_Tam
 
         }
 
@@ -199,10 +199,10 @@ namespace QuanLyMayMoc
 
         private void SaveToDatabase(string value)
         {
-            string query = $"UPDATE Tbl_MTC_ChiTietGiaMay" +
-                           $"SET Ten = 'Ha Loi'" +
-                           $"WHERE MaHieu = @MaHieu";
-            DataProvider.InstanceTHDA.ExecuteNonQuery(query, parameter: new object[] { value });
+            //string query = $"UPDATE Tbl_MTC_ChiTietGiaMay" +
+            //               $"SET Ten = 'Ha Loi'" +
+            //               $"WHERE MaHieu = @MaHieu";
+            //DataProvider.InstanceTHDA.ExecuteNonQuery(query, parameter: new object[] { value });
         }
 
         private void AddHoverEffect(Control controlElement, Color hoverColor, Color normalColor)
@@ -317,10 +317,10 @@ namespace QuanLyMayMoc
 
         private void DeleteRowFromDatabase(string maSanPham)
         {
-            string query = $"DELETE" +
-                             $" FROM Tbl_MTC_ChiTietGiaMay " +
-                             $" WHERE MaHieu = @MaHieu";
-            DataProvider.InstanceTHDA.ExecuteNonQuery(query, parameter: new object[] { maSanPham });
+            //string query = $"DELETE" +
+            //                 $" FROM Tbl_MTC_ChiTietGiaMay " +
+            //                 $" WHERE MaHieu = @MaHieu";
+            //DataProvider.InstanceTHDA.ExecuteNonQuery(query, parameter: new object[] { maSanPham });
         }
 
         // Delete all row
@@ -349,16 +349,10 @@ namespace QuanLyMayMoc
         }
         private void DeleteAllRowFromDatabase()
         {
-            string query = $"DELETE" +
-                           $" FROM Tbl_MTC_ChiTietGiaMay ";
-            DataProvider.InstanceTHDA.ExecuteNonQuery(query);
+            //string query = $"DELETE" +
+            //               $" FROM Tbl_MTC_ChiTietGiaMay ";
+            //DataProvider.InstanceTHDA.ExecuteNonQuery(query);
         }
     }
-    //public class ServiceData_Loi
-    //{
-    //    public string MASP { get; set; }
-    //    public string TENSP { get; set; }
-    //    public string GIA { get; set; }
-    //}
 }
 

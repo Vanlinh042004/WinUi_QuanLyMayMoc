@@ -362,15 +362,6 @@ namespace QuanLyMayMoc
             return tasks;
         }
 
-
-
-
-
-
-
-      
-       
-
         // Lấy danh sách tất cả các dự án
         public ObservableCollection<Project> GetProjects()
         {
@@ -493,6 +484,37 @@ namespace QuanLyMayMoc
             return customerNames; // Trả về danh sách tên khách hàng
         }
 
+
+        public ObservableCollection<Linhkien> GetAllLinhKien()
+        {
+            string query = @"SELECT mahieu, tenlinhkien, giaban
+                             FROM linhkien";
+
+            ObservableCollection<Linhkien> linhkiens = new ObservableCollection<Linhkien>();
+
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            linhkiens.Add(new Linhkien
+                            {
+                                MaSanPham = reader.IsDBNull(0) ? null : reader.GetString(0),
+                                TenSanPham = reader.IsDBNull(1) ? null : reader.GetString(1),
+                                GiaBan = reader.IsDBNull(2) ? 0 : reader.GetDouble(2)
+                            }); 
+
+                        }
+                    }
+                }
+            }
+
+            return linhkiens;
+        }   
     }
 
 }
