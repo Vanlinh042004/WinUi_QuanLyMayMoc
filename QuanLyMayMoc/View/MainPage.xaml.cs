@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -14,6 +15,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System.Text.RegularExpressions;
 using Npgsql;
+using QuanLyMayMoc.ViewModel;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -25,14 +27,18 @@ namespace QuanLyMayMoc
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        public string maDuAn;
-        public string projectName;
-        public string connectionString = "Host=127.0.0.1;Port=5432;Username=postgres;Password=1234;Database=machine";
-
+       
+        private string maDuAn;
+        private string projectName;
+        public Project CurrentProject { get; set; }
+        public MainViewModel ViewModel
+        {
+            get; set;
+        }
         public MainPage()
         {
             this.InitializeComponent();
-
+            ViewModel = new MainViewModel();
             // disable the button "DichVuTheoThang"
 
             DichVuTheoThang.IsEnabled = false;
@@ -117,36 +123,27 @@ namespace QuanLyMayMoc
                     AppData.ProjectID = maDuAn;
                     AppData.ProjectName = projectName;
                     AppData.ProjectTimeCreate = DateTime.Now;
-                    // Luu du an vao bang duan_tam
+                    CurrentProject = new Project
+                    {
+                        ID = AppData.ProjectID,
+                        Name = AppData.ProjectName,
+                        TimeCreate = AppData.ProjectTimeCreate
+                    };
                     try
                     {
-                        using (var connection = new NpgsqlConnection(connectionString))
-                        {
-                            await connection.OpenAsync();
-                            {
-                                // Nếu dự án chưa tồn tại, thêm vào bảng `duan_tam`
-                                string insertDuanQuery = "INSERT INTO duan_tam (maduan, tenduan, ngaythuchien) VALUES (@maDuAn, @tenDuAn, @ngayThucHien)";
-                                using (var command = new NpgsqlCommand(insertDuanQuery, connection))
-                                {
-                                    command.Parameters.AddWithValue("@maDuAn", AppData.ProjectID);
-                                    command.Parameters.AddWithValue("@tenDuAn", AppData.ProjectName);
-                                    command.Parameters.AddWithValue("@ngayThucHien", AppData.ProjectTimeCreate);
-                                    await command.ExecuteNonQueryAsync();
-                                }
-                            }
-                        }
+                        ViewModel.InsertProjectTemp(CurrentProject);
+
+
                     }
                     catch (Exception ex)
                     {
-                        await new ContentDialog
+                        var dialog = new ContentDialog
                         {
                             Title = "Lỗi",
-                            Content = $"Có lỗi xảy ra khi tạo dự án: {ex.Message}",
-                            CloseButtonText = "OK",
-                            XamlRoot = this.XamlRoot
-                        }.ShowAsync();
-                    }   
-
+                            Content = $"Có lỗi xảy ra khi lưu dự án: {ex.Message}",
+                            CloseButtonText = "OK"
+                        };
+                    }
                 }
                 else
                 {
@@ -189,162 +186,10 @@ namespace QuanLyMayMoc
                 }.ShowAsync();
                 return;
             }
-
-
             try
             {
-                using (var connection = new NpgsqlConnection(connectionString))
-                {
-                    await connection.OpenAsync();
-
-                    // Kiểm tra xem dự án đã tồn tại hay chưa
-                    string checkDuAnQuery = "SELECT COUNT(1) FROM duan WHERE maduan = @maDuAn";
-                    long duAnExists;
-
-                    using (var command = new NpgsqlCommand(checkDuAnQuery, connection))
-                    {
-                        command.Parameters.AddWithValue("@maDuAn", AppData.ProjectID);
-                        duAnExists = (long)await command.ExecuteScalarAsync();
-                    }
-
-                    // Nếu cần dùng kiểu `int` ở các đoạn code khác, bạn có thể chuyển đổi về `int` an toàn:
-                    int duAnExistsAsInt = (int)duAnExists;
-
-                    if (duAnExists == 0)
-                    {
-                        // Nếu dự án chưa tồn tại, thêm vào bảng `duan`
-                        string insertDuanQuery = "INSERT INTO duan (maduan, tenduan, ngaythuchien) VALUES (@maDuAn, @tenDuAn, @ngayThucHien)";
-                        using (var command = new NpgsqlCommand(insertDuanQuery, connection))
-                        {
-                            command.Parameters.AddWithValue("@maDuAn", AppData.ProjectID);
-                            command.Parameters.AddWithValue("@tenDuAn", AppData.ProjectName);
-                            command.Parameters.AddWithValue("@ngayThucHien", AppData.ProjectTimeCreate);
-                            await command.ExecuteNonQueryAsync();
-                        }
-                    }
-
-                    // Dù dự án đã tồn tại hay mới được thêm, tiến hành insert dữ liệu từ các bảng tạm thời
-                    // Them du lieu tu linhkien_tam vào linhkien_duan
-                    string insertLinhKienDuAnQuery = @" INSERT INTO LinhKien_DuAn (mahieuduan, mahieu, tenlinhkien, giaban, maduan)
-                                                   SELECT CONCAT(mahieu,'_', @maDuAn), mahieu, tenlinhkien, giaban, @maDuAn
-                                                   FROM linhkien_tam";
-                    using (var command = new NpgsqlCommand(insertLinhKienDuAnQuery, connection))
-                    {
-                        command.Parameters.AddWithValue("@maDuAn", AppData.ProjectID);
-                        await command.ExecuteNonQueryAsync();
-                    }
-
-                    // Thêm dữ liệu từ nhanvientamthoi vào nhanvien
-                    string insertNhanVien = @"
-                        INSERT INTO nhanvien (
-                            manvduan,
-                            manv,
-                            hoten,
-                            dantoc,
-                            gioitinh,
-                            ngaysinh,
-                            diachi,
-                            sdt,
-                            email,
-                            phongban,
-                            cccd,
-                            trangthai,
-                            ngaykyhopdong,
-                            maduan
-                        )
-                        SELECT 
-                            manvduan,
-                            manv,
-                            hoten,
-                            dantoc,
-                            gioitinh,
-                            ngaysinh,
-                            diachi,
-                            sdt,
-                            email,
-                            phongban,
-                            cccd,
-                            trangthai,
-                            ngaykyhopdong,
-                            maduan
-                        FROM nhanvientamthoi
-                        WHERE maduan = @maDuAn;
-                    ";
-
-                    using (var command = new NpgsqlCommand(insertNhanVien, connection))
-                    {
-                        command.Parameters.AddWithValue("@maDuAn", AppData.ProjectID);
-                        await command.ExecuteNonQueryAsync();
-                    }
-
-                    // Thêm dữ liệu từ congviectamthoi vào congviec
-                    string insertCongViec = @"
-                        INSERT INTO congviec (
-                            macvduan,
-                            stt,
-                            tendichvu,
-                            ngaythuchien,
-                            hotenkh,
-                            sdt,
-                            diachi,
-                            manv,
-                            tennv,
-                            malinhkien,
-                            tenlinhkien,
-                            soluonglinhkien,
-                            maloi,
-                            tenloi,
-                            soluongloi,
-                            phidichvu,
-                            ghichu,
-                            maduan
-                        )
-                        SELECT 
-                            macvduan,
-                            stt,
-                            tendichvu,
-                            ngaythuchien,
-                            hotenkh,
-                            sdt,
-                            diachi,
-                            manv,
-                            tennv,
-                            malinhkien,
-                            tenlinhkien,
-                            soluonglinhkien,
-                            maloi,
-                            tenloi,
-                            soluongloi,
-                            phidichvu,
-                            ghichu,
-                            maduan
-                        FROM congviectamthoi
-                        WHERE maduan = @maDuAn;
-                    ";
-
-                    using (var command = new NpgsqlCommand(insertCongViec, connection))
-                    {
-                        command.Parameters.AddWithValue("@maDuAn", AppData.ProjectID);
-                        await command.ExecuteNonQueryAsync();
-                    }
-
-                    // Xóa tất cả các dòng trong nhanvientamthoi và congviectamthoi
-                    string deleteTempTables = @"
-                            DELETE FROM nhanvientamthoi WHERE maduan = @maDuAn;
-                            DELETE FROM congviectamthoi WHERE maduan = @maDuAn;
-                            DELETE FROM linhkienduantam
-                        ";
-
-                    using (var command = new NpgsqlCommand(deleteTempTables, connection))
-                    {
-                        command.Parameters.AddWithValue("@maDuAn", AppData.ProjectID);
-                        await command.ExecuteNonQueryAsync();
-                    }
-
-
-
-                }
-
+            ViewModel.InsertProject(CurrentProject);
+            ViewModel.InsertAllDataFromTemp(CurrentProject.ID);
                 await new ContentDialog
                 {
                     Title = "Thành công",
@@ -363,6 +208,9 @@ namespace QuanLyMayMoc
                     XamlRoot = this.XamlRoot
                 }.ShowAsync();
             }
+
+
+
         }
 
         private void MoDuAnClick(object sender, RoutedEventArgs e)

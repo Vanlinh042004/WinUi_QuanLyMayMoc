@@ -41,6 +41,7 @@ namespace QuanLyMayMoc
 
             // Initialize the list with sample data
             ViewModel = new MainViewModel();
+            
         }
 
 
@@ -59,7 +60,7 @@ namespace QuanLyMayMoc
 
         private async void OnSaveEmployeeClicked(object sender, RoutedEventArgs e)
         {
-           
+
             var newEmployee = new Employee
             {
                 MaNhanVien = MaNhanVienInput.Text ?? "Không có",
@@ -72,95 +73,38 @@ namespace QuanLyMayMoc
                 DiaChi = DiaChiInput.Text ?? "Không có",
                 TrangThai = TrangThaiInput.Text ?? "Không có",
                 PhongBan = PhongBanInput.Text ?? "Không có",
-                AnhDaiDien = string.IsNullOrWhiteSpace(AnhDaiDienInput.Text) ? "No Image" : AnhDaiDienInput.Text, 
+                AnhDaiDien = string.IsNullOrWhiteSpace(AnhDaiDienInput.Text) ? "No Image" : AnhDaiDienInput.Text,
                 MaDuAn = AppData.ProjectID,
             };
-
-           
-            ViewModel.Employees.Add(newEmployee);
-
-           
-            string connectionString = "Host=127.0.0.1;Port=5432;Username=postgres;Password=1234;Database=postgres";
-
-           
-            string insertEmployeeQuery = @"
-                INSERT INTO nhanvientamthoi 
-                (manvduan,manv, hoten, gioitinh, ngaysinh, diachi, sdt, email,phongban, cccd,trangthai,ngaykyhopdong,maduan  ) 
-                VALUES 
-                (@manvduan,@manv, @hoten, @gioitinh, @ngaysinh, @diachi, @sdt, @email,@phongban, @cccd, @trangthai,@ngaykyhopdong,@maduan)";
-
             try
             {
-               
-                using (var connection = new NpgsqlConnection(connectionString))
+                ViewModel.Employees.Add(newEmployee);
+                ViewModel.InsertToEmployees(newEmployee);
+                AddEmployeePopup.IsOpen = false;
+                await new ContentDialog
                 {
-                    await connection.OpenAsync();
+                    Title = "Thành công",
+                    Content = "Nhân viên đã được lưu thành công.",
+                    CloseButtonText = "OK",
+                    XamlRoot = this.XamlRoot
+                }.ShowAsync();
 
-                  
-                    using (var command = new NpgsqlCommand(insertEmployeeQuery, connection))
-                    {
-                        command.Parameters.AddWithValue("@manvduan", newEmployee.MaNhanVien + AppData.ProjectID);
-                        command.Parameters.AddWithValue("@manv", newEmployee.MaNhanVien);
-                        command.Parameters.AddWithValue("@hoten", newEmployee.HoTen);
-                        command.Parameters.AddWithValue("@gioitinh", newEmployee.GioiTinh);
-                        command.Parameters.AddWithValue("@ngaysinh", newEmployee.NgaySinh);
-                        command.Parameters.AddWithValue("@diachi", newEmployee.DiaChi);
-                        command.Parameters.AddWithValue("@sdt", newEmployee.SoDienThoai);
-                        command.Parameters.AddWithValue("@email", newEmployee.Email);
-                        command.Parameters.AddWithValue("@phongban", newEmployee.PhongBan);
-                        command.Parameters.AddWithValue("@cccd", newEmployee.CCCD);
-                        command.Parameters.AddWithValue("@trangthai", newEmployee.TrangThai);
-                        command.Parameters.AddWithValue("@ngaykyhopdong", newEmployee.NgayKyHD);
-                      
-                        command.Parameters.AddWithValue("@maduan", newEmployee.MaDuAn);
-
-                     
-                        await command.ExecuteNonQueryAsync();
-                    }
-                   
-
-                  
-                    AddEmployeePopup.IsOpen = false;
-
-                   
-                    ShowSuccessMessage("Nhân viên được lưu  thành công");
-                }
             }
 
             catch (Exception ex)
             {
-               
-                ShowNotSuccessMessage("Nhân không được lưu thành công.");
+                await new ContentDialog
+                {
+                    Title = "Lỗi",
+                    Content = $"Có lỗi xảy ra khi lưu nhân viên: {ex.Message}",
+                    CloseButtonText = "OK",
+                    XamlRoot = this.XamlRoot
+                }.ShowAsync();
             }
-        
-    }
-        
-        private async void ShowSuccessMessage(string message)
-        {
-            ContentDialog successDialog = new ContentDialog
-            {
-                Title = "Thành công",
-                Content = message,
-                CloseButtonText = "OK",
-                XamlRoot = this.XamlRoot 
-            };
 
-            await successDialog.ShowAsync();
         }
-        private async void ShowNotSuccessMessage(string message)
-        {
-            ContentDialog successDialog = new ContentDialog
-            {
-                Title = "Fail",
-                Content = message,
-                CloseButtonText = "OK",
-                XamlRoot = this.XamlRoot 
-            };
 
-            await successDialog.ShowAsync();
-        }
     }
-
 }
 
 
