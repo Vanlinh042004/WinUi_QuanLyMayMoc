@@ -55,6 +55,7 @@ namespace QuanLyMayMoc.ViewModel
             Employees = _dao.GetEmployees();
             Tasks = _dao.GetTasks();
             linhkien = _dao.GetAllLinhKien();
+            ListLoi = _dao.GetAllLoi();
 
 
         }
@@ -203,6 +204,10 @@ namespace QuanLyMayMoc.ViewModel
 
 
         public ObservableCollection<Linhkien> linhkien
+        {
+            get; set;
+        }
+        public ObservableCollection<Loisp> ListLoi
         {
             get; set;
         }

@@ -224,16 +224,42 @@ namespace QuanLyMayMoc
                     }
 
                     // Dù dự án đã tồn tại hay mới được thêm, tiến hành insert dữ liệu từ các bảng tạm thời
-                    // Them du lieu tu linhkien_tam vào linhkien_duan
-                    string insertLinhKienDuAnQuery = @" INSERT INTO LinhKien_DuAn (mahieuduan, mahieu, tenlinhkien, giaban, maduan)
-                                                   SELECT CONCAT(mahieu,'_', @maDuAn), mahieu, tenlinhkien, giaban, @maDuAn
-                                                   FROM linhkien_tam";
-                    using (var command = new NpgsqlCommand(insertLinhKienDuAnQuery, connection))
+                    // Them du lieu tu linhkienduantam vào linhkien_duan
+                    // Xóa dữ liệu cũ trong bảng linhkien_duan
+                    string deleteLinhKienDuAnQuery = @" DELETE 
+                                                   FROM linhkien_duan
+                                                   WHERE maduan = @maduan";
+                    using (var command = new NpgsqlCommand(deleteLinhKienDuAnQuery, connection))
                     {
                         command.Parameters.AddWithValue("@maDuAn", AppData.ProjectID);
                         await command.ExecuteNonQueryAsync();
                     }
-
+                    // Thêm dữ liệu từ linhkienduantam vào linhkien_duan
+                    string insertLinhKienDuAnQuery = @" INSERT INTO LinhKien_DuAn (mahieuduan, mahieu, tenlinhkien, giaban, maduan)
+                                                   SELECT mahieuduan, mahieu, tenlinhkien, giaban, maduan
+                                                   FROM linhkienduantam";
+                    using (var command = new NpgsqlCommand(insertLinhKienDuAnQuery, connection))
+                    {
+                        await command.ExecuteNonQueryAsync();
+                    }
+                    // Them du lieu tu loiduantam vào loisp_duan
+                    // Xóa dữ liệu cũ trong bảng loi_duan
+                    string deleteLoiDuAnQuery = @" DELETE 
+                                                   FROM loi_duan
+                                                   WHERE maduan = @maduan";
+                    using (var command = new NpgsqlCommand(deleteLoiDuAnQuery, connection))
+                    {
+                        command.Parameters.AddWithValue("@maDuAn", AppData.ProjectID);
+                        await command.ExecuteNonQueryAsync();
+                    }
+                    // Thêm dữ liệu từ loiduantam vào loi_duan
+                    string insertLoiDuAnQuery = @" INSERT INTO Loi_DuAn (mahieuduan, mahieu, tenloi, giaban, maduan)
+                                                   SELECT mahieuduan, mahieu, tenloi, giaban, maduan
+                                                   FROM loiduantam";
+                    using (var command = new NpgsqlCommand(insertLoiDuAnQuery, connection))
+                    {
+                        await command.ExecuteNonQueryAsync();
+                    }
                     // Thêm dữ liệu từ nhanvientamthoi vào nhanvien
                     string insertNhanVien = @"
                         INSERT INTO nhanvien (
@@ -332,7 +358,8 @@ namespace QuanLyMayMoc
                     string deleteTempTables = @"
                             DELETE FROM nhanvientamthoi WHERE maduan = @maDuAn;
                             DELETE FROM congviectamthoi WHERE maduan = @maDuAn;
-                            DELETE FROM linhkienduantam
+                            DELETE FROM linhkienduantam;
+                            DELETE FROM loiduantam;
                         ";
 
                     using (var command = new NpgsqlCommand(deleteTempTables, connection))

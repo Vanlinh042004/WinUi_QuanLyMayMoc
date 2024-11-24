@@ -21,6 +21,7 @@ using Windows.Foundation.Collections;
 using Windows.System;
 using Windows.UI;
 using Npgsql;
+using QuanLyMayMoc.ViewModel;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -36,16 +37,17 @@ namespace QuanLyMayMoc
         private int Columns = 3;
         private int selectedRow = -1; // Hàng được chọn để xóa
         private string connectionString = "Host=127.0.0.1;Port=5432;Username=postgres;Password=1234;Database=machine";
+
+        public MainViewModel ViewModel
+        {
+            get; set;
+        }
         public Loi()
         {
             this.InitializeComponent();
             HideFirstRow(); // Thêm dòng đầu tiên
-                            //string m_tempPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "QuanLyMayMoc", "Database", "db_QuanLyMayMoc.sqlite3");
-
-            string dbString = "SELECT mahieu, tenloi, giaban FROM loi";
-            DataTable InforMay = ExecuteQuery(dbString);
-            PopulateGrid(InforMay);
-            //SaveToLoiTam(); // Lưu dữ liệu từ bảng loi vào bảng loi_Tam
+            ViewModel = new MainViewModel();
+            SaveToLoiTam(); // Lưu dữ liệu từ bảng loi vào bảng loi_Tam
 
         }
 
@@ -67,90 +69,38 @@ namespace QuanLyMayMoc
             InputGrid.Children.Add(emptyElement);
         }
 
-        private void PopulateGrid(DataTable dataTable)
+        private async void SaveToLoiTam()
         {
-            for (int i = InputGrid.Children.Count - 1; i >= 0; i--)
+            try
             {
-                var element = InputGrid.Children[i];
-                if (Grid.GetRow((FrameworkElement)element) > 0)
+                using (var connection = new NpgsqlConnection(connectionString))
                 {
-                    InputGrid.Children.RemoveAt(i);
-                }
-            }
-
-            for (int row = InputGrid.RowDefinitions.Count - 1; row > 0; row--)
-            {
-                InputGrid.RowDefinitions.RemoveAt(row);
-            }
-
-            int rowIndex = 1;
-            foreach (DataRow row in dataTable.Rows)
-            {
-                InputGrid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
-
-                for (int col = 0; col < dataTable.Columns.Count; col++)
-                {
-                    var border = new Border
+                    await connection.OpenAsync();
                     {
-                        Background = new SolidColorBrush(Colors.White),
-                        BorderBrush = new SolidColorBrush(Colors.Black),
-                        BorderThickness = new Thickness(1),
-                        HorizontalAlignment = HorizontalAlignment.Stretch,
-                        VerticalAlignment = VerticalAlignment.Stretch
-                    };
-
-                    var textBlock = new TextBlock
-                    {
-                        Text = row[col].ToString(),
-                        Margin = new Thickness(2),
-                        Foreground = new SolidColorBrush(Colors.Black),
-                        HorizontalAlignment = HorizontalAlignment.Center,
-                        VerticalAlignment = VerticalAlignment.Center
-                    };
-
-                    border.Child = textBlock;
-
-                    Grid.SetRow(border, rowIndex);
-                    Grid.SetColumn(border, col);
-                    InputGrid.Children.Add(border);
-                }
-                rowIndex++;
-            }
-            currentRow = rowIndex;
-        }
-
-        private DataTable ExecuteQuery(string query)
-        {
-            DataTable dataTable = new DataTable();
-            using (var connection = new NpgsqlConnection(connectionString))
-            {
-                connection.Open();
-                using (var command = new NpgsqlCommand(query, connection))
-                {
-                    using (var reader = command.ExecuteReader())
-                    {
-                        dataTable.Load(reader);
+                        // Nếu dự án chưa tồn tại, thêm vào bảng `duan_tam`
+                        string insertQuery = @" INSERT INTO loiduantam (mahieuduan, mahieu, tenloi, giaban, maduan)
+                                                SELECT CONCAT(mahieu,'_', @maDuAn), mahieu, tenloi, giaban, @maDuAn
+                                                FROM loi";
+                        using (var command = new NpgsqlCommand(insertQuery, connection))
+                        {
+                            command.Parameters.AddWithValue("@maDuAn", AppData.ProjectID);
+                            await command.ExecuteNonQueryAsync();
+                        }
                     }
                 }
             }
-            return dataTable;
-        }
-
-        private void SaveToLoiTam()
-        {
-            using (var connection = new NpgsqlConnection(connectionString))
+            catch (Exception ex)
             {
-                connection.Open();
-                string insertQuery = @" INSERT INTO loi_duan (mahieuduan, tenloi, giaban)
-                                        SELECT mahieu, tenloi, giaban
-                                        FROM loi";
-                using (var command = new NpgsqlCommand(insertQuery, connection))
+                await new ContentDialog
                 {
-                    command.ExecuteNonQuery();
-                }
+                    Title = "Lỗi",
+                    Content = $"Có lỗi xảy ra khi tạo dự án: {ex.Message}",
+                    CloseButtonText = "OK",
+                    XamlRoot = this.XamlRoot
+                }.ShowAsync();
             }
-        }
 
+        }
         // Thêm dòng mới
         #region AddNewRow
         private void AddNewRow()
@@ -171,7 +121,7 @@ namespace QuanLyMayMoc
                     BorderThickness = new Thickness(1)
                 };
                 AddHoverEffect(textBox, Colors.Gray, Colors.Black); // Reuse hover effect
-                textBox.LostFocus += TextBox_LostFocus;
+
                 element = textBox;
                 // Đặt phần tử vào đúng vị trí trong Grid
                 Grid.SetRow(element, currentRow);
@@ -180,30 +130,7 @@ namespace QuanLyMayMoc
             }
             currentRow++; // Tăng số hàng hiện tại
         }
-        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            var textBox = sender as TextBox;
-            if (textBox != null)
-            {
-                // Lấy hàng và cột của TextBox
-                int row = Grid.GetRow(textBox);
-                int col = Grid.GetColumn(textBox);
 
-                // Lấy giá trị người dùng nhập
-                string value = textBox.Text;
-
-                // Lưu giá trị vào cơ sở dữ liệu
-                // SaveToDatabase(value);
-            }
-        }
-
-        private void SaveToDatabase(string value)
-        {
-            //string query = $"UPDATE Tbl_MTC_ChiTietGiaMay" +
-            //               $"SET Ten = 'Ha Loi'" +
-            //               $"WHERE MaHieu = @MaHieu";
-            //DataProvider.InstanceTHDA.ExecuteNonQuery(query, parameter: new object[] { value });
-        }
 
         private void AddHoverEffect(Control controlElement, Color hoverColor, Color normalColor)
         {
@@ -242,115 +169,123 @@ namespace QuanLyMayMoc
         #endregion
 
 
+
+
+
         // Delete row data
 
         private async void OnDeleteRowDataClick(object sender, RoutedEventArgs e)
         {
             // Hiển thị hộp thoại để người dùng nhập mã sản phẩm cần xóa
-            var inputTextBox = new TextBox();
-            var dialog = new ContentDialog
-            {
-                Title = "Xác nhận xóa",
-                Content = new StackPanel
-                {
-                    Children =
-            {
-                new TextBlock { Text = "Nhập Mã sản phẩm của linh kiện cần xóa:" },
-                inputTextBox
-            }
-                },
-                PrimaryButtonText = "Xóa",
-                CloseButtonText = "Hủy",
-                XamlRoot = this.Content.XamlRoot // Đảm bảo ContentDialog được hiển thị trong ngữ cảnh của cửa sổ hiện tại
-            };
+            //var inputTextBox = new TextBox();
+            //var dialog = new ContentDialog
+            //{
+            //    Title = "Xác nhận xóa",
+            //    Content = new StackPanel
+            //    {
+            //        Children =
+            //{
+            //    new TextBlock { Text = "Nhập Mã sản phẩm của linh kiện cần xóa:" },
+            //    inputTextBox
+            //}
+            //    },
+            //    PrimaryButtonText = "Xóa",
+            //    CloseButtonText = "Hủy",
+            //    XamlRoot = this.Content.XamlRoot // Đảm bảo ContentDialog được hiển thị trong ngữ cảnh của cửa sổ hiện tại
+            //};
 
-            var result = await dialog.ShowAsync();
+            //var result = await dialog.ShowAsync();
 
-            if (result == ContentDialogResult.Primary)
-            {
-                string maSanPham = inputTextBox.Text;
-                // Tìm selectedRow dựa trên mã sản phẩm
-                for (int i = 1; i < InputGrid.RowDefinitions.Count; i++)
-                {
-                    // Truy cập phần tử đầu tiên trong hàng thứ i (giả định mã sản phẩm nằm ở cột đầu tiên)
-                    var element = InputGrid.Children
-                        .Cast<UIElement>()
-                        .FirstOrDefault(e => Grid.GetRow((FrameworkElement)e) == i && Grid.GetColumn((FrameworkElement)e) == 0);
+            //if (result == ContentDialogResult.Primary)
+            //{
+            //    string maSanPham = inputTextBox.Text;
+            //    // Tìm selectedRow dựa trên mã sản phẩm
+            //    for (int i = 1; i < InputGrid.RowDefinitions.Count; i++)
+            //    {
+            //        // Truy cập phần tử đầu tiên trong hàng thứ i (giả định mã sản phẩm nằm ở cột đầu tiên)
+            //        var element = InputGrid.Children
+            //            .Cast<UIElement>()
+            //            .FirstOrDefault(e => Grid.GetRow((FrameworkElement)e) == i && Grid.GetColumn((FrameworkElement)e) == 0);
 
-                    if (element is Border border && border.Child is TextBlock textBlock)
-                    {
+            //        if (element is Border border && border.Child is TextBlock textBlock)
+            //        {
 
-                        if (textBlock.Text == maSanPham)
-                        {
-                            selectedRow = i;
-                            break;
-                        }
-                    }
-                }
+            //            if (textBlock.Text == maSanPham)
+            //            {
+            //                selectedRow = i;
+            //                break;
+            //            }
+            //        }
+            //    }
 
-                // Xóa selectedRow nếu đã tìm thấy
-                if (selectedRow != -1)
-                {
-                    // Xóa các phần tử trong selectedRow
-                    for (int col = 0; col < Columns; col++)
-                    {
-                        var element = InputGrid.Children
-                            .Cast<UIElement>()
-                            .FirstOrDefault(e => Grid.GetRow((FrameworkElement)e) == selectedRow && Grid.GetColumn((FrameworkElement)e) == col);
+            //    // Xóa selectedRow nếu đã tìm thấy
+            //    if (selectedRow != -1)
+            //    {
+            //        // Xóa các phần tử trong selectedRow
+            //        for (int col = 0; col < Columns; col++)
+            //        {
+            //            var element = InputGrid.Children
+            //                .Cast<UIElement>()
+            //                .FirstOrDefault(e => Grid.GetRow((FrameworkElement)e) == selectedRow && Grid.GetColumn((FrameworkElement)e) == col);
 
-                        if (element != null)
-                        {
-                            InputGrid.Children.Remove(element);
-                        }
-                    }
+            //            if (element != null)
+            //            {
+            //                InputGrid.Children.Remove(element);
+            //            }
+            //        }
 
-                    // Xóa định nghĩa hàng của selectedRow
-                    InputGrid.RowDefinitions.RemoveAt(selectedRow);
+            //        // Xóa định nghĩa hàng của selectedRow
+            //        InputGrid.RowDefinitions.RemoveAt(selectedRow);
 
-                    // Đặt lại số hàng hiện tại
-                    currentRow--;
-                    // Xoa database
-                    DeleteRowFromDatabase(maSanPham);
-                }
-            }
+            //        // Đặt lại số hàng hiện tại
+            //        currentRow--;
+            //        // Xoa database
+            //        DeleteRowFromDatabase(maSanPham);
+            //    }
+            //}
         }
 
         private void DeleteRowFromDatabase(string maSanPham)
         {
             //string query = $"DELETE" +
-            //                 $" FROM Tbl_MTC_ChiTietGiaMay " +
+            //                 $" FROM Tbl_MTC_GiaLinhKien " +
             //                 $" WHERE MaHieu = @MaHieu";
             //DataProvider.InstanceTHDA.ExecuteNonQuery(query, parameter: new object[] { maSanPham });
         }
 
+
+
+
+
+
         // Delete all row
         private void OnDeleteAllRowDataClick(object sender, RoutedEventArgs e)
         {
-            // Xóa tất cả các phần tử con, ngoại trừ hàng đầu tiên
-            for (int i = InputGrid.Children.Count - 1; i >= 0; i--)
-            {
-                var element = InputGrid.Children[i];
-                if (Grid.GetRow((FrameworkElement)element) > 0) // Chỉ xóa các phần tử không nằm ở hàng 0
-                {
-                    InputGrid.Children.RemoveAt(i);
-                }
-            }
+            //// Xóa tất cả các phần tử con, ngoại trừ hàng đầu tiên
+            //for (int i = InputGrid.Children.Count - 1; i >= 0; i--)
+            //{
+            //    var element = InputGrid.Children[i];
+            //    if (Grid.GetRow((FrameworkElement)element) > 0) // Chỉ xóa các phần tử không nằm ở hàng 0
+            //    {
+            //        InputGrid.Children.RemoveAt(i);
+            //    }
+            //}
 
-            // Xóa tất cả các định nghĩa hàng, ngoại trừ hàng đầu tiên
-            for (int row = InputGrid.RowDefinitions.Count - 1; row > 0; row--)
-            {
-                InputGrid.RowDefinitions.RemoveAt(row);
-            }
+            //// Xóa tất cả các định nghĩa hàng, ngoại trừ hàng đầu tiên
+            //for (int row = InputGrid.RowDefinitions.Count - 1; row > 0; row--)
+            //{
+            //    InputGrid.RowDefinitions.RemoveAt(row);
+            //}
 
-            // Đặt lại số hàng hiện tại
-            currentRow = 1;
-            // Xoa database
-            DeleteAllRowFromDatabase();
+            //// Đặt lại số hàng hiện tại
+            //currentRow = 1;
+            //// Xoa database
+            //DeleteAllRowFromDatabase();
         }
         private void DeleteAllRowFromDatabase()
         {
             //string query = $"DELETE" +
-            //               $" FROM Tbl_MTC_ChiTietGiaMay ";
+            //               $" FROM Tbl_MTC_GiaLinhKien  ";
             //DataProvider.InstanceTHDA.ExecuteNonQuery(query);
         }
     }

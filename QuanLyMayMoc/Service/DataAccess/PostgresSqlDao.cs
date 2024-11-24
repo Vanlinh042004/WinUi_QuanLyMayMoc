@@ -514,7 +514,37 @@ namespace QuanLyMayMoc
             }
 
             return linhkiens;
-        }   
+        }
+        public ObservableCollection<Loisp> GetAllLoi()
+        {
+            string query = @"SELECT mahieu, tenloi, giaban
+                             FROM loi";
+
+            ObservableCollection<Loisp> lois = new ObservableCollection<Loisp>();
+
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            lois.Add(new Loisp
+                            {
+                                MaSanPham = reader.IsDBNull(0) ? null : reader.GetString(0),
+                                TenSanPham = reader.IsDBNull(1) ? null : reader.GetString(1),
+                                GiaBan = reader.IsDBNull(2) ? 0 : reader.GetDouble(2)
+                            });
+
+                        }
+                    }
+                }
+            }
+
+            return lois;
+        }
     }
 
 }
