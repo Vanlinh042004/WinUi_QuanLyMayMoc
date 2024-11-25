@@ -16,6 +16,7 @@ using Microsoft.UI.Xaml.Navigation;
 using System.Text.RegularExpressions;
 using Npgsql;
 using QuanLyMayMoc.ViewModel;
+using QuanLyMayMoc.View;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -27,24 +28,22 @@ namespace QuanLyMayMoc
     /// </summary>
     public sealed partial class MainPage : Page
     {
-       
-        private string maDuAn;
+
         private string projectName;
         public Project CurrentProject { get; set; }
         public MainViewModel ViewModel
         {
             get; set;
         }
+
+
         public MainPage()
         {
             this.InitializeComponent();
             ViewModel = new MainViewModel();
             // disable the button "DichVuTheoThang"
 
-            DichVuTheoThang.IsEnabled = false;
-            QuanLyMayMoc.IsEnabled = false;
-            DanhSachNhanVien.IsEnabled = false;
-            TongHopMayTheoKy.IsEnabled = false;
+            buttonToggling();
 
         }
 
@@ -119,7 +118,7 @@ namespace QuanLyMayMoc
 
                     string date = DateTime.Now.ToString("yyyy_MM_dd");
                     string time = DateTime.Now.ToString("HH_mm_ss");
-                    maDuAn = projectName + date + "_" + time;
+                    string maDuAn = projectName + date + "_" + time;
                     AppData.ProjectID = maDuAn;
                     AppData.ProjectName = projectName;
                     AppData.ProjectTimeCreate = DateTime.Now;
@@ -158,7 +157,17 @@ namespace QuanLyMayMoc
                 }
             }
 
-
+            else
+            {
+                DichVuTheoThang.IsEnabled = false;
+                QuanLyMayMoc.IsEnabled = false;
+                DanhSachNhanVien.IsEnabled = false;
+                TongHopMayTheoKy.IsEnabled = false;
+                projectName = "";
+                AppData.ProjectID = "";
+                AppData.ProjectName = "";
+                AppData.ProjectTimeCreate = DateTime.MinValue;
+            }
         }
 
         private void VeChungToiButton(object sender, RoutedEventArgs e)
@@ -175,7 +184,7 @@ namespace QuanLyMayMoc
 
         private async void LuuDuAnClick(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(maDuAn))
+            if (string.IsNullOrEmpty(AppData.ProjectID))
             {
                 await new ContentDialog
                 {
@@ -186,13 +195,20 @@ namespace QuanLyMayMoc
                 }.ShowAsync();
                 return;
             }
+            if (CurrentProject == null)
+            {
+                CurrentProject = new Project();
+            }
             try
             {
 
-            ViewModel.InsertProject(CurrentProject);
-            ViewModel.InsertAllDataFromTemp(CurrentProject.ID);
+                CurrentProject.ID = AppData.ProjectID;
+                CurrentProject.Name = AppData.ProjectName;
+                CurrentProject.TimeCreate = AppData.ProjectTimeCreate;
+                ViewModel.InsertProject(CurrentProject);
+                ViewModel.InsertAllDataFromTemp(CurrentProject.ID);
 
-               
+
                 await new ContentDialog
                 {
                     Title = "Thành công",
@@ -218,7 +234,27 @@ namespace QuanLyMayMoc
 
         private void MoDuAnClick(object sender, RoutedEventArgs e)
         {
+            // Navigate to the ShellWindow
+            this.FrameContent.Navigate(typeof(MoDuAn), this);
 
+        }
+
+        public void buttonToggling()
+        {
+            if (DichVuTheoThang.IsEnabled == false)
+            {
+                DichVuTheoThang.IsEnabled = true;
+                QuanLyMayMoc.IsEnabled = true;
+                DanhSachNhanVien.IsEnabled = true;
+                TongHopMayTheoKy.IsEnabled = true;
+            }
+            else
+            {
+                DichVuTheoThang.IsEnabled = false;
+                QuanLyMayMoc.IsEnabled = false;
+                DanhSachNhanVien.IsEnabled = false;
+                TongHopMayTheoKy.IsEnabled = false;
+            }
         }
     }
 }

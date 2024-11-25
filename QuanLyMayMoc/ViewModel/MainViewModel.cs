@@ -94,7 +94,10 @@ namespace QuanLyMayMoc.ViewModel
             return _dao.GetCustomerNamesFromDatabase(query);
         }
 
-
+        public ObservableCollection<Project> getProjects()
+        {
+            return _dao.GetProjects();
+        }
 
         public async void RemoveSelectedTask()
         {

@@ -91,13 +91,15 @@ namespace QuanLyMayMoc
             }
             catch (Exception ex)
             {
-                await new ContentDialog
+                var contentDialog = new ContentDialog
                 {
                     Title = "Lỗi",
                     Content = $"Có lỗi xảy ra khi tạo dự án: {ex.Message}",
                     CloseButtonText = "OK",
                     XamlRoot = this.XamlRoot
-                }.ShowAsync();
+                };
+                await contentDialog.ShowAsync();
+                contentDialog = null;
             }
 
         }

@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Data;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using static QuanLyMayMoc.View.MoDuAn;
 
 namespace QuanLyMayMoc
 {
@@ -369,28 +370,27 @@ namespace QuanLyMayMoc
         // Lấy danh sách tất cả các dự án
         public ObservableCollection<Project> GetProjects()
         {
-            string query = "SELECT id, name, description FROM projects";
             ObservableCollection<Project> projects = new ObservableCollection<Project>();
-
-            //using (var connection = new NpgsqlConnection(connectionString))
-            //{
-            //    connection.Open();
-            //    using (var command = new NpgsqlCommand(query, connection))
-            //    {
-            //        using (var reader = command.ExecuteReader())
-            //        {
-            //            while (reader.Read())
-            //            {
-            //                projects.Add(new Project
-            //                {
-            //                    ID = reader.GetInt32(0),
-            //                    Name = reader.GetString(1),
-            //                    TimeCreate = reader.GetString(2)
-            //                });
-            //            }
-            //        }
-            //    }
-            //}
+            // Load data from database
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+                using (var cmd = new NpgsqlCommand("SELECT * FROM duan", connection))
+                {
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            string maDuAn = reader.GetString(0);
+                            string tenDuAn = reader.GetString(1);
+                            // get the timestamp without time zone
+                            DateTime dateTime = reader.GetDateTime(2);
+                            Project duan = new Project { ID = maDuAn, Name = tenDuAn, TimeCreate = dateTime };
+                            projects.Add(duan);
+                        }
+                    }
+                }
+            }
 
             return projects;
         }
@@ -855,12 +855,12 @@ namespace QuanLyMayMoc
                     connection.Open(); // Mở kết nối
 
                     string maxSttQuery = @"
-        SELECT COALESCE(MAX(stt), 0)
-        FROM (
-            SELECT stt FROM congviectamthoi WHERE maduan = @maduan
-            UNION ALL
-            SELECT stt FROM congviec WHERE maduan = @maduan
-        ) AS combined";
+                        SELECT COALESCE(MAX(stt), 0)
+                        FROM (
+                            SELECT stt FROM congviectamthoi WHERE maduan = @maduan
+                            UNION ALL
+                            SELECT stt FROM congviec WHERE maduan = @maduan
+                        ) AS combined";
 
                     using (var command = new NpgsqlCommand(maxSttQuery, connection))
                     {

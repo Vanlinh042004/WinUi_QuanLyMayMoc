@@ -46,12 +46,12 @@ namespace QuanLyMayMoc
         {
             this.InitializeComponent();
             HideFirstRow(); // Thêm dòng đầu tiên
-            ViewModel = new MainViewModel(); 
+            ViewModel = new MainViewModel();
             SaveToLinhKienTam(); // Lưu dữ liệu từ bảng linhkien vào bảng LinhKien_Tam
         }
         private void OnTaskTapped(object sender, TappedRoutedEventArgs e)
         {
-            
+
 
         }
 
@@ -72,7 +72,7 @@ namespace QuanLyMayMoc
             InputGrid.Children.Add(emptyElement);
         }
 
-        
+
         private async void SaveToLinhKienTam()
         {
             try
@@ -103,7 +103,7 @@ namespace QuanLyMayMoc
                     XamlRoot = this.XamlRoot
                 }.ShowAsync();
             }
-           
+
         }
         // Thêm dòng mới
         #region AddNewRow
@@ -125,7 +125,7 @@ namespace QuanLyMayMoc
                     BorderThickness = new Thickness(1)
                 };
                 AddHoverEffect(textBox, Colors.Gray, Colors.Black); // Reuse hover effect
-              
+
                 element = textBox;
                 // Đặt phần tử vào đúng vị trí trong Grid
                 Grid.SetRow(element, currentRow);
@@ -134,7 +134,7 @@ namespace QuanLyMayMoc
             }
             currentRow++; // Tăng số hàng hiện tại
         }
-        
+
 
         private void AddHoverEffect(Control controlElement, Color hoverColor, Color normalColor)
         {
@@ -294,6 +294,5 @@ namespace QuanLyMayMoc
         }
 
     }
-  
-}
 
+}
