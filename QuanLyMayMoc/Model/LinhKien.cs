@@ -5,14 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuanLyMayMoc.Model
+namespace QuanLyMayMoc
 {
     public class Linhkien : INotifyPropertyChanged
     {
         private string _masp;
         private string _tensp;
         private double _giaban;
-
+      
 
         public string MaSanPham
         {
@@ -30,6 +30,35 @@ namespace QuanLyMayMoc.Model
             get => _giaban;
             set { _giaban = value; OnPropertyChanged(nameof(GiaBan)); }
         }
+
+        public void SetPropertyForColumn(int col, string value)
+        {
+            switch (col)
+            {
+                case 0:
+                    MaSanPham = value;
+                    break;
+                case 1:
+                    TenSanPham = value;
+                    break;
+                case2:
+                    if (double.TryParse(value, out double giaBan))
+                    {
+                        GiaBan = giaBan;
+                    }
+                    else
+                    {
+                        throw new ArgumentException($"Invalid value for GiaBan: {value}");
+                    }
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(col), "Invalid column index.");
+            }
+        }
+
+       
+     
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 

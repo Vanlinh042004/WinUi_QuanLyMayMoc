@@ -291,19 +291,9 @@ namespace QuanLyMayMoc
                 {
                    
                     ViewModel.RemoveAllTask();
-
+                    ViewModel.DeleteAllTask();
                    
-                    string deleteQuery = "DELETE FROM congviectamthoi";
-
-                    using (var connection = new NpgsqlConnection(connectionString))
-                    {
-                        await connection.OpenAsync();
-
-                        using (var command = new NpgsqlCommand(deleteQuery, connection))
-                        {
-                            await command.ExecuteNonQueryAsync();
-                        }
-                    }
+                  
 
                    
                     ContentDialog successDialog = new ContentDialog

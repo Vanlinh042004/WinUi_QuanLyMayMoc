@@ -855,12 +855,12 @@ namespace QuanLyMayMoc
                     connection.Open(); // Mở kết nối
 
                     string maxSttQuery = @"
-        SELECT COALESCE(MAX(stt), 0)
-        FROM (
-            SELECT stt FROM congviectamthoi WHERE maduan = @maduan
-            UNION ALL
-            SELECT stt FROM congviec WHERE maduan = @maduan
-        ) AS combined";
+                    SELECT COALESCE(MAX(stt), 0)
+                    FROM (
+                        SELECT stt FROM congviectamthoi WHERE maduan = @maduan
+                        UNION ALL
+                        SELECT stt FROM congviec WHERE maduan = @maduan
+                    ) AS combined";
 
                     using (var command = new NpgsqlCommand(maxSttQuery, connection))
                     {
@@ -919,15 +919,52 @@ namespace QuanLyMayMoc
                 }
             }
 
-            //public ObservableCollection<Loi> GetAllLoi()
-            //{
-            //ObservableCollection < Loi > res = new ObservableCollection<Loi >();
-            //return res;
-            //}
+        //public ObservableCollection<Loi> GetAllLoi()
+        //{
+        //ObservableCollection < Loi > res = new ObservableCollection<Loi >();
+        //return res;
+        //}
+        public async void DeleteAllTask()
+        {
+            string deleteQuery = "DELETE FROM congviectamthoi";
 
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                await connection.OpenAsync();
 
-
-
+                using (var command = new NpgsqlCommand(deleteQuery, connection))
+                {
+                    await command.ExecuteNonQueryAsync();
+                }
+            }
         }
 
+        public async void InsertLinhKienToDaTaBaseTemp(Linhkien newLinhKien,string mahieuduan)
+        {
+            string insertQuery = @"
+            INSERT INTO LinhKienDuAnTam 
+            (MaHieuDuAn, MaHieu, TenLinhKien, GiaBan, MaDuAn) 
+            VALUES 
+            (@MaHieuDuAn, @MaHieu, @TenLinhKien, @GiaBan, @MaDuAn)";
+
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                await connection.OpenAsync();
+                using (var command = new NpgsqlCommand(insertQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@MaHieuDuAn", mahieuduan);
+                    command.Parameters.AddWithValue("@MaHieu", newLinhKien.MaSanPham);
+                    command.Parameters.AddWithValue("@TenLinhKien", newLinhKien.TenSanPham);
+                    command.Parameters.AddWithValue("@GiaBan", newLinhKien.GiaBan);
+                    command.Parameters.AddWithValue("@MaDuAn", AppData.ProjectID);
+
+                    await command.ExecuteNonQueryAsync();
+                }
+            }
+        }
+
+
+
     }
+
+}

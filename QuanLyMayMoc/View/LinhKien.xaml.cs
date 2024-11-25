@@ -33,11 +33,13 @@ namespace QuanLyMayMoc
     /// </summary>
     public sealed partial class LinhKien : Page
     {
+        private string connectionString = "Host=127.0.0.1;Port=5432;Username=postgres;Password=1234;Database=machine";
+
         private int currentRow = 1;
         private int Columns = 3;
         private int selectedRow = -1; // Hàng được chọn để xóa
-        private string connectionString = "Host=127.0.0.1;Port=5432;Username=postgres;Password=1234;Database=machine";
-
+       
+        private Dictionary<int, Linhkien> rowLinkKienDictionary = new Dictionary<int, Linhkien>();
         public MainViewModel ViewModel
         {
             get; set;
@@ -49,7 +51,7 @@ namespace QuanLyMayMoc
             ViewModel = new MainViewModel(); 
             SaveToLinhKienTam(); // Lưu dữ liệu từ bảng linhkien vào bảng LinhKien_Tam
         }
-        private void OnTaskTapped(object sender, TappedRoutedEventArgs e)
+        private void OnLinkKienTapped(object sender, TappedRoutedEventArgs e)
         {
             
 
@@ -109,7 +111,10 @@ namespace QuanLyMayMoc
         #region AddNewRow
         private void AddNewRow()
         {
+            var newLinhKien = new Linhkien();
 
+
+            rowLinkKienDictionary[currentRow] = newLinhKien;
             // Thêm dòng mới vào Grid
             InputGrid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
 
@@ -172,7 +177,50 @@ namespace QuanLyMayMoc
         }
         #endregion
 
+        private void SaveRowData(int rowIndex)
+        {
+            try
+            {
+                if (rowLinkKienDictionary.TryGetValue(rowIndex, out Linhkien linhkien))
+                {
+                    for (int col = 0; col < Columns; col++)
+                    {
+                        var element = InputGrid.Children
+                            .OfType<FrameworkElement>()
+                            .FirstOrDefault(e => Grid.GetRow(e) == rowIndex && Grid.GetColumn(e) == col);
 
+                      
+                       if (element is TextBox textBox)
+                        {
+                            linhkien.SetPropertyForColumn(col, textBox.Text);
+                        }                      
+                        else
+                        {
+                            throw new InvalidOperationException("Unsupported element type encountered during save operation.");
+                        }
+                    }
+                }
+                else
+                {
+                    throw new KeyNotFoundException($"No link kien found for row index {rowIndex}.");
+                }
+            }
+            catch (KeyNotFoundException ex)
+            {
+                // Log lỗi hoặc xử lý khác
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+            catch (InvalidOperationException ex)
+            {
+                // Log lỗi hoặc xử lý khác
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                // Log lỗi hoặc xử lý khác
+                Console.WriteLine($"An unexpected error occurred: {ex.Message}");
+            }
+        }
 
 
 
@@ -257,7 +305,14 @@ namespace QuanLyMayMoc
             //DataProvider.InstanceTHDA.ExecuteNonQuery(query, parameter: new object[] { maSanPham });
         }
 
+        private void ClearInputRows()
+        {
 
+            InputGrid.Children.Clear();
+
+
+            currentRow = 1;
+        }
 
 
 
@@ -293,6 +348,38 @@ namespace QuanLyMayMoc
             //DataProvider.InstanceTHDA.ExecuteNonQuery(query);
         }
 
+        private void OnSaveDataClick(object sender, RoutedEventArgs e)
+        {
+            int stt = 0;
+            foreach (var entry in rowLinkKienDictionary)
+            {
+                stt++;
+                try
+                {
+                   
+                    // Lưu dữ liệu vào ViewModel
+                    SaveRowData(entry.Key);
+                    ViewModel.Listlinhkien.Add(entry.Value);
+                    // Thực hiện chèn dữ liệu vào bảng congviectamthoi
+                    string mahieuduan = AppData.ProjectID + stt.ToString()+entry.Value.MaSanPham;
+                    ViewModel.InsertLinhKienToDaTaBaseTemp(entry.Value,mahieuduan);
+
+                }
+                catch (Exception ex)
+                {
+                    var dialog = new ContentDialog
+                    {
+                        Title = "Lỗi",
+                        Content = $"Có lỗi xảy ra khi lưu linh kiện: {ex.Message}",
+                        CloseButtonText = "OK"
+                    };
+                }
+            }
+
+            rowLinkKienDictionary.Clear();
+            ClearInputRows();
+
+        }
     }
   
 }

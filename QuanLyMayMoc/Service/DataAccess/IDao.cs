@@ -27,11 +27,14 @@ namespace QuanLyMayMoc
         public void InsertProjectTemp(Project projectInsert);
         public void InsertAllDataFromTemp(string projectID);
         public void InsertEmployeeToDaTaBase(Employee newEmployee);
+        public void InsertLinhKienToDaTaBaseTemp(Linhkien newLinhKien, string mahieuduan);
         public  int TimSttLonNhat(string maduan);
 
         public void InsertTaskToDaTaBaseTemp(Task newTask);
 
-        
+        public  void DeleteAllTask();
+
+
     }
 
 

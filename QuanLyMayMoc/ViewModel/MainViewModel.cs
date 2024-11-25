@@ -54,7 +54,7 @@ namespace QuanLyMayMoc.ViewModel
             _dao = ServiceFactory.GetChildOf(typeof(IDao)) as IDao;
             Employees = _dao.GetEmployees();
             Tasks = _dao.GetTasks();
-            linhkien = _dao.GetAllLinhKien();
+            Listlinhkien = _dao.GetAllLinhKien();
            // ListLoi = _dao.GetAllLoi();
 
 
@@ -149,6 +149,15 @@ namespace QuanLyMayMoc.ViewModel
         {
             _dao.InsertTaskToDaTaBaseTemp(newTask);
         }
+        public void InsertLinhKienToDaTaBaseTemp(Linhkien newLinhKien, string mahieuduan)
+        {
+            _dao.InsertLinhKienToDaTaBaseTemp(newLinhKien,mahieuduan);
+        }
+        
+        public void DeleteAllTask()
+        {
+            _dao.DeleteAllTask();
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string propertyName)
@@ -158,7 +167,7 @@ namespace QuanLyMayMoc.ViewModel
 
 
 
-        public ObservableCollection<Linhkien> linhkien
+        public ObservableCollection<Linhkien> Listlinhkien
         {
             get; set;
         }
