@@ -21,9 +21,11 @@ namespace QuanLyMayMoc
         public List<string> GetCustomerNamesFromDatabase(string query);
         public ObservableCollection<Project> GetProjects();
         // Luu vao bang LinhKien
-       
-
-
+        public void DeleteTask(Task selectedTask);
+        public void InsertProject(Project projectInsert);
+        public void InsertProjectTemp(Project projectInsert);
+        public void InsertAllDataFromTemp(string projectID);
+        public void InsertEmployeeToDaTaBase(Employee newEmployee);
 
 
     }
