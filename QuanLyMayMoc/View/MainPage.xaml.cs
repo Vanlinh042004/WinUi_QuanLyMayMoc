@@ -188,8 +188,11 @@ namespace QuanLyMayMoc
             }
             try
             {
+
             ViewModel.InsertProject(CurrentProject);
             ViewModel.InsertAllDataFromTemp(CurrentProject.ID);
+
+               
                 await new ContentDialog
                 {
                     Title = "Thành công",

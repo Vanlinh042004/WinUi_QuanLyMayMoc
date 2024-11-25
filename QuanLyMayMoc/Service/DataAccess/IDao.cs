@@ -13,7 +13,9 @@ namespace QuanLyMayMoc
     {
         ObservableCollection<Employee> GetEmployees();
         ObservableCollection<Linhkien> GetAllLinhKien();
-        ObservableCollection<Loi> GetAllLoi();
+
+        public  ObservableCollection<Loi> GetAllLoi();
+
         public ObservableCollection<Task> GetTasks();
         public ObservableCollection<Task> GetTasksFromTemp();
         public ObservableCollection<Task> GetTasksFromTemp(DateTime? ngaythuchien, string keyword);
