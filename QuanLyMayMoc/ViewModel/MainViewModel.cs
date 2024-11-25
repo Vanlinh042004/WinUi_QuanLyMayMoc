@@ -55,7 +55,7 @@ namespace QuanLyMayMoc.ViewModel
             Employees = _dao.GetEmployees();
             Tasks = _dao.GetTasks();
             linhkien = _dao.GetAllLinhKien();
-            ListLoi = _dao.GetAllLoi();
+           // ListLoi = _dao.GetAllLoi();
 
 
         }

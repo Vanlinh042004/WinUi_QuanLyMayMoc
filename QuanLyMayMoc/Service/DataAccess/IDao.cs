@@ -11,10 +11,10 @@ namespace QuanLyMayMoc
 {
     public interface IDao
     {
-        ObservableCollection<Employee> GetEmployees();
-        ObservableCollection<Linhkien> GetAllLinhKien();
+         public ObservableCollection<Employee> GetEmployees();
+        public ObservableCollection<Linhkien> GetAllLinhKien();
 
-        public  ObservableCollection<Loi> GetAllLoi();
+      //  public  ObservableCollection<Loi> GetAllLoi();
 
         public ObservableCollection<Task> GetTasks();
         public ObservableCollection<Task> GetTasksFromTemp();
