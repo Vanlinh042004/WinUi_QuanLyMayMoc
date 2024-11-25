@@ -342,35 +342,56 @@ namespace QuanLyMayMoc
 
         private void SaveRowData(int rowIndex)
         {
-            if (rowTaskDictionary.TryGetValue(rowIndex, out Task service))
+            try
             {
-                for (int col = 1; col < Columns; col++)
+                if (rowTaskDictionary.TryGetValue(rowIndex, out Task service))
                 {
-                    var element = InputGrid.Children
-                        .OfType<FrameworkElement>()
-                        .FirstOrDefault(e => Grid.GetRow(e) == rowIndex && Grid.GetColumn(e) == col);
-                    if (element is AutoSuggestBox autoSuggestBox)
+                    for (int col = 1; col < Columns; col++)
                     {
-                       
-                        service.HoTenKH = autoSuggestBox.Text; 
-                    }
+                        var element = InputGrid.Children
+                            .OfType<FrameworkElement>()
+                            .FirstOrDefault(e => Grid.GetRow(e) == rowIndex && Grid.GetColumn(e) == col);
 
-                    else if (element is TextBox textBox)
-                    {
-                        service.SetPropertyForColumn(col, textBox.Text);
-                    }
-                    else if (element is DatePicker datePicker)
-                    {
-                        service.SetPropertyForDateColumn(col, datePicker.Date.DateTime);
-                    }
-                    else
-                    {
-
-                        ShowNotSuccessMessage("Lưu thất bại cho dữ liệu nhập vào không hợp lệ!");
+                        if (element is AutoSuggestBox autoSuggestBox)
+                        {
+                            service.HoTenKH = autoSuggestBox.Text;
+                        }
+                        else if (element is TextBox textBox)
+                        {
+                            service.SetPropertyForColumn(col, textBox.Text);
+                        }
+                        else if (element is DatePicker datePicker)
+                        {
+                            service.SetPropertyForDateColumn(col, datePicker.Date.DateTime);
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException("Unsupported element type encountered during save operation.");
+                        }
                     }
                 }
+                else
+                {
+                    throw new KeyNotFoundException($"No task found for row index {rowIndex}.");
+                }
+            }
+            catch (KeyNotFoundException ex)
+            {
+                // Log lỗi hoặc xử lý khác
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+            catch (InvalidOperationException ex)
+            {
+                // Log lỗi hoặc xử lý khác
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                // Log lỗi hoặc xử lý khác
+                Console.WriteLine($"An unexpected error occurred: {ex.Message}");
             }
         }
+
 
         private async void OnSaveRowDataClick(object sender, RoutedEventArgs e)
         {
@@ -380,25 +401,7 @@ namespace QuanLyMayMoc
 
               
                 int maxStt = 0;
-                using (var connection = new NpgsqlConnection(connectionString))
-                {
-                    await connection.OpenAsync();
-
-                  
-                    string maxSttQuery = @"
-                SELECT COALESCE(MAX(stt), 0)
-                FROM (
-                    SELECT stt FROM congviectamthoi WHERE maduan = @maduan
-                    UNION ALL
-                    SELECT stt FROM congviec WHERE maduan = @maduan
-                ) AS combined";
-
-                    using (var command = new NpgsqlCommand(maxSttQuery, connection))
-                    {
-                        command.Parameters.AddWithValue("@maduan", AppData.ProjectID);
-                        maxStt = Convert.ToInt32(await command.ExecuteScalarAsync());
-                    }
-                }
+                maxStt = ViewModel.TimSttLonNhat(entry.Value.MaDuAn);
 
              
                 int stt = maxStt + 1;
@@ -409,49 +412,24 @@ namespace QuanLyMayMoc
                 string time = DateTime.Now.ToString("HH_mm_ss");
                 entry.Value.MaCVDuAn = $"{AppData.ProjectID}_{date}_{time}_{stt}";
 
-                // Lưu dữ liệu vào ViewModel
-                SaveRowData(entry.Key);
-                ViewModel.Tasks.Add(entry.Value);
-
-                // Thực hiện chèn dữ liệu vào bảng congviectamthoi
-                string insertCongViecQuery = @"
-            INSERT INTO congviectamthoi (
-                stt, macvduan, ngaythuchien, hotenkh, sdt, diachi, tendichvu, manv, tennv, malinhkien, 
-                tenlinhkien, soluonglinhkien, maloi, tenloi, soluongloi, phidichvu, ghichu, maduan
-            ) VALUES (
-                @stt, @macvduan, @ngaythuchien, @hotenkh, @sdt, @diachi, @tendichvu, @manv, @tennv, @malinhkien, 
-                @tenlinhkien, @soluonglinhkien, @maloi, @tenloi, @soluongloi, @phidichvu, @ghichu, @maduan
-            )";
-
-                using (var connection = new NpgsqlConnection(connectionString))
+              
+              
+                try
                 {
-                    await connection.OpenAsync();
+                    // Lưu dữ liệu vào ViewModel
+                    SaveRowData(entry.Key);
+                    ViewModel.Tasks.Add(entry.Value);
+                    // Thực hiện chèn dữ liệu vào bảng congviectamthoi
+                    ViewModel.InsertTaskToDaTaBaseTemp(entry.Value);
 
-                    using (var command = new NpgsqlCommand(insertCongViecQuery, connection))
+                }
+                catch (Exception ex) {
+                    var dialog = new ContentDialog
                     {
-                        // Thêm các tham số cho truy vấn
-                        command.Parameters.AddWithValue("@stt", entry.Value.Stt);
-                        command.Parameters.AddWithValue("@macvduan", entry.Value.MaCVDuAn);
-                        command.Parameters.AddWithValue("@ngaythuchien", entry.Value.NgayThucHien == DateTime.MinValue ? (object)DBNull.Value : entry.Value.NgayThucHien);
-                        command.Parameters.AddWithValue("@hotenkh", entry.Value.HoTenKH ?? (object)DBNull.Value);
-                        command.Parameters.AddWithValue("@sdt", entry.Value.SDT ?? (object)DBNull.Value);
-                        command.Parameters.AddWithValue("@diachi", entry.Value.DiaChi ?? (object)DBNull.Value);
-                        command.Parameters.AddWithValue("@tendichvu", entry.Value.TenDichVu ?? (object)DBNull.Value);
-                        command.Parameters.AddWithValue("@manv", entry.Value.MaNV ?? (object)DBNull.Value);
-                        command.Parameters.AddWithValue("@tennv", entry.Value.TenNV ?? (object)DBNull.Value);
-                        command.Parameters.AddWithValue("@malinhkien", entry.Value.MaLK ?? (object)DBNull.Value);
-                        command.Parameters.AddWithValue("@tenlinhkien", entry.Value.TenLK ?? (object)DBNull.Value);
-                        command.Parameters.AddWithValue("@soluonglinhkien", entry.Value.SoLuongLK);
-                        command.Parameters.AddWithValue("@maloi", entry.Value.MaLoi ?? (object)DBNull.Value);
-                        command.Parameters.AddWithValue("@tenloi", entry.Value.TenLoi ?? (object)DBNull.Value);
-                        command.Parameters.AddWithValue("@soluongloi", entry.Value.SoLuongLoi);
-                        command.Parameters.AddWithValue("@phidichvu", entry.Value.PhiDichVu);
-                        command.Parameters.AddWithValue("@ghichu", entry.Value.GhiChu ?? (object)DBNull.Value);
-                        command.Parameters.AddWithValue("@maduan", entry.Value.MaDuAn ?? (object)DBNull.Value);
-
-                        // Thực thi truy vấn
-                        await command.ExecuteNonQueryAsync();
-                    }
+                        Title = "Lỗi",
+                        Content = $"Có lỗi xảy ra khi lưu công việc: {ex.Message}",
+                        CloseButtonText = "OK"
+                    };
                 }
             }
 
@@ -459,45 +437,36 @@ namespace QuanLyMayMoc
             ClearInputRows();
         }
 
-        private async void ShowSuccessMessage(string message)
-        {
-            ContentDialog successDialog = new ContentDialog
-            {
-                Title = "Thành công",
-                Content = message,
-                CloseButtonText = "OK",
-                XamlRoot = this.XamlRoot 
-            };
 
-            await successDialog.ShowAsync();
-        }
-        private async void ShowNotSuccessMessage(string message)
-        {
-            ContentDialog successDialog = new ContentDialog
-            {
-                Title = "Thất bại",
-                Content = message,
-                CloseButtonText = "OK",
-                XamlRoot = this.XamlRoot 
-            };
-
-            await successDialog.ShowAsync();
-        }
 
         private void OnFilterByDateClick(object sender, RoutedEventArgs e)
         {
-            if (filterDatePicker.SelectedDate.HasValue) // Kiểm tra xem ngày có được chọn không
+            try
             {
-                DateTime selectedDate = filterDatePicker.Date.Date; // Lấy giá trị ngày đã chọn
-                string keyword = SearchTextBox.Text; // Lấy từ khóa từ hộp tìm kiếm
+                if (filterDatePicker.SelectedDate.HasValue) // Kiểm tra xem ngày có được chọn không
+                {
+                    DateTime selectedDate = filterDatePicker.SelectedDate.Value.Date; // Lấy giá trị ngày đã chọn
+                    string keyword = SearchTextBox.Text; // Lấy từ khóa từ hộp tìm kiếm
 
-                ViewModel.LoadDataFilter(selectedDate, keyword); 
+                    ViewModel.LoadDataFilter(selectedDate, keyword); // Gọi phương thức load dữ liệu
+                }
+                else
+                {
+                    throw new InvalidOperationException("Date is not selected. Please select a date!");
+                }
             }
-            else
+            catch (InvalidOperationException ex)
             {
-                ShowNotSuccessMessage("Vui lòng chọn ngày!"); 
+                // Log lỗi hoặc hiển thị thông báo lỗi
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                // Xử lý lỗi chung
+                Console.WriteLine($"An unexpected error occurred: {ex.Message}");
             }
         }
+
 
 
         private void OnClearFilterClick(object sender, RoutedEventArgs e)

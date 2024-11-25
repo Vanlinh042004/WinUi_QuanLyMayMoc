@@ -140,6 +140,15 @@ namespace QuanLyMayMoc.ViewModel
             _dao.InsertEmployeeToDaTaBase(newEmployee);
         }
 
+        public int TimSttLonNhat(string maduan)
+        {
+            return _dao.TimSttLonNhat(maduan);
+        }
+
+        public void InsertTaskToDaTaBaseTemp(Task newTask)
+        {
+            _dao.InsertTaskToDaTaBaseTemp(newTask);
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string propertyName)

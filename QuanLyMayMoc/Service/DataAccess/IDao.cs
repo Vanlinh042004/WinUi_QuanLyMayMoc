@@ -13,7 +13,8 @@ namespace QuanLyMayMoc
     {
         ObservableCollection<Employee> GetEmployees();
         ObservableCollection<Linhkien> GetAllLinhKien();
-        ObservableCollection<Loisp> GetAllLoi();
+
+        public  ObservableCollection<Loi> GetAllLoi();
 
         public ObservableCollection<Task> GetTasks();
         public ObservableCollection<Task> GetTasksFromTemp();
@@ -26,8 +27,11 @@ namespace QuanLyMayMoc
         public void InsertProjectTemp(Project projectInsert);
         public void InsertAllDataFromTemp(string projectID);
         public void InsertEmployeeToDaTaBase(Employee newEmployee);
+        public  int TimSttLonNhat(string maduan);
 
+        public void InsertTaskToDaTaBaseTemp(Task newTask);
 
+        
     }
 
 

@@ -614,7 +614,7 @@ namespace QuanLyMayMoc
         }
         public async void InsertProjectTemp(Project projectInsert)
         {
-           
+
             using (var connection = new NpgsqlConnection(connectionString))
             {
                 await connection.OpenAsync();
@@ -629,7 +629,7 @@ namespace QuanLyMayMoc
                     await command.ExecuteNonQueryAsync();
                 }
             }
-            
+
         }
 
         public ObservableCollection<Linhkien> GetAllLinhKien()
@@ -667,12 +667,12 @@ namespace QuanLyMayMoc
         //insert data các dòng từ các bảng tạm thời và xóa dữ liệu trong bảng tạm thời bao gồm cả dự án và data
         public async void InsertAllDataFromTemp(string projectID)
         {
-            
-                using (var connection = new NpgsqlConnection(connectionString))
-                {
-                    await connection.OpenAsync();
 
-                    string insertNhanVien = @"
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                await connection.OpenAsync();
+
+                string insertNhanVien = @"
                         INSERT INTO nhanvien (
                             manvduan,
                             manv,
@@ -708,13 +708,13 @@ namespace QuanLyMayMoc
                         WHERE maduan = @maDuAn;
                     ";
 
-                    using (var command = new NpgsqlCommand(insertNhanVien, connection))
-                    {
-                        command.Parameters.AddWithValue("@maDuAn", projectID);
-                        await command.ExecuteNonQueryAsync();
-                    }
-                    // Thêm dữ liệu từ congviectamthoi vào congviec
-                    string insertCongViec = @"
+                using (var command = new NpgsqlCommand(insertNhanVien, connection))
+                {
+                    command.Parameters.AddWithValue("@maDuAn", projectID);
+                    await command.ExecuteNonQueryAsync();
+                }
+                // Thêm dữ liệu từ congviectamthoi vào congviec
+                string insertCongViec = @"
                         INSERT INTO congviec (
                             macvduan,
                             stt,
@@ -758,27 +758,27 @@ namespace QuanLyMayMoc
                         WHERE maduan = @maDuAn;
                     ";
 
-                    using (var command = new NpgsqlCommand(insertCongViec, connection))
-                    {
-                        command.Parameters.AddWithValue("@maDuAn", projectID);
-                        await command.ExecuteNonQueryAsync();
-                    }
+                using (var command = new NpgsqlCommand(insertCongViec, connection))
+                {
+                    command.Parameters.AddWithValue("@maDuAn", projectID);
+                    await command.ExecuteNonQueryAsync();
+                }
 
-                    // Xóa tất cả các dòng trong nhanvientamthoi và congviectamthoi
-                    string deleteTempTables = @"
+                // Xóa tất cả các dòng trong nhanvientamthoi và congviectamthoi
+                string deleteTempTables = @"
                         DELETE FROM duan_tam;
                         DELETE FROM nhanvientamthoi WHERE maduan = @maDuAn;
                         DELETE FROM congviectamthoi WHERE maduan = @maDuAn;
                     ";
 
-                    using (var command = new NpgsqlCommand(deleteTempTables, connection))
-                    {
-                        command.Parameters.AddWithValue("@maDuAn", projectID);
-                        await command.ExecuteNonQueryAsync();
-                    }
+                using (var command = new NpgsqlCommand(deleteTempTables, connection))
+                {
+                    command.Parameters.AddWithValue("@maDuAn", projectID);
+                    await command.ExecuteNonQueryAsync();
                 }
+            }
 
-              
+
         }
 
         public async void InsertEmployeeToDaTaBase(Employee newEmployee)
@@ -845,6 +845,85 @@ namespace QuanLyMayMoc
             return lois;
 
         }
+
+        public int TimSttLonNhat(string maduan)
+        {
+            int maxStt = 0; // Giá trị mặc định nếu không có kết quả
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open(); // Mở kết nối
+
+                string maxSttQuery = @"
+        SELECT COALESCE(MAX(stt), 0)
+        FROM (
+            SELECT stt FROM congviectamthoi WHERE maduan = @maduan
+            UNION ALL
+            SELECT stt FROM congviec WHERE maduan = @maduan
+        ) AS combined";
+
+                using (var command = new NpgsqlCommand(maxSttQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@maduan", maduan);
+
+                    var result = command.ExecuteScalar(); // Lấy kết quả
+                    if (result != null && int.TryParse(result.ToString(), out int parsedResult))
+                    {
+                        maxStt = parsedResult; // Chuyển đổi thành số nguyên
+                    }
+                }
+            }
+            return maxStt;
+        }
+
+        public async void InsertTaskToDaTaBaseTemp(Task newTask)
+        {
+            string insertCongViecQuery = @"
+                INSERT INTO congviectamthoi (
+                    stt, macvduan, ngaythuchien, hotenkh, sdt, diachi, tendichvu, manv, tennv, malinhkien, 
+                    tenlinhkien, soluonglinhkien, maloi, tenloi, soluongloi, phidichvu, ghichu, maduan
+                ) VALUES (
+                    @stt, @macvduan, @ngaythuchien, @hotenkh, @sdt, @diachi, @tendichvu, @manv, @tennv, @malinhkien, 
+                    @tenlinhkien, @soluonglinhkien, @maloi, @tenloi, @soluongloi, @phidichvu, @ghichu, @maduan
+                )";
+
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                await connection.OpenAsync();
+
+                using (var command = new NpgsqlCommand(insertCongViecQuery, connection))
+                {
+                    // Thêm các tham số cho truy vấn
+                    command.Parameters.AddWithValue("@stt", newTask.Stt);
+                    command.Parameters.AddWithValue("@macvduan", newTask.MaCVDuAn);
+                    command.Parameters.AddWithValue("@ngaythuchien", newTask.NgayThucHien == DateTime.MinValue ? (object)DBNull.Value : newTask.NgayThucHien);
+                    command.Parameters.AddWithValue("@hotenkh", newTask.HoTenKH ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@sdt", newTask.SDT ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@diachi", newTask.DiaChi ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@tendichvu", newTask.TenDichVu ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@manv", newTask.MaNV ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@tennv", newTask.TenNV ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@malinhkien", newTask.MaLK ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@tenlinhkien", newTask.TenLK ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@soluonglinhkien", newTask.SoLuongLK);
+                    command.Parameters.AddWithValue("@maloi", newTask.MaLoi ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@tenloi", newTask.TenLoi ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@soluongloi", newTask.SoLuongLoi);
+                    command.Parameters.AddWithValue("@phidichvu", newTask.PhiDichVu);
+                    command.Parameters.AddWithValue("@ghichu", newTask.GhiChu ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@maduan", newTask.MaDuAn ?? (object)DBNull.Value);
+
+                    // Thực thi truy vấn
+                    await command.ExecuteNonQueryAsync();
+                }
+            }
+        }
+
+        public ObservableCollection<Loi> GetAllLoi()
+        {
+            return new ObservableCollection<Loi> { };
+        }
     }
+
+
 
 }
