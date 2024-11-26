@@ -919,15 +919,18 @@ namespace QuanLyMayMoc
                 }
             }
 
-            //public ObservableCollection<Loi> GetAllLoi()
-            //{
-            //ObservableCollection < Loi > res = new ObservableCollection<Loi >();
-            //return res;
-            //}
+        //public ObservableCollection<Loi> GetAllLoi()
+        //{
+        //ObservableCollection < Loi > res = new ObservableCollection<Loi >();
+        //return res;
+        //}
 
-
-
+        public void SaveProjectWithDifferentName(Project projectInsert)
+        {
 
         }
 
+
     }
+
+}

@@ -169,5 +169,9 @@ namespace QuanLyMayMoc.ViewModel
         {
             get; set;
         }
-    }
+
+        public void SaveProjectWithDifferentName(Project project)
+        {
+            _dao.SaveProjectWithDifferentName(project);
+        }
 }
