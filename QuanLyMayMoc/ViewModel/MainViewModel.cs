@@ -33,7 +33,7 @@ namespace QuanLyMayMoc.ViewModel
             }
         }
 
-      
+
 
 
         public ObservableCollection<Employee> Employees
@@ -55,7 +55,7 @@ namespace QuanLyMayMoc.ViewModel
             Employees = _dao.GetEmployees();
             Tasks = _dao.GetTasks();
             linhkien = _dao.GetAllLinhKien();
-           // ListLoi = _dao.GetAllLoi();
+            // ListLoi = _dao.GetAllLoi();
 
 
         }
@@ -134,7 +134,7 @@ namespace QuanLyMayMoc.ViewModel
         }
         public void InsertAllDataFromTemp(string projectID)
         {
-            _dao.InsertAllDataFromTemp( projectID);
+            _dao.InsertAllDataFromTemp(projectID);
 
         }
 
@@ -174,4 +174,5 @@ namespace QuanLyMayMoc.ViewModel
         {
             _dao.SaveProjectWithDifferentName(project);
         }
+    } 
 }
