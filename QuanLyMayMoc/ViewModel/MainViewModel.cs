@@ -34,7 +34,7 @@ namespace QuanLyMayMoc.ViewModel
             }
         }
 
-      
+
 
 
         public ObservableCollection<Employee> Employees
@@ -56,7 +56,11 @@ namespace QuanLyMayMoc.ViewModel
             Employees = _dao.GetEmployees();
             Tasks = _dao.GetTasks();
             linhkien = _dao.GetAllLinhKien();
+<<<<<<< HEAD
             ListLoi = _dao.GetAllLoi();
+=======
+            // ListLoi = _dao.GetAllLoi();
+>>>>>>> c52b2f52ae2ee76d25b731b3b5255c0f6ff245cf
 
 
         }
@@ -95,7 +99,10 @@ namespace QuanLyMayMoc.ViewModel
             return _dao.GetCustomerNamesFromDatabase(query);
         }
 
-
+        public ObservableCollection<Project> getProjects()
+        {
+            return _dao.GetProjects();
+        }
 
         public void RemoveSelectedTask()
         {
@@ -132,7 +139,7 @@ namespace QuanLyMayMoc.ViewModel
         }
         public void InsertAllDataFromTemp(string projectID)
         {
-            _dao.InsertAllDataFromTemp( projectID);
+            _dao.InsertAllDataFromTemp(projectID);
 
         }
 
@@ -206,8 +213,16 @@ namespace QuanLyMayMoc.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+<<<<<<< HEAD
 
 
       
     }
+=======
+        public void SaveProjectWithDifferentName(Project project)
+        {
+            _dao.SaveProjectWithDifferentName(project);
+        }
+    } 
+>>>>>>> c52b2f52ae2ee76d25b731b3b5255c0f6ff245cf
 }

@@ -37,6 +37,10 @@ namespace QuanLyMayMoc
         public void DeleteLoiTam(string maLoi);
         public void InsertLoiToDaTaBaseTemp(Loisp newLinhKien, string mahieuduan);
 
+<<<<<<< HEAD
+=======
+        public void SaveProjectWithDifferentName(Project projectInsert);
+>>>>>>> c52b2f52ae2ee76d25b731b3b5255c0f6ff245cf
     }
 
 

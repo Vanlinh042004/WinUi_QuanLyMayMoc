@@ -69,6 +69,43 @@ namespace QuanLyMayMoc
             InputGrid.Children.Add(emptyElement);
         }
 
+<<<<<<< HEAD
+=======
+        private async void SaveToLoiTam()
+        {
+            try
+            {
+                using (var connection = new NpgsqlConnection(connectionString))
+                {
+                    await connection.OpenAsync();
+                    {
+                        // Nếu dự án chưa tồn tại, thêm vào bảng `duan_tam`
+                        string insertQuery = @" INSERT INTO loiduantam (mahieuduan, mahieu, tenloi, giaban, maduan)
+                                                SELECT CONCAT(mahieu,'_', @maDuAn), mahieu, tenloi, giaban, @maDuAn
+                                                FROM loi";
+                        using (var command = new NpgsqlCommand(insertQuery, connection))
+                        {
+                            command.Parameters.AddWithValue("@maDuAn", AppData.ProjectID);
+                            await command.ExecuteNonQueryAsync();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                var contentDialog = new ContentDialog
+                {
+                    Title = "Lỗi",
+                    Content = $"Có lỗi xảy ra khi tạo dự án: {ex.Message}",
+                    CloseButtonText = "OK",
+                    XamlRoot = this.XamlRoot
+                };
+                await contentDialog.ShowAsync();
+                contentDialog = null;
+            }
+
+        }
+>>>>>>> c52b2f52ae2ee76d25b731b3b5255c0f6ff245cf
         // Thêm dòng mới
         #region AddNewRow
         private void AddNewRow()

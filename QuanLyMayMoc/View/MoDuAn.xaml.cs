@@ -1,18 +1,14 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
 using Npgsql;
+using QuanLyMayMoc.ViewModel;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using System.Collections.ObjectModel;
+using static QuanLyMayMoc.AppData;
+
+
+
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -24,62 +20,86 @@ namespace QuanLyMayMoc.View
     /// </summary>
     public sealed partial class MoDuAn : Page
     {
+        private ObservableCollection<Project> projects;
         public MoDuAn()
         {
             this.InitializeComponent();
-            loadDuAnFromDB();
+            MainViewModel mainViewModel = new MainViewModel();
+
+            //loadDuAnFromDB();
+            projects = mainViewModel.getProjects();
             showDuAn();
         }
-        public string connectionString = "Host=127.0.0.1;Port=5432;Username=postgres;Password=1234;Database=postgres";
-        
-        public class DuAn
-        {
-            public string maDuAn { get; set; }
-            public string tenDuAn { get; set; }
-            public string ngayThucHien { get; set; }
-        }
+        public string connectionString = "Host=127.0.0.1;Port=5432;Username=postgres;Password=1234;Database=machine";
 
-        public class DuAnList
+        private MainPage _mainPage;
+
+        protected override void OnNavigatedTo(Microsoft.UI.Xaml.Navigation.NavigationEventArgs e)
         {
-            public static List<DuAn> Items { get; set; } = new List<DuAn>();
+            base.OnNavigatedTo(e);
+            _mainPage = e.Parameter as MainPage;
         }
+        //public class DuAn
+        //{
+        //    public string maDuAn { get; set; }
+        //    public string tenDuAn { get; set; }
+        //    public string ngayThucHien { get; set; }
+        //}
+
+        //public class DuAnList
+        //{
+        //    public static List<DuAn> Items { get; set; } = new List<DuAn>();
+        //}
 
         public void showDuAn()
         {
             // show data stored in Items to MoDuAn page
             // with each item in Items, create a new line in a grid
             // and show the information of the item in the grid
-            foreach (DuAn duan in DuAnList.Items)
+            foreach (Project project in projects)
             {
-                TextBlock textBlock = new TextBlock();
-                textBlock.Text = duan.maDuAn + " " + duan.tenDuAn + " " + duan.ngayThucHien;
-                DataStackPanel.Children.Add(textBlock);
-            }
-
-        }
-
-        public void loadDuAnFromDB()
-        {
-            // Load data from database
-            using (var connection = new NpgsqlConnection(connectionString))
-            {
-                connection.Open();
-                using (var cmd = new NpgsqlCommand("SELECT * FROM duan", connection))
+                Button button = new Button();
+                button.Content = project.TimeCreate + " " + project.Name;
+                DataStackPanel.Children.Add(button);
+                button.Click += (sender, e) =>
                 {
-                    using (var reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            string maDuAn = reader.GetString(0);
-                            string tenDuAn = reader.GetString(1);
-                            // get the timestamp without time zone
-                            string ngayThucHien = reader.GetDateTime(2).ToString();
-                            DuAn duan = new DuAn { maDuAn = maDuAn, tenDuAn = tenDuAn, ngayThucHien = ngayThucHien };
-                            DuAnList.Items.Add(duan);
-                        }
-                    }
-                }
+
+                    _mainPage.buttonToggling();
+
+                    AppData.ProjectID = project.ID;
+                    AppData.ProjectName = project.Name;
+                    AppData.ProjectTimeCreate = project.TimeCreate;
+
+                    // when a button is clicked, navigate to another page
+                    // and pass the information of the item to the page
+                    this.Frame.Navigate(typeof(DichVuTheoThang), project);
+                };
             }
         }
+
+
+        //public void loadDuAnFromDB()
+        //{
+        //    // Load data from database
+        //    using (var connection = new NpgsqlConnection(connectionString))
+        //    {
+        //        connection.Open();
+        //        using (var cmd = new NpgsqlCommand("SELECT * FROM duan", connection))
+        //        {
+        //            using (var reader = cmd.ExecuteReader())
+        //            {
+        //                while (reader.Read())
+        //                {
+        //                    string maDuAn = reader.GetString(0);
+        //                    string tenDuAn = reader.GetString(1);
+        //                    // get the timestamp without time zone
+        //                    string ngayThucHien = reader.GetDateTime(2).ToString();
+        //                    DuAn duan = new DuAn { maDuAn = maDuAn, tenDuAn = tenDuAn, ngayThucHien = ngayThucHien };
+        //                    DuAnList.Items.Add(duan);
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
     }
 }
