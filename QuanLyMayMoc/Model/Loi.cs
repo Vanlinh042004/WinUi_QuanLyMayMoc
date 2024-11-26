@@ -31,6 +31,32 @@ namespace QuanLyMayMoc.Model
             set { _giaban = value; OnPropertyChanged(nameof(GiaBan)); }
         }
 
+
+
+        public void SetPropertyForColumn(int col, string value)
+        {
+            switch (col)
+            {
+                case 0:
+                    MaSanPham = value;
+                    break;
+                case 1:
+                    TenSanPham = value;
+                    break;
+                case 2:
+                    if (double.TryParse(value, out double giaBan))
+                    {
+                        GiaBan = giaBan;
+                    }
+                    else
+                    {
+                        throw new ArgumentException($"Invalid value for GiaBan: {value}");
+                    }
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(col), "Invalid column index.");
+            }
+        }
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged(string propertyName)

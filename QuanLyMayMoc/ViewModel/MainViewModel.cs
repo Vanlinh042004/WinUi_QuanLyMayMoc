@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -55,7 +56,7 @@ namespace QuanLyMayMoc.ViewModel
             Employees = _dao.GetEmployees();
             Tasks = _dao.GetTasks();
             linhkien = _dao.GetAllLinhKien();
-           // ListLoi = _dao.GetAllLoi();
+            ListLoi = _dao.GetAllLoi();
 
 
         }
@@ -96,7 +97,7 @@ namespace QuanLyMayMoc.ViewModel
 
 
 
-        public async void RemoveSelectedTask()
+        public void RemoveSelectedTask()
         {
             if (CurrentSelectedTask != null)
             {
@@ -149,6 +150,55 @@ namespace QuanLyMayMoc.ViewModel
         {
             _dao.InsertTaskToDaTaBaseTemp(newTask);
         }
+        public ObservableCollection<Linhkien> linhkien
+        {
+            get; set;
+        }
+        public void SaveToLinhKienTam()
+        {
+            _dao.SaveToLinhKienTam();
+        }
+        public void DeleteAllLinhKienTam()
+        {
+            _dao.DeleteAllLinhKienTam();
+            
+        }
+        public void DeleteLinhKienTam(string maLinhKien)
+        {
+            _dao.DeleteLinhKienTam(maLinhKien);
+        }
+        public void InsertLinhKienToDaTaBaseTemp(Linhkien newLinhKien, string mahieuduan)
+        {
+            _dao.InsertLinhKienToDaTaBaseTemp(newLinhKien, mahieuduan);
+        }
+        public ObservableCollection<Loisp> ListLoi
+        {
+            get; set;
+        }
+
+        public void SaveToLoiTam()
+        {
+            _dao.SaveToLoiTam();
+        }
+
+        public void DeleteAllLoiTam()
+        {
+            _dao.DeleteAllLoiTam();
+        }
+
+        public void DeleteLoiTam(string maLoi)
+        {
+            _dao.DeleteLoiTam(maLoi);
+        }
+
+        public void InsertLoiToDaTaBaseTemp(Loisp newLoi, string mahieuduan)
+        {
+            _dao.InsertLoiToDaTaBaseTemp(newLoi, mahieuduan);
+        }
+
+
+
+
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string propertyName)
@@ -158,13 +208,6 @@ namespace QuanLyMayMoc.ViewModel
 
 
 
-        public ObservableCollection<Linhkien> linhkien
-        {
-            get; set;
-        }
-        public ObservableCollection<Loisp> ListLoi
-        {
-            get; set;
-        }
+      
     }
 }

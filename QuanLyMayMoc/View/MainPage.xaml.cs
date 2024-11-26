@@ -119,7 +119,7 @@ namespace QuanLyMayMoc
 
                     string date = DateTime.Now.ToString("yyyy_MM_dd");
                     string time = DateTime.Now.ToString("HH_mm_ss");
-                    maDuAn = projectName + date + "_" + time;
+                    maDuAn = projectName + "/" + date + "/" + time;
                     AppData.ProjectID = maDuAn;
                     AppData.ProjectName = projectName;
                     AppData.ProjectTimeCreate = DateTime.Now;
