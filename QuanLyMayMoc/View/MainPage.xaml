@@ -30,7 +30,7 @@
                 <MenuFlyoutSeparator/>
                 <MenuFlyoutItem Text="Lưu dự án" Click="LuuDuAnClick"/>
                 <MenuFlyoutSeparator/>
-                <MenuFlyoutItem Text="Lưu với tên khác"/>
+                <MenuFlyoutItem Text="Lưu với tên khác" Click="LuuDuAnVoiTenKhacClick"/>
                 <MenuFlyoutSeparator/>
                 <MenuFlyoutItem Text="Exit"/>
             </MenuBarItem>
