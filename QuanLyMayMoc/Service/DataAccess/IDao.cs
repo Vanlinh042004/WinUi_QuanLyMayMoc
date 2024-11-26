@@ -32,6 +32,8 @@ namespace QuanLyMayMoc
         public void InsertTaskToDaTaBaseTemp(Task newTask);
 
         public void SaveProjectWithDifferentName(Project projectInsert);
+
+        public void DeleteProject(Project selectedProject);
     }
 
 

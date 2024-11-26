@@ -276,7 +276,7 @@ namespace QuanLyMayMoc
                 await new ContentDialog
                 {
                     Title = "Lỗi",
-                    Content = "Chưa mở dự án. Vui lòng tạo dự án mới trước khi lưu.",
+                    Content = "Chưa mở dự án. Vui lòng mở dự án trước khi lưu.",
                     CloseButtonText = "OK",
                     XamlRoot = this.XamlRoot
                 }.ShowAsync();
@@ -357,6 +357,62 @@ namespace QuanLyMayMoc
                     CloseButtonText = "OK",
                     XamlRoot = this.XamlRoot
                 }.ShowAsync();
+            }
+        }
+
+        private async void XoaDuAnClick(object sender, RoutedEventArgs e)
+        {
+            ContentDialog deleteProjectDialog = new ContentDialog
+            {
+                Title = "Bạn có chắc chắn muốn xóa dự án?",
+                Content = "Hành động này sẽ xóa dự án của bạn",
+                PrimaryButtonText = "OK",
+                CloseButtonText = "Cancel",
+                XamlRoot = this.XamlRoot // Set XamlRoot for the dialog to appear in the correct window context
+            };
+            var result = await deleteProjectDialog.ShowAsync();
+            if (result == ContentDialogResult.Primary)
+            {
+                if (string.IsNullOrEmpty(AppData.ProjectID))
+                {
+                    await new ContentDialog
+                    {
+                        Title = "Lỗi",
+                        Content = "Chưa mở dự án. Vui lòng mở dự án trước khi xóa.",
+                        CloseButtonText = "OK",
+                        XamlRoot = this.XamlRoot
+                    }.ShowAsync();
+                    return;
+                }
+                try
+                {
+                    if (CurrentProject == null)
+                    {
+                        CurrentProject = new Project();
+                        CurrentProject.ID = AppData.ProjectID;
+                        CurrentProject.Name = AppData.ProjectName;
+                        CurrentProject.TimeCreate = AppData.ProjectTimeCreate;
+                    }
+
+                    ViewModel.DeleteProject(CurrentProject);
+                    await new ContentDialog
+                    {
+                        Title = "Thành công",
+                        Content = "Dự án đã được xóa thành công.",
+                        CloseButtonText = "OK",
+                        XamlRoot = this.XamlRoot
+                    }.ShowAsync();
+                }
+                catch (Exception ex)
+                {
+                    await new ContentDialog
+                    {
+                        Title = "Lỗi",
+                        Content = $"Có lỗi xảy ra khi xóa dự án: {ex.Message}",
+                        CloseButtonText = "OK",
+                        XamlRoot = this.XamlRoot
+                    }.ShowAsync();
+                }
             }
         }
     }
