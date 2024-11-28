@@ -4,34 +4,46 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace QuanLyMayMoc
 {
     public class Task : INotifyPropertyChanged
     {
         private string _maCVDuAn;
+
         private int _stt;
+
         private DateTime _ngayThucHien;
-       // private string _maCV;
+
         private string _hoTenKH;
+
         private string _sdt;
+
         private string _diaChi;
-        //private string _loaiModel;
-        //private string _model;
-        //private DateTime _ngayLapDat;
+
         private string _tenDichVu;
+
         private string _maNV;
+
         private string _tenNV;
+
         private int _phiDichVu;
-      //  private string _ktvThucHien;
+
         private string _maLK;
+
         private string _tenLK;
+
         private int _soLuongLK;
+
         private string _maLoi;
+
         private string _tenLoi;
+
         private int _soLuongLoi;
-        // private string _tenLK;
+
         private string _ghiChu;
+
         private string _maDuAn;
 
         private bool _isSelected;
@@ -92,16 +104,21 @@ namespace QuanLyMayMoc
             set { _tenNV = value; OnPropertyChanged(nameof(TenNV)); }
         }
 
+        [JsonProperty("MaLinhKien")]
         public string MaLK
         {
             get => _maLK;
             set { _maLK = value; OnPropertyChanged(nameof(MaLK)); }
         }
+
+        [JsonProperty("TenLinhKien")]
         public string TenLK
         {
             get => _tenLK;
             set { _tenLK = value; OnPropertyChanged(nameof(TenLK)); }
         }
+
+        [JsonProperty("SoLuongLinhKien")]
         public int SoLuongLK
         {
             get => _soLuongLK;
@@ -124,7 +141,7 @@ namespace QuanLyMayMoc
         }
 
 
-
+        [JsonProperty("TenDichVu")]
         public string TenDichVu
         {
             get => _tenDichVu;

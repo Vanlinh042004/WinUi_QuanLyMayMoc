@@ -7,6 +7,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.UI.Xaml.Shapes;
 using QuanLyMayMoc.Service;
+using QuanLyMayMoc.Service.DataAccess;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -42,7 +43,7 @@ namespace QuanLyMayMoc
         /// <param name="args">Details about the launch request and process.</param>
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
-            ServiceFactory.Register(typeof(IDao), typeof(PostgresSqlDao));
+            ServiceFactory.Register(typeof(IDao), typeof(APIDao));
             m_window = new ShellWindow();
             m_window.Activate();
         }

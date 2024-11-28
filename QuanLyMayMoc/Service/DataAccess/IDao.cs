@@ -11,11 +11,12 @@ namespace QuanLyMayMoc
 {
     public interface IDao
     {
-         public ObservableCollection<Employee> GetEmployees();
+        public ObservableCollection<Employee> GetEmployees();
         public ObservableCollection<Linhkien> GetAllLinhKien();
 
-      //  public  ObservableCollection<Loi> GetAllLoi();
+        public  ObservableCollection<Loisp> GetAllLoi();
 
+        // Lấy tất cả công việc từ bảng Task
         public ObservableCollection<Task> GetTasks();
         public ObservableCollection<Task> GetTasksFromTemp();
         public ObservableCollection<Task> GetTasksFromTemp(DateTime? ngaythuchien, string keyword);
@@ -26,12 +27,12 @@ namespace QuanLyMayMoc
         public void InsertProject(Project projectInsert);
         public void InsertProjectTemp(Project projectInsert);
         public void InsertAllDataFromTemp(string projectID);
-        public void InsertEmployeeToDaTaBase(Employee newEmployee);
+        public void InsertEmployeeToDatabase(Employee newEmployee);
         public  int TimSttLonNhat(string maduan);
 
-        public void InsertTaskToDaTaBaseTemp(Task newTask);
+        public void InsertTaskToDatabaseTemp(Task newTask);
 
-        public void SaveProjectWithDifferentName(Project projectInsert);
+        public void SaveProjectWithDifferentName(Project projectInsert, string oldProjectID);
 
         public void DeleteProject(Project selectedProject);
     }

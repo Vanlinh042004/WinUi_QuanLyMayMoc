@@ -250,10 +250,6 @@ namespace QuanLyMayMoc
                
                 ViewModel.RemoveSelectedTask();
 
-               
-              
-
-              
                 ContentDialog successDialog = new ContentDialog
                 {
                     Title = "Xóa thành công",
@@ -420,7 +416,7 @@ namespace QuanLyMayMoc
                     SaveRowData(entry.Key);
                     ViewModel.Tasks.Add(entry.Value);
                     // Thực hiện chèn dữ liệu vào bảng congviectamthoi
-                    ViewModel.InsertTaskToDaTaBaseTemp(entry.Value);
+                    ViewModel.InsertTaskToDatabaseTemp(entry.Value);
 
                 }
                 catch (Exception ex) {

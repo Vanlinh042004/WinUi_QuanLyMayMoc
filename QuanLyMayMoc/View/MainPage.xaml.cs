@@ -260,7 +260,7 @@ namespace QuanLyMayMoc
             TextBox projectNameTextBox = new TextBox
             {
                 PlaceholderText = "Nhập tên dự án khác:",
-                Width = 300
+                Width = 300 
             };
             // Create the ContentDialog
             ContentDialog inputProjectNameDialog = new ContentDialog
@@ -322,6 +322,7 @@ namespace QuanLyMayMoc
                 string date = DateTime.Now.ToString("yyyy_MM_dd");
                 string time = DateTime.Now.ToString("HH_mm_ss");
                 string maDuAn = projectName + date + "_" + time;
+                string oldProjectName = AppData.ProjectID;
                 AppData.ProjectID = maDuAn;
                 AppData.ProjectName = projectName;
                 AppData.ProjectTimeCreate = DateTime.Now;
@@ -333,9 +334,10 @@ namespace QuanLyMayMoc
                 };
                 try
                 {
-                    //xử lý chỗ này đi ae
-                    ViewModel.SaveProjectWithDifferentName(CurrentProject);
-
+                    ViewModel.SaveProjectWithDifferentName(CurrentProject, oldProjectName);
+                    AppData.ProjectID = CurrentProject.ID;
+                    AppData.ProjectName = CurrentProject.Name;
+                    AppData.ProjectTimeCreate = CurrentProject.TimeCreate;
                 }
                 catch (Exception ex)
                 {
@@ -395,6 +397,9 @@ namespace QuanLyMayMoc
                     }
 
                     ViewModel.DeleteProject(CurrentProject);
+                    //navigate to MoDuAn
+                    this.FrameContent.Navigate(typeof(MoDuAn), this);
+                    buttonToggling();
                     await new ContentDialog
                     {
                         Title = "Thành công",

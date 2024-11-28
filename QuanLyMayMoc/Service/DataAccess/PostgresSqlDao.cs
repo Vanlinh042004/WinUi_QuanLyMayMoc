@@ -54,7 +54,7 @@ namespace QuanLyMayMoc
                                 NgaySinh = reader.IsDBNull(4) ? DateTime.MinValue : reader.GetDateTime(4),
                                 TrangThai = reader.IsDBNull(5) ? null : reader.GetString(5),
                                 AnhDaiDien = "Assets/couple.PNG", /*reader.IsDBNull(7) ? null : reader.GetString(7),*/
-                                DanToc = reader.IsDBNull(6) ? null : reader.GetString(6),       // Cột 6: DanToc
+                                //DanToc = reader.IsDBNull(6) ? null : reader.GetString(6),       // Cột 6: DanToc
                                 CCCD = reader.IsDBNull(7) ? null : reader.GetString(7),         // Cột 7: CCCD
                                 PhongBan = reader.IsDBNull(8) ? null : reader.GetString(8),     // Cột 8: PhongBan
                                 Email = reader.IsDBNull(9) ? null : reader.GetString(9),        // Cột 9: Email
@@ -70,7 +70,6 @@ namespace QuanLyMayMoc
 
             return employees;
         }
-
 
         // Lấy danh sách tất cả các công việc
         public ObservableCollection<Task> GetTasks()
@@ -781,7 +780,7 @@ namespace QuanLyMayMoc
 
         }
 
-        public async void InsertEmployeeToDaTaBase(Employee newEmployee)
+        public async void InsertEmployeeToDatabase(Employee newEmployee)
         {
             string insertEmployeeQuery = @"
                 INSERT INTO nhanvientamthoi 
@@ -876,7 +875,7 @@ namespace QuanLyMayMoc
                 return maxStt;
             }
 
-            public async void InsertTaskToDaTaBaseTemp(Task newTask)
+            public async void InsertTaskToDatabaseTemp(Task newTask)
             {
                 string insertCongViecQuery = @"
                 INSERT INTO congviectamthoi (
@@ -925,7 +924,7 @@ namespace QuanLyMayMoc
         //return res;
         //}
 
-        public void SaveProjectWithDifferentName(Project projectToSave)
+        public void SaveProjectWithDifferentName(Project projectToSave, string oldProjectID)
         {
 
         }

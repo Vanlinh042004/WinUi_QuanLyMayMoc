@@ -63,16 +63,17 @@ namespace QuanLyMayMoc
 
             var newEmployee = new Employee
             {
+                MaNhanVienDuAn = MaNhanVienInput.Text + AppData.ProjectID,
                 MaNhanVien = MaNhanVienInput.Text ?? "Không có",
                 HoTen = HoTenInput.Text ?? "Không rõ",
                 GioiTinh = (GioiTinhInput.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "Khác",
                 NgaySinh = NgaySinhInput.SelectedDate?.Date ?? DateTime.MinValue,
-                CCCD = CCCDInput.Text ?? "Không có",
-                SoDienThoai = SoDienThoaiInput.Text ?? "Không có",
-                Email = EmailInput.Text ?? "Không có",
                 DiaChi = DiaChiInput.Text ?? "Không có",
+                SoDienThoai = SoDienThoaiInput.Text ?? "Không có",  
+                Email = EmailInput.Text ?? "Không có",
                 TrangThai = TrangThaiInput.Text ?? "Không có",
                 PhongBan = PhongBanInput.Text ?? "Không có",
+                CCCD = CCCDInput.Text ?? "Không có",
                 AnhDaiDien = string.IsNullOrWhiteSpace(AnhDaiDienInput.Text) ? "No Image" : AnhDaiDienInput.Text,
                 MaDuAn = AppData.ProjectID,
             };
