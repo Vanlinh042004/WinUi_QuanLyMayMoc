@@ -35,8 +35,8 @@ namespace QuanLyMayMoc
     {
         private int currentRow = 1;
         private int Columns = 3;
-        private int selectedRow = -1; // Hàng được chọn để xóa
         private string connectionString = "Host=127.0.0.1;Port=5432;Username=postgres;Password=1234;Database=machine";
+        private Dictionary<int, Linhkien> rowLinkKienDictionary = new Dictionary<int, Linhkien>();
 
         public MainViewModel ViewModel
         {
@@ -46,14 +46,11 @@ namespace QuanLyMayMoc
         {
             this.InitializeComponent();
             HideFirstRow(); // Thêm dòng đầu tiên
-            ViewModel = new MainViewModel();
-            SaveToLinhKienTam(); // Lưu dữ liệu từ bảng linhkien vào bảng LinhKien_Tam
+            ViewModel = new MainViewModel(); 
+            ViewModel.SaveToLinhKienTam(); // Lưu dữ liệu từ bảng linhkien vào bảng LinhKien_Tam
+       
         }
-        private void OnTaskTapped(object sender, TappedRoutedEventArgs e)
-        {
-
-
-        }
+   
 
         private void HideFirstRow()
         {
@@ -72,44 +69,14 @@ namespace QuanLyMayMoc
             InputGrid.Children.Add(emptyElement);
         }
 
-
-        private async void SaveToLinhKienTam()
-        {
-            try
-            {
-                using (var connection = new NpgsqlConnection(connectionString))
-                {
-                    await connection.OpenAsync();
-                    {
-                        // Nếu dự án chưa tồn tại, thêm vào bảng `duan_tam`
-                        string insertQuery = @" INSERT INTO linhkienduantam (mahieuduan, mahieu, tenlinhkien, giaban, maduan)
-                                                SELECT CONCAT(mahieu,'_', @maDuAn), mahieu, tenlinhkien, giaban, @maDuAn
-                                                FROM linhkien";
-                        using (var command = new NpgsqlCommand(insertQuery, connection))
-                        {
-                            command.Parameters.AddWithValue("@maDuAn", AppData.ProjectID);
-                            await command.ExecuteNonQueryAsync();
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                await new ContentDialog
-                {
-                    Title = "Lỗi",
-                    Content = $"Có lỗi xảy ra khi tạo dự án: {ex.Message}",
-                    CloseButtonText = "OK",
-                    XamlRoot = this.XamlRoot
-                }.ShowAsync();
-            }
-
-        }
+            
         // Thêm dòng mới
         #region AddNewRow
         private void AddNewRow()
         {
 
+            var newLinhKien = new Linhkien();
+            rowLinkKienDictionary[currentRow] = newLinhKien;
             // Thêm dòng mới vào Grid
             InputGrid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
 
@@ -124,7 +91,7 @@ namespace QuanLyMayMoc
                     BorderBrush = new SolidColorBrush(Colors.Black),
                     BorderThickness = new Thickness(1)
                 };
-                AddHoverEffect(textBox, Colors.Gray, Colors.Black); // Reuse hover effect
+                AddHoverEffect(textBox, Colors.Gray, Colors.Black); 
 
                 element = textBox;
                 // Đặt phần tử vào đúng vị trí trong Grid
@@ -170,129 +137,178 @@ namespace QuanLyMayMoc
 
             AddNewRow();
         }
+
+
         #endregion
 
 
+        // Lưu
+        private void SaveRowData(int rowIndex)
+        {
+            try
+            {
+                if (rowLinkKienDictionary.TryGetValue(rowIndex, out Linhkien linhkien))
+                {
+                    for (int col = 0; col < Columns; col++)
+                    {
+                        var element = InputGrid.Children
+                            .OfType<FrameworkElement>()
+                            .FirstOrDefault(e => Grid.GetRow(e) == rowIndex && Grid.GetColumn(e) == col);
 
+
+                        if (element is TextBox textBox)
+                        {
+                            linhkien.SetPropertyForColumn(col, textBox.Text);
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException("Unsupported element type encountered during save operation.");
+                        }
+                    }
+                }
+                else
+                {
+                    throw new KeyNotFoundException($"No link kien found for row index {rowIndex}.");
+                }
+            }
+            catch (KeyNotFoundException ex)
+            {
+                // Log lỗi hoặc xử lý khác
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+            catch (InvalidOperationException ex)
+            {
+                // Log lỗi hoặc xử lý khác
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                // Log lỗi hoặc xử lý khác
+                Console.WriteLine($"An unexpected error occurred: {ex.Message}");
+            }
+        }
+
+        private void OnSaveRowDataClick(object sender, RoutedEventArgs e)
+        {
+            int stt = 0;
+            foreach (var entry in rowLinkKienDictionary)
+            {
+                stt++;
+                try
+                {
+
+                    // Lưu dữ liệu vào ViewModel
+                    SaveRowData(entry.Key);
+                    // Nếu chỉ thêm dòng mà không nhập mã sản phẩm thì không lưu
+                    if (entry.Value.MaSanPham == null || entry.Value.MaSanPham == "")
+                    {
+                        break;
+
+                    }
+                    ViewModel.linhkien.Add(entry.Value);
+                    // Thực hiện chèn dữ liệu vào bảng congviectamthoi
+                    string mahieuduan = entry.Value.MaSanPham + "_" + AppData.ProjectID;
+                    ViewModel.InsertLinhKienToDaTaBaseTemp(entry.Value, mahieuduan);
+
+                }
+                catch (Exception ex)
+                {
+                    var dialog = new ContentDialog
+                    {
+                        Title = "Lỗi",
+                        Content = $"Có lỗi xảy ra khi lưu linh kiện: {ex.Message}",
+                        CloseButtonText = "OK"
+                    };
+                }
+            }
+
+            rowLinkKienDictionary.Clear();
+            ClearInputRows();
+
+        }
+        private void ClearInputRows()
+        {
+
+            InputGrid.Children.Clear();
+
+
+            currentRow = 1;
+        }
 
 
         // Delete row data
-
         private async void OnDeleteRowDataClick(object sender, RoutedEventArgs e)
         {
-            // Hiển thị hộp thoại để người dùng nhập mã sản phẩm cần xóa
-            //var inputTextBox = new TextBox();
-            //var dialog = new ContentDialog
-            //{
-            //    Title = "Xác nhận xóa",
-            //    Content = new StackPanel
-            //    {
-            //        Children =
-            //{
-            //    new TextBlock { Text = "Nhập Mã sản phẩm của linh kiện cần xóa:" },
-            //    inputTextBox
-            //}
-            //    },
-            //    PrimaryButtonText = "Xóa",
-            //    CloseButtonText = "Hủy",
-            //    XamlRoot = this.Content.XamlRoot // Đảm bảo ContentDialog được hiển thị trong ngữ cảnh của cửa sổ hiện tại
-            //};
+            // Lấy dòng đang được chọn
+            var selectedItem = (Linhkien)LinhKienListView.SelectedItem;
 
-            //var result = await dialog.ShowAsync();
-
-            //if (result == ContentDialogResult.Primary)
-            //{
-            //    string maSanPham = inputTextBox.Text;
-            //    // Tìm selectedRow dựa trên mã sản phẩm
-            //    for (int i = 1; i < InputGrid.RowDefinitions.Count; i++)
-            //    {
-            //        // Truy cập phần tử đầu tiên trong hàng thứ i (giả định mã sản phẩm nằm ở cột đầu tiên)
-            //        var element = InputGrid.Children
-            //            .Cast<UIElement>()
-            //            .FirstOrDefault(e => Grid.GetRow((FrameworkElement)e) == i && Grid.GetColumn((FrameworkElement)e) == 0);
-
-            //        if (element is Border border && border.Child is TextBlock textBlock)
-            //        {
-
-            //            if (textBlock.Text == maSanPham)
-            //            {
-            //                selectedRow = i;
-            //                break;
-            //            }
-            //        }
-            //    }
-
-            //    // Xóa selectedRow nếu đã tìm thấy
-            //    if (selectedRow != -1)
-            //    {
-            //        // Xóa các phần tử trong selectedRow
-            //        for (int col = 0; col < Columns; col++)
-            //        {
-            //            var element = InputGrid.Children
-            //                .Cast<UIElement>()
-            //                .FirstOrDefault(e => Grid.GetRow((FrameworkElement)e) == selectedRow && Grid.GetColumn((FrameworkElement)e) == col);
-
-            //            if (element != null)
-            //            {
-            //                InputGrid.Children.Remove(element);
-            //            }
-            //        }
-
-            //        // Xóa định nghĩa hàng của selectedRow
-            //        InputGrid.RowDefinitions.RemoveAt(selectedRow);
-
-            //        // Đặt lại số hàng hiện tại
-            //        currentRow--;
-            //        // Xoa database
-            //        DeleteRowFromDatabase(maSanPham);
-            //    }
-            //}
+            if (selectedItem != null)
+            {
+                // Xóa dòng khỏi ViewModel
+                ViewModel.linhkien.Remove(selectedItem);
+                LinhKienListView.SelectedItem = null;
+                ViewModel.DeleteLinhKienTam(selectedItem.MaSanPham);
+                // Hiển thị thông báo nếu cần
+                await new ContentDialog
+                {
+                    Title = "Thành công",
+                    Content = "Linh kiện được xóa thành công.",
+                    CloseButtonText = "OK",
+                    XamlRoot = this.XamlRoot
+                }.ShowAsync();
+            }
+            else
+            {
+                // Hiển thị thông báo nếu không có dòng nào được chọn
+                await new ContentDialog
+                {
+                    Title = "Lỗi",
+                    Content = "Chưa có Linh Kiện nào được chọn.",
+                    CloseButtonText = "OK",
+                    XamlRoot = this.XamlRoot
+                }.ShowAsync();
+            }
         }
-
-        private void DeleteRowFromDatabase(string maSanPham)
-        {
-            //string query = $"DELETE" +
-            //                 $" FROM Tbl_MTC_GiaLinhKien " +
-            //                 $" WHERE MaHieu = @MaHieu";
-            //DataProvider.InstanceTHDA.ExecuteNonQuery(query, parameter: new object[] { maSanPham });
-        }
-
-
-
-
-
 
         // Delete all row
         private void OnDeleteAllRowDataClick(object sender, RoutedEventArgs e)
         {
-            //// Xóa tất cả các phần tử con, ngoại trừ hàng đầu tiên
-            //for (int i = InputGrid.Children.Count - 1; i >= 0; i--)
-            //{
-            //    var element = InputGrid.Children[i];
-            //    if (Grid.GetRow((FrameworkElement)element) > 0) // Chỉ xóa các phần tử không nằm ở hàng 0
-            //    {
-            //        InputGrid.Children.RemoveAt(i);
-            //    }
-            //}
+            ViewModel.linhkien.Clear();
+            // Xóa tất cả các phần tử con, ngoại trừ hàng đầu tiên
+            for (int i = InputGrid.Children.Count - 1; i >= 0; i--)
+            {
+                var element = InputGrid.Children[i];
+                if (Grid.GetRow((FrameworkElement)element) > 0) // Chỉ xóa các phần tử không nằm ở hàng 0
+                {
+                    InputGrid.Children.RemoveAt(i);
+                }
+            }
 
-            //// Xóa tất cả các định nghĩa hàng, ngoại trừ hàng đầu tiên
-            //for (int row = InputGrid.RowDefinitions.Count - 1; row > 0; row--)
-            //{
-            //    InputGrid.RowDefinitions.RemoveAt(row);
-            //}
+            // Xóa tất cả các định nghĩa hàng, ngoại trừ hàng đầu tiên
+            for (int row = InputGrid.RowDefinitions.Count - 1; row > 0; row--)
+            {
+                InputGrid.RowDefinitions.RemoveAt(row);
+            }
 
-            //// Đặt lại số hàng hiện tại
-            //currentRow = 1;
-            //// Xoa database
-            //DeleteAllRowFromDatabase();
+            // Đặt lại số hàng hiện tại
+            currentRow = 1;
+            ViewModel.DeleteAllLinhKienTam();
         }
-        private void DeleteAllRowFromDatabase()
-        {
-            //string query = $"DELETE" +
-            //               $" FROM Tbl_MTC_GiaLinhKien  ";
-            //DataProvider.InstanceTHDA.ExecuteNonQuery(query);
-        }
-
     }
 
+
+
+
+
+
+
+
+
+
+
+
+      
+   
+  
 }
+

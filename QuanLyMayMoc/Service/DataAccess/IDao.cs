@@ -11,6 +11,7 @@ namespace QuanLyMayMoc
 {
     public interface IDao
     {
+
         public ObservableCollection<Employee> GetEmployees();
         public ObservableCollection<Linhkien> GetAllLinhKien();
 
@@ -22,7 +23,6 @@ namespace QuanLyMayMoc
         public ObservableCollection<Task> GetTasksFromTemp(DateTime? ngaythuchien, string keyword);
         public List<string> GetCustomerNamesFromDatabase(string query);
         public ObservableCollection<Project> GetProjects();
-        // Luu vao bang LinhKien
         public void DeleteTask(Task selectedTask);
         public void InsertProject(Project projectInsert);
         public void InsertProjectTemp(Project projectInsert);
@@ -30,11 +30,22 @@ namespace QuanLyMayMoc
         public void InsertEmployeeToDatabase(Employee newEmployee);
         public  int TimSttLonNhat(string maduan);
 
-        public void InsertTaskToDatabaseTemp(Task newTask);
-
+        public void InsertTaskToDaTaBaseTemp(Task newTask);
+        public ObservableCollection<Linhkien> GetAllLinhKien();
+        public void SaveToLinhKienTam();
+        public void DeleteAllLinhKienTam();
+        public void DeleteLinhKienTam(string maLinhKien);
+        public void InsertLinhKienToDaTaBaseTemp(Linhkien newLinhKien, string mahieuduan);
+        public  ObservableCollection<Loisp> ();
+        public void SaveToLoiTam();
+        public void DeleteAllLoiTam();
+        public void DeleteLoiTam(string maLoi);
+        public void InsertLoiToDaTaBaseTemp(Loisp newLinhKien, string mahieuduan);
         public void SaveProjectWithDifferentName(Project projectInsert, string oldProjectID);
-
         public void DeleteProject(Project selectedProject);
+
+
+
     }
 
 

@@ -49,9 +49,13 @@
         <!-- Nội dung cuộn -->
         <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" HorizontalAlignment="Center">
             <StackPanel>
-                <!-- Nội dung Row 2 -->
-                <ItemsControl ItemsSource="{x:Bind ViewModel.linhkien, Mode=OneWay}" HorizontalAlignment="Center">
-                    <ItemsControl.ItemTemplate>
+               
+                <ListView ItemsSource="{x:Bind ViewModel.linhkien, Mode=TwoWay}" 
+                          x:Name="LinhKienListView" 
+                          SelectionMode="Single" 
+                          HorizontalAlignment="Center" 
+                          IsItemClickEnabled="True">
+                    <ListView.ItemTemplate>
                         <DataTemplate x:DataType="local:Linhkien">
                             <Grid Padding="3">
                                 <Grid.ColumnDefinitions>
@@ -72,8 +76,8 @@
                                 </Border>
                             </Grid>
                         </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                    </ListView.ItemTemplate>
+                </ListView>
 
                 <!-- Nội dung Row 3 -->
                 <Grid Padding="10" RowSpacing="5" ColumnSpacing="5" Background="White" x:Name="DataEntryGrid">
@@ -92,6 +96,7 @@
         <Grid Grid.Row="3">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
                 <Button Content="Thêm Linh kiện" Width="150" Margin="20" Style="{StaticResource AccentButtonStyle}" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnAddRowDataClick"/>
+                <Button Content="Lưu Linh kiện" Width="150" Margin="20" Style="{StaticResource AccentButtonStyle}" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnSaveRowDataClick"/>
                 <Button Content="Xóa Linh kiện" Width="150" Margin="10" Style="{StaticResource AccentButtonStyle}" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnDeleteRowDataClick"/>
                 <Button Content="Xóa tất cả" Width="150" Margin="10" Style="{StaticResource AccentButtonStyle}" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnDeleteAllRowDataClick"/>
             </StackPanel>
