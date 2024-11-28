@@ -851,7 +851,7 @@ namespace QuanLyMayMoc
             }
 
 
-         public async void InsertTaskToDaTaBaseTemp(Task newTask)
+         public async void InsertTaskToDatabaseTemp(Task newTask)
             {
                 string insertCongViecQuery = @"
                 INSERT INTO congviectamthoi (
@@ -1122,6 +1122,9 @@ namespace QuanLyMayMoc
         }
 
         public void SaveProjectWithDifferentName(Project projectToSave, string oldProjectID)
+        {
+
+        }
 
         public async void DeleteAllLoiTam()
         {

@@ -215,6 +215,7 @@ namespace QuanLyMayMoc.ViewModel
         public void DeleteProject(Project project)
         {
             _dao.DeleteProject(project);
+        }
 
 
 

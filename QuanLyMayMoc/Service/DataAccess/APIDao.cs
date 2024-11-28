@@ -12,14 +12,14 @@ using Windows.Graphics.Printing3D;
 
 namespace QuanLyMayMoc.Service.DataAccess
 {
-    public class APIDao: IDao
+    public class APIDao : IDao
     {
         private static HttpClient sharedClient = new()
         {
-            //BaseAddress = new Uri("https://backend-windows-programming.vercel.app"),
-            BaseAddress = new Uri("http://localhost:3000"),
+            BaseAddress = new Uri("https://backend-windows-programming.vercel.app"),
+            //BaseAddress = new Uri("http://localhost:3000"),
         };
-
+        
         public ObservableCollection<Employee> GetEmployees()
         {
             using HttpResponseMessage response = sharedClient.GetAsync("/nhanvien/all?maduan=" + AppData.ProjectID).Result;
@@ -111,10 +111,12 @@ namespace QuanLyMayMoc.Service.DataAccess
             // using post method
             var content = new StringContent(JsonConvert.SerializeObject(selectedTask), Encoding.UTF8, "application/json");
             using HttpResponseMessage response = sharedClient.PostAsync("/congviec/deletetask", content).Result;
-            if (response.IsSuccessStatusCode) {
+            if (response.IsSuccessStatusCode)
+            {
                 Console.WriteLine("Delete task successfully");
             }
-            else {
+            else
+            {
                 Console.WriteLine("Delete task failed");
             }
         }
@@ -254,5 +256,46 @@ namespace QuanLyMayMoc.Service.DataAccess
                 Console.WriteLine("Delete project failed");
             }
         }
+
+        public void SaveToLinhKienTam()
+        {
+            //
+        }
+
+        public void DeleteAllLinhKienTam()
+        {
+            //
+        }
+
+        public void DeleteLinhKienTam(string maLinhKien)
+        {
+            //
+        }
+
+        public void InsertLinhKienToDaTaBaseTemp(Linhkien newLinhKien, string mahieuduan)
+        {
+            //
+        }
+
+        public void SaveToLoiTam()
+        {
+            //
+        }
+
+        public void DeleteAllLoiTam()
+        {
+            //
+        }
+
+        public void DeleteLoiTam(string maLoi)
+        {
+            //
+        }
+
+        public void InsertLoiToDaTaBaseTemp(Loisp newLinhKien, string mahieuduan)
+        {
+            //
+        }
     }
+
 }

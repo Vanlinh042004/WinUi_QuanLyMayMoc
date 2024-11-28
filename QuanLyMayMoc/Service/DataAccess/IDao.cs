@@ -30,13 +30,11 @@ namespace QuanLyMayMoc
         public void InsertEmployeeToDatabase(Employee newEmployee);
         public  int TimSttLonNhat(string maduan);
 
-        public void InsertTaskToDaTaBaseTemp(Task newTask);
-        public ObservableCollection<Linhkien> GetAllLinhKien();
+        public void InsertTaskToDatabaseTemp(Task newTask);
         public void SaveToLinhKienTam();
         public void DeleteAllLinhKienTam();
         public void DeleteLinhKienTam(string maLinhKien);
         public void InsertLinhKienToDaTaBaseTemp(Linhkien newLinhKien, string mahieuduan);
-        public  ObservableCollection<Loisp> ();
         public void SaveToLoiTam();
         public void DeleteAllLoiTam();
         public void DeleteLoiTam(string maLoi);
