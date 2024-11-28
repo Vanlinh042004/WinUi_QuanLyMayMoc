@@ -1,10 +1,13 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Npgsql;
+using QuanLyMayMoc.Model;
+using QuanLyMayMoc.Service;
 using QuanLyMayMoc.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using static QuanLyMayMoc.AppData;
 
 
@@ -21,10 +24,11 @@ namespace QuanLyMayMoc.View
     public sealed partial class MoDuAn : Page
     {
         private ObservableCollection<Project> projects;
+        private MainViewModel mainViewModel = new MainViewModel();
+
         public MoDuAn()
         {
             this.InitializeComponent();
-            MainViewModel mainViewModel = new MainViewModel();
 
             //loadDuAnFromDB();
             projects = mainViewModel.getProjects();
@@ -69,6 +73,8 @@ namespace QuanLyMayMoc.View
                     AppData.ProjectID = project.ID;
                     AppData.ProjectName = project.Name;
                     AppData.ProjectTimeCreate = project.TimeCreate;
+
+                    mainViewModel.loadNewData();
 
                     // when a button is clicked, navigate to another page
                     // and pass the information of the item to the page

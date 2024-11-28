@@ -11,9 +11,13 @@ namespace QuanLyMayMoc
 {
     public interface IDao
     {
-         public ObservableCollection<Employee> GetEmployees();
 
+        public ObservableCollection<Employee> GetEmployees();
+        public ObservableCollection<Linhkien> GetAllLinhKien();
 
+        public  ObservableCollection<Loisp> GetAllLoi();
+
+        // Lấy tất cả công việc từ bảng Task
         public ObservableCollection<Task> GetTasks();
         public ObservableCollection<Task> GetTasksFromTemp();
         public ObservableCollection<Task> GetTasksFromTemp(DateTime? ngaythuchien, string keyword);
@@ -23,21 +27,24 @@ namespace QuanLyMayMoc
         public void InsertProject(Project projectInsert);
         public void InsertProjectTemp(Project projectInsert);
         public void InsertAllDataFromTemp(string projectID);
-        public void InsertEmployeeToDaTaBase(Employee newEmployee);
+        public void InsertEmployeeToDatabase(Employee newEmployee);
         public  int TimSttLonNhat(string maduan);
+
         public void InsertTaskToDaTaBaseTemp(Task newTask);
         public ObservableCollection<Linhkien> GetAllLinhKien();
         public void SaveToLinhKienTam();
         public void DeleteAllLinhKienTam();
         public void DeleteLinhKienTam(string maLinhKien);
         public void InsertLinhKienToDaTaBaseTemp(Linhkien newLinhKien, string mahieuduan);
-        public  ObservableCollection<Loisp> GetAllLoi();
+        public  ObservableCollection<Loisp> ();
         public void SaveToLoiTam();
         public void DeleteAllLoiTam();
         public void DeleteLoiTam(string maLoi);
         public void InsertLoiToDaTaBaseTemp(Loisp newLinhKien, string mahieuduan);
+        public void SaveProjectWithDifferentName(Project projectInsert, string oldProjectID);
+        public void DeleteProject(Project selectedProject);
 
-        //public void SaveProjectWithDifferentName(Project projectInsert);
+
 
     }
 

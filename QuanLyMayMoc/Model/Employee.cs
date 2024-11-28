@@ -105,11 +105,11 @@ namespace QuanLyMayMoc.Model
             set { _anhDaiDien = value; OnPropertyChanged(nameof(AnhDaiDien)); }
         }
 
-        public string DanToc
-        {
-            get => _danToc;
-            set { _danToc = value; OnPropertyChanged(nameof(DanToc)); }
-        }
+        //public string DanToc
+        //{
+        //    get => _danToc;
+        //    set { _danToc = value; OnPropertyChanged(nameof(DanToc)); }
+        //}
 
         //public string SoNguoiPhuThuoc
         //{

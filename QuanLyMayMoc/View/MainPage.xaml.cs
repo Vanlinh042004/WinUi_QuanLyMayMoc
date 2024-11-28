@@ -262,7 +262,7 @@ namespace QuanLyMayMoc
             TextBox projectNameTextBox = new TextBox
             {
                 PlaceholderText = "Nhập tên dự án khác:",
-                Width = 300
+                Width = 300 
             };
             // Create the ContentDialog
             ContentDialog inputProjectNameDialog = new ContentDialog
@@ -278,7 +278,7 @@ namespace QuanLyMayMoc
                 await new ContentDialog
                 {
                     Title = "Lỗi",
-                    Content = "Chưa mở dự án. Vui lòng tạo dự án mới trước khi lưu.",
+                    Content = "Chưa mở dự án. Vui lòng mở dự án trước khi lưu.",
                     CloseButtonText = "OK",
                     XamlRoot = this.XamlRoot
                 }.ShowAsync();
@@ -324,6 +324,7 @@ namespace QuanLyMayMoc
                 string date = DateTime.Now.ToString("yyyy_MM_dd");
                 string time = DateTime.Now.ToString("HH_mm_ss");
                 string maDuAn = projectName + date + "_" + time;
+                string oldProjectName = AppData.ProjectID;
                 AppData.ProjectID = maDuAn;
                 AppData.ProjectName = projectName;
                 AppData.ProjectTimeCreate = DateTime.Now;
@@ -335,8 +336,10 @@ namespace QuanLyMayMoc
                 };
                 try
                 {
-                    //xử lý chỗ này đi ae
-                    //ViewModel.SaveProjectWithDifferentName(CurrentProject);
+                    ViewModel.SaveProjectWithDifferentName(CurrentProject, oldProjectName);
+                    AppData.ProjectID = CurrentProject.ID;
+                    AppData.ProjectName = CurrentProject.Name;
+                    AppData.ProjectTimeCreate = CurrentProject.TimeCreate;
 
                 }
                 catch (Exception ex)
@@ -359,6 +362,65 @@ namespace QuanLyMayMoc
                     CloseButtonText = "OK",
                     XamlRoot = this.XamlRoot
                 }.ShowAsync();
+            }
+        }
+
+        private async void XoaDuAnClick(object sender, RoutedEventArgs e)
+        {
+            ContentDialog deleteProjectDialog = new ContentDialog
+            {
+                Title = "Bạn có chắc chắn muốn xóa dự án?",
+                Content = "Hành động này sẽ xóa dự án của bạn",
+                PrimaryButtonText = "OK",
+                CloseButtonText = "Cancel",
+                XamlRoot = this.XamlRoot // Set XamlRoot for the dialog to appear in the correct window context
+            };
+            var result = await deleteProjectDialog.ShowAsync();
+            if (result == ContentDialogResult.Primary)
+            {
+                if (string.IsNullOrEmpty(AppData.ProjectID))
+                {
+                    await new ContentDialog
+                    {
+                        Title = "Lỗi",
+                        Content = "Chưa mở dự án. Vui lòng mở dự án trước khi xóa.",
+                        CloseButtonText = "OK",
+                        XamlRoot = this.XamlRoot
+                    }.ShowAsync();
+                    return;
+                }
+                try
+                {
+                    if (CurrentProject == null)
+                    {
+                        CurrentProject = new Project();
+                        CurrentProject.ID = AppData.ProjectID;
+                        CurrentProject.Name = AppData.ProjectName;
+                        CurrentProject.TimeCreate = AppData.ProjectTimeCreate;
+                    }
+
+                    ViewModel.DeleteProject(CurrentProject);
+                    //navigate to MoDuAn
+                    this.FrameContent.Navigate(typeof(MoDuAn), this);
+                    buttonToggling();
+                    await new ContentDialog
+                    {
+                        Title = "Thành công",
+                        Content = "Dự án đã được xóa thành công.",
+                        CloseButtonText = "OK",
+                        XamlRoot = this.XamlRoot
+                    }.ShowAsync();
+                }
+                catch (Exception ex)
+                {
+                    await new ContentDialog
+                    {
+                        Title = "Lỗi",
+                        Content = $"Có lỗi xảy ra khi xóa dự án: {ex.Message}",
+                        CloseButtonText = "OK",
+                        XamlRoot = this.XamlRoot
+                    }.ShowAsync();
+                }
             }
         }
     }

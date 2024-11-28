@@ -56,13 +56,19 @@ namespace QuanLyMayMoc.ViewModel
             Employees = _dao.GetEmployees();
             Tasks = _dao.GetTasks();
             linhkien = _dao.GetAllLinhKien();
-
             ListLoi = _dao.GetAllLoi();
 
-            // ListLoi = _dao.GetAllLoi();
 
 
 
+        }
+
+        public void loadNewData()
+        {
+            Employees = _dao.GetEmployees();
+            Tasks = _dao.GetTasks();
+            linhkien = _dao.GetAllLinhKien();
+            ListLoi = _dao.GetAllLoi();
         }
 
         public void LoadDataFilter(DateTime ngaythuchien, string keyword)
@@ -81,8 +87,6 @@ namespace QuanLyMayMoc.ViewModel
 
         public void LoadDataFilter()
         {
-
-
             Tasks.Clear();
 
 
@@ -145,7 +149,7 @@ namespace QuanLyMayMoc.ViewModel
 
         public void InsertToEmployees(Employee newEmployee)
         {
-            _dao.InsertEmployeeToDaTaBase(newEmployee);
+            _dao.InsertEmployeeToDatabase(newEmployee);
         }
 
         public int TimSttLonNhat(string maduan)
@@ -153,9 +157,9 @@ namespace QuanLyMayMoc.ViewModel
             return _dao.TimSttLonNhat(maduan);
         }
 
-        public void InsertTaskToDaTaBaseTemp(Task newTask)
+        public void InsertTaskToDatabaseTemp(Task newTask)
         {
-            _dao.InsertTaskToDaTaBaseTemp(newTask);
+            _dao.InsertTaskToDatabaseTemp(newTask);
         }
         public ObservableCollection<Linhkien> linhkien
         {
@@ -203,6 +207,14 @@ namespace QuanLyMayMoc.ViewModel
             _dao.InsertLoiToDaTaBaseTemp(newLoi, mahieuduan);
         }
 
+        public void SaveProjectWithDifferentName(Project project, string oldProjectID)
+        {
+            _dao.SaveProjectWithDifferentName(project, oldProjectID);
+        }
+
+        public void DeleteProject(Project project)
+        {
+            _dao.DeleteProject(project);
 
 
 

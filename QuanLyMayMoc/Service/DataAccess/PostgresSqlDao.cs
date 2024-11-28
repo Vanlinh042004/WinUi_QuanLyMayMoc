@@ -54,7 +54,7 @@ namespace QuanLyMayMoc
                                 NgaySinh = reader.IsDBNull(4) ? DateTime.MinValue : reader.GetDateTime(4),
                                 TrangThai = reader.IsDBNull(5) ? null : reader.GetString(5),
                                 AnhDaiDien = "Assets/couple.PNG", /*reader.IsDBNull(7) ? null : reader.GetString(7),*/
-                                DanToc = reader.IsDBNull(6) ? null : reader.GetString(6),       // Cột 6: DanToc
+                                //DanToc = reader.IsDBNull(6) ? null : reader.GetString(6),       // Cột 6: DanToc
                                 CCCD = reader.IsDBNull(7) ? null : reader.GetString(7),         // Cột 7: CCCD
                                 PhongBan = reader.IsDBNull(8) ? null : reader.GetString(8),     // Cột 8: PhongBan
                                 Email = reader.IsDBNull(9) ? null : reader.GetString(9),        // Cột 9: Email
@@ -70,7 +70,6 @@ namespace QuanLyMayMoc
 
             return employees;
         }
-
 
         // Lấy danh sách tất cả các công việc
         public ObservableCollection<Task> GetTasks()
@@ -438,10 +437,10 @@ namespace QuanLyMayMoc
 
                     // Truy vấn SQL từ bảng congviectamthoi
                     string sqlQueryTemp = @"
-            SELECT DISTINCT hotenkh 
-            FROM congviectamthoi
-            WHERE hotenkh ILIKE @query
-            LIMIT 10";
+                                            SELECT DISTINCT hotenkh 
+                                            FROM congviectamthoi
+                                            WHERE hotenkh ILIKE @query
+                                            LIMIT 10";
 
                     using (var command = new NpgsqlCommand(sqlQueryTemp, connection))
                     {
@@ -788,7 +787,7 @@ namespace QuanLyMayMoc
 
         }
 
-        public async void InsertEmployeeToDaTaBase(Employee newEmployee)
+        public async void InsertEmployeeToDatabase(Employee newEmployee)
         {
             string insertEmployeeQuery = @"
                 INSERT INTO nhanvientamthoi 
@@ -850,6 +849,7 @@ namespace QuanLyMayMoc
                 }
                 return maxStt;
             }
+
 
          public async void InsertTaskToDaTaBaseTemp(Task newTask)
             {
@@ -1121,6 +1121,8 @@ namespace QuanLyMayMoc
 
         }
 
+        public void SaveProjectWithDifferentName(Project projectToSave, string oldProjectID)
+
         public async void DeleteAllLoiTam()
         {
             try
@@ -1204,7 +1206,153 @@ namespace QuanLyMayMoc
             }
         }
 
+        public void DeleteProject(Project projectToDelete)
+        {
+            // query to delete row from table duan that has maDuAn = projectToDelete.ID
+            string query = "DELETE FROM duan WHERE maduan = @maDuAn";
+            // execute query
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@maDuAn", projectToDelete.ID);
+                    command.ExecuteNonQuery();
+                }
+            }
 
+            //query to delete row from table nhanvien that has maduan = projectToDelete.ID
+            query = "DELETE FROM nhanvien WHERE maduan = @maDuAn";
+            // execute query
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@maDuAn", projectToDelete.ID);
+                    command.ExecuteNonQuery();
+                }
+            }
+
+            //query to delete row from table congviec that has maduan = projectToDelete.ID
+            query = "DELETE FROM congviec WHERE maduan = @maDuAn";
+            // execute query
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@maDuAn", projectToDelete.ID);
+                    command.ExecuteNonQuery();
+                }
+            }
+
+            //query to delete row from table linhkien that has maduan = projectToDelete.ID
+            query = "DELETE FROM linhkien_duan WHERE maduan = @maDuAn";
+            // execute query
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@maDuAn", projectToDelete.ID);
+                    command.ExecuteNonQuery();
+                }
+            }
+
+            //query to delete row from table loi that has maduan = projectToDelete.ID
+            query = "DELETE FROM loi_duan WHERE maduan = @maDuAn";
+            // execute query
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@maDuAn", projectToDelete.ID);
+                    command.ExecuteNonQuery();
+                }
+            }
+
+            //query to delete row from table duan_tam that has maduan = projectToDelete.ID
+            query = "DELETE FROM duan_tam WHERE maduan = @maDuAn";
+            // execute query
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@maDuAn", projectToDelete.ID);
+                    command.ExecuteNonQuery();
+                }
+            }
+
+            //query to delete row from table nhanvien_tam that has maduan = projectToDelete.ID
+            query = "DELETE FROM nhanvientamthoi WHERE maduan = @maDuAn";
+            // execute query
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@maDuAn", projectToDelete.ID);
+                    command.ExecuteNonQuery();
+                }
+            }
+
+            //query to delete row from table congviec_tam that has maduan = projectToDelete.ID  
+            query = "DELETE FROM congviectamthoi WHERE maduan = @maDuAn";
+            // execute query
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@maDuAn", projectToDelete.ID);
+                    command.ExecuteNonQuery();
+                }
+            }
+
+            //query to delete row from table linhkien_tam that has maduan = projectToDelete.ID
+            query = "DELETE FROM linhkienduantam WHERE maduan = @maDuAn";
+            // execute query
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@maDuAn", projectToDelete.ID);
+                    command.ExecuteNonQuery();
+                }
+            }
+
+            //query to delete row from table loi_tam that has maduan = projectToDelete.ID
+            query = "DELETE FROM loiduantam WHERE maduan = @maDuAn";
+            // execute query
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@maDuAn", projectToDelete.ID);
+                    command.ExecuteNonQuery();
+                }
+            }
+
+            //query to delete row from table duan_tam that has maduan = projectToDelete.ID
+            query = "DELETE FROM duan_tam WHERE maduan = @maDuAn";
+            // execute query
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@maDuAn", projectToDelete.ID);
+                    command.ExecuteNonQuery();
+                }
+            }
+
+            
+        }
 
     }
 
