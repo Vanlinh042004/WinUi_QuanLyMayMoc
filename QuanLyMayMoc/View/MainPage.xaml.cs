@@ -118,11 +118,9 @@ namespace QuanLyMayMoc
 
                     string date = DateTime.Now.ToString("yyyy_MM_dd");
                     string time = DateTime.Now.ToString("HH_mm_ss");
-<<<<<<< HEAD
-                    maDuAn = projectName + "/" + date + "/" + time;
-=======
+
                     string maDuAn = projectName + date + "_" + time;
->>>>>>> c52b2f52ae2ee76d25b731b3b5255c0f6ff245cf
+
                     AppData.ProjectID = maDuAn;
                     AppData.ProjectName = projectName;
                     AppData.ProjectTimeCreate = DateTime.Now;
@@ -338,7 +336,7 @@ namespace QuanLyMayMoc
                 try
                 {
                     //xử lý chỗ này đi ae
-                    ViewModel.SaveProjectWithDifferentName(CurrentProject);
+                    //ViewModel.SaveProjectWithDifferentName(CurrentProject);
 
                 }
                 catch (Exception ex)

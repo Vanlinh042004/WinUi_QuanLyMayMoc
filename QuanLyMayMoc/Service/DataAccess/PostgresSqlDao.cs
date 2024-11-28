@@ -831,21 +831,11 @@ namespace QuanLyMayMoc
                 {
                     connection.Open(); // Mở kết nối
 
-<<<<<<< HEAD
                     string maxSttQuery = @" SELECT COALESCE(MAX(stt), 0)
                                             FROM (SELECT stt FROM congviectamthoi WHERE maduan = @maduan
                                                 UNION ALL
                                             SELECT stt FROM congviec WHERE maduan = @maduan
                                             ) AS combined";
-=======
-                    string maxSttQuery = @"
-                        SELECT COALESCE(MAX(stt), 0)
-                        FROM (
-                            SELECT stt FROM congviectamthoi WHERE maduan = @maduan
-                            UNION ALL
-                            SELECT stt FROM congviec WHERE maduan = @maduan
-                        ) AS combined";
->>>>>>> c52b2f52ae2ee76d25b731b3b5255c0f6ff245cf
 
                     using (var command = new NpgsqlCommand(maxSttQuery, connection))
                     {
@@ -904,13 +894,7 @@ namespace QuanLyMayMoc
                 }
             }
 
-        //public ObservableCollection<Loi> GetAllLoi()
-        //{
-        //ObservableCollection < Loi > res = new ObservableCollection<Loi >();
-        //return res;
-        //}
-<<<<<<< HEAD
-
+        
 
         public ObservableCollection<Linhkien> GetAllLinhKien()
         {
@@ -918,12 +902,6 @@ namespace QuanLyMayMoc
                              FROM linhkien";
 
             ObservableCollection<Linhkien> linhkiens = new ObservableCollection<Linhkien>();
-=======
-
-        public void SaveProjectWithDifferentName(Project projectInsert)
-        {
->>>>>>> c52b2f52ae2ee76d25b731b3b5255c0f6ff245cf
-
             using (var connection = new NpgsqlConnection(connectionString))
             {
                 connection.Open();
@@ -1018,7 +996,6 @@ namespace QuanLyMayMoc
             }
         }
 
-<<<<<<< HEAD
         public async void DeleteLinhKienTam(string maLinhKien)
         {
             string maLinhKienDuAn = maLinhKien + "_" + AppData.ProjectID;
@@ -1226,9 +1203,9 @@ namespace QuanLyMayMoc
                 }
             }
         }
-=======
 
->>>>>>> c52b2f52ae2ee76d25b731b3b5255c0f6ff245cf
+
+
     }
 
 }

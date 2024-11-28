@@ -46,20 +46,11 @@ namespace QuanLyMayMoc
         {
             this.InitializeComponent();
             HideFirstRow(); // Thêm dòng đầu tiên
-<<<<<<< HEAD
             ViewModel = new MainViewModel(); 
             ViewModel.SaveToLinhKienTam(); // Lưu dữ liệu từ bảng linhkien vào bảng LinhKien_Tam
-=======
-            ViewModel = new MainViewModel();
-            SaveToLinhKienTam(); // Lưu dữ liệu từ bảng linhkien vào bảng LinhKien_Tam
+       
         }
-        private void OnTaskTapped(object sender, TappedRoutedEventArgs e)
-        {
-
-
->>>>>>> c52b2f52ae2ee76d25b731b3b5255c0f6ff245cf
-        }
-        
+   
 
         private void HideFirstRow()
         {
@@ -78,44 +69,7 @@ namespace QuanLyMayMoc
             InputGrid.Children.Add(emptyElement);
         }
 
-<<<<<<< HEAD
-        
-        
-=======
-
-        private async void SaveToLinhKienTam()
-        {
-            try
-            {
-                using (var connection = new NpgsqlConnection(connectionString))
-                {
-                    await connection.OpenAsync();
-                    {
-                        // Nếu dự án chưa tồn tại, thêm vào bảng `duan_tam`
-                        string insertQuery = @" INSERT INTO linhkienduantam (mahieuduan, mahieu, tenlinhkien, giaban, maduan)
-                                                SELECT CONCAT(mahieu,'_', @maDuAn), mahieu, tenlinhkien, giaban, @maDuAn
-                                                FROM linhkien";
-                        using (var command = new NpgsqlCommand(insertQuery, connection))
-                        {
-                            command.Parameters.AddWithValue("@maDuAn", AppData.ProjectID);
-                            await command.ExecuteNonQueryAsync();
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                await new ContentDialog
-                {
-                    Title = "Lỗi",
-                    Content = $"Có lỗi xảy ra khi tạo dự án: {ex.Message}",
-                    CloseButtonText = "OK",
-                    XamlRoot = this.XamlRoot
-                }.ShowAsync();
-            }
-
-        }
->>>>>>> c52b2f52ae2ee76d25b731b3b5255c0f6ff245cf
+            
         // Thêm dòng mới
         #region AddNewRow
         private void AddNewRow()
@@ -137,11 +91,7 @@ namespace QuanLyMayMoc
                     BorderBrush = new SolidColorBrush(Colors.Black),
                     BorderThickness = new Thickness(1)
                 };
-<<<<<<< HEAD
                 AddHoverEffect(textBox, Colors.Gray, Colors.Black); 
-=======
-                AddHoverEffect(textBox, Colors.Gray, Colors.Black); // Reuse hover effect
->>>>>>> c52b2f52ae2ee76d25b731b3b5255c0f6ff245cf
 
                 element = textBox;
                 // Đặt phần tử vào đúng vị trí trong Grid
@@ -345,7 +295,6 @@ namespace QuanLyMayMoc
             ViewModel.DeleteAllLinhKienTam();
         }
     }
-<<<<<<< HEAD
 
 
 
@@ -362,7 +311,4 @@ namespace QuanLyMayMoc
    
   
 }
-=======
->>>>>>> c52b2f52ae2ee76d25b731b3b5255c0f6ff245cf
 
-}

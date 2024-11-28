@@ -69,8 +69,6 @@ namespace QuanLyMayMoc
             InputGrid.Children.Add(emptyElement);
         }
 
-<<<<<<< HEAD
-=======
         private async void SaveToLoiTam()
         {
             try
@@ -105,7 +103,6 @@ namespace QuanLyMayMoc
             }
 
         }
->>>>>>> c52b2f52ae2ee76d25b731b3b5255c0f6ff245cf
         // Thêm dòng mới
         #region AddNewRow
         private void AddNewRow()
