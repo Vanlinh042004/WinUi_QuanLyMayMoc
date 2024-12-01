@@ -16,8 +16,8 @@ namespace QuanLyMayMoc.Service.DataAccess
     {
         private static HttpClient sharedClient = new()
         {
-            BaseAddress = new Uri("https://backend-windows-programming.vercel.app"),
-            //BaseAddress = new Uri("http://localhost:3000"),
+            //BaseAddress = new Uri("https://backend-windows-programming.vercel.app"),
+            BaseAddress = new Uri("http://localhost:3000"),
         };
         
         public ObservableCollection<Employee> GetEmployees()
@@ -258,8 +258,18 @@ namespace QuanLyMayMoc.Service.DataAccess
         }
 
         public void SaveToLinhKienTam()
-        {
-            //
+        {   
+            var data = new { ProjectID = AppData.ProjectID };
+            var content = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
+            using HttpResponseMessage response = sharedClient.PostAsync("/linhkien/loadfrommock", content).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                Console.WriteLine("Save linh kien tam successfully");
+            }
+            else
+            {
+                Console.WriteLine("Save linh kien tam failed");
+            }
         }
 
         public void DeleteAllLinhKienTam()

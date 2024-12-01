@@ -42,6 +42,7 @@ namespace QuanLyMayMoc
             this.InitializeComponent();
             ViewModel = new MainViewModel();
             // disable the button "DichVuTheoThang"
+            AppData.isEnableFunctionButtion = false;
 
             buttonToggling();
 
@@ -241,12 +242,13 @@ namespace QuanLyMayMoc
 
         public void buttonToggling()
         {
-            if (DichVuTheoThang.IsEnabled == false)
+            if (!AppData.isEnableFunctionButtion == false)
             {
                 DichVuTheoThang.IsEnabled = true;
                 QuanLyMayMoc.IsEnabled = true;
                 DanhSachNhanVien.IsEnabled = true;
                 TongHopMayTheoKy.IsEnabled = true;
+                AppData.isEnableFunctionButtion = false;
             }
             else
             {
@@ -254,6 +256,7 @@ namespace QuanLyMayMoc
                 QuanLyMayMoc.IsEnabled = false;
                 DanhSachNhanVien.IsEnabled = false;
                 TongHopMayTheoKy.IsEnabled = false;
+                AppData.isEnableFunctionButtion = true;
             }
         }
 

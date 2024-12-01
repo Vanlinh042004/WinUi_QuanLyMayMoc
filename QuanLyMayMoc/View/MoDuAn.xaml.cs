@@ -67,7 +67,7 @@ namespace QuanLyMayMoc.View
                 DataStackPanel.Children.Add(button);
                 button.Click += (sender, e) =>
                 {
-
+                    AppData.isEnableFunctionButtion = true;
                     _mainPage.buttonToggling();
 
                     AppData.ProjectID = project.ID;

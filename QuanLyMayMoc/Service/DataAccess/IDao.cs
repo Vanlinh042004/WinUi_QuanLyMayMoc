@@ -14,7 +14,6 @@ namespace QuanLyMayMoc
 
         public ObservableCollection<Employee> GetEmployees();
         public ObservableCollection<Linhkien> GetAllLinhKien();
-
         public  ObservableCollection<Loisp> GetAllLoi();
 
         // Lấy tất cả công việc từ bảng Task
@@ -45,6 +44,5 @@ namespace QuanLyMayMoc
 
 
     }
-
 
 }
