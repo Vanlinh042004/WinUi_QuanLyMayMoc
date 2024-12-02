@@ -22,15 +22,14 @@ namespace QuanLyMayMoc.Model
         private string _phongBan;
         private string _CCCD;
         private string _trangThai;
-        // private string _chucVu;
+      
 
         private DateTime _ngayKyHD;
        
-       // private string _maSoThue;
+      
       
         private string _anhDaiDien; // Path to the image
        
-      //  private string _soNguoiPhuThuoc;
      
 
         // Contact Information
@@ -40,7 +39,6 @@ namespace QuanLyMayMoc.Model
        
         private string _maDuAn;
         
-      //  private string _nhanVienVanPhongCongTruong;
 
         public string HoTen
         {
@@ -64,11 +62,6 @@ namespace QuanLyMayMoc.Model
             set { _maNhanVien = value; OnPropertyChanged(nameof(MaNhanVien)); }
         }
 
-        //public string ChucVu
-        //{
-        //    get => _chucVu;
-        //    set { _chucVu = value; OnPropertyChanged(nameof(ChucVu)); }
-        //}
         public string GioiTinh
         {
             get => _gioiTinh;
@@ -87,11 +80,6 @@ namespace QuanLyMayMoc.Model
             set { _ngaySinh = value; OnPropertyChanged(nameof(NgaySinh)); }
         }
 
-        //public string MaSoThue
-        //{
-        //    get => _maSoThue;
-        //    set { _maSoThue = value; OnPropertyChanged(nameof(MaSoThue)); }
-        //}
 
         public string TrangThai
         {
@@ -111,11 +99,6 @@ namespace QuanLyMayMoc.Model
             set { _danToc = value; OnPropertyChanged(nameof(DanToc)); }
         }
 
-        //public string SoNguoiPhuThuoc
-        //{
-        //    get => _soNguoiPhuThuoc;
-        //    set { _soNguoiPhuThuoc = value; OnPropertyChanged(nameof(SoNguoiPhuThuoc)); }
-        //}
 
         public string CCCD
         {
@@ -148,11 +131,6 @@ namespace QuanLyMayMoc.Model
             set { _diaChi = value; OnPropertyChanged(nameof(DiaChi)); }
         }
 
-        //public string NhanVienVanPhongCongTruong
-        //{
-        //    get => _nhanVienVanPhongCongTruong;
-        //    set { _nhanVienVanPhongCongTruong = value; OnPropertyChanged(nameof(NhanVienVanPhongCongTruong)); }
-        //}
 
         public event PropertyChangedEventHandler PropertyChanged;
 

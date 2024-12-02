@@ -12,25 +12,23 @@ namespace QuanLyMayMoc
         private string _maCVDuAn;
         private int _stt;
         private DateTime _ngayThucHien;
-       // private string _maCV;
+      
         private string _hoTenKH;
         private string _sdt;
         private string _diaChi;
-        //private string _loaiModel;
-        //private string _model;
-        //private DateTime _ngayLapDat;
+       
         private string _tenDichVu;
         private string _maNV;
         private string _tenNV;
         private int _phiDichVu;
-      //  private string _ktvThucHien;
+    
         private string _maLK;
         private string _tenLK;
         private int _soLuongLK;
         private string _maLoi;
         private string _tenLoi;
         private int _soLuongLoi;
-        // private string _tenLK;
+       
         private string _ghiChu;
         private string _maDuAn;
 
@@ -222,12 +220,36 @@ namespace QuanLyMayMoc
             switch (col)
             {
                 case 1: // Giả định cột 1 là Ngày
-                    NgayThucHien = value; // Chuyển đổi thành chuỗi nếu cần
+                    NgayThucHien = value ; // Nếu value là null, gán DateTime.Now
                     break;
-               
+
                 default:
                     throw new ArgumentOutOfRangeException(nameof(col), "Invalid date column index.");
             }
         }
+        public string GetPropertyForColumn(int column)
+        {
+            switch (column)
+            {
+                case 2: return HoTenKH; // Họ tên khách hàng
+                case 3: return SDT; // Số điện thoại
+                case 4: return DiaChi; // Địa chỉ
+                case 5: return TenDichVu; // Tên dịch vụ
+                case 6: return PhiDichVu.ToString(); // Phí dịch vụ
+                case 7: return MaLK; // Mã linh kiện
+                case 8: return TenLK; // Tên linh kiện
+                case 9: return SoLuongLK.ToString(); // Số lượng linh kiện
+                case 10: return MaLoi; // Mã lỗi
+                case 11: return TenLoi; // Tên lỗi
+                case 12: return SoLuongLoi.ToString(); // Số lượng lỗi
+                case 13: return MaNV; // Mã nhân viên
+                case 14: return TenNV; // Tên nhân viên
+                case 15: return GhiChu; // Ghi chú
+                default: return string.Empty; // Trường hợp không xác định
+            }
+        }
+
+
+
     }
 }

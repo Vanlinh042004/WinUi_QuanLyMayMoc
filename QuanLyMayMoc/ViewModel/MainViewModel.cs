@@ -76,17 +76,22 @@ namespace QuanLyMayMoc.ViewModel
 
         public void LoadDataFilter()
         {
-
-
+           
             Tasks.Clear();
 
-
+           
             var allTasks = _dao.GetTasksFromTemp();
-            foreach (var task in allTasks)
+
+           
+            var sortedTasks = allTasks.OrderBy(task => task.Stt);
+
+           
+            foreach (var task in sortedTasks)
             {
                 Tasks.Add(task);
             }
         }
+
 
         public List<string> GetCustomerNames(string query)
         {
@@ -96,7 +101,7 @@ namespace QuanLyMayMoc.ViewModel
 
 
 
-        public async void RemoveSelectedTask()
+        public  void RemoveSelectedTask()
         {
             if (CurrentSelectedTask != null)
             {
@@ -114,6 +119,29 @@ namespace QuanLyMayMoc.ViewModel
             }
             CurrentSelectedTask = null;
         }
+
+        public void UpdateSelectedTask(Task newTask)
+        {
+            if (CurrentSelectedTask != null)
+            {
+                var updatedTask = CurrentSelectedTask;
+
+             
+                _dao.UpdateTask(updatedTask,newTask);
+
+              
+                var taskIndex = Tasks.IndexOf(updatedTask);
+
+                if (taskIndex >= 0)
+                {
+                    
+                    Tasks[taskIndex] = updatedTask;
+                }
+            }
+            CurrentSelectedTask = null;
+        }
+
+
         public void RemoveAllTask()
         {
 
@@ -154,9 +182,9 @@ namespace QuanLyMayMoc.ViewModel
             _dao.InsertLinhKienToDaTaBaseTemp(newLinhKien,mahieuduan);
         }
         
-        public void DeleteAllTask()
+        public void DeleteAllTask(string maDuAn)
         {
-            _dao.DeleteAllTask();
+            _dao.DeleteAllTasks(maDuAn);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

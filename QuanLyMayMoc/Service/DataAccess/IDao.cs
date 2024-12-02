@@ -14,15 +14,16 @@ namespace QuanLyMayMoc
          public ObservableCollection<Employee> GetEmployees();
         public ObservableCollection<Linhkien> GetAllLinhKien();
 
-      //  public  ObservableCollection<Loi> GetAllLoi();
+     
 
         public ObservableCollection<Task> GetTasks();
         public ObservableCollection<Task> GetTasksFromTemp();
         public ObservableCollection<Task> GetTasksFromTemp(DateTime? ngaythuchien, string keyword);
         public List<string> GetCustomerNamesFromDatabase(string query);
-        public ObservableCollection<Project> GetProjects();
-        // Luu vao bang LinhKien
+       
+       
         public void DeleteTask(Task selectedTask);
+        public void UpdateTask(Task selectedTask, Task newTask);
         public void InsertProject(Project projectInsert);
         public void InsertProjectTemp(Project projectInsert);
         public void InsertAllDataFromTemp(string projectID);
@@ -32,7 +33,8 @@ namespace QuanLyMayMoc
 
         public void InsertTaskToDaTaBaseTemp(Task newTask);
 
-        public  void DeleteAllTask();
+        public  void DeleteAllTasks(string maDuAn);
+       
 
 
     }
