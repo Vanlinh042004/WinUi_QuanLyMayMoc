@@ -38,8 +38,12 @@ namespace QuanLyMayMoc
         private int currentRow = 1;
         private int Columns = 3;
         private int selectedRow = -1; // Hàng được chọn để xóa
-       
+        private int EditingRowIndex = -1;
+        private bool isUpdate = false;
+
         private Dictionary<int, Linhkien> rowLinkKienDictionary = new Dictionary<int, Linhkien>();
+        private Dictionary<int, Linhkien> rowUpdateLinhkienDictionary = new Dictionary<int, Linhkien>();
+
         public MainViewModel ViewModel
         {
             get; set;
@@ -51,11 +55,28 @@ namespace QuanLyMayMoc
             ViewModel = new MainViewModel(); 
             SaveToLinhKienTam(); // Lưu dữ liệu từ bảng linhkien vào bảng LinhKien_Tam
         }
-        private void OnLinkKienTapped(object sender, TappedRoutedEventArgs e)
+        private void OnLinhkienTapped(object sender, TappedRoutedEventArgs e)
         {
-            
+            var selectedLinhkien = (sender as FrameworkElement).DataContext as Linhkien;
+            if (selectedLinhkien != null)
+            {
+                ViewModel.CurrentSelectedLinhkien = selectedLinhkien;
+            }
 
+            var grid = sender as Grid;
+            var linhkien = grid.DataContext as Linhkien;
+
+            foreach (var item in ViewModel.Listlinhkien)
+            {
+                item.IsSelected = false;
+            }
+
+            //if (linhkien != null)
+            //{
+                linhkien.IsSelected = true;
+            //}
         }
+
 
         private void HideFirstRow()
         {
@@ -350,37 +371,225 @@ namespace QuanLyMayMoc
 
         private void OnSaveDataClick(object sender, RoutedEventArgs e)
         {
-            int stt = 0;
-            foreach (var entry in rowLinkKienDictionary)
+            if (EditingRowIndex != -1 && isUpdate)
             {
-                stt++;
-                try
+                UpdateDataClick();
+                ViewModel.CurrentSelectedLinhkien = null;
+                rowUpdateLinhkienDictionary.Clear();
+            }
+            else
+            {
+                int stt = 0;
+                foreach (var entry in rowLinkKienDictionary)
                 {
-                   
-                    // Lưu dữ liệu vào ViewModel
-                    SaveRowData(entry.Key);
-                    ViewModel.Listlinhkien.Add(entry.Value);
-                    // Thực hiện chèn dữ liệu vào bảng congviectamthoi
-                    string mahieuduan = AppData.ProjectID + stt.ToString()+entry.Value.MaSanPham;
-                    ViewModel.InsertLinhKienToDaTaBaseTemp(entry.Value,mahieuduan);
+                    stt++;
+                    try
+                    {
 
+                        // Lưu dữ liệu vào ViewModel
+                        SaveRowData(entry.Key);
+                        ViewModel.Listlinhkien.Add(entry.Value);
+                        // Thực hiện chèn dữ liệu vào bảng congviectamthoi
+                        string mahieuduan = AppData.ProjectID + stt.ToString() + entry.Value.MaSanPham;
+                        ViewModel.InsertLinhKienToDaTaBaseTemp(entry.Value, mahieuduan);
+
+                    }
+                    catch (Exception ex)
+                    {
+                        var dialog = new ContentDialog
+                        {
+                            Title = "Lỗi",
+                            Content = $"Có lỗi xảy ra khi lưu linh kiện: {ex.Message}",
+                            CloseButtonText = "OK"
+                        };
+                    }
                 }
-                catch (Exception ex)
+
+                rowLinkKienDictionary.Clear();
+                ClearInputRows();
+
+            }
+        }
+
+        private async void OnUpdateRowDataClick(object sender, RoutedEventArgs e)
+        {
+            if (ViewModel.CurrentSelectedLinhkien != null)
+            {
+                isUpdate = true;
+                var selectedLinhkien = ViewModel.CurrentSelectedLinhkien;
+
+                // Tìm rowIndex bằng cách tìm vị trí của selectedLinhkien trong ListLinhkien
+                var rowIndex = ViewModel.Listlinhkien.IndexOf(selectedLinhkien);
+
+                if (rowIndex >= 0)
                 {
-                    var dialog = new ContentDialog
+                    EditingRowIndex = rowIndex; // Ghi nhớ chỉ số dòng đang chỉnh sửa
+                    AddEditableRow(rowIndex, selectedLinhkien); // Thêm dòng chỉnh sửa
+                }
+                else
+                {
+                    // Xử lý trường hợp không tìm thấy linhkien trong ListLinhkien
+                    var errorDialog = new ContentDialog
                     {
                         Title = "Lỗi",
-                        Content = $"Có lỗi xảy ra khi lưu linh kiện: {ex.Message}",
-                        CloseButtonText = "OK"
+                        Content = "Không tìm thấy linhkien trong danh sách.",
+                        CloseButtonText = "OK",
+                        XamlRoot = this.XamlRoot
                     };
+
+                    await errorDialog.ShowAsync();
                 }
             }
+            else
+            {
+                var errorDialog = new ContentDialog
+                {
+                    Title = "Lỗi",
+                    Content = "Bạn chưa chọn dòng.",
+                    CloseButtonText = "OK",
+                    XamlRoot = this.XamlRoot
+                };
 
-            rowLinkKienDictionary.Clear();
-            ClearInputRows();
-
+                await errorDialog.ShowAsync();
+            }
         }
+
+
+
+        private void AddEditableRow(int rowIndex, Linhkien linhkien)
+        {
+            var newLinhkien = new Linhkien();
+            rowUpdateLinhkienDictionary[rowIndex] = newLinhkien;
+            InputGrid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+
+            for (int col = 0; col < Columns; col++)
+            {
+                FrameworkElement element;
+
+               
+                    var textBox = new TextBox
+                    {
+                        Margin = new Thickness(2),
+                        PlaceholderText = $"R{rowIndex + 1}C{col + 1}",
+                        Background = new SolidColorBrush(Colors.White),
+                        Foreground = new SolidColorBrush(Colors.Black),
+                        BorderBrush = new SolidColorBrush(Colors.Black),
+                        BorderThickness = new Thickness(1),
+
+                        Text = linhkien.GetPropertyForColumn(col) // Hiển thị giá trị đã lưu
+                    };
+                    element = textBox;
+                
+
+                // Đặt phần tử vào đúng vị trí trong Grid
+                Grid.SetRow(element, rowIndex);
+                Grid.SetColumn(element, col);
+                InputGrid.Children.Add(element);
+            }
+        }
+
+
+        private void SaveUpdateRowData(int rowIndex)
+        {
+            try
+            {
+                if (rowUpdateLinhkienDictionary.TryGetValue(rowIndex, out Linhkien linhkien))
+                {
+                    for (int col = 0; col < Columns; col++)
+                    {
+                        var element = InputGrid.Children
+                            .OfType<FrameworkElement>()
+                            .FirstOrDefault(e => Grid.GetRow(e) == rowIndex && Grid.GetColumn(e) == col);
+
+                       
+                         if (element is TextBox textBox)
+                        {
+                            linhkien.SetPropertyForColumn(col, textBox.Text);
+                        }                      
+                        else
+                        {
+                            throw new InvalidOperationException("Unsupported element type encountered during save operation.");
+                        }
+                    }
+                }
+                else
+                {
+                    throw new KeyNotFoundException($"No linhkien found for row index {rowIndex}.");
+                }
+            }
+            catch (KeyNotFoundException ex)
+            {
+                // Log lỗi hoặc xử lý khác
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+            catch (InvalidOperationException ex)
+            {
+                // Log lỗi hoặc xử lý khác
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                // Log lỗi hoặc xử lý khác
+                Console.WriteLine($"An unexpected error occurred: {ex.Message}");
+            }
+        }
+
+        private async void UpdateDataClick()
+        {
+            try
+            {
+                isUpdate = false;
+                if (rowUpdateLinhkienDictionary.TryGetValue(EditingRowIndex, out var linhkien))
+                {
+                    SaveUpdateRowData(EditingRowIndex);
+
+                    ViewModel.UpdateSelectedLinhkien(linhkien);
+
+                    ClearInputRows();
+
+                    EditingRowIndex = -1;
+
+                    var successDialog = new ContentDialog
+                    {
+                        Title = "Thành công",
+                        Content = "Cập nhật dữ liệu thành công.",
+                        CloseButtonText = "OK",
+                        XamlRoot = this.XamlRoot
+                    };
+
+                    await successDialog.ShowAsync();
+                    ViewModel.LoadDataFilter();
+                }
+                else
+                {
+                    // Hiển thị thông báo lỗi nếu không tìm thấy hàng đang chỉnh sửa
+                    var errorDialog = new ContentDialog
+                    {
+                        Title = "Lỗi",
+                        Content = "Không tìm thấy hàng để cập nhật. Vui lòng kiểm tra lại.",
+                        CloseButtonText = "OK",
+                        XamlRoot = this.XamlRoot
+                    };
+
+                    await errorDialog.ShowAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                // Xử lý lỗi chung
+                var errorDialog = new ContentDialog
+                {
+                    Title = "Lỗi",
+                    Content = $"Có lỗi xảy ra khi cập nhật dữ liệu: {ex.Message}",
+                    CloseButtonText = "OK",
+                    XamlRoot = this.XamlRoot
+                };
+
+                await errorDialog.ShowAsync();
+            }
+        }
+
     }
-  
+
 }
 

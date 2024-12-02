@@ -41,7 +41,7 @@ namespace QuanLyMayMoc
                 case 1:
                     TenSanPham = value;
                     break;
-                case2:
+                case 2:
                     if (double.TryParse(value, out double giaBan))
                     {
                         GiaBan = giaBan;
@@ -56,8 +56,32 @@ namespace QuanLyMayMoc
             }
         }
 
-       
-     
+        private bool _isSelected;
+        public bool IsSelected
+        {
+            get => _isSelected;
+            set
+            {
+                _isSelected = value;
+                OnPropertyChanged(nameof(IsSelected));
+            }
+        }
+
+        public string GetPropertyForColumn(int column)
+        {
+            switch (column)
+            {
+                case 0:
+                    return MaSanPham;
+                case 1:
+                    return TenSanPham;
+                case 2:
+                    return GiaBan.ToString("F2"); // Chuyển đổi double sang chuỗi với 2 chữ số thập phân
+                default:
+                    return string.Empty;
+            }
+        }
+
 
 
         public event PropertyChangedEventHandler PropertyChanged;

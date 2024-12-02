@@ -34,9 +34,10 @@ namespace QuanLyMayMoc
         public void InsertTaskToDaTaBaseTemp(Task newTask);
 
         public  void DeleteAllTasks(string maDuAn);
-       
 
-
+        //lien kien
+        public void UpdateLinhkien(Linhkien selectedLinhkien, Linhkien newLinhkien);
+        public  void UpdateLoisp(Loisp selectedLoi, Loisp newLoi);
     }
 
 

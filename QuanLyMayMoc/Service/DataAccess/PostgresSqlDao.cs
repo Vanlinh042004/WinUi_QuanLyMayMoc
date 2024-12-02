@@ -1057,6 +1057,174 @@ namespace QuanLyMayMoc
         }
 
 
+        public async void UpdateLinhkien(Linhkien selectedLinhkien, Linhkien newLinhkien)
+        {
+            //using (var connection = new NpgsqlConnection(connectionString))
+            //{
+            //    await connection.OpenAsync();
+
+            //    // Kiểm tra xem linh kiện có tồn tại trong bảng `linhkien_duan` hay không
+            //    string checkLinhkienQuery = "SELECT COUNT(*) FROM linhkien_duan WHERE MaHieuDuAn = @MaHieuDuAn";
+            //    int countInLinhkienDuAn = 0;
+            //    using (var command = new NpgsqlCommand(checkLinhkienQuery, connection))
+            //    {
+            //        command.Parameters.AddWithValue("@MaHieuDuAn", selectedLinhkien.MaHieuDuAn);
+            //        countInLinhkienDuAn = Convert.ToInt32(await command.ExecuteScalarAsync());
+            //    }
+
+            //    if (countInLinhkienDuAn > 0)
+            //    {
+            //        // Cập nhật bảng `linhkien_duan`
+            //        string updateLinhkienDuAnQuery = @"
+            //    UPDATE linhkien_duan
+            //    SET 
+            //        MaHieu = @MaHieu,
+            //        TenLinhKien = @TenLinhKien,
+            //        GiaBan = @GiaBan,
+            //        MaDuAn = @MaDuAn
+            //    WHERE MaHieuDuAn = @MaHieuDuAn";
+            //        using (var command = new NpgsqlCommand(updateLinhkienDuAnQuery, connection))
+            //        {
+            //            command.Parameters.AddWithValue("@MaHieu", newLinhkien.MaHieu ?? (object)DBNull.Value);
+            //            command.Parameters.AddWithValue("@TenLinhKien", newLinhkien.TenLinhKien ?? (object)DBNull.Value);
+            //            command.Parameters.AddWithValue("@GiaBan", newLinhkien.GiaBan);
+            //            command.Parameters.AddWithValue("@MaDuAn", newLinhkien.MaDuAn ?? (object)DBNull.Value);
+            //            command.Parameters.AddWithValue("@MaHieuDuAn", selectedLinhkien.MaHieuDuAn);
+            //            await command.ExecuteNonQueryAsync();
+            //        }
+            //    }
+            //    else
+            //    {
+            //        // Kiểm tra bảng `linhkienduantamthoi`
+            //        string checkLinhkienTamThoiQuery = "SELECT COUNT(*) FROM linhkienduantamthoi WHERE MaHieuDuAn = @MaHieuDuAn";
+            //        int countInLinhkienTamThoi = 0;
+            //        using (var command = new NpgsqlCommand(checkLinhkienTamThoiQuery, connection))
+            //        {
+            //            command.Parameters.AddWithValue("@MaHieuDuAn", selectedLinhkien.MaHieuDuAn);
+            //            countInLinhkienTamThoi = Convert.ToInt32(await command.ExecuteScalarAsync());
+            //        }
+
+            //        if (countInLinhkienTamThoi > 0)
+            //        {
+            //            // Cập nhật bảng `linhkienduantamthoi`
+            //            string updateLinhkienTamThoiQuery = @"
+            //        UPDATE linhkienduantamthoi
+            //        SET 
+            //            MaHieu = @MaHieu,
+            //            TenLinhKien = @TenLinhKien,
+            //            GiaBan = @GiaBan,
+            //            MaDuAn = @MaDuAn
+            //        WHERE MaHieuDuAn = @MaHieuDuAn";
+            //            using (var command = new NpgsqlCommand(updateLinhkienTamThoiQuery, connection))
+            //            {
+            //                command.Parameters.AddWithValue("@MaHieu", newLinhkien.MaHieu ?? (object)DBNull.Value);
+            //                command.Parameters.AddWithValue("@TenLinhKien", newLinhkien.TenLinhKien ?? (object)DBNull.Value);
+            //                command.Parameters.AddWithValue("@GiaBan", newLinhkien.GiaBan);
+            //                command.Parameters.AddWithValue("@MaDuAn", newLinhkien.MaDuAn ?? (object)DBNull.Value);
+            //                command.Parameters.AddWithValue("@MaHieuDuAn", selectedLinhkien.MaHieuDuAn);
+            //                await command.ExecuteNonQueryAsync();
+            //            }
+            //        }
+            //        else
+            //        {
+            //            // Linh kiện không tồn tại trong cả hai bảng
+            //            ContentDialog notFoundDialog = new ContentDialog
+            //            {
+            //                Title = "Không tìm thấy",
+            //                Content = "Linh kiện không tồn tại trong cơ sở dữ liệu.",
+            //                CloseButtonText = "OK",
+            //                XamlRoot = this.XamlRoot
+            //            };
+
+            //            await notFoundDialog.ShowAsync();
+            //        }
+            //    }
+            //}
+        }
+        public async void UpdateLoisp(Loisp selectedLoi, Loisp newLoi)
+        {
+            //using (var connection = new NpgsqlConnection(connectionString))
+            //{
+            //    await connection.OpenAsync();
+
+            //    // Kiểm tra xem lỗi có tồn tại trong bảng `loi_duan` hay không
+            //    string checkLoiDuanQuery = "SELECT COUNT(*) FROM loi_duan WHERE MaHieuDuAn = @MaHieuDuAn";
+            //    int countInLoiDuan = 0;
+            //    using (var command = new NpgsqlCommand(checkLoiDuanQuery, connection))
+            //    {
+            //        command.Parameters.AddWithValue("@MaHieuDuAn", selectedLoi.MaHieuDuAn);
+            //        countInLoiDuan = Convert.ToInt32(await command.ExecuteScalarAsync());
+            //    }
+
+            //    if (countInLoiDuan > 0)
+            //    {
+            //        // Cập nhật bảng `loi_duan`
+            //        string updateLoiDuanQuery = @"
+            //UPDATE loi_duan
+            //SET 
+            //    MaHieu = @MaHieu,
+            //    TenLoi = @TenLoi,
+            //    GiaBan = @GiaBan,
+            //    MaDuAn = @MaDuAn
+            //WHERE MaHieuDuAn = @MaHieuDuAn";
+            //        using (var command = new NpgsqlCommand(updateLoiDuanQuery, connection))
+            //        {
+            //            command.Parameters.AddWithValue("@MaHieu", newLoi.MaHieu ?? (object)DBNull.Value);
+            //            command.Parameters.AddWithValue("@TenLoi", newLoi.TenLoi ?? (object)DBNull.Value);
+            //            command.Parameters.AddWithValue("@GiaBan", newLoi.GiaBan);
+            //            command.Parameters.AddWithValue("@MaDuAn", newLoi.MaDuAn ?? (object)DBNull.Value);
+            //            command.Parameters.AddWithValue("@MaHieuDuAn", selectedLoi.MaHieuDuAn);
+            //            await command.ExecuteNonQueryAsync();
+            //        }
+            //    }
+            //    else
+            //    {
+            //        // Kiểm tra bảng `loiduantam`
+            //        string checkLoiTamQuery = "SELECT COUNT(*) FROM loiduantam WHERE MaHieuDuAn = @MaHieuDuAn";
+            //        int countInLoiTam = 0;
+            //        using (var command = new NpgsqlCommand(checkLoiTamQuery, connection))
+            //        {
+            //            command.Parameters.AddWithValue("@MaHieuDuAn", selectedLoi.MaHieuDuAn);
+            //            countInLoiTam = Convert.ToInt32(await command.ExecuteScalarAsync());
+            //        }
+
+            //        if (countInLoiTam > 0)
+            //        {
+            //            // Cập nhật bảng `loiduantam`
+            //            string updateLoiTamQuery = @"
+            //    UPDATE loiduantam
+            //    SET 
+            //        MaHieu = @MaHieu,
+            //        TenLoi = @TenLoi,
+            //        GiaBan = @GiaBan,
+            //        MaDuAn = @MaDuAn
+            //    WHERE MaHieuDuAn = @MaHieuDuAn";
+            //            using (var command = new NpgsqlCommand(updateLoiTamQuery, connection))
+            //            {
+            //                command.Parameters.AddWithValue("@MaHieu", newLoi.MaHieu ?? (object)DBNull.Value);
+            //                command.Parameters.AddWithValue("@TenLoi", newLoi.TenLoi ?? (object)DBNull.Value);
+            //                command.Parameters.AddWithValue("@GiaBan", newLoi.GiaBan);
+            //                command.Parameters.AddWithValue("@MaDuAn", newLoi.MaDuAn ?? (object)DBNull.Value);
+            //                command.Parameters.AddWithValue("@MaHieuDuAn", selectedLoi.MaHieuDuAn);
+            //                await command.ExecuteNonQueryAsync();
+            //            }
+            //        }
+            //        else
+            //        {
+            //            // Lỗi không tồn tại trong cả hai bảng
+            //            ContentDialog notFoundDialog = new ContentDialog
+            //            {
+            //                Title = "Không tìm thấy",
+            //                Content = "Lỗi không tồn tại trong cơ sở dữ liệu.",
+            //                CloseButtonText = "OK",
+            //                XamlRoot = this.XamlRoot
+            //            };
+
+            //            await notFoundDialog.ShowAsync();
+            //        }
+            //    }
+            //}
+        }
 
 
 

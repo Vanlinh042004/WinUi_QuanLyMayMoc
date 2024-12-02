@@ -37,6 +37,10 @@ namespace QuanLyMayMoc
         private int Columns = 3;
         private int selectedRow = -1; // Hàng được chọn để xóa
         private string connectionString = "Host=127.0.0.1;Port=5432;Username=postgres;Password=1234;Database=machine";
+        private int EditingRowIndex = -1;
+        private bool isUpdate = false;
+        private Dictionary<int, Loisp> rowLoispDictionary = new Dictionary<int, Loisp>();
+        private Dictionary<int, Loisp> rowUpdateLoispDictionary = new Dictionary<int, Loisp>();
 
         public MainViewModel ViewModel
         {
@@ -253,7 +257,14 @@ namespace QuanLyMayMoc
             //DataProvider.InstanceTHDA.ExecuteNonQuery(query, parameter: new object[] { maSanPham });
         }
 
+        private void ClearInputRows()
+        {
 
+            InputGrid.Children.Clear();
+
+
+            currentRow = 1;
+        }
 
 
 
@@ -288,6 +299,243 @@ namespace QuanLyMayMoc
             //               $" FROM Tbl_MTC_GiaLinhKien  ";
             //DataProvider.InstanceTHDA.ExecuteNonQuery(query);
         }
+
+        private async void OnUpdateRowDataClick(object sender, RoutedEventArgs e)
+        {
+            if (ViewModel.CurrentSelectedLoisp != null)
+            {
+                isUpdate = true;
+                var selectedLoisp = ViewModel.CurrentSelectedLoisp;
+
+                // Tìm rowIndex bằng cách tìm vị trí của selectedLoisp trong ListLoisp
+                var rowIndex = ViewModel.ListLoi.IndexOf(selectedLoisp);
+
+                if (rowIndex >= 0)
+                {
+                    EditingRowIndex = rowIndex; // Ghi nhớ chỉ số dòng đang chỉnh sửa
+                    AddEditableRow(rowIndex, selectedLoisp); // Thêm dòng chỉnh sửa
+                }
+                else
+                {
+                    // Xử lý trường hợp không tìm thấy loisp trong ListLoisp
+                    var errorDialog = new ContentDialog
+                    {
+                        Title = "Lỗi",
+                        Content = "Không tìm thấy loisp trong danh sách.",
+                        CloseButtonText = "OK",
+                        XamlRoot = this.XamlRoot
+                    };
+
+                    await errorDialog.ShowAsync();
+                }
+            }
+            else
+            {
+                var errorDialog = new ContentDialog
+                {
+                    Title = "Lỗi",
+                    Content = "Bạn chưa chọn dòng.",
+                    CloseButtonText = "OK",
+                    XamlRoot = this.XamlRoot
+                };
+
+                await errorDialog.ShowAsync();
+            }
+        }
+
+        private void AddEditableRow(int rowIndex, Loisp loisp)
+        {
+            var newLoisp = new Loisp();
+            rowUpdateLoispDictionary[rowIndex] = newLoisp;
+            InputGrid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+
+            for (int col = 0; col < Columns; col++)
+            {
+                FrameworkElement element;
+
+                var textBox = new TextBox
+                {
+                    Margin = new Thickness(2),
+                    PlaceholderText = $"R{rowIndex + 1}C{col + 1}",
+                    Background = new SolidColorBrush(Colors.White),
+                    Foreground = new SolidColorBrush(Colors.Black),
+                    BorderBrush = new SolidColorBrush(Colors.Black),
+                    BorderThickness = new Thickness(1),
+
+                    Text = loisp.GetPropertyForColumn(col) // Hiển thị giá trị đã lưu
+                };
+                element = textBox;
+
+                // Đặt phần tử vào đúng vị trí trong Grid
+                Grid.SetRow(element, rowIndex);
+                Grid.SetColumn(element, col);
+                InputGrid.Children.Add(element);
+            }
+        }
+
+        private void SaveUpdateRowData(int rowIndex)
+        {
+            try
+            {
+                if (rowUpdateLoispDictionary.TryGetValue(rowIndex, out Loisp loisp))
+                {
+                    for (int col = 0; col < Columns; col++)
+                    {
+                        var element = InputGrid.Children
+                            .OfType<FrameworkElement>()
+                            .FirstOrDefault(e => Grid.GetRow(e) == rowIndex && Grid.GetColumn(e) == col);
+
+                        if (element is TextBox textBox)
+                        {
+                            loisp.SetPropertyForColumn(col, textBox.Text);
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException("Unsupported element type encountered during save operation.");
+                        }
+                    }
+                }
+                else
+                {
+                    throw new KeyNotFoundException($"No loisp found for row index {rowIndex}.");
+                }
+            }
+            catch (KeyNotFoundException ex)
+            {
+                // Log lỗi hoặc xử lý khác
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+            catch (InvalidOperationException ex)
+            {
+                // Log lỗi hoặc xử lý khác
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                // Log lỗi hoặc xử lý khác
+                Console.WriteLine($"An unexpected error occurred: {ex.Message}");
+            }
+        }
+
+        private async void UpdateDataClick()
+        {
+            try
+            {
+                isUpdate = false;
+                if (rowUpdateLoispDictionary.TryGetValue(EditingRowIndex, out var loisp))
+                {
+                    SaveUpdateRowData(EditingRowIndex);
+
+                    ViewModel.UpdateSelectedLoisp(loisp);
+
+                    ClearInputRows();
+
+                    EditingRowIndex = -1;
+
+                    var successDialog = new ContentDialog
+                    {
+                        Title = "Thành công",
+                        Content = "Cập nhật dữ liệu thành công.",
+                        CloseButtonText = "OK",
+                        XamlRoot = this.XamlRoot
+                    };
+
+                    await successDialog.ShowAsync();
+                    ViewModel.LoadDataFilter();
+                }
+                else
+                {
+                    // Hiển thị thông báo lỗi nếu không tìm thấy hàng đang chỉnh sửa
+                    var errorDialog = new ContentDialog
+                    {
+                        Title = "Lỗi",
+                        Content = "Không tìm thấy hàng để cập nhật. Vui lòng kiểm tra lại.",
+                        CloseButtonText = "OK",
+                        XamlRoot = this.XamlRoot
+                    };
+
+                    await errorDialog.ShowAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                // Xử lý lỗi chung
+                var errorDialog = new ContentDialog
+                {
+                    Title = "Lỗi",
+                    Content = $"Có lỗi xảy ra khi cập nhật dữ liệu: {ex.Message}",
+                    CloseButtonText = "OK",
+                    XamlRoot = this.XamlRoot
+                };
+
+                await errorDialog.ShowAsync();
+            }
+        }
+
+        private void OnLoispTapped(object sender, TappedRoutedEventArgs e)
+        {
+            var selectedLoisp = (sender as FrameworkElement).DataContext as Loisp;
+            if (selectedLoisp != null)
+            {
+                ViewModel.CurrentSelectedLoisp = selectedLoisp;
+            }
+
+            var grid = sender as Grid;
+            var loisp = grid?.DataContext as Loisp;
+
+            foreach (var item in ViewModel.ListLoi)
+            {
+                item.IsSelected = false;
+            }
+
+            if (loisp != null)
+            {
+                loisp.IsSelected = true;
+            }
+        }
+
+        private void OnSaveDataClick(object sender, RoutedEventArgs e)
+        {
+            //if (EditingRowIndex != -1 && isUpdate)
+            //{
+            //    UpdateDataClick();
+            //    ViewModel.CurrentSelectedLoisp = null;
+            //    rowUpdateLoispDictionary.Clear();
+            //}
+            //else
+            //{
+            //    int stt = 0;
+            //    foreach (var entry in rowLoispDictionary)
+            //    {
+            //        stt++;
+            //        try
+            //        {
+            //            // Lưu dữ liệu vào ViewModel
+            //            SaveRowData(entry.Key);
+            //            ViewModel.ListLoisp.Add(entry.Value);
+            //            // Thực hiện chèn dữ liệu vào bảng linhkienduantamthoi
+            //            string mahieuduan = AppData.ProjectID + stt.ToString() + entry.Value.MaSanPham;
+            //            ViewModel.InsertLoispToDatabaseTemp(entry.Value, mahieuduan);
+            //        }
+            //        catch (Exception ex)
+            //        {
+            //            var dialog = new ContentDialog
+            //            {
+            //                Title = "Lỗi",
+            //                Content = $"Có lỗi xảy ra khi lưu lỗi sản phẩm: {ex.Message}",
+            //                CloseButtonText = "OK",
+            //                XamlRoot = this.XamlRoot // Đảm bảo dialog được gắn vào XamlRoot của trang hiện tại
+            //            };
+
+            //            _ = dialog.ShowAsync();
+            //        }
+            //    }
+
+            //    rowLoispDictionary.Clear();
+            //    ClearInputRows();
+            //}
+        }
+
     }
 }
 

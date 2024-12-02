@@ -33,8 +33,31 @@ namespace QuanLyMayMoc.ViewModel
             }
         }
 
-      
+        //link kien cho lĩnh
+        private Linhkien _currentSelectedLinhkien;
+        public Linhkien CurrentSelectedLinhkien
+        {
+            get => _currentSelectedLinhkien;
+            set
+            {
+                _currentSelectedLinhkien = value;
+                OnPropertyChanged(nameof(CurrentSelectedLinhkien)); // Nếu ViewModel hỗ trợ INotifyPropertyChanged
+            }
+        }
+        //linhkien
 
+        //Lỗi Lĩnh
+        private Loisp _currentSelectedLoisp;
+        public Loisp CurrentSelectedLoisp
+        {
+            get => _currentSelectedLoisp;
+            set
+            {
+                _currentSelectedLoisp = value;
+                OnPropertyChanged(nameof(CurrentSelectedLoisp)); // Nếu ViewModel hỗ trợ INotifyPropertyChanged
+            }
+        }
+        //lỗi
 
         public ObservableCollection<Employee> Employees
         {
@@ -45,8 +68,16 @@ namespace QuanLyMayMoc.ViewModel
             get; set;
         }
 
+        public ObservableCollection<Linhkien> Listlinhkien
+        {
+            get; set;
+        }
+        public ObservableCollection<Loisp> ListLoi
+        {
+            get; set;
+        }
 
-        public DateTime Ngay { get; set; } = DateTime.MinValue;
+       // public DateTime Ngay { get; set; } = DateTime.MinValue;
         public XamlRoot XamlRoot { get; private set; }
 
         public MainViewModel()
@@ -187,6 +218,45 @@ namespace QuanLyMayMoc.ViewModel
             _dao.DeleteAllTasks(maDuAn);
         }
 
+
+        //Linhkien
+
+        public void UpdateSelectedLinhkien(Linhkien newLinhkien)
+        {
+            if (CurrentSelectedLinhkien != null)
+            {
+                var updatedLinhkien = CurrentSelectedLinhkien;
+
+                _dao.UpdateLinhkien(updatedLinhkien, newLinhkien);
+
+                var linhkienIndex = Listlinhkien.IndexOf(updatedLinhkien);
+
+                if (linhkienIndex >= 0)
+                {
+                    Listlinhkien[linhkienIndex] = updatedLinhkien;
+                }
+            }
+            CurrentSelectedLinhkien = null;
+        }
+
+        public void UpdateSelectedLoisp(Loisp newLoisp)
+        {
+            if (CurrentSelectedLoisp != null)
+            {
+                var updatedLoisp = CurrentSelectedLoisp;
+
+                _dao.UpdateLoisp(updatedLoisp, newLoisp);
+
+                var loispIndex = ListLoi.IndexOf(updatedLoisp);
+
+                if (loispIndex >= 0)
+                {
+                    ListLoi[loispIndex] = updatedLoisp;
+                }
+            }
+            CurrentSelectedLoisp = null;
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string propertyName)
         {
@@ -195,13 +265,6 @@ namespace QuanLyMayMoc.ViewModel
 
 
 
-        public ObservableCollection<Linhkien> Listlinhkien
-        {
-            get; set;
-        }
-        public ObservableCollection<Loisp> ListLoi
-        {
-            get; set;
-        }
+      
     }
 }

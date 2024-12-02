@@ -134,13 +134,7 @@
                             <TextBlock Text="GHI CHÚ" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
                         </Border>
 
-                        <!--<Border BorderBrush="Black" BorderThickness="1" Grid.Column="16" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                            <TextBlock Text="MÃ CV DỰ ÁN" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
-                        </Border>
-
-                        <Border BorderBrush="Black" BorderThickness="1" Grid.Column="17" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                            <TextBlock Text="MÃ DỰ ÁN" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
-                        </Border>-->
+                       
 
                     </Grid>
                     <!-- Row Title -->
