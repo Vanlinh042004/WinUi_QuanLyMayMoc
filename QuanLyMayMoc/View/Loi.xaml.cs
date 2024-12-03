@@ -33,10 +33,9 @@ namespace QuanLyMayMoc
     /// </summary>
     public sealed partial class Loi : Page
     {
+        private string connectionString = "Host=127.0.0.1;Port=5432;Username=postgres;Password=1234;Database=machine";
         private int currentRow = 1;
         private int Columns = 3;
-        private int selectedRow = -1; // Hàng được chọn để xóa
-        private string connectionString = "Host=127.0.0.1;Port=5432;Username=postgres;Password=1234;Database=machine";
         private int EditingRowIndex = -1;
         private bool isUpdate = false;
         private Dictionary<int, Loisp> rowLoispDictionary = new Dictionary<int, Loisp>();
@@ -51,9 +50,10 @@ namespace QuanLyMayMoc
             this.InitializeComponent();
             HideFirstRow(); // Thêm dòng đầu tiên
             ViewModel = new MainViewModel();
-            SaveToLoiTam(); // Lưu dữ liệu từ bảng loi vào bảng loi_Tam
+            ViewModel.SaveToLoiTam(); // Lưu dữ liệu từ bảng loi vào bảng loi_Tam
 
         }
+
 
 
         private void HideFirstRow()
@@ -73,38 +73,6 @@ namespace QuanLyMayMoc
             InputGrid.Children.Add(emptyElement);
         }
 
-        private async void SaveToLoiTam()
-        {
-            try
-            {
-                using (var connection = new NpgsqlConnection(connectionString))
-                {
-                    await connection.OpenAsync();
-                    {
-                        // Nếu dự án chưa tồn tại, thêm vào bảng `duan_tam`
-                        string insertQuery = @" INSERT INTO loiduantam (mahieuduan, mahieu, tenloi, giaban, maduan)
-                                                SELECT CONCAT(mahieu,'_', @maDuAn), mahieu, tenloi, giaban, @maDuAn
-                                                FROM loi";
-                        using (var command = new NpgsqlCommand(insertQuery, connection))
-                        {
-                            command.Parameters.AddWithValue("@maDuAn", AppData.ProjectID);
-                            await command.ExecuteNonQueryAsync();
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                await new ContentDialog
-                {
-                    Title = "Lỗi",
-                    Content = $"Có lỗi xảy ra khi tạo dự án: {ex.Message}",
-                    CloseButtonText = "OK",
-                    XamlRoot = this.XamlRoot
-                }.ShowAsync();
-            }
-
-        }
         // Thêm dòng mới
         #region AddNewRow
         private void AddNewRow()
@@ -176,8 +144,7 @@ namespace QuanLyMayMoc
 
 
 
-        // Delete row data
-
+        // Xóa 1 dòng
         private async void OnDeleteRowDataClick(object sender, RoutedEventArgs e)
         {
             // Hiển thị hộp thoại để người dùng nhập mã sản phẩm cần xóa
@@ -249,27 +216,9 @@ namespace QuanLyMayMoc
             //}
         }
 
-        private void DeleteRowFromDatabase(string maSanPham)
-        {
-            //string query = $"DELETE" +
-            //                 $" FROM Tbl_MTC_GiaLinhKien " +
-            //                 $" WHERE MaHieu = @MaHieu";
-            //DataProvider.InstanceTHDA.ExecuteNonQuery(query, parameter: new object[] { maSanPham });
-        }
+      
 
-        private void ClearInputRows()
-        {
-
-            InputGrid.Children.Clear();
-
-
-            currentRow = 1;
-        }
-
-
-
-
-        // Delete all row
+        // Xóa tất cả
         private void OnDeleteAllRowDataClick(object sender, RoutedEventArgs e)
         {
             //// Xóa tất cả các phần tử con, ngoại trừ hàng đầu tiên
@@ -293,11 +242,28 @@ namespace QuanLyMayMoc
             //// Xoa database
             //DeleteAllRowFromDatabase();
         }
-        private void DeleteAllRowFromDatabase()
+
+        // Sửa
+        private void OnLoispTapped(object sender, TappedRoutedEventArgs e)
         {
-            //string query = $"DELETE" +
-            //               $" FROM Tbl_MTC_GiaLinhKien  ";
-            //DataProvider.InstanceTHDA.ExecuteNonQuery(query);
+            var selectedLoisp = (sender as FrameworkElement).DataContext as Loisp;
+            if (selectedLoisp != null)
+            {
+                ViewModel.CurrentSelectedLoisp = selectedLoisp;
+            }
+
+            var grid = sender as Grid;
+            var loisp = grid?.DataContext as Loisp;
+
+            foreach (var item in ViewModel.ListLoi)
+            {
+                item.IsSelected = false;
+            }
+
+            if (loisp != null)
+            {
+                loisp.IsSelected = true;
+            }
         }
 
         private async void OnUpdateRowDataClick(object sender, RoutedEventArgs e)
@@ -373,49 +339,6 @@ namespace QuanLyMayMoc
             }
         }
 
-        private void SaveUpdateRowData(int rowIndex)
-        {
-            try
-            {
-                if (rowUpdateLoispDictionary.TryGetValue(rowIndex, out Loisp loisp))
-                {
-                    for (int col = 0; col < Columns; col++)
-                    {
-                        var element = InputGrid.Children
-                            .OfType<FrameworkElement>()
-                            .FirstOrDefault(e => Grid.GetRow(e) == rowIndex && Grid.GetColumn(e) == col);
-
-                        if (element is TextBox textBox)
-                        {
-                            loisp.SetPropertyForColumn(col, textBox.Text);
-                        }
-                        else
-                        {
-                            throw new InvalidOperationException("Unsupported element type encountered during save operation.");
-                        }
-                    }
-                }
-                else
-                {
-                    throw new KeyNotFoundException($"No loisp found for row index {rowIndex}.");
-                }
-            }
-            catch (KeyNotFoundException ex)
-            {
-                // Log lỗi hoặc xử lý khác
-                Console.WriteLine($"Error: {ex.Message}");
-            }
-            catch (InvalidOperationException ex)
-            {
-                // Log lỗi hoặc xử lý khác
-                Console.WriteLine($"Error: {ex.Message}");
-            }
-            catch (Exception ex)
-            {
-                // Log lỗi hoặc xử lý khác
-                Console.WriteLine($"An unexpected error occurred: {ex.Message}");
-            }
-        }
 
         private async void UpdateDataClick()
         {
@@ -472,68 +395,64 @@ namespace QuanLyMayMoc
             }
         }
 
-        private void OnLoispTapped(object sender, TappedRoutedEventArgs e)
+
+
+        // Lưu
+        private void SaveUpdateRowData(int rowIndex)
         {
-            var selectedLoisp = (sender as FrameworkElement).DataContext as Loisp;
-            if (selectedLoisp != null)
+            try
             {
-                ViewModel.CurrentSelectedLoisp = selectedLoisp;
+                if (rowUpdateLoispDictionary.TryGetValue(rowIndex, out Loisp loisp))
+                {
+                    for (int col = 0; col < Columns; col++)
+                    {
+                        var element = InputGrid.Children
+                            .OfType<FrameworkElement>()
+                            .FirstOrDefault(e => Grid.GetRow(e) == rowIndex && Grid.GetColumn(e) == col);
+
+                        if (element is TextBox textBox)
+                        {
+                            loisp.SetPropertyForColumn(col, textBox.Text);
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException("Unsupported element type encountered during save operation.");
+                        }
+                    }
+                }
+                else
+                {
+                    throw new KeyNotFoundException($"No loisp found for row index {rowIndex}.");
+                }
             }
-
-            var grid = sender as Grid;
-            var loisp = grid?.DataContext as Loisp;
-
-            foreach (var item in ViewModel.ListLoi)
+            catch (KeyNotFoundException ex)
             {
-                item.IsSelected = false;
+                // Log lỗi hoặc xử lý khác
+                Console.WriteLine($"Error: {ex.Message}");
             }
-
-            if (loisp != null)
+            catch (InvalidOperationException ex)
             {
-                loisp.IsSelected = true;
+                // Log lỗi hoặc xử lý khác
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                // Log lỗi hoặc xử lý khác
+                Console.WriteLine($"An unexpected error occurred: {ex.Message}");
             }
         }
 
+        private void ClearInputRows()
+        {
+
+            InputGrid.Children.Clear();
+
+
+            currentRow = 1;
+        }
         private void OnSaveDataClick(object sender, RoutedEventArgs e)
         {
-            //if (EditingRowIndex != -1 && isUpdate)
-            //{
-            //    UpdateDataClick();
-            //    ViewModel.CurrentSelectedLoisp = null;
-            //    rowUpdateLoispDictionary.Clear();
-            //}
-            //else
-            //{
-            //    int stt = 0;
-            //    foreach (var entry in rowLoispDictionary)
-            //    {
-            //        stt++;
-            //        try
-            //        {
-            //            // Lưu dữ liệu vào ViewModel
-            //            SaveRowData(entry.Key);
-            //            ViewModel.ListLoisp.Add(entry.Value);
-            //            // Thực hiện chèn dữ liệu vào bảng linhkienduantamthoi
-            //            string mahieuduan = AppData.ProjectID + stt.ToString() + entry.Value.MaSanPham;
-            //            ViewModel.InsertLoispToDatabaseTemp(entry.Value, mahieuduan);
-            //        }
-            //        catch (Exception ex)
-            //        {
-            //            var dialog = new ContentDialog
-            //            {
-            //                Title = "Lỗi",
-            //                Content = $"Có lỗi xảy ra khi lưu lỗi sản phẩm: {ex.Message}",
-            //                CloseButtonText = "OK",
-            //                XamlRoot = this.XamlRoot // Đảm bảo dialog được gắn vào XamlRoot của trang hiện tại
-            //            };
 
-            //            _ = dialog.ShowAsync();
-            //        }
-            //    }
-
-            //    rowLoispDictionary.Clear();
-            //    ClearInputRows();
-            //}
         }
 
     }

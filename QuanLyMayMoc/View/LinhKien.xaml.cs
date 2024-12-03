@@ -37,7 +37,6 @@ namespace QuanLyMayMoc
 
         private int currentRow = 1;
         private int Columns = 3;
-        private int selectedRow = -1; // Hàng được chọn để xóa
         private int EditingRowIndex = -1;
         private bool isUpdate = false;
 
@@ -52,8 +51,24 @@ namespace QuanLyMayMoc
         {
             this.InitializeComponent();
             HideFirstRow(); // Thêm dòng đầu tiên
-            ViewModel = new MainViewModel(); 
-            SaveToLinhKienTam(); // Lưu dữ liệu từ bảng linhkien vào bảng LinhKien_Tam
+            ViewModel = new MainViewModel();
+            ViewModel.SaveToLinhKienTam(); // Lưu dữ liệu từ bảng linhkien vào bảng LinhKien_Tam
+        }
+        private void HideFirstRow()
+        {
+            // Tạo một hàng ẩn ở vị trí row 0
+            InputGrid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+
+            // Tạo một phần tử rỗng và ẩn nó
+            var emptyElement = new TextBox
+            {
+                Visibility = Visibility.Collapsed // Ẩn phần tử ở dòng đầu tiên
+            };
+
+            // Đặt phần tử vào row 0 và column 0 (có thể là dòng tiêu đề hoặc dòng không mong muốn)
+            Grid.SetRow(emptyElement, 0);
+            Grid.SetColumn(emptyElement, 0);
+            InputGrid.Children.Add(emptyElement);
         }
         private void OnLinhkienTapped(object sender, TappedRoutedEventArgs e)
         {
@@ -78,22 +93,7 @@ namespace QuanLyMayMoc
         }
 
 
-        private void HideFirstRow()
-        {
-            // Tạo một hàng ẩn ở vị trí row 0
-            InputGrid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
-
-            // Tạo một phần tử rỗng và ẩn nó
-            var emptyElement = new TextBox
-            {
-                Visibility = Visibility.Collapsed // Ẩn phần tử ở dòng đầu tiên
-            };
-
-            // Đặt phần tử vào row 0 và column 0 (có thể là dòng tiêu đề hoặc dòng không mong muốn)
-            Grid.SetRow(emptyElement, 0);
-            Grid.SetColumn(emptyElement, 0);
-            InputGrid.Children.Add(emptyElement);
-        }
+     
 
         
         private async void SaveToLinhKienTam()
@@ -243,7 +243,14 @@ namespace QuanLyMayMoc
             }
         }
 
+        private void ClearInputRows()
+        {
 
+            InputGrid.Children.Clear();
+
+
+            currentRow = 1;
+        }
 
         // Delete row data
 
@@ -318,22 +325,8 @@ namespace QuanLyMayMoc
             //}
         }
 
-        private void DeleteRowFromDatabase(string maSanPham)
-        {
-            //string query = $"DELETE" +
-            //                 $" FROM Tbl_MTC_GiaLinhKien " +
-            //                 $" WHERE MaHieu = @MaHieu";
-            //DataProvider.InstanceTHDA.ExecuteNonQuery(query, parameter: new object[] { maSanPham });
-        }
-
-        private void ClearInputRows()
-        {
-
-            InputGrid.Children.Clear();
-
-
-            currentRow = 1;
-        }
+  
+      
 
 
 
@@ -362,13 +355,7 @@ namespace QuanLyMayMoc
             //// Xoa database
             //DeleteAllRowFromDatabase();
         }
-        private void DeleteAllRowFromDatabase()
-        {
-            //string query = $"DELETE" +
-            //               $" FROM Tbl_MTC_GiaLinhKien  ";
-            //DataProvider.InstanceTHDA.ExecuteNonQuery(query);
-        }
-
+     
         private void OnSaveDataClick(object sender, RoutedEventArgs e)
         {
             if (EditingRowIndex != -1 && isUpdate)
@@ -411,48 +398,6 @@ namespace QuanLyMayMoc
             }
         }
 
-        private async void OnUpdateRowDataClick(object sender, RoutedEventArgs e)
-        {
-            if (ViewModel.CurrentSelectedLinhkien != null)
-            {
-                isUpdate = true;
-                var selectedLinhkien = ViewModel.CurrentSelectedLinhkien;
-
-                // Tìm rowIndex bằng cách tìm vị trí của selectedLinhkien trong ListLinhkien
-                var rowIndex = ViewModel.Listlinhkien.IndexOf(selectedLinhkien);
-
-                if (rowIndex >= 0)
-                {
-                    EditingRowIndex = rowIndex; // Ghi nhớ chỉ số dòng đang chỉnh sửa
-                    AddEditableRow(rowIndex, selectedLinhkien); // Thêm dòng chỉnh sửa
-                }
-                else
-                {
-                    // Xử lý trường hợp không tìm thấy linhkien trong ListLinhkien
-                    var errorDialog = new ContentDialog
-                    {
-                        Title = "Lỗi",
-                        Content = "Không tìm thấy linhkien trong danh sách.",
-                        CloseButtonText = "OK",
-                        XamlRoot = this.XamlRoot
-                    };
-
-                    await errorDialog.ShowAsync();
-                }
-            }
-            else
-            {
-                var errorDialog = new ContentDialog
-                {
-                    Title = "Lỗi",
-                    Content = "Bạn chưa chọn dòng.",
-                    CloseButtonText = "OK",
-                    XamlRoot = this.XamlRoot
-                };
-
-                await errorDialog.ShowAsync();
-            }
-        }
 
 
 
@@ -581,6 +526,49 @@ namespace QuanLyMayMoc
                 {
                     Title = "Lỗi",
                     Content = $"Có lỗi xảy ra khi cập nhật dữ liệu: {ex.Message}",
+                    CloseButtonText = "OK",
+                    XamlRoot = this.XamlRoot
+                };
+
+                await errorDialog.ShowAsync();
+            }
+        }
+
+        private async void OnUpdateRowDataClick(object sender, RoutedEventArgs e)
+        {
+            if (ViewModel.CurrentSelectedLinhkien != null)
+            {
+                isUpdate = true;
+                var selectedLinhkien = ViewModel.CurrentSelectedLinhkien;
+
+                // Tìm rowIndex bằng cách tìm vị trí của selectedLinhkien trong ListLinhkien
+                var rowIndex = ViewModel.Listlinhkien.IndexOf(selectedLinhkien);
+
+                if (rowIndex >= 0)
+                {
+                    EditingRowIndex = rowIndex; // Ghi nhớ chỉ số dòng đang chỉnh sửa
+                    AddEditableRow(rowIndex, selectedLinhkien); // Thêm dòng chỉnh sửa
+                }
+                else
+                {
+                    // Xử lý trường hợp không tìm thấy linhkien trong ListLinhkien
+                    var errorDialog = new ContentDialog
+                    {
+                        Title = "Lỗi",
+                        Content = "Không tìm thấy linhkien trong danh sách.",
+                        CloseButtonText = "OK",
+                        XamlRoot = this.XamlRoot
+                    };
+
+                    await errorDialog.ShowAsync();
+                }
+            }
+            else
+            {
+                var errorDialog = new ContentDialog
+                {
+                    Title = "Lỗi",
+                    Content = "Bạn chưa chọn dòng.",
                     CloseButtonText = "OK",
                     XamlRoot = this.XamlRoot
                 };

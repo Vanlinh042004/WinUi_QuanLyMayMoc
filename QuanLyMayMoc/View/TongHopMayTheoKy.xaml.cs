@@ -12,6 +12,7 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using QuanLyMayMoc.View;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -26,6 +27,16 @@ namespace QuanLyMayMoc
         public TongHopMayTheoKy()
         {
             this.InitializeComponent();
+        }
+
+        private void MayButton(object sender, RoutedEventArgs e)
+        {
+            this.FrameContent.Navigate(typeof(May));
+        }
+
+        private void DichVuButton(object sender, RoutedEventArgs e)
+        {
+            this.FrameContent.Navigate(typeof(DichVu));
         }
     }
 }

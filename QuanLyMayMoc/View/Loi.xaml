@@ -55,12 +55,15 @@
         <!-- Nội dung cuộn -->
         <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" HorizontalAlignment="Center">
             <StackPanel>
-                <!-- Nội dung Row 2 -->
-                <ItemsControl ItemsSource="{x:Bind ViewModel.ListLoi, Mode=OneWay}" HorizontalAlignment="Center">
-                    <ItemsControl.ItemTemplate>
+
+                <ListView ItemsSource="{x:Bind ViewModel.ListLoi, Mode=TwoWay}" 
+                         x:Name="LoiListView" 
+                         SelectionMode="Single" 
+                         HorizontalAlignment="Center" 
+                         IsItemClickEnabled="True">
+                    <ListView.ItemTemplate>
                         <DataTemplate x:DataType="local:Loisp">
-                            <Grid Padding="3" Tapped="OnLoispTapped"  Background="{Binding IsSelected, Converter={StaticResource BooleanToBrushConverter}}"
-                  BorderBrush="{Binding IsSelected, Converter={StaticResource BooleanToBorderBrushConverter}}">
+                            <Grid Padding="3">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="200" />
                                     <ColumnDefinition Width="600" />
@@ -79,8 +82,8 @@
                                 </Border>
                             </Grid>
                         </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                    </ListView.ItemTemplate>
+                </ListView>
 
                 <!-- Nội dung Row 3 -->
                 <Grid Padding="10" RowSpacing="5" ColumnSpacing="5" Background="White" x:Name="DataEntryGrid">

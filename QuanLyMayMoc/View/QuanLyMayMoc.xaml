@@ -25,8 +25,8 @@
         <Rectangle Fill="Gray" Height="1" VerticalAlignment="Top" Grid.Row="2"/>
         
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10" Grid.Row="2" >
-            <Button Style="{StaticResource AccentButtonStyle}" Content="Linh kiện" Margin="4" Padding="4" Width="100" Click="LinhKienButton"/>
-            <Button Style="{StaticResource AccentButtonStyle}" Content="Lõi" Margin="4" Padding="4" Width="100" Click="LoiButton"/>
+            <Button Style="{StaticResource AccentButtonStyle}" Content="Linh kiện" Margin="4" Padding="4" Width="200" Click="LinhKienButton"/>
+            <Button Style="{StaticResource AccentButtonStyle}" Content="Lõi" Margin="4" Padding="4" Width="200" Click="LoiButton"/>
         </StackPanel>
 
     </Grid>

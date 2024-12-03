@@ -29,6 +29,8 @@
     <None Remove="TongHopMayTheoKy.xaml" />
     <None Remove="VeChungToi.xaml" />
     <None Remove="View\BlankPage1.xaml" />
+    <None Remove="View\DichVu.xaml" />
+    <None Remove="View\May.xaml" />
     <None Remove="View\MoDuAn.xaml" />
   </ItemGroup>
 
@@ -97,6 +99,12 @@
     <None Update="Assets\imageholder.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="View\DichVu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="View\May.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="View\MoDuAn.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -149,7 +157,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Service\DataAccess\" />
-    <Folder Include="View\" />
   </ItemGroup>
 
   <!-- 
