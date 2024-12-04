@@ -1521,7 +1521,188 @@ namespace QuanLyMayMoc
 
         }
 
+        public ObservableCollection<MonthlyProductSummary> GetMonthlyProductSummaries()
+        {
+            string query = @"
+            SELECT 
+                Thang, MaSanPham, TenSanPham, SoLuong, GiaBan, TongTien
+            FROM TongHopSanPhamTheoThang";
 
+            ObservableCollection<MonthlyProductSummary> monthlyProductSummaries = new ObservableCollection<MonthlyProductSummary>();
+
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            monthlyProductSummaries.Add(new MonthlyProductSummary
+                            {
+                                Month = reader.IsDBNull(0) ? 0 : reader.GetInt32(0), // Thang
+                                ProductCode = reader.IsDBNull(1) ? null : reader.GetString(1), // MaSanPham
+                                ProductName = reader.IsDBNull(2) ? null : reader.GetString(2), // TenSanPham
+                                Quantity = reader.IsDBNull(3) ? 0 : reader.GetInt32(3), // SoLuong
+                                Price = reader.IsDBNull(4) ? 0.0 : reader.GetDouble(4), // GiaBan
+                                TotalPrice = reader.IsDBNull(5) ? 0.0 : reader.GetDouble(5) // TongTien
+                            });
+                        }
+                    }
+                }
+            }
+
+            return monthlyProductSummaries;
+        }
+        public ObservableCollection<MonthlyServiceSummary> GetMonthlyServiceSummaries()
+        {
+            string query = @"
+                SELECT 
+                    MaTongHop, Thang, MaNhanVien, TenNhanVien, MaCongViec, PhiDichVu, TongPhiDichVu, TongPhiDichVuThang
+                FROM TongHopDichVuTheoThang";
+
+            ObservableCollection<MonthlyServiceSummary> monthlyServiceSummaries = new ObservableCollection<MonthlyServiceSummary>();
+
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            monthlyServiceSummaries.Add(new MonthlyServiceSummary
+                            {
+                                Code = reader.IsDBNull(0) ? null : reader.GetString(0), // MaTongHop
+                                Month = reader.IsDBNull(1) ? 0 : reader.GetInt32(1), // Thang
+                                EmployeeCode = reader.IsDBNull(2) ? null : reader.GetString(2), // MaNhanVien
+                                EmployeeName = reader.IsDBNull(3) ? null : reader.GetString(3), // TenNhanVien
+                                TaskCode = reader.IsDBNull(4) ? null : reader.GetString(4), // MaCongViec
+                                ServiceFee = reader.IsDBNull(5) ? 0.0 : reader.GetDouble(5), // PhiDichVu
+                                TotalServiceFee = reader.IsDBNull(6) ? 0.0 : reader.GetDouble(6), // TongPhiDichVu
+                                MonthlyTotalFee = reader.IsDBNull(7) ? 0.0 : reader.GetDouble(7) // TongPhiDichVuThang
+                            });
+                        }
+                    }
+                }
+            }
+
+            return monthlyServiceSummaries;
+        }
+
+        public void SummaryProduct(ObservableCollection<MonthlyProductSummary> monthlyProductSummaries)
+        {
+                string insertQuery = @"
+                    INSERT INTO TongHopSanPhamTheoThang 
+                    (MaTongHop, Thang, MaSanPham, TenSanPham, SoLuong, GiaBan, TongTien)
+                    VALUES (@MaTongHop, @Thang, @MaSanPham, @TenSanPham, @SoLuong, @GiaBan, @TongTien)";
+
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+
+                using (var transaction = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        foreach (var summary in monthlyProductSummaries)
+                        {
+                            using (var command = new NpgsqlCommand(insertQuery, connection, transaction))
+                            {
+                                command.Parameters.AddWithValue("@MaTongHop", summary.Code);
+                                command.Parameters.AddWithValue("@Thang", summary.Month);
+                                command.Parameters.AddWithValue("@MaSanPham", summary.ProductCode);
+                                command.Parameters.AddWithValue("@TenSanPham", summary.ProductName);
+                                command.Parameters.AddWithValue("@SoLuong", summary.Quantity);
+                                command.Parameters.AddWithValue("@GiaBan", summary.Price);
+                                command.Parameters.AddWithValue("@TongTien", summary.TotalPrice);
+
+                                command.ExecuteNonQuery();
+                            }
+                        }
+
+                        transaction.Commit();
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
+                }
+            }
+        }
+
+        public void SummaryService(ObservableCollection<MonthlyServiceSummary> monthlyServiceSummaries)
+        {
+            string query = @"
+                INSERT INTO TongHopDichVuTheoThang 
+                (MaTongHop, Thang, MaNhanVien, TenNhanVien, MaCongViec, PhiDichVu, TongPhiDichVu, TongPhiDichVuThang) 
+                VALUES (@Code, @Month, @EmployeeCode, @EmployeeName, @TaskCode, @ServiceFee, @TotalServiceFee, @MonthlyTotalFee)";
+
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+
+                foreach (var summary in monthlyServiceSummaries)
+                {
+                    using (var command = new NpgsqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Code", summary.Code);
+                        command.Parameters.AddWithValue("@Month", summary.Month);
+                        command.Parameters.AddWithValue("@EmployeeCode", summary.EmployeeCode);
+                        command.Parameters.AddWithValue("@EmployeeName", summary.EmployeeName);
+                        command.Parameters.AddWithValue("@TaskCode", summary.TaskCode);
+                        command.Parameters.AddWithValue("@ServiceFee", summary.ServiceFee);
+                        command.Parameters.AddWithValue("@TotalServiceFee", summary.TotalServiceFee);
+                        command.Parameters.AddWithValue("@MonthlyTotalFee", summary.MonthlyTotalFee);
+
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+        }
+
+        public void ClearSummary()
+        {
+            string deleteProductSummaryQuery = "DELETE FROM TongHopSanPhamTheoThang";
+            string deleteServiceSummaryQuery = "DELETE FROM TongHopDichVuTheoThang";
+
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+
+                using (var transaction = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        // Xóa dữ liệu trong bảng TongHopSanPhamTheoThang
+                        using (var deleteProductCommand = new NpgsqlCommand(deleteProductSummaryQuery, connection))
+                        {
+                            deleteProductCommand.Transaction = transaction;
+                            deleteProductCommand.ExecuteNonQuery();
+                        }
+
+                        // Xóa dữ liệu trong bảng TongHopDichVuTheoThang
+                        using (var deleteServiceCommand = new NpgsqlCommand(deleteServiceSummaryQuery, connection))
+                        {
+                            deleteServiceCommand.Transaction = transaction;
+                            deleteServiceCommand.ExecuteNonQuery();
+                        }
+
+                        // Xác nhận thay đổi
+                        transaction.Commit();
+                    }
+                    catch
+                    {
+                        // Hủy bỏ thay đổi nếu có lỗi
+                        transaction.Rollback();
+                        throw; // Ném lại lỗi để xử lý ở cấp cao hơn
+                    }
+                }
+            }
+        }
 
     }
 

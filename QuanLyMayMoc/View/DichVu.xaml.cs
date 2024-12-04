@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using QuanLyMayMoc.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -26,6 +27,12 @@ namespace QuanLyMayMoc.View
         public DichVu()
         {
             this.InitializeComponent();
+            ViewModel = new MainViewModel();
+
+        }
+        public MainViewModel ViewModel
+        {
+            get; set;
         }
     }
 }
