@@ -16,6 +16,8 @@ using Microsoft.UI.Xaml.Navigation;
 using System.Text.RegularExpressions;
 using Npgsql;
 using QuanLyMayMoc.ViewModel;
+using QuanLyMayMoc.View;
+
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -160,7 +162,11 @@ namespace QuanLyMayMoc
 
 
         }
-
+        private void HuongDanSuDungButton(object sender, RoutedEventArgs e)
+        {
+            
+            this.FrameContent.Navigate(typeof(HuongDanSuDung));
+        }
         private void VeChungToiButton(object sender, RoutedEventArgs e)
         {
             //navigate to the AboutUs page
