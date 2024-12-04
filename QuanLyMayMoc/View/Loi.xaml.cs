@@ -50,8 +50,6 @@ namespace QuanLyMayMoc
             this.InitializeComponent();
             HideFirstRow(); // Thêm dòng đầu tiên
             ViewModel = new MainViewModel();
-            ViewModel.SaveToLoiTam(); // Lưu dữ liệu từ bảng loi vào bảng loi_Tam
-
         }
 
 

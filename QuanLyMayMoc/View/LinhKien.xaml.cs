@@ -33,7 +33,6 @@ namespace QuanLyMayMoc
     /// </summary>
     public sealed partial class LinhKien : Page
     {
-        private string connectionString = "Host=127.0.0.1;Port=5432;Username=postgres;Password=1234;Database=machine";
 
         private int currentRow = 1;
         private int Columns = 3;
@@ -52,7 +51,7 @@ namespace QuanLyMayMoc
             this.InitializeComponent();
             HideFirstRow(); // Thêm dòng đầu tiên
             ViewModel = new MainViewModel();
-            ViewModel.SaveToLinhKienTam(); // Lưu dữ liệu từ bảng linhkien vào bảng LinhKien_Tam
+            //ViewModel.SaveToLinhKienTam(); // Lưu dữ liệu từ bảng linhkien vào bảng LinhKien_Tam
         }
         private void HideFirstRow()
         {
@@ -70,29 +69,6 @@ namespace QuanLyMayMoc
             Grid.SetColumn(emptyElement, 0);
             InputGrid.Children.Add(emptyElement);
         }
-        //private void OnLinhkienTapped(object sender, TappedRoutedEventArgs e)
-        //{
-        //    var selectedLinhkien = (sender as FrameworkElement).DataContext as Linhkien;
-        //    if (selectedLinhkien != null)
-        //    {
-        //        ViewModel.CurrentSelectedLinhkien = selectedLinhkien;
-        //    }
-
-        //    var grid = sender as Grid;
-        //    var linhkien = grid.DataContext as Linhkien;
-
-        //    foreach (var item in ViewModel.Listlinhkien)
-        //    {
-        //        item.IsSelected = false;
-        //    }
-
-        //    //if (linhkien != null)
-        //    //{
-        //        linhkien.IsSelected = true;
-        //    //}
-        //}
-
-        // Thêm dòng mới
         #region AddNewRow
         private void AddNewRow()
         {

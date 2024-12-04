@@ -705,11 +705,13 @@ namespace QuanLyMayMoc
                     await command.ExecuteNonQueryAsync();
                 }
 
-                // Xóa tất cả các dòng trong nhanvientamthoi và congviectamthoi
+                // Xóa tất cả các dòng trong nhanvientamthoi và congviectamthoi, linhkientam, loitam
                 string deleteTempTables = @"
                         DELETE FROM duan_tam;
                         DELETE FROM nhanvientamthoi WHERE maduan = @maDuAn;
                         DELETE FROM congviectamthoi WHERE maduan = @maDuAn;
+                        DELETE FROM linhkienduantam WHERE maduan = @maDuAn;
+                        DELETE FROM loiduantam WHERE maduan = @maDuAn;
                     ";
 
                 using (var command = new NpgsqlCommand(deleteTempTables, connection))
@@ -1023,6 +1025,39 @@ namespace QuanLyMayMoc
             return linhkiens;
         }
 
+        public ObservableCollection<Linhkien> GetAllLinhKienTam()
+        {
+            string query = @"SELECT mahieu, tenlinhkien, giaban
+                             FROM linhkienduantam
+                             WHERE maduan = @maDuan";
+
+            ObservableCollection<Linhkien> linhkiens = new ObservableCollection<Linhkien>();
+
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@maduan", AppData.ProjectID);
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            linhkiens.Add(new Linhkien
+                            {
+                                MaSanPham = reader.IsDBNull(0) ? null : reader.GetString(0),
+                                TenSanPham = reader.IsDBNull(1) ? null : reader.GetString(1),
+                                GiaBan = reader.IsDBNull(2) ? 0 : reader.GetDouble(2)
+                            });
+
+                        }
+                    }
+                }
+            }
+
+            return linhkiens;
+        }
+
         public async void SaveToLinhKienTam()
         {
             try
@@ -1218,6 +1253,41 @@ namespace QuanLyMayMoc
                 connection.Open();
                 using (var command = new NpgsqlCommand(query, connection))
                 {
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            lois.Add(new Loisp
+                            {
+                                MaSanPham = reader.IsDBNull(0) ? null : reader.GetString(0),
+                                TenSanPham = reader.IsDBNull(1) ? null : reader.GetString(1),
+                                GiaBan = reader.IsDBNull(2) ? 0 : reader.GetDouble(2)
+                            });
+
+                        }
+                    }
+                }
+            }
+
+            return lois;
+
+        }
+
+        public ObservableCollection<Loisp> GetAllLoiTam()
+        {
+            string query = @"SELECT mahieu, tenloi, giaban
+                             FROM loiduantam
+                             WHERE maduan = @maDuAn";
+
+            ObservableCollection<Loisp> lois = new ObservableCollection<Loisp>();
+
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@maDuAn", AppData.ProjectID);
+
                     using (var reader = command.ExecuteReader())
                     {
                         while (reader.Read())

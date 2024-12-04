@@ -54,8 +54,6 @@ namespace QuanLyMayMoc.ViewModel
             Tasks = _dao.GetTasks();
             Listlinhkien = _dao.GetAllLinhKien();
             ListLoi = _dao.GetAllLoi();
-
-
         }
 
         public void LoadDataFilter(DateTime ngaythuchien, string keyword)
@@ -188,6 +186,30 @@ namespace QuanLyMayMoc.ViewModel
         {
             get; set;
         }
+        //public void LoadData(bool _isLoadedFromTam)
+        //{
+        //    if (!_isLoadedFromTam)
+        //    {
+        //        Listlinhkien = _dao.GetAllLinhKienTam(); // Lần đầu load từ bảng gốc
+        //        SaveToLinhKienTam(); // Lưu dữ liệu vào bảng tạm
+        //        _isLoadedFromTam = true;
+        //    }
+        //    else
+        //    {
+        //        Listlinhkien = _dao.GetAllLinhKienTam(); // Lần sau load từ bảng tạm
+        //    }
+        //}
+        public void LoadLinhKienFromDatabase()
+        {
+            Listlinhkien = _dao.GetAllLinhKien();
+            SaveToLinhKienTam(); // Lưu dữ liệu vào bảng tạm
+        }
+
+        public void LoadLinhKienFromTemp()
+        {
+            Listlinhkien = _dao.GetAllLinhKienTam();
+        }
+
         public void SaveToLinhKienTam()
         {
             _dao.SaveToLinhKienTam();
@@ -231,6 +253,15 @@ namespace QuanLyMayMoc.ViewModel
         public ObservableCollection<Loisp> ListLoi
         {
             get; set;
+        }
+        public void LoadLoiFromDatabase()
+        {
+            ListLoi = _dao.GetAllLoi();
+            SaveToLoiTam(); 
+        }
+        public void LoadLoiFromTemp()
+        {
+            ListLoi = _dao.GetAllLoiTam();
         }
 
         public void SaveToLoiTam()
