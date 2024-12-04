@@ -209,17 +209,8 @@ namespace QuanLyMayMoc.ViewModel
         {
             return _dao.CheckLinhKienTonTai(maSanPham);
         }
-        private Linhkien _currentSelectedLinhkien;
-        public Linhkien CurrentSelectedLinhkien
-        {
-            get => _currentSelectedLinhkien;
-            set
-            {
-                _currentSelectedLinhkien = value;
-                OnPropertyChanged(nameof(CurrentSelectedLinhkien)); // Nếu ViewModel hỗ trợ INotifyPropertyChanged
-            }
-        }
-        public void UpdateSelectedLinhkien(Linhkien newLinhkien)
+      
+        public void UpdateSelectedLinhkien(Linhkien newLinhkien, Linhkien CurrentSelectedLinhkien)
         {
             if (CurrentSelectedLinhkien != null)
             {
@@ -231,7 +222,7 @@ namespace QuanLyMayMoc.ViewModel
 
                 if (linhkienIndex >= 0)
                 {
-                    Listlinhkien[linhkienIndex] = updatedLinhkien;
+                    Listlinhkien[linhkienIndex] = newLinhkien;
                 }
             }
             CurrentSelectedLinhkien = null;
@@ -267,35 +258,23 @@ namespace QuanLyMayMoc.ViewModel
             return _dao.CheckLoiTonTai(maSanPham);
         }
 
-        private Loisp _currentSelectedLoisp;
-        public Loisp CurrentSelectedLoisp
+
+        public void UpdateSelectedLoi(Loisp newLoi, Loisp CurrentSelectedLoi)
         {
-            get => _currentSelectedLoisp;
-            set
+            if (CurrentSelectedLoi != null)
             {
-                _currentSelectedLoisp = value;
-                OnPropertyChanged(nameof(CurrentSelectedLoisp)); // Nếu ViewModel hỗ trợ INotifyPropertyChanged
-            }
-        }
 
-        public void UpdateSelectedLoisp(Loisp newLoisp)
-        {
-            if (CurrentSelectedLoisp != null)
-            {
-                var updatedLoisp = CurrentSelectedLoisp;
+                _dao.UpdateLoisp(CurrentSelectedLoi, newLoi);
 
-                _dao.UpdateLoisp(updatedLoisp, newLoisp);
+                var loiIndex = ListLoi.IndexOf(CurrentSelectedLoi);
 
-                var loispIndex = ListLoi.IndexOf(updatedLoisp);
-
-                if (loispIndex >= 0)
+                if (loiIndex >= 0)
                 {
-                    ListLoi[loispIndex] = updatedLoisp;
+                    ListLoi[loiIndex] = newLoi;
                 }
             }
-            CurrentSelectedLoisp = null;
+            CurrentSelectedLoi = null;
         }
-
         public void SaveProjectWithDifferentName(Project project)
         {
             _dao.SaveProjectWithDifferentName(project);
