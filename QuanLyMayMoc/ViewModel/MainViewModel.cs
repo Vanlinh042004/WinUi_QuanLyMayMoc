@@ -35,8 +35,6 @@ namespace QuanLyMayMoc.ViewModel
         }
 
 
-
-
         public ObservableCollection<Employee> Employees
         {
             get; set;
@@ -47,7 +45,7 @@ namespace QuanLyMayMoc.ViewModel
         }
 
 
-        public DateTime Ngay { get; set; } = DateTime.MinValue;
+       // public DateTime Ngay { get; set; } = DateTime.MinValue;
         public XamlRoot XamlRoot { get; private set; }
 
         public MainViewModel()
@@ -55,12 +53,8 @@ namespace QuanLyMayMoc.ViewModel
             _dao = ServiceFactory.GetChildOf(typeof(IDao)) as IDao;
             Employees = _dao.GetEmployees();
             Tasks = _dao.GetTasks();
-            linhkien = _dao.GetAllLinhKien();
+            Listlinhkien = _dao.GetAllLinhKien();
             ListLoi = _dao.GetAllLoi();
-
-
-
-
         }
 
         public void loadNewData()
@@ -87,15 +81,22 @@ namespace QuanLyMayMoc.ViewModel
 
         public void LoadDataFilter()
         {
+
             Tasks.Clear();
 
-
+           
             var allTasks = _dao.GetTasksFromTemp();
-            foreach (var task in allTasks)
+
+           
+            var sortedTasks = allTasks.OrderBy(task => task.Stt);
+
+           
+            foreach (var task in sortedTasks)
             {
                 Tasks.Add(task);
             }
         }
+
 
         public List<string> GetCustomerNames(string query)
         {
@@ -108,7 +109,9 @@ namespace QuanLyMayMoc.ViewModel
             return _dao.GetProjects();
         }
 
-        public void RemoveSelectedTask()
+
+        public  void RemoveSelectedTask()
+
         {
             if (CurrentSelectedTask != null)
             {
@@ -126,6 +129,29 @@ namespace QuanLyMayMoc.ViewModel
             }
             CurrentSelectedTask = null;
         }
+
+        public void UpdateSelectedTask(Task newTask)
+        {
+            if (CurrentSelectedTask != null)
+            {
+                var updatedTask = CurrentSelectedTask;
+
+             
+                _dao.UpdateTask(updatedTask,newTask);
+
+              
+                var taskIndex = Tasks.IndexOf(updatedTask);
+
+                if (taskIndex >= 0)
+                {
+                    
+                    Tasks[taskIndex] = updatedTask;
+                }
+            }
+            CurrentSelectedTask = null;
+        }
+
+
         public void RemoveAllTask()
         {
 
@@ -186,6 +212,101 @@ namespace QuanLyMayMoc.ViewModel
         {
             get; set;
         }
+       
+        
+        public void DeleteAllTask(string maDuAn)
+        {
+            _dao.DeleteAllTasks(maDuAn);
+        }
+
+
+        //Linhkien
+        public ObservableCollection<Linhkien> Listlinhkien
+        {
+            get; set;
+        }
+        //public void LoadData(bool _isLoadedFromTam)
+        //{
+        //    if (!_isLoadedFromTam)
+        //    {
+        //        Listlinhkien = _dao.GetAllLinhKienTam(); // Lần đầu load từ bảng gốc
+        //        SaveToLinhKienTam(); // Lưu dữ liệu vào bảng tạm
+        //        _isLoadedFromTam = true;
+        //    }
+        //    else
+        //    {
+        //        Listlinhkien = _dao.GetAllLinhKienTam(); // Lần sau load từ bảng tạm
+        //    }
+        //}
+        public void LoadLinhKienFromDatabase()
+        {
+            Listlinhkien = _dao.GetAllLinhKien();
+            SaveToLinhKienTam(); // Lưu dữ liệu vào bảng tạm
+        }
+
+        public void LoadLinhKienFromTemp()
+        {
+            Listlinhkien = _dao.GetAllLinhKienTam();
+        }
+
+        public void SaveToLinhKienTam()
+        {
+            _dao.SaveToLinhKienTam();
+        }
+        public void DeleteAllLinhKienTam()
+        {
+            _dao.DeleteAllLinhKienTam();
+
+        }
+        public void DeleteLinhKienTam(string maLinhKien)
+        {
+            _dao.DeleteLinhKienTam(maLinhKien);
+        }
+        public void InsertLinhKienToDaTaBaseTemp(Linhkien newLinhKien, string mahieuduan)
+        {
+            _dao.InsertLinhKienToDaTaBaseTemp(newLinhKien, mahieuduan);
+        }
+        public Task<bool> CheckMaSanPhamTonTai(string maSanPham)
+        {
+            return _dao.CheckLinhKienTonTai(maSanPham);
+        }
+      
+        public void UpdateSelectedLinhkien(Linhkien newLinhkien, Linhkien CurrentSelectedLinhkien)
+        {
+            if (CurrentSelectedLinhkien != null)
+            {
+                var updatedLinhkien = CurrentSelectedLinhkien;
+
+                _dao.UpdateLinhkien(updatedLinhkien, newLinhkien);
+
+                var linhkienIndex = Listlinhkien.IndexOf(updatedLinhkien);
+
+                if (linhkienIndex >= 0)
+                {
+                    Listlinhkien[linhkienIndex] = newLinhkien;
+                }
+            }
+            CurrentSelectedLinhkien = null;
+        }
+        // Lõi
+        public ObservableCollection<Loisp> ListLoi
+        {
+            _dao.SaveProjectWithDifferentName(project, oldProjectID);
+        }
+
+        public void DeleteProject(Project project)
+        {
+            _dao.DeleteProject(project);
+        }
+        public void LoadLoiFromDatabase()
+        {
+            ListLoi = _dao.GetAllLoi();
+            SaveToLoiTam(); 
+        }
+        public void LoadLoiFromTemp()
+        {
+            ListLoi = _dao.GetAllLoiTam();
+        }
 
         public void SaveToLoiTam()
         {
@@ -207,27 +328,38 @@ namespace QuanLyMayMoc.ViewModel
             _dao.InsertLoiToDaTaBaseTemp(newLoi, mahieuduan);
         }
 
-        public void SaveProjectWithDifferentName(Project project, string oldProjectID)
+        public Task<bool> CheckLoiTonTai(string maSanPham)
         {
-            _dao.SaveProjectWithDifferentName(project, oldProjectID);
-        }
-
-        public void DeleteProject(Project project)
-        {
-            _dao.DeleteProject(project);
+            return _dao.CheckLoiTonTai(maSanPham);
         }
 
 
+        public void UpdateSelectedLoi(Loisp newLoi, Loisp CurrentSelectedLoi)
+        {
+            if (CurrentSelectedLoi != null)
+            {
 
+                _dao.UpdateLoisp(CurrentSelectedLoi, newLoi);
+
+                var loiIndex = ListLoi.IndexOf(CurrentSelectedLoi);
+
+                if (loiIndex >= 0)
+                {
+                    ListLoi[loiIndex] = newLoi;
+                }
+            }
+            CurrentSelectedLoi = null;
+        }
+        public void SaveProjectWithDifferentName(Project project)
+        {
+            _dao.SaveProjectWithDifferentName(project);
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-
-
 
       
     }

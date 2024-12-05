@@ -5,14 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuanLyMayMoc.Model
+namespace QuanLyMayMoc
 {
     public class Linhkien : INotifyPropertyChanged
     {
         private string _masp;
         private string _tensp;
         private double _giaban;
-
+      
 
         public string MaSanPham
         {
@@ -55,6 +55,36 @@ namespace QuanLyMayMoc.Model
                     throw new ArgumentOutOfRangeException(nameof(col), "Invalid column index.");
             }
         }
+
+        private bool _isSelected;
+        public bool IsSelected
+        {
+            get => _isSelected;
+            set
+            {
+                _isSelected = value;
+                OnPropertyChanged(nameof(IsSelected));
+            }
+        }
+
+        public string GetPropertyForColumn(int column)
+        {
+            switch (column)
+            {
+                case 0:
+                    return MaSanPham;
+                case 1:
+                    return TenSanPham;
+                case 2:
+                    return GiaBan.ToString("F2"); // Chuyển đổi double sang chuỗi với 2 chữ số thập phân
+                default:
+                    return string.Empty;
+            }
+        }
+
+
+
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged(string propertyName)

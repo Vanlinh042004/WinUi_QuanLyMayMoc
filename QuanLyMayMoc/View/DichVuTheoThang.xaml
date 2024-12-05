@@ -134,13 +134,7 @@
                             <TextBlock Text="GHI CHÚ" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
                         </Border>
 
-                        <!--<Border BorderBrush="Black" BorderThickness="1" Grid.Column="16" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                            <TextBlock Text="MÃ CV DỰ ÁN" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
-                        </Border>
-
-                        <Border BorderBrush="Black" BorderThickness="1" Grid.Column="17" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                            <TextBlock Text="MÃ DỰ ÁN" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
-                        </Border>-->
+                       
 
                     </Grid>
                     <!-- Row Title -->
@@ -284,6 +278,8 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
                 <Button Content="Thêm dòng mới" Width="150" Margin="20" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnAddRowDataClick"/>
                 <Button Content="Xóa dòng" Width="150" Margin="20" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnDeleteRowDataClick"/>
+                <Button Content="Sửa dòng" Width="150" Margin="20" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnUpdateRowDataClick"/>
+               
                 <Button Content="Lưu" Width="100" Margin="10" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnSaveRowDataClick"/>
                 <Button Content="Xóa tất cả" Width="100" Margin="10" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnDeleteAllRowDataClick"/>
                 <Button Content="Lọc theo ngày" Width="150" Margin="50" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnFilterByDateClick"/>

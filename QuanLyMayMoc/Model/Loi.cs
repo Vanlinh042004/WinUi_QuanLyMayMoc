@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuanLyMayMoc.Model
+namespace QuanLyMayMoc
 {
     public class Loisp : INotifyPropertyChanged
     {
@@ -31,6 +31,20 @@ namespace QuanLyMayMoc.Model
             set { _giaban = value; OnPropertyChanged(nameof(GiaBan)); }
         }
 
+        public string GetPropertyForColumn(int column)
+        {
+            switch (column)
+            {
+                case 0:
+                    return MaSanPham;
+                case 1:
+                    return TenSanPham;
+                case 2:
+                    return GiaBan.ToString("F2"); // Chuyển đổi double sang chuỗi với 2 chữ số thập phân
+                default:
+                    return string.Empty;
+            }
+        }
 
 
         public void SetPropertyForColumn(int col, string value)
@@ -57,6 +71,7 @@ namespace QuanLyMayMoc.Model
                     throw new ArgumentOutOfRangeException(nameof(col), "Invalid column index.");
             }
         }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged(string propertyName)

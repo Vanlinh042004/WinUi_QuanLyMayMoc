@@ -68,13 +68,17 @@ namespace QuanLyMayMoc
                 HoTen = HoTenInput.Text ?? "Không rõ",
                 GioiTinh = (GioiTinhInput.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "Khác",
                 NgaySinh = NgaySinhInput.SelectedDate?.Date ?? DateTime.MinValue,
+                NgayKyHD = NgayDKHDInput.SelectedDate?.Date ?? DateTime.MinValue,
+                CCCD = CCCDInput.Text ?? "Không có",
+                SoDienThoai = SoDienThoaiInput.Text ?? "Không có",
+                Email = EmailInput.Text ?? "Không có",
+
                 DiaChi = DiaChiInput.Text ?? "Không có",
                 SoDienThoai = SoDienThoaiInput.Text ?? "Không có",  
                 Email = EmailInput.Text ?? "Không có",
                 TrangThai = TrangThaiInput.Text ?? "Không có",
                 PhongBan = PhongBanInput.Text ?? "Không có",
-                CCCD = CCCDInput.Text ?? "Không có",
-                AnhDaiDien = string.IsNullOrWhiteSpace(AnhDaiDienInput.Text) ? "No Image" : AnhDaiDienInput.Text,
+                AnhDaiDien = "ms-appx:///Assets/"+AnhDaiDienInput.Text,
                 MaDuAn = AppData.ProjectID,
             };
             try
