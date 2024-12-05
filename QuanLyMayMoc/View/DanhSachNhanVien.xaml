@@ -81,9 +81,9 @@
                         <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="1" Grid.Column="3">
                             <TextBlock Text="Dân tộc:" FontWeight="Bold" Foreground="White" Margin="5"/>
                         </Border>
-                        <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="1" Grid.Column="4">
+                        <!--<Border BorderBrush="Gray" BorderThickness="1" Grid.Row="1" Grid.Column="4">
                             <TextBlock Text="{x:Bind DanToc}" Foreground="White" Margin="5"/>
-                        </Border>
+                        </Border>-->
 
                         <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="2" Grid.Column="3">
                             <TextBlock Text="Số điện thoại:" FontWeight="Bold" Foreground="White" Margin="5"/>

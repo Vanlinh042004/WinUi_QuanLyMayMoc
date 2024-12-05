@@ -30,7 +30,9 @@
                 <MenuFlyoutSeparator/>
                 <MenuFlyoutItem Text="Lưu dự án" Click="LuuDuAnClick"/>
                 <MenuFlyoutSeparator/>
-                <MenuFlyoutItem Text="Lưu với tên khác"/>
+                <MenuFlyoutItem Text="Lưu với tên khác" Click="LuuDuAnVoiTenKhacClick"/>
+                <MenuFlyoutSeparator/>
+                <MenuFlyoutItem Text="Xóa dự án" Click="XoaDuAnClick"/>
                 <MenuFlyoutSeparator/>
                 <MenuFlyoutItem Text="Exit"/>
             </MenuBarItem>
@@ -40,7 +42,7 @@
             <MenuBarItem Title="Hướng dẫn" Margin="0,0,10,0">
                 <MenuFlyoutItem Text="Demo"/>
                 <MenuFlyoutSeparator/>
-                <MenuFlyoutItem Text="Hướng dẫn sử dụng"/>
+                <MenuFlyoutItem Text="Hướng dẫn sử dụng" Click="HuongDanSuDungButton"/>
             </MenuBarItem>
 
             <MenuBarItem Title="Hỗ trợ" Margin="0,0,10,0">

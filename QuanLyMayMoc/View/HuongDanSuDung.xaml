@@ -1,0 +1,72 @@
+<Page
+    x:Class="QuanLyMayMoc.View.HuongDanSuDung"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:QuanLyMayMoc.View"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid Padding="20">
+        <!-- Chia lưới thành 2 hàng -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Hàng chứa tiêu đề -->
+            <RowDefinition Height="*"/>
+            <!-- Hàng chứa nội dung cuộn -->
+        </Grid.RowDefinitions>
+
+        <!-- Tiêu đề chính -->
+        <TextBlock 
+            Text="HƯỚNG DẪN SỬ DỤNG PHẦN MỀM" 
+            FontSize="40" 
+            FontWeight="Bold" 
+            HorizontalAlignment="Center" 
+            Margin="0,20"
+            Grid.Row="0"/>
+        <!-- Thuộc về hàng 0 -->
+
+        <!-- Nội dung -->
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Grid.Row="1">
+            <!-- Thuộc về hàng 1 -->
+            <StackPanel Spacing="15">
+                <!-- Mục 1: Tổng quan -->
+                <TextBlock Text="1. TỔNG QUAN" FontSize="28" FontWeight="Bold" />
+                <TextBlock TextWrapping="Wrap" FontSize="19">
+                    Phần mềm quản lý máy móc giúp người dùng theo dõi, cập nhật và quản lý dữ liệu về các Linh kiện, Lõi, và Dịch vụ khách hàng sử dụng. Giao diện trực quan, dễ sử dụng với khả năng lưu và mở dự án.
+                </TextBlock>
+
+                <!-- Mục 2: Tính năng chính -->
+                <TextBlock Text="2. TÍNH NĂNG CHÍNH" FontSize="28" FontWeight="Bold" />
+                <ItemsControl ItemsSource="{x:Bind TinhNangChinh}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="x:String">
+                            <TextBlock Text="{Binding}" FontSize="19" TextWrapping="Wrap" Margin="0,5"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <!-- Mục 3: Hướng dẫn thao tác -->
+                <TextBlock Text="3. HƯỚNG DẪN THAO TÁC" FontSize="28" FontWeight="Bold" />
+                <ItemsControl ItemsSource="{x:Bind ThaoTac}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="x:String">
+                            <TextBlock Text="{Binding}" FontSize="19" TextWrapping="Wrap" Margin="0,5"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <!-- Mục 4: Mẹo sử dụng -->
+                <TextBlock Text="4. MẸO SỬ DỤNG" FontSize="28" FontWeight="Bold" />
+                <ItemsControl ItemsSource="{x:Bind Meo}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="x:String">
+                            <TextBlock Text="{Binding}" FontSize="19" TextWrapping="Wrap" Margin="0,5"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

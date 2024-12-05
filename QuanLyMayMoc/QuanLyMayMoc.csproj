@@ -30,6 +30,7 @@
     <None Remove="VeChungToi.xaml" />
     <None Remove="View\BlankPage1.xaml" />
     <None Remove="View\DichVu.xaml" />
+    <None Remove="View\HuongDanSuDung.xaml" />
     <None Remove="View\May.xaml" />
     <None Remove="View\MoDuAn.xaml" />
   </ItemGroup>
@@ -62,6 +63,7 @@
     <PackageReference Include="Dapper" Version="2.1.35" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.230913002" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Npgsql" Version="8.0.5" />
     <PackageReference Include="System.Data.SQLite.Core" Version="1.0.115.5" />
     <Manifest Include="$(ApplicationManifest)" />
@@ -99,6 +101,9 @@
     <None Update="Assets\imageholder.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="View\HuongDanSuDung.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="View\DichVu.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -157,6 +162,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Service\DataAccess\" />
+    <Folder Include="View\" />
   </ItemGroup>
 
   <!-- 

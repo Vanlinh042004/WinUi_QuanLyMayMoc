@@ -16,6 +16,8 @@ using Microsoft.UI.Xaml.Navigation;
 using System.Text.RegularExpressions;
 using Npgsql;
 using QuanLyMayMoc.ViewModel;
+using QuanLyMayMoc.View;
+
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -27,24 +29,23 @@ namespace QuanLyMayMoc
     /// </summary>
     public sealed partial class MainPage : Page
     {
-       
-        private string maDuAn;
+
         private string projectName;
         public Project CurrentProject { get; set; }
         public MainViewModel ViewModel
         {
             get; set;
         }
+
+
         public MainPage()
         {
             this.InitializeComponent();
             ViewModel = new MainViewModel();
             // disable the button "DichVuTheoThang"
+            AppData.isEnableFunctionButtion = false;
 
-            DichVuTheoThang.IsEnabled = false;
-            QuanLyMayMoc.IsEnabled = false;
-            DanhSachNhanVien.IsEnabled = false;
-            TongHopMayTheoKy.IsEnabled = false;
+            buttonToggling();
 
         }
 
@@ -119,7 +120,9 @@ namespace QuanLyMayMoc
 
                     string date = DateTime.Now.ToString("yyyy_MM_dd");
                     string time = DateTime.Now.ToString("HH_mm_ss");
-                    maDuAn = projectName + date + "_" + time;
+
+                    string maDuAn = projectName + date + "_" + time;
+
                     AppData.ProjectID = maDuAn;
                     AppData.ProjectName = projectName;
                     AppData.ProjectTimeCreate = DateTime.Now;
@@ -131,9 +134,7 @@ namespace QuanLyMayMoc
                     };
                     try
                     {
-                        ViewModel.InsertProjectTemp(CurrentProject);
-
-
+                        ViewModel.InsertProjectTemp(CurrentProject);  
                     }
                     catch (Exception ex)
                     {
@@ -158,9 +159,23 @@ namespace QuanLyMayMoc
                 }
             }
 
-
+            else
+            {
+                DichVuTheoThang.IsEnabled = false;
+                QuanLyMayMoc.IsEnabled = false;
+                DanhSachNhanVien.IsEnabled = false;
+                TongHopMayTheoKy.IsEnabled = false;
+                projectName = "";
+                AppData.ProjectID = "";
+                AppData.ProjectName = "";
+                AppData.ProjectTimeCreate = DateTime.MinValue;
+            }
         }
-
+        private void HuongDanSuDungButton(object sender, RoutedEventArgs e)
+        {
+            
+            this.FrameContent.Navigate(typeof(HuongDanSuDung));
+        }
         private void VeChungToiButton(object sender, RoutedEventArgs e)
         {
             //navigate to the AboutUs page
@@ -175,7 +190,7 @@ namespace QuanLyMayMoc
 
         private async void LuuDuAnClick(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(maDuAn))
+            if (string.IsNullOrEmpty(AppData.ProjectID))
             {
                 await new ContentDialog
                 {
@@ -186,13 +201,20 @@ namespace QuanLyMayMoc
                 }.ShowAsync();
                 return;
             }
+            if (CurrentProject == null)
+            {
+                CurrentProject = new Project();
+            }
             try
             {
 
-            ViewModel.InsertProject(CurrentProject);
-            ViewModel.InsertAllDataFromTemp(CurrentProject.ID);
+                CurrentProject.ID = AppData.ProjectID;
+                CurrentProject.Name = AppData.ProjectName;
+                CurrentProject.TimeCreate = AppData.ProjectTimeCreate;
+                ViewModel.InsertProject(CurrentProject);
+                ViewModel.InsertAllDataFromTemp(CurrentProject.ID);
 
-               
+
                 await new ContentDialog
                 {
                     Title = "Thành công",
@@ -218,7 +240,196 @@ namespace QuanLyMayMoc
 
         private void MoDuAnClick(object sender, RoutedEventArgs e)
         {
+            // Navigate to the ShellWindow
+            this.FrameContent.Navigate(typeof(MoDuAn), this);
 
+        }
+
+        public void buttonToggling()
+        {
+            if (!AppData.isEnableFunctionButtion == false)
+            {
+                DichVuTheoThang.IsEnabled = true;
+                QuanLyMayMoc.IsEnabled = true;
+                DanhSachNhanVien.IsEnabled = true;
+                TongHopMayTheoKy.IsEnabled = true;
+                AppData.isEnableFunctionButtion = false;
+            }
+            else
+            {
+                DichVuTheoThang.IsEnabled = false;
+                QuanLyMayMoc.IsEnabled = false;
+                DanhSachNhanVien.IsEnabled = false;
+                TongHopMayTheoKy.IsEnabled = false;
+                AppData.isEnableFunctionButtion = true;
+            }
+        }
+
+        private async void LuuDuAnVoiTenKhacClick(object sender, RoutedEventArgs e)
+        {
+            TextBox projectNameTextBox = new TextBox
+            {
+                PlaceholderText = "Nhập tên dự án khác:",
+                Width = 300 
+            };
+            // Create the ContentDialog
+            ContentDialog inputProjectNameDialog = new ContentDialog
+            {
+                Title = "Lưu dự án với tên khác",
+                Content = projectNameTextBox,
+                PrimaryButtonText = "OK",
+                CloseButtonText = "Cancel",
+                XamlRoot = this.XamlRoot // Set XamlRoot for the dialog to appear in the correct window context
+            };
+            if (string.IsNullOrEmpty(AppData.ProjectID))
+            {
+                await new ContentDialog
+                {
+                    Title = "Lỗi",
+                    Content = "Chưa mở dự án. Vui lòng mở dự án trước khi lưu.",
+                    CloseButtonText = "OK",
+                    XamlRoot = this.XamlRoot
+                }.ShowAsync();
+                return;
+            }
+            // Show the dialog and wait for the result
+            var result = await inputProjectNameDialog.ShowAsync();
+
+            //Var stores the name of the project
+            string projectName = projectNameTextBox.Text;
+            string pattern = @"^(?!\d)[A-Za-z0-9_]+$";
+            if (string.IsNullOrEmpty(projectName))
+            {
+                await new ContentDialog
+                {
+                    Title = "Lỗi",
+                    Content = "Tên dự án không được để trống.",
+                    CloseButtonText = "OK",
+                    XamlRoot = this.XamlRoot
+                }.ShowAsync();
+                return;
+            }
+            // Check if the user clicked "OK"
+            if (result == ContentDialogResult.Primary)
+            {
+                // Retrieve the project name
+                projectName = projectNameTextBox.Text;
+            }
+            else
+            {
+                return;
+            }
+
+            // Check if the project name is a valid file name
+            if (!string.IsNullOrEmpty(projectName) && Regex.IsMatch(projectName, pattern))
+            {
+                // Enable specific options if a valid project name is provided
+                DichVuTheoThang.IsEnabled = true;
+                QuanLyMayMoc.IsEnabled = true;
+                DanhSachNhanVien.IsEnabled = true;
+                TongHopMayTheoKy.IsEnabled = true;
+
+                string date = DateTime.Now.ToString("yyyy_MM_dd");
+                string time = DateTime.Now.ToString("HH_mm_ss");
+                string maDuAn = projectName + date + "_" + time;
+                string oldProjectName = AppData.ProjectID;
+                AppData.ProjectID = maDuAn;
+                AppData.ProjectName = projectName;
+                AppData.ProjectTimeCreate = DateTime.Now;
+                CurrentProject = new Project
+                {
+                    ID = AppData.ProjectID,
+                    Name = AppData.ProjectName,
+                    TimeCreate = AppData.ProjectTimeCreate
+                };
+                try
+                {
+                    ViewModel.SaveProjectWithDifferentName(CurrentProject, oldProjectName);
+                    AppData.ProjectID = CurrentProject.ID;
+                    AppData.ProjectName = CurrentProject.Name;
+                    AppData.ProjectTimeCreate = CurrentProject.TimeCreate;
+
+                }
+                catch (Exception ex)
+                {
+                    var dialog = new ContentDialog
+                    {
+                        Title = "Lỗi",
+                        Content = $"Có lỗi xảy ra khi lưu dự án: {ex.Message}",
+                        CloseButtonText = "OK"
+                    };
+                }
+            }
+            else
+            {
+                // Show a warning if the project name is invalid
+                await new ContentDialog
+                {
+                    Title = "Lỗi",
+                    Content = "Tên dự án không hợp lệ. Vui lòng nhập tên không chứa khoảng trắng, ký tự đặc biệt và không bắt đầu bằng số.",
+                    CloseButtonText = "OK",
+                    XamlRoot = this.XamlRoot
+                }.ShowAsync();
+            }
+        }
+
+        private async void XoaDuAnClick(object sender, RoutedEventArgs e)
+        {
+            ContentDialog deleteProjectDialog = new ContentDialog
+            {
+                Title = "Bạn có chắc chắn muốn xóa dự án?",
+                Content = "Hành động này sẽ xóa dự án của bạn",
+                PrimaryButtonText = "OK",
+                CloseButtonText = "Cancel",
+                XamlRoot = this.XamlRoot // Set XamlRoot for the dialog to appear in the correct window context
+            };
+            var result = await deleteProjectDialog.ShowAsync();
+            if (result == ContentDialogResult.Primary)
+            {
+                if (string.IsNullOrEmpty(AppData.ProjectID))
+                {
+                    await new ContentDialog
+                    {
+                        Title = "Lỗi",
+                        Content = "Chưa mở dự án. Vui lòng mở dự án trước khi xóa.",
+                        CloseButtonText = "OK",
+                        XamlRoot = this.XamlRoot
+                    }.ShowAsync();
+                    return;
+                }
+                try
+                {
+                    if (CurrentProject == null)
+                    {
+                        CurrentProject = new Project();
+                        CurrentProject.ID = AppData.ProjectID;
+                        CurrentProject.Name = AppData.ProjectName;
+                        CurrentProject.TimeCreate = AppData.ProjectTimeCreate;
+                    }
+
+                    ViewModel.DeleteProject(CurrentProject);
+                    //navigate to MoDuAn
+                    this.FrameContent.Navigate(typeof(MoDuAn), this);
+                    buttonToggling();
+                    await new ContentDialog
+                    {
+                        Title = "Thành công",
+                        Content = "Dự án đã được xóa thành công.",
+                        CloseButtonText = "OK",
+                        XamlRoot = this.XamlRoot
+                    }.ShowAsync();
+                }
+                catch (Exception ex)
+                {
+                    await new ContentDialog
+                    {
+                        Title = "Lỗi",
+                        Content = $"Có lỗi xảy ra khi xóa dự án: {ex.Message}",
+                        CloseButtonText = "OK",
+                        XamlRoot = this.XamlRoot
+                    }.ShowAsync();
+                }
+            }
         }
     }
 }

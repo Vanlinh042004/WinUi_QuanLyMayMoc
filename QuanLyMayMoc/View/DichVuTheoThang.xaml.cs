@@ -256,9 +256,6 @@ namespace QuanLyMayMoc
                 ViewModel.RemoveSelectedTask();
               
 
-
-
-
                 ContentDialog successDialog = new ContentDialog
                 {
                     Title = "Xóa thành công",
@@ -430,6 +427,7 @@ namespace QuanLyMayMoc
                         entry.Value.MaCVDuAn = $"{AppData.ProjectID}_{date}_{time}_{stt}";
                         // Thực hiện chèn dữ liệu vào bảng congviectamthoi
                         ViewModel.InsertTaskToDaTaBaseTemp(entry.Value);
+
 
                     }
                     catch (Exception ex)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -73,7 +74,6 @@ namespace QuanLyMayMoc.ViewModel
             ListLoi = _dao.GetAllLoi();
             MonthlyProductSummarys= _dao.GetMonthlyProductSummaries();
             MonthlyServiceSummarys= _dao.GetMonthlyServiceSummaries();
-
         }
 
         public void LoadDataFilter(DateTime ngaythuchien, string keyword)
@@ -95,12 +95,10 @@ namespace QuanLyMayMoc.ViewModel
             if (Tasks != null)
             {
                 Tasks.Clear();
-            }
-
-           
+            }  
+          
             var allTasks = _dao.GetTasksFromTemp();
 
-           
             var sortedTasks = allTasks.OrderBy(task => task.Stt);
 
            
@@ -132,9 +130,14 @@ namespace QuanLyMayMoc.ViewModel
             return _dao.GetCustomerNamesFromDatabase(query);
         }
 
+        public ObservableCollection<Project> getProjects()
+        {
+            return _dao.GetProjects();
+        }
 
 
         public  void RemoveSelectedTask()
+
         {
             if (CurrentSelectedTask != null)
             {
@@ -192,13 +195,13 @@ namespace QuanLyMayMoc.ViewModel
         }
         public void InsertAllDataFromTemp(string projectID)
         {
-            _dao.InsertAllDataFromTemp( projectID);
+            _dao.InsertAllDataFromTemp(projectID);
 
         }
 
         public void InsertToEmployees(Employee newEmployee)
         {
-            _dao.InsertEmployeeToDaTaBase(newEmployee);
+            _dao.InsertEmployeeToDatabase(newEmployee);
         }
 
         public int TimSttLonNhat(string maduan)
@@ -206,9 +209,34 @@ namespace QuanLyMayMoc.ViewModel
             return _dao.TimSttLonNhat(maduan);
         }
 
-        public void InsertTaskToDaTaBaseTemp(Task newTask)
+        public void InsertTaskToDatabaseTemp(Task newTask)
         {
-            _dao.InsertTaskToDaTaBaseTemp(newTask);
+            _dao.InsertTaskToDatabaseTemp(newTask);
+        }
+        public ObservableCollection<Linhkien> linhkien
+        {
+            get; set;
+        }
+        public void SaveToLinhKienTam()
+        {
+            _dao.SaveToLinhKienTam();
+        }
+        public void DeleteAllLinhKienTam()
+        {
+            _dao.DeleteAllLinhKienTam();
+            
+        }
+        public void DeleteLinhKienTam(string maLinhKien)
+        {
+            _dao.DeleteLinhKienTam(maLinhKien);
+        }
+        public void InsertLinhKienToDaTaBaseTemp(Linhkien newLinhKien, string mahieuduan)
+        {
+            _dao.InsertLinhKienToDaTaBaseTemp(newLinhKien, mahieuduan);
+        }
+        public ObservableCollection<Loisp> ListLoi
+        {
+            get; set;
         }
        
         
@@ -219,7 +247,35 @@ namespace QuanLyMayMoc.ViewModel
 
 
         //Linhkien
-      
+
+        public ObservableCollection<Linhkien> Listlinhkien
+        {
+            get; set;
+        }
+        //public void LoadData(bool _isLoadedFromTam)
+        //{
+        //    if (!_isLoadedFromTam)
+        //    {
+        //        Listlinhkien = _dao.GetAllLinhKienTam(); // Lần đầu load từ bảng gốc
+        //        SaveToLinhKienTam(); // Lưu dữ liệu vào bảng tạm
+        //        _isLoadedFromTam = true;
+        //    }
+        //    else
+        //    {
+        //        Listlinhkien = _dao.GetAllLinhKienTam(); // Lần sau load từ bảng tạm
+        //    }
+        //}
+        public void LoadLinhKienFromDatabase()
+        {
+            Listlinhkien = _dao.GetAllLinhKien();
+            SaveToLinhKienTam(); // Lưu dữ liệu vào bảng tạm
+        }
+
+        public void LoadLinhKienFromTemp()
+        {
+            Listlinhkien = _dao.GetAllLinhKienTam();
+        }
+
         public void SaveToLinhKienTam()
         {
             _dao.SaveToLinhKienTam();
@@ -241,17 +297,8 @@ namespace QuanLyMayMoc.ViewModel
         {
             return _dao.CheckLinhKienTonTai(maSanPham);
         }
-        private Linhkien _currentSelectedLinhkien;
-        public Linhkien CurrentSelectedLinhkien
-        {
-            get => _currentSelectedLinhkien;
-            set
-            {
-                _currentSelectedLinhkien = value;
-                OnPropertyChanged(nameof(CurrentSelectedLinhkien)); // Nếu ViewModel hỗ trợ INotifyPropertyChanged
-            }
-        }
-        public void UpdateSelectedLinhkien(Linhkien newLinhkien)
+      
+        public void UpdateSelectedLinhkien(Linhkien newLinhkien, Linhkien CurrentSelectedLinhkien)
         {
             if (CurrentSelectedLinhkien != null)
             {
@@ -263,13 +310,31 @@ namespace QuanLyMayMoc.ViewModel
 
                 if (linhkienIndex >= 0)
                 {
-                    Listlinhkien[linhkienIndex] = updatedLinhkien;
+                    Listlinhkien[linhkienIndex] = newLinhkien;
                 }
             }
             CurrentSelectedLinhkien = null;
         }
-      
-     
+
+        // Lõi
+        public ObservableCollection<Loisp> ListLoi
+        {
+            _dao.SaveProjectWithDifferentName(project, oldProjectID);
+        }
+
+        public void DeleteProject(Project project)
+        {
+            _dao.DeleteProject(project);
+        }
+        public void LoadLoiFromDatabase()
+        {
+            ListLoi = _dao.GetAllLoi();
+            SaveToLoiTam(); 
+        }
+        public void LoadLoiFromTemp()
+        {
+            ListLoi = _dao.GetAllLoiTam();
+        }
 
         public void SaveToLoiTam()
         {
@@ -296,35 +361,23 @@ namespace QuanLyMayMoc.ViewModel
             return _dao.CheckLoiTonTai(maSanPham);
         }
 
-        private Loisp _currentSelectedLoisp;
-        public Loisp CurrentSelectedLoisp
+
+        public void UpdateSelectedLoi(Loisp newLoi, Loisp CurrentSelectedLoi)
         {
-            get => _currentSelectedLoisp;
-            set
+            if (CurrentSelectedLoi != null)
             {
-                _currentSelectedLoisp = value;
-                OnPropertyChanged(nameof(CurrentSelectedLoisp)); // Nếu ViewModel hỗ trợ INotifyPropertyChanged
-            }
-        }
 
-        public void UpdateSelectedLoisp(Loisp newLoisp)
-        {
-            if (CurrentSelectedLoisp != null)
-            {
-                var updatedLoisp = CurrentSelectedLoisp;
+                _dao.UpdateLoisp(CurrentSelectedLoi, newLoi);
 
-                _dao.UpdateLoisp(updatedLoisp, newLoisp);
+                var loiIndex = ListLoi.IndexOf(CurrentSelectedLoi);
 
-                var loispIndex = ListLoi.IndexOf(updatedLoisp);
-
-                if (loispIndex >= 0)
+                if (loiIndex >= 0)
                 {
-                    ListLoi[loispIndex] = updatedLoisp;
+                    ListLoi[loiIndex] = newLoi;
                 }
             }
-            CurrentSelectedLoisp = null;
+            CurrentSelectedLoi = null;
         }
-
         public void SaveProjectWithDifferentName(Project project)
         {
             _dao.SaveProjectWithDifferentName(project);
@@ -485,14 +538,20 @@ namespace QuanLyMayMoc.ViewModel
         }
 
 
+
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-
-
       
     }
-}
+
+        //public void SaveProjectWithDifferentName(Project project)
+        //{
+        //    _dao.SaveProjectWithDifferentName(project);
+        //}
+    } 
+
+

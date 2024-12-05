@@ -17,22 +17,27 @@ namespace QuanLyMayMoc
 
      
 
+
+        // Lấy tất cả công việc từ bảng Task
         public ObservableCollection<Task> GetTasks();
         public ObservableCollection<Task> GetTasksFromTemp();
         public ObservableCollection<Task> GetTasksFromTemp(DateTime? ngaythuchien, string keyword);
         public List<string> GetCustomerNamesFromDatabase(string query);
-       
-       
+
+        public ObservableCollection<Project> GetProjects();
         public void DeleteTask(Task selectedTask);
         public void UpdateTask(Task selectedTask, Task newTask);
         public void InsertProject(Project projectInsert);
         public void InsertProjectTemp(Project projectInsert);
         public void InsertAllDataFromTemp(string projectID);
-        public void InsertEmployeeToDaTaBase(Employee newEmployee);
+        public void InsertEmployeeToDatabase(Employee newEmployee);
         public  int TimSttLonNhat(string maduan);
         public void InsertTaskToDaTaBaseTemp(Task newTask);
         public  void DeleteAllTasks(string maDuAn);
         public ObservableCollection<Linhkien> GetAllLinhKien();
+        public ObservableCollection<Linhkien> GetAllLinhKienTam();
+
+
         public void SaveToLinhKienTam();
         public void DeleteAllLinhKienTam();
         public void DeleteLinhKienTam(string maLinhKien);
@@ -40,6 +45,9 @@ namespace QuanLyMayMoc
         public Task<bool> CheckLinhKienTonTai(string maSanPham);
         public void UpdateLinhkien(Linhkien selectedLinhkien, Linhkien newLinhkien);
         public ObservableCollection<Loisp> GetAllLoi();
+
+        public ObservableCollection<Loisp> GetAllLoiTam();
+
         public void SaveToLoiTam();
         public void DeleteAllLoiTam();
         public void DeleteLoiTam(string maLoi);
@@ -54,6 +62,5 @@ namespace QuanLyMayMoc
         public void ClearSummary();
 
     }
-
 
 }

@@ -28,16 +28,67 @@ namespace QuanLyMayMoc
             this.InitializeComponent();
         }
 
-        
-
+        private bool _isFirstLinhKienClick = true;
+        private bool _isFirstLoiClick = true;
         private void LinhKienButton(object sender, RoutedEventArgs e)
         {
-            this.FrameContent.Navigate(typeof(LinhKien));
+            // Kiểm tra nếu trang LinhKien chưa được điều hướng, thì mới điều hướng đến
+            if (FrameContent.Content is not LinhKien linhKienPage)
+            {
+                linhKienPage = new LinhKien();
+                FrameContent.Navigate(typeof(LinhKien)); // Điều hướng trang LinhKien
+            }
+            else
+            {
+                return;
+            }
+            // Lần đầu tiên nhấn: Tải dữ liệu từ bảng gốc vào ViewModel
+            if (_isFirstLinhKienClick)
+            {
+                if (FrameContent.Content is LinhKien currentPage)
+                {
+                    currentPage.ViewModel.LoadLinhKienFromDatabase();  // Tải dữ liệu từ bảng gốc
+                }
+
+                // Đổi cờ sau lần nhấn đầu tiên
+                _isFirstLinhKienClick = false;
+            }
+            else
+            {
+                // Lần sau: Lấy dữ liệu từ bảng tạm
+                if (FrameContent.Content is LinhKien currentPage)
+                {
+                    currentPage.ViewModel.LoadLinhKienFromTemp();  // Tải dữ liệu từ bảng tạm
+                }
+            }
         }
 
         private void LoiButton(object sender, RoutedEventArgs e)
         {
-            this.FrameContent.Navigate(typeof(Loi));
+           if(FrameContent.Content is not Loi loiPage)
+            {
+                loiPage = new Loi();
+                FrameContent.Navigate(typeof(Loi));
+            }
+            else
+            {
+                return;
+            }
+            if (_isFirstLoiClick)
+            {
+                if (FrameContent.Content is Loi currentPage)
+                {
+                    currentPage.ViewModel.LoadLoiFromDatabase();
+                }
+                _isFirstLoiClick = false;
+            }
+            else
+            {
+                if (FrameContent.Content is Loi currentPage)
+                {
+                    currentPage.ViewModel.LoadLoiFromTemp();
+                }
+            }
         }
     }
 }
