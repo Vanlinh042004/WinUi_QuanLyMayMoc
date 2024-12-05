@@ -55,6 +55,7 @@
             <StackPanel>
 
                 <ListView ItemsSource="{x:Bind ViewModel.Listlinhkien, Mode=TwoWay}" 
+
                           x:Name="LinhKienListView" 
                           SelectionMode="Single" 
                           HorizontalAlignment="Center" 
@@ -102,6 +103,7 @@
                 <Button Content="Thêm Linh kiện" Width="150" Margin="20" Style="{StaticResource AccentButtonStyle}" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnAddRowDataClick"/>
                 <Button Content="Lưu dữ liệu" Width="150" Margin="20" Style="{StaticResource AccentButtonStyle}" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnSaveDataClick"/>
                 <Button Content="Sửa dòng dữ liệu" Width="150" Margin="20" Style="{StaticResource AccentButtonStyle}" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnUpdateRowDataClick"/>
+
                 <Button Content="Xóa Linh kiện" Width="150" Margin="10" Style="{StaticResource AccentButtonStyle}" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnDeleteRowDataClick"/>
                 <Button Content="Xóa tất cả" Width="150" Margin="10" Style="{StaticResource AccentButtonStyle}" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnDeleteAllRowDataClick"/>
             </StackPanel>

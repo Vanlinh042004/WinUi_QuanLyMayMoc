@@ -71,6 +71,7 @@ namespace QuanLyMayMoc
             InputGrid.Children.Add(emptyElement);
         }
 
+
         // Thêm dòng mới
         #region AddNewRow
         private void AddNewRow()
@@ -78,6 +79,7 @@ namespace QuanLyMayMoc
 
             var newLoi = new Loisp();
             rowLoispDictionary[currentRow] = newLoi;
+
             // Thêm dòng mới vào Grid
             InputGrid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
 
@@ -93,6 +95,7 @@ namespace QuanLyMayMoc
                     BorderThickness = new Thickness(1)
                 };
                 AddHoverEffect(textBox, Colors.Gray, Colors.Black);
+
 
                 element = textBox;
                 // Đặt phần tử vào đúng vị trí trong Grid
@@ -141,6 +144,18 @@ namespace QuanLyMayMoc
         #endregion
 
 
+        // Luu
+        private void SaveRowData(int rowIndex)
+        {
+            try
+            {
+                if (rowLoiDictionary.TryGetValue(rowIndex, out Loisp loi))
+                {
+                    for (int col = 0; col < Columns; col++)
+                    {
+                        var element = InputGrid.Children
+                            .OfType<FrameworkElement>()
+                            .FirstOrDefault(e => Grid.GetRow(e) == rowIndex && Grid.GetColumn(e) == col);
 
 
 
@@ -203,7 +218,16 @@ namespace QuanLyMayMoc
             // Đặt lại số hàng hiện tại
             currentRow = 1;
             ViewModel.DeleteAllLoiTam();
+
         }
+        private void OnSaveRowDataClick(object sender, RoutedEventArgs e)
+        {
+            int stt = 0;
+            foreach (var entry in rowLoiDictionary)
+            {
+                stt++;
+                try
+                {
 
         // Sửa
 
@@ -496,7 +520,6 @@ namespace QuanLyMayMoc
                 ClearInputRows();
             }
         }
-
     }
 }
 

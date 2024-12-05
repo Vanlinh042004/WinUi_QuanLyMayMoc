@@ -97,13 +97,13 @@
                 </Grid>
             </StackPanel>
         </ScrollViewer>
-
         <!-- Các nút thao tác -->
         <Grid Grid.Row="3">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
                 <Button Content="Thêm Lõi" Width="150" Margin="20" Style="{StaticResource AccentButtonStyle}" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnAddRowDataClick"/>
                 <Button Content="Lưu dữ liệu" Width="150" Margin="20" Style="{StaticResource AccentButtonStyle}" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnSaveRowDataClick"/>
                 <Button Content="Sửa dòng dữ liệu" Width="150" Margin="20" Style="{StaticResource AccentButtonStyle}" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnUpdateRowDataClick"/>
+
                 <Button Content="Xóa Lõi" Width="150" Margin="10" Style="{StaticResource AccentButtonStyle}" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnDeleteRowDataClick"/>
                 <Button Content="Xóa tất cả" Width="150" Margin="10" Style="{StaticResource AccentButtonStyle}" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnDeleteAllRowDataClick"/>
             </StackPanel>

@@ -46,6 +46,7 @@ namespace QuanLyMayMoc
             }
         }
 
+
         public void SetPropertyForColumn(int col, string value)
         {
             switch (col)
@@ -70,16 +71,7 @@ namespace QuanLyMayMoc
                     throw new ArgumentOutOfRangeException(nameof(col), "Invalid column index.");
             }
         }
-        private bool _isSelected;
-        public bool IsSelected
-        {
-            get => _isSelected;
-            set
-            {
-                _isSelected = value;
-                OnPropertyChanged(nameof(IsSelected));
-            }
-        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged(string propertyName)

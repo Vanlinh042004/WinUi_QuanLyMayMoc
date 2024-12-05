@@ -4,13 +4,20 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+
 
 namespace QuanLyMayMoc
 {
     public class Project
     {
+        [JsonProperty("MaDuAn")]
         private string _id;
+
+        [JsonProperty("TenDuAn")]
         private string _name;
+
+        [JsonProperty("NgayThucHien")]
         DateTime _timeCreate;
         public string ID
         {

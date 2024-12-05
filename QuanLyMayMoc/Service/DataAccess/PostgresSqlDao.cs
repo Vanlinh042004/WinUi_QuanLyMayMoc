@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Data;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using static QuanLyMayMoc.View.MoDuAn;
 
 namespace QuanLyMayMoc
 {
@@ -60,6 +61,7 @@ namespace QuanLyMayMoc
                                 DiaChi = reader.IsDBNull(11) ? null : reader.GetString(11),
                                 MaDuAn = reader.IsDBNull(12) ? null : reader.GetString(12)
 
+
                             });
                         }
                     }
@@ -68,8 +70,6 @@ namespace QuanLyMayMoc
 
             return employees;
         }
-
-
 
         public ObservableCollection<Task> GetTasks()
         {
@@ -364,6 +364,66 @@ namespace QuanLyMayMoc
             return tasks;
         }
 
+
+        // Lấy danh sách tất cả các dự án
+        public ObservableCollection<Project> GetProjects()
+        {
+            ObservableCollection<Project> projects = new ObservableCollection<Project>();
+            // Load data from database
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+                using (var cmd = new NpgsqlCommand("SELECT * FROM duan", connection))
+                {
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            string maDuAn = reader.GetString(0);
+                            string tenDuAn = reader.GetString(1);
+                            // get the timestamp without time zone
+                            DateTime dateTime = reader.GetDateTime(2);
+                            Project duan = new Project { ID = maDuAn, Name = tenDuAn, TimeCreate = dateTime };
+                            projects.Add(duan);
+                        }
+                    }
+                }
+            }
+
+            return projects;
+        }
+
+        // Xóa tất cả các dòng trong bảng công việc
+        public void DeleteAllTasks()
+        {
+            string query = "DELETE FROM tasks";
+
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        // Xóa công việc theo ID
+        public void DeleteTaskById(int taskId)
+        {
+            string query = "DELETE FROM tasks WHERE id = @id";
+
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("id", taskId);
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
         public List<string> GetCustomerNamesFromDatabase(string query)
         {
             var customerNames = new List<string>(); // Danh sách tên khách hàng sẽ trả về
@@ -376,10 +436,10 @@ namespace QuanLyMayMoc
 
                     // Truy vấn SQL từ bảng congviectamthoi
                     string sqlQueryTemp = @"
-            SELECT DISTINCT hotenkh 
-            FROM congviectamthoi
-            WHERE hotenkh ILIKE @query
-            LIMIT 10";
+                                            SELECT DISTINCT hotenkh 
+                                            FROM congviectamthoi
+                                            WHERE hotenkh ILIKE @query
+                                            LIMIT 10";
 
                     using (var command = new NpgsqlCommand(sqlQueryTemp, connection))
                     {
@@ -570,6 +630,9 @@ namespace QuanLyMayMoc
 
         }
 
+
+
+        //insert data các dòng từ các bảng tạm thời và xóa dữ liệu trong bảng tạm thời bao gồm cả dự án và data
         public async void InsertAllDataFromTemp(string projectID)
         {
 
@@ -611,8 +674,45 @@ namespace QuanLyMayMoc
                 {
                     await command.ExecuteNonQueryAsync();
                 }
-                await connection.OpenAsync();
 
+                await connection.OpenAsync();
+                // Them du lieu tu linhkienduantam vào linhkien_duan
+                // Xóa dữ liệu cũ trong bảng linhkien_duan
+                string deleteLinhKienDuAnQuery = @" DELETE 
+                                                   FROM linhkien_duan
+                                                   WHERE maduan = @maduan";
+                using (var command = new NpgsqlCommand(deleteLinhKienDuAnQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@maDuAn", AppData.ProjectID);
+                    await command.ExecuteNonQueryAsync();
+                }
+                // Thêm dữ liệu từ linhkienduantam vào linhkien_duan
+                string insertLinhKienDuAnQuery = @" INSERT INTO LinhKien_DuAn (mahieuduan, mahieu, tenlinhkien, giaban, maduan)
+                                                   SELECT mahieuduan, mahieu, tenlinhkien, giaban, maduan
+                                                   FROM linhkienduantam";
+                using (var command = new NpgsqlCommand(insertLinhKienDuAnQuery, connection))
+                {
+                    await command.ExecuteNonQueryAsync();
+                }
+                // Them du lieu tu loiduantam vào loisp_duan
+                // Xóa dữ liệu cũ trong bảng loi_duan
+                string deleteLoiDuAnQuery = @" DELETE 
+                                                FROM loi_duan
+                                                WHERE maduan = @maduan";
+                using (var command = new NpgsqlCommand(deleteLoiDuAnQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@maDuAn", AppData.ProjectID);
+                    await command.ExecuteNonQueryAsync();
+                }
+                // Thêm dữ liệu từ loiduantam vào loi_duan
+                string insertLoiDuAnQuery = @" INSERT INTO Loi_DuAn (mahieuduan, mahieu, tenloi, giaban, maduan)
+                                                   SELECT mahieuduan, mahieu, tenloi, giaban, maduan
+                                                   FROM loiduantam";
+                using (var command = new NpgsqlCommand(insertLoiDuAnQuery, connection))
+                {
+                    await command.ExecuteNonQueryAsync();
+                }
+                // Thêm dữ liệu từ nhanvientamthoi vào nhanvien
                 string insertNhanVien = @"
                         INSERT INTO nhanvien (
                             manvduan,
@@ -712,6 +812,7 @@ namespace QuanLyMayMoc
                         DELETE FROM congviectamthoi WHERE maduan = @maDuAn;
                         DELETE FROM linhkienduantam WHERE maduan = @maDuAn;
                         DELETE FROM loiduantam WHERE maduan = @maDuAn;
+
                     ";
 
                 using (var command = new NpgsqlCommand(deleteTempTables, connection))
@@ -724,7 +825,7 @@ namespace QuanLyMayMoc
 
         }
 
-        public async void InsertEmployeeToDaTaBase(Employee newEmployee)
+        public async void InsertEmployeeToDatabase(Employee newEmployee)
         {
             string insertEmployeeQuery = @"
                 INSERT INTO nhanvientamthoi 
@@ -834,17 +935,9 @@ namespace QuanLyMayMoc
             string deleteQuery = "DELETE FROM congviectamthoi";
 
             using (var connection = new NpgsqlConnection(connectionString))
-            {
-                await connection.OpenAsync();
-
-                using (var command = new NpgsqlCommand(deleteQuery, connection))
-                {
-                    await command.ExecuteNonQueryAsync();
-                }
-                await connection.CloseAsync();
-            }
 
             string deleteQueryTemp = "DELETE FROM congviec WHERE maduan = @maduan";
+
 
             using (var connection = new NpgsqlConnection(connectionString))
             {
@@ -860,6 +953,7 @@ namespace QuanLyMayMoc
         public async void UpdateTask(Task selectedTask, Task newTask)
         {
             using (var connection = new NpgsqlConnection(connectionString))
+
             {
                 await connection.OpenAsync();
 
@@ -1497,8 +1591,6 @@ namespace QuanLyMayMoc
         {
 
         }
-
-
 
     }
 
