@@ -44,25 +44,36 @@ namespace QuanLyMayMoc.ViewModel
             get; set;
         }
 
+        public ObservableCollection<Linhkien> Listlinhkien
+        {
+            get; set;
+        }
+        public ObservableCollection<Loisp> ListLoi
+        {
+            get; set;
+        }
 
-       // public DateTime Ngay { get; set; } = DateTime.MinValue;
-        public XamlRoot XamlRoot { get; private set; }
+        public ObservableCollection<MonthlyProductSummary> MonthlyProductSummarys
+        {
+            get; set;
+        }
+
+        public ObservableCollection<MonthlyServiceSummary> MonthlyServiceSummarys
+        {
+            get; set;
+        }
+
 
         public MainViewModel()
         {
+          
             _dao = ServiceFactory.GetChildOf(typeof(IDao)) as IDao;
             Employees = _dao.GetEmployees();
             Tasks = _dao.GetTasks();
             Listlinhkien = _dao.GetAllLinhKien();
             ListLoi = _dao.GetAllLoi();
-        }
-
-        public void loadNewData()
-        {
-            Employees = _dao.GetEmployees();
-            Tasks = _dao.GetTasks();
-            linhkien = _dao.GetAllLinhKien();
-            ListLoi = _dao.GetAllLoi();
+            MonthlyProductSummarys= _dao.GetMonthlyProductSummaries();
+            MonthlyServiceSummarys= _dao.GetMonthlyServiceSummaries();
         }
 
         public void LoadDataFilter(DateTime ngaythuchien, string keyword)
@@ -81,13 +92,13 @@ namespace QuanLyMayMoc.ViewModel
 
         public void LoadDataFilter()
         {
-
-            Tasks.Clear();
-
-           
+            if (Tasks != null)
+            {
+                Tasks.Clear();
+            }  
+          
             var allTasks = _dao.GetTasksFromTemp();
 
-           
             var sortedTasks = allTasks.OrderBy(task => task.Stt);
 
            
@@ -95,6 +106,21 @@ namespace QuanLyMayMoc.ViewModel
             {
                 Tasks.Add(task);
             }
+
+            if (    MonthlyProductSummarys != null)
+            {
+                MonthlyProductSummarys.Clear();
+            }
+
+            if (MonthlyServiceSummarys != null)
+            {
+                MonthlyServiceSummarys.Clear();
+            }
+
+            ClearSummary();
+            SummaryProduct();
+            SummaryService();
+
         }
 
 
@@ -221,6 +247,7 @@ namespace QuanLyMayMoc.ViewModel
 
 
         //Linhkien
+
         public ObservableCollection<Linhkien> Listlinhkien
         {
             get; set;
@@ -288,6 +315,7 @@ namespace QuanLyMayMoc.ViewModel
             }
             CurrentSelectedLinhkien = null;
         }
+
         // Lõi
         public ObservableCollection<Loisp> ListLoi
         {
@@ -354,6 +382,162 @@ namespace QuanLyMayMoc.ViewModel
         {
             _dao.SaveProjectWithDifferentName(project);
         }
+
+        public void SummaryProduct()
+        {
+            // Tổng hợp dữ liệu từ Tasks để tạo MonthlyProductSummarys
+            var monthlyProductSummaries = AggregateTasksToMonthlyProductSummaries();
+
+            // Gửi dữ liệu đã tổng hợp đến DAO để lưu vào database
+            _dao.SummaryProduct(monthlyProductSummaries);
+        }
+
+
+
+        private ObservableCollection<MonthlyProductSummary> AggregateTasksToMonthlyProductSummaries()
+        {
+            var monthlyProductSummaries = new ObservableCollection<MonthlyProductSummary>();
+
+            // Nhóm các Task theo tháng và sản phẩm
+            var groupedTasks = Tasks
+                     .SelectMany(task =>
+                     {
+                         var results = new List<dynamic>();
+
+                         // Nếu có linh kiện
+                         if (!string.IsNullOrEmpty(task.MaLK))
+                         {
+                             var linhkien = Listlinhkien.FirstOrDefault(lk => lk.MaSanPham == task.MaLK);
+                             results.Add(new
+                             {
+                                 Month = task.NgayThucHien.Month,
+                                 ProductCode = task.MaLK,
+                                 ProductName = linhkien?.TenSanPham ?? "Unknown Linhkien",
+                                 Price = linhkien?.GiaBan ?? 0,
+                                 Quantity = task.SoLuongLK,
+                                 TotalPrice = task.SoLuongLK * (linhkien?.GiaBan ?? 0.0)
+                             });
+                         }
+
+                         // Nếu có lỗi
+                         if (!string.IsNullOrEmpty(task.MaLoi))
+                         {
+                             var loi = ListLoi.FirstOrDefault(l => l.MaSanPham == task.MaLoi);
+                             results.Add(new
+                             {
+                                 Month = task.NgayThucHien.Month,
+                                 ProductCode = task.MaLoi,
+                                 ProductName = loi?.TenSanPham ?? "Unknown Loi",
+                                 Price = loi?.GiaBan ?? 0,
+                                 Quantity = task.SoLuongLoi,
+                                 TotalPrice = (double)(task.SoLuongLoi * (loi?.GiaBan ?? 0.0))
+                             });
+                         }
+
+                         return results;
+                     })
+                     .GroupBy(item => new { item.Month, item.ProductCode })
+                     .Select(group => new
+                     {
+                         Month = group.Key.Month,
+                         ProductCode = group.Key.ProductCode,
+                         ProductName = group.First().ProductName,
+                         Price = group.First().Price,
+                         Quantity = group.Sum(item => item.Quantity),
+                         TotalPrice = group.Sum(item => (double)item.TotalPrice)
+                     })
+                     .ToList();
+
+
+            // Tạo danh sách MonthlyProductSummary
+            foreach (var groupedTask in groupedTasks)
+            {
+                monthlyProductSummaries.Add(new MonthlyProductSummary
+                {
+                    Code = GenerateUniqueCode(),
+                    Month = groupedTask.Month,
+                    ProductCode = groupedTask.ProductCode,
+                    ProductName = groupedTask.ProductName,
+                    Quantity = groupedTask.Quantity,
+                    Price = groupedTask.Price,
+                    TotalPrice = groupedTask.TotalPrice
+                });
+            }
+
+            return monthlyProductSummaries;
+        }
+
+        public void SummaryService()
+        {
+            // Tổng hợp dữ liệu từ Tasks để tạo danh sách MonthlyServiceSummary
+            var monthlyServiceSummaries = AggregateTasksToMonthlyServiceSummaries();
+
+            // Gửi dữ liệu đã tổng hợp đến DAO để lưu vào database
+            _dao.SummaryService(monthlyServiceSummaries);
+        }
+
+        private ObservableCollection<MonthlyServiceSummary> AggregateTasksToMonthlyServiceSummaries()
+        {
+            var monthlyServiceSummaries = new ObservableCollection<MonthlyServiceSummary>();
+
+            // Tính tổng phí dịch vụ của cả tháng cho tất cả nhân viên
+            var monthlyTotalFees = Tasks
+                .GroupBy(task => task.NgayThucHien.Month)
+                .ToDictionary(
+                    group => group.Key, // Tháng
+                    group => group.Sum(task => task.PhiDichVu) // Tổng phí dịch vụ của tháng đó
+                );
+
+            // Nhóm các Task theo tháng và nhân viên
+            var groupedTasks = Tasks
+                .GroupBy(task => new { Month = task.NgayThucHien.Month, EmployeeCode = task.MaNV })
+                .Select(group => new
+                {
+                    Month = group.Key.Month,
+                    EmployeeCode = group.Key.EmployeeCode,
+                    EmployeeName = group.First().TenNV ?? "Unknown Employee",
+                    TaskCode = group.First().MaCVDuAn ?? "Unknown Task",
+                    TotalServiceFee = group.Sum(task => task.PhiDichVu) // Tổng phí dịch vụ của nhân viên
+                })
+                .ToList();
+
+            // Tạo danh sách MonthlyServiceSummary
+            foreach (var groupedTask in groupedTasks)
+            {
+                foreach (var task in Tasks.Where(t => t.MaNV == groupedTask.EmployeeCode && t.NgayThucHien.Month == groupedTask.Month))
+                {
+                    monthlyServiceSummaries.Add(new MonthlyServiceSummary
+                    {
+                        Code = GenerateUniqueCode(),
+                        Month = groupedTask.Month,
+                        EmployeeCode = groupedTask.EmployeeCode,
+                        EmployeeName = groupedTask.EmployeeName,
+                        TaskCode = task.MaCVDuAn ?? "Unknown Task",
+                        ServiceFee = task.PhiDichVu,
+                        TotalServiceFee = groupedTask.TotalServiceFee,
+                        MonthlyTotalFee = monthlyTotalFees[groupedTask.Month] // Lấy tổng phí dịch vụ của tháng từ dictionary
+                    });
+                }
+            }
+
+            return monthlyServiceSummaries;
+        }
+
+
+        public string GenerateUniqueCode()
+        {
+            Random random = new Random();
+            string randomPart = random.Next(1000, 9999).ToString(); // Phần ngẫu nhiên
+            string timePart = DateTime.Now.ToString("yyyyMMddHHmmssfff"); // Phần thời gian
+            return timePart + randomPart;
+        }
+
+       public void ClearSummary()
+        {
+            _dao.ClearSummary();
+        }
+
+
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string propertyName)

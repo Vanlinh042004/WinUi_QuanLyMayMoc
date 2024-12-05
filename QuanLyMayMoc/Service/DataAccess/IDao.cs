@@ -12,6 +12,8 @@ namespace QuanLyMayMoc
     public interface IDao
     {
          public ObservableCollection<Employee> GetEmployees();
+         public ObservableCollection<MonthlyProductSummary> GetMonthlyProductSummaries();
+         public ObservableCollection<MonthlyServiceSummary> GetMonthlyServiceSummaries();
 
      
 
@@ -53,6 +55,11 @@ namespace QuanLyMayMoc
         public Task<bool> CheckLoiTonTai(string maSanPham);
         public  void UpdateLoisp(Loisp selectedLoi, Loisp newLoi);
         public void SaveProjectWithDifferentName(Project projectInsert);
+        public void SummaryProduct(ObservableCollection<MonthlyProductSummary> monthlyProductSummaries);
+
+        public void SummaryService(ObservableCollection<MonthlyServiceSummary> monthlyServiceSummaries);
+
+        public void ClearSummary();
 
     }
 

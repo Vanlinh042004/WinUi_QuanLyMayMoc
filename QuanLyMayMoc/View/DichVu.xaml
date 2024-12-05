@@ -3,7 +3,7 @@
     x:Class="QuanLyMayMoc.View.DichVu"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:QuanLyMayMoc.View"
+    xmlns:local="using:QuanLyMayMoc"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
@@ -15,18 +15,19 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-
-        <!-- Tiêu đề -->
-        <Grid Grid.Row="0">
-            <TextBlock Text="TỔNG HỢP DỊCH VỤ AOSMITH ĐÀ NẴNG NĂM 2024"
+        <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+    Height="Auto">
+            <StackPanel>
+                <!-- Tiêu đề -->
+                <Grid Grid.Row="0">
+                    <TextBlock Text="TỔNG HỢP DỊCH VỤ AOSMITH ĐÀ NẴNG NĂM 2024"
                        HorizontalAlignment="Center"
                        FontSize="24"
                        FontWeight="Bold"
                        Margin="0,0,0,10"
                        Foreground="Black"/>
-        </Grid>
-
-        <!-- Tiêu đề cột -->
+                </Grid>
+                <!-- Tiêu đề cột -->
         <Grid Grid.Row="1" HorizontalAlignment="Center" Background="Gray">
             <Grid Padding="5" RowSpacing="5" ColumnSpacing="5">
                 <Grid.ColumnDefinitions>
@@ -62,7 +63,61 @@
 
             </Grid>
         </Grid>
+                <Grid Grid.Row="2" HorizontalAlignment="Center" Background="White">
+                    <ItemsControl ItemsSource="{x:Bind ViewModel.MonthlyServiceSummarys , Mode=OneWay}">
+                        <ItemsControl.ItemTemplate>
 
+                            <DataTemplate x:DataType="local:MonthlyServiceSummary">
+                                <Grid Padding="3"  >
+                                    <!-- Thêm Padding cho Grid -->
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="100" />
+                                        <ColumnDefinition Width="250"/>
+                                        <ColumnDefinition Width="400"/>
+                                        <ColumnDefinition Width="250"/>
+                                        <ColumnDefinition Width="250"/>
+                                        <ColumnDefinition Width="250"/>
+                                        <ColumnDefinition Width="250"/>
+
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <!-- Thêm khoảng cách giữa các hàng và cột -->
+                                    <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="0" Margin="0,0,5,0">
+                                        <TextBlock Text="{x:Bind Month}" Foreground="Red" Margin="5" />
+                                    </Border>
+                                    <Border BorderBrush="Gray" BorderThickness="2" CornerRadius="5" Grid.Column="1" Margin="0,0,5,0">
+                                        <TextBlock Text="{x:Bind EmployeeCode}" Foreground="Red" Margin="5"/>
+                                    </Border>
+                                    <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="2" Margin="0,0,5,0">
+                                        <TextBlock Text="{x:Bind EmployeeName}" Foreground="Red" Margin="5"/>
+                                    </Border>
+                                    <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="3" Margin="0,0,5,0">
+                                        <TextBlock Text="{x:Bind TaskCode}" Foreground="Red" Margin="5"/>
+                                    </Border>
+                                    <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="4" Margin="0,0,5,0">
+                                        <TextBlock Text="{x:Bind ServiceFee}" Foreground="Red" Margin="5"/>
+                                    </Border>
+                                    <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="5" Margin="0,0,5,0">
+                                        <TextBlock Text="{x:Bind TotalServiceFee}" Foreground="Red" Margin="5"/>
+                                    </Border>
+                                    <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="6" Margin="0,0,5,0">
+                                        <TextBlock Text="{x:Bind MonthlyTotalFee}" Foreground="Red" Margin="5"/>
+                                    </Border>
+                                    
+
+
+
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Grid>
+
+            </StackPanel>
+        </ScrollViewer>
         <!-- Nội dung cuộn -->
         <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" HorizontalAlignment="Center">
             <StackPanel>

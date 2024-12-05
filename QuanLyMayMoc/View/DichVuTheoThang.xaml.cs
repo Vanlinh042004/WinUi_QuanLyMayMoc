@@ -51,6 +51,7 @@ namespace QuanLyMayMoc
             this.InitializeComponent();
             HideFirstRow();
             ViewModel = new MainViewModel();
+            ViewModel.LoadDataFilter();
 
         }
         private void HideFirstRow()
@@ -253,7 +254,7 @@ namespace QuanLyMayMoc
 
 
                 ViewModel.RemoveSelectedTask();
-
+              
 
                 ContentDialog successDialog = new ContentDialog
                 {
@@ -293,7 +294,7 @@ namespace QuanLyMayMoc
 
                     ViewModel.RemoveAllTask();
                     ViewModel.DeleteAllTask(AppData.ProjectID);
-
+                    ViewModel.LoadDataFilter();
 
 
 
@@ -388,13 +389,15 @@ namespace QuanLyMayMoc
         }
 
 
-        private async void OnSaveRowDataClick(object sender, RoutedEventArgs e)
+        private  void OnSaveRowDataClick(object sender, RoutedEventArgs e)
         {
             if (EditingRowIndex != -1&& isUpdate)
             {
                 UpdateDataClick();
                ViewModel.CurrentSelectedTask = null;
                 rowUpdateTaskDictionary.Clear();
+              
+               
             }
             else
             {
@@ -440,7 +443,11 @@ namespace QuanLyMayMoc
 
                  rowTaskDictionary.Clear();
                 ClearInputRows();
+                ViewModel.LoadDataFilter();
+
             }
+          
+
         }
 
 
@@ -479,7 +486,10 @@ namespace QuanLyMayMoc
         private void OnClearFilterClick(object sender, RoutedEventArgs e)
         {
             ViewModel.LoadDataFilter();
+            
         }
+
+      
 
         private void OnSearchClick(object sender, RoutedEventArgs e)
         {
