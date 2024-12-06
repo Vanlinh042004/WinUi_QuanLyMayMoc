@@ -2,6 +2,7 @@
 using Microsoft.UI.Xaml.Controls;
 using Npgsql;
 using QuanLyMayMoc.Model;
+using QuanLyMayMoc.View;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -53,7 +54,7 @@ namespace QuanLyMayMoc
                                 NgaySinh = reader.IsDBNull(4) ? DateTime.MinValue : reader.GetDateTime(4),
                                 TrangThai = reader.IsDBNull(5) ? null : reader.GetString(5),
                                 //AnhDaiDien = "Assets/couple.PNG"/*reader.IsDBNull(7) ? "Assets/couple.PNG" : reader.GetString(7)*/,
-                                DanToc = reader.IsDBNull(6) ? null : reader.GetString(6),
+                                //DanToc = reader.IsDBNull(6) ? null : reader.GetString(6),
                                 CCCD = reader.IsDBNull(7) ? null : reader.GetString(7),
                                 PhongBan = reader.IsDBNull(8) ? null : reader.GetString(8),
                                 Email = reader.IsDBNull(9) ? null : reader.GetString(9),
@@ -638,6 +639,8 @@ namespace QuanLyMayMoc
 
             using (var connection = new NpgsqlConnection(connectionString))
             {
+                await connection.OpenAsync();
+
                 // Them du lieu tu linhkienduantam vào linhkien_duan
                 // Xóa dữ liệu cũ trong bảng linhkien_duan
                 string deleteLinhKienDuAnQuery = @" DELETE 
@@ -675,43 +678,7 @@ namespace QuanLyMayMoc
                     await command.ExecuteNonQueryAsync();
                 }
 
-                await connection.OpenAsync();
-                // Them du lieu tu linhkienduantam vào linhkien_duan
-                // Xóa dữ liệu cũ trong bảng linhkien_duan
-                string deleteLinhKienDuAnQuery = @" DELETE 
-                                                   FROM linhkien_duan
-                                                   WHERE maduan = @maduan";
-                using (var command = new NpgsqlCommand(deleteLinhKienDuAnQuery, connection))
-                {
-                    command.Parameters.AddWithValue("@maDuAn", AppData.ProjectID);
-                    await command.ExecuteNonQueryAsync();
-                }
-                // Thêm dữ liệu từ linhkienduantam vào linhkien_duan
-                string insertLinhKienDuAnQuery = @" INSERT INTO LinhKien_DuAn (mahieuduan, mahieu, tenlinhkien, giaban, maduan)
-                                                   SELECT mahieuduan, mahieu, tenlinhkien, giaban, maduan
-                                                   FROM linhkienduantam";
-                using (var command = new NpgsqlCommand(insertLinhKienDuAnQuery, connection))
-                {
-                    await command.ExecuteNonQueryAsync();
-                }
-                // Them du lieu tu loiduantam vào loisp_duan
-                // Xóa dữ liệu cũ trong bảng loi_duan
-                string deleteLoiDuAnQuery = @" DELETE 
-                                                FROM loi_duan
-                                                WHERE maduan = @maduan";
-                using (var command = new NpgsqlCommand(deleteLoiDuAnQuery, connection))
-                {
-                    command.Parameters.AddWithValue("@maDuAn", AppData.ProjectID);
-                    await command.ExecuteNonQueryAsync();
-                }
-                // Thêm dữ liệu từ loiduantam vào loi_duan
-                string insertLoiDuAnQuery = @" INSERT INTO Loi_DuAn (mahieuduan, mahieu, tenloi, giaban, maduan)
-                                                   SELECT mahieuduan, mahieu, tenloi, giaban, maduan
-                                                   FROM loiduantam";
-                using (var command = new NpgsqlCommand(insertLoiDuAnQuery, connection))
-                {
-                    await command.ExecuteNonQueryAsync();
-                }
+                
                 // Thêm dữ liệu từ nhanvientamthoi vào nhanvien
                 string insertNhanVien = @"
                         INSERT INTO nhanvien (
@@ -824,7 +791,48 @@ namespace QuanLyMayMoc
 
 
         }
+        public async void InsertTaskToDaTaBaseTemp(Task newTask)
+        {
+            string insertCongViecQuery = @"
+                INSERT INTO congviectamthoi (
+                    stt, macvduan, ngaythuchien, hotenkh, sdt, diachi, tendichvu, manv, tennv, malinhkien, 
+                    tenlinhkien, soluonglinhkien, maloi, tenloi, soluongloi, phidichvu, ghichu, maduan
+                ) VALUES (
+                    @stt, @macvduan, @ngaythuchien, @hotenkh, @sdt, @diachi, @tendichvu, @manv, @tennv, @malinhkien, 
+                    @tenlinhkien, @soluonglinhkien, @maloi, @tenloi, @soluongloi, @phidichvu, @ghichu, @maduan
+                )";
 
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                await connection.OpenAsync();
+
+                using (var command = new NpgsqlCommand(insertCongViecQuery, connection))
+                {
+                    // Thêm các tham số cho truy vấn
+                    command.Parameters.AddWithValue("@stt", newTask.Stt);
+                    command.Parameters.AddWithValue("@macvduan", newTask.MaCVDuAn);
+                    command.Parameters.AddWithValue("@ngaythuchien", newTask.NgayThucHien == System.DateTime.MinValue ? (object)DateTime.Now : (object)newTask.NgayThucHien);
+                    command.Parameters.AddWithValue("@hotenkh", newTask.HoTenKH ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@sdt", newTask.SDT ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@diachi", newTask.DiaChi ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@tendichvu", newTask.TenDichVu ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@manv", newTask.MaNV ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@tennv", newTask.TenNV ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@malinhkien", newTask.MaLK ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@tenlinhkien", newTask.TenLK ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@soluonglinhkien", newTask.SoLuongLK);
+                    command.Parameters.AddWithValue("@maloi", newTask.MaLoi ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@tenloi", newTask.TenLoi ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@soluongloi", newTask.SoLuongLoi);
+                    command.Parameters.AddWithValue("@phidichvu", newTask.PhiDichVu);
+                    command.Parameters.AddWithValue("@ghichu", newTask.GhiChu ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@maduan", newTask.MaDuAn ?? (object)DBNull.Value);
+
+                    // Thực thi truy vấn
+                    await command.ExecuteNonQueryAsync();
+                }
+            }
+        }
         public async void InsertEmployeeToDatabase(Employee newEmployee)
         {
             string insertEmployeeQuery = @"
@@ -887,54 +895,11 @@ namespace QuanLyMayMoc
             return maxStt;
         }
 
-        public async void InsertTaskToDaTaBaseTemp(Task newTask)
-        {
-            string insertCongViecQuery = @"
-                INSERT INTO congviectamthoi (
-                    stt, macvduan, ngaythuchien, hotenkh, sdt, diachi, tendichvu, manv, tennv, malinhkien, 
-                    tenlinhkien, soluonglinhkien, maloi, tenloi, soluongloi, phidichvu, ghichu, maduan
-                ) VALUES (
-                    @stt, @macvduan, @ngaythuchien, @hotenkh, @sdt, @diachi, @tendichvu, @manv, @tennv, @malinhkien, 
-                    @tenlinhkien, @soluonglinhkien, @maloi, @tenloi, @soluongloi, @phidichvu, @ghichu, @maduan
-                )";
-
-            using (var connection = new NpgsqlConnection(connectionString))
-            {
-                await connection.OpenAsync();
-
-                using (var command = new NpgsqlCommand(insertCongViecQuery, connection))
-                {
-                    // Thêm các tham số cho truy vấn
-                    command.Parameters.AddWithValue("@stt", newTask.Stt);
-                    command.Parameters.AddWithValue("@macvduan", newTask.MaCVDuAn);
-                    command.Parameters.AddWithValue("@ngaythuchien", newTask.NgayThucHien == System.DateTime.MinValue ? (object)DateTime.Now : (object)newTask.NgayThucHien);
-                    command.Parameters.AddWithValue("@hotenkh", newTask.HoTenKH ?? (object)DBNull.Value);
-                    command.Parameters.AddWithValue("@sdt", newTask.SDT ?? (object)DBNull.Value);
-                    command.Parameters.AddWithValue("@diachi", newTask.DiaChi ?? (object)DBNull.Value);
-                    command.Parameters.AddWithValue("@tendichvu", newTask.TenDichVu ?? (object)DBNull.Value);
-                    command.Parameters.AddWithValue("@manv", newTask.MaNV ?? (object)DBNull.Value);
-                    command.Parameters.AddWithValue("@tennv", newTask.TenNV ?? (object)DBNull.Value);
-                    command.Parameters.AddWithValue("@malinhkien", newTask.MaLK ?? (object)DBNull.Value);
-                    command.Parameters.AddWithValue("@tenlinhkien", newTask.TenLK ?? (object)DBNull.Value);
-                    command.Parameters.AddWithValue("@soluonglinhkien", newTask.SoLuongLK);
-                    command.Parameters.AddWithValue("@maloi", newTask.MaLoi ?? (object)DBNull.Value);
-                    command.Parameters.AddWithValue("@tenloi", newTask.TenLoi ?? (object)DBNull.Value);
-                    command.Parameters.AddWithValue("@soluongloi", newTask.SoLuongLoi);
-                    command.Parameters.AddWithValue("@phidichvu", newTask.PhiDichVu);
-                    command.Parameters.AddWithValue("@ghichu", newTask.GhiChu ?? (object)DBNull.Value);
-                    command.Parameters.AddWithValue("@maduan", newTask.MaDuAn ?? (object)DBNull.Value);
-
-                    // Thực thi truy vấn
-                    await command.ExecuteNonQueryAsync();
-                }
-            }
-        }
 
         public async void DeleteAllTasks(string maDuAn)
         {
             string deleteQuery = "DELETE FROM congviectamthoi";
 
-            using (var connection = new NpgsqlConnection(connectionString))
 
             string deleteQueryTemp = "DELETE FROM congviec WHERE maduan = @maduan";
 
@@ -1587,10 +1552,53 @@ namespace QuanLyMayMoc
             }
         }
 
-        public void SaveProjectWithDifferentName(Project projectInsert)
+        public void SaveProjectWithDifferentName(Project projectInsert, string maDuAnCu)
         {
+            string maDuAnMoi = projectInsert.ID;
+            string tenDuAnMoi = projectInsert.Name;
+            DateTime ngayBatDauDuAnMoi = projectInsert.TimeCreate;
 
+            List<String> Queries = new List<string>
+            {
+                @"
+                INSERT INTO duan (maduan, tenduan, ngaythuchien)
+                SELECT @maDuAnMoi, @tenDuAnMoi, @ngayThucHienDuAnMoi
+                FROM duan
+                WHERE maduan = @maDuAnCu;
+                "
+            };
+
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+
+                using (var transaction = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        for (int i = 0; i < Queries.Count; i++)
+                        {
+                            using (var command = new NpgsqlCommand(Queries[i], connection, transaction))
+                            {
+                                command.Parameters.AddWithValue("@maDuAnCu", maDuAnCu);
+                                command.Parameters.AddWithValue("@maDuAnMoi", maDuAnMoi);
+                                command.Parameters.AddWithValue("@tenDuAnMoi", tenDuAnMoi);
+                                command.Parameters.AddWithValue("@ngayThucHienDuAnMoi", ngayBatDauDuAnMoi);
+                                command.ExecuteNonQuery();
+                            }
+                        }
+
+                        transaction.Commit();
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
+                }
+            }
         }
+
 
         public ObservableCollection<MonthlyProductSummary> GetMonthlyProductSummaries()
         {
@@ -1772,6 +1780,50 @@ namespace QuanLyMayMoc
                         throw; // Ném lại lỗi để xử lý ở cấp cao hơn
                     }
                 }
+            }
+        }
+        public void DeleteProject(string maDuAn)
+        {
+            List<String> deleteQueries = new List<string> {"DELETE FROM duan WHERE maduan = @maDuAn",
+                    "DELETE FROM nhanvien WHERE maduan = @maDuAn",
+                    "DELETE FROM nhanvientamthoi WHERE maduan = @maDuAn",
+                    "DELETE FROM linhkien_duan WHERE maduan = @maDuAn",
+                    "DELETE FROM linhkienduantam WHERE maduan = @maDuAn",
+                    "DELETE FROM loiduantam WHERE maduan = @maDuAn",
+                    "DELETE FROM congviectamthoi WHERE maduan = @maDuAn",
+                    "DELETE FROM congviec WHERE maduan = @maDuAn",
+                    "DELETE FROM loiduantam WHERE maduan = @maDuAn",
+                    "DELETE FROM loi_duan WHERE maduan = @maDuAn",
+                    "DELETE FROM duan_tam WHERE maduan = @maDuAn",
+            };
+
+
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+
+                using (var transaction = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        foreach (var query in deleteQueries)
+                        {
+                            using (var command = new NpgsqlCommand(query, connection, transaction))
+                            {
+                                command.Parameters.AddWithValue("@maDuAn", maDuAn);
+                                command.ExecuteNonQuery();
+                            }
+                        }
+
+                        transaction.Commit();
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
+                }
+
             }
         }
     }

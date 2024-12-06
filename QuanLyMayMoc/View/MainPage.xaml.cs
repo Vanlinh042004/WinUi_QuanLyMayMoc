@@ -29,8 +29,11 @@ namespace QuanLyMayMoc
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        public static MainPage Current { get; private set; }
 
-        private string projectName;
+        public TextBlock HeaderText { get; private set; }
+
+        private string projectName = "";
         public Project CurrentProject { get; set; }
         public MainViewModel ViewModel
         {
@@ -44,9 +47,11 @@ namespace QuanLyMayMoc
             ViewModel = new MainViewModel();
             // disable the button "DichVuTheoThang"
             AppData.isEnableFunctionButtion = false;
-
-            buttonToggling();
-
+            AppData.ProjectID = "";
+            this.FrameContent.Navigate(typeof(MoDuAn));
+            //buttonToggling();
+            Current = this;
+            HeaderText = HeaderTextBlock;
         }
 
         private void dichVuTheoThangButton(object sender, RoutedEventArgs e)
@@ -74,6 +79,11 @@ namespace QuanLyMayMoc
         }
 
         private async void TaoDuAnMoiClick(object sender, RoutedEventArgs e)
+        {
+            await ShowProjectNameDialog();
+        }
+
+        private async System.Threading.Tasks.Task ShowProjectNameDialog()
         {
             // Create the TextBox for input
             TextBox projectNameTextBox = new TextBox
@@ -113,10 +123,10 @@ namespace QuanLyMayMoc
                 if (!string.IsNullOrEmpty(projectName) && Regex.IsMatch(projectName, pattern))
                 {
                     // Enable specific options if a valid project name is provided
-                    DichVuTheoThang.IsEnabled = true;
-                    QuanLyMayMoc.IsEnabled = true;
-                    DanhSachNhanVien.IsEnabled = true;
-                    TongHopMayTheoKy.IsEnabled = true;
+                    //DichVuTheoThang.IsEnabled = true;
+                    //QuanLyMayMoc.IsEnabled = true;
+                    //DanhSachNhanVien.IsEnabled = true;
+                    //TongHopMayTheoKy.IsEnabled = true;
 
                     string date = DateTime.Now.ToString("yyyy_MM_dd");
                     string time = DateTime.Now.ToString("HH_mm_ss");
@@ -134,7 +144,7 @@ namespace QuanLyMayMoc
                     };
                     try
                     {
-                        ViewModel.InsertProjectTemp(CurrentProject);  
+                        ViewModel.InsertProjectTemp(CurrentProject);
                     }
                     catch (Exception ex)
                     {
@@ -161,10 +171,10 @@ namespace QuanLyMayMoc
 
             else
             {
-                DichVuTheoThang.IsEnabled = false;
-                QuanLyMayMoc.IsEnabled = false;
-                DanhSachNhanVien.IsEnabled = false;
-                TongHopMayTheoKy.IsEnabled = false;
+                //DichVuTheoThang.IsEnabled = false;
+                //QuanLyMayMoc.IsEnabled = false;
+                //DanhSachNhanVien.IsEnabled = false;
+                //TongHopMayTheoKy.IsEnabled = false;
                 projectName = "";
                 AppData.ProjectID = "";
                 AppData.ProjectName = "";
@@ -249,18 +259,18 @@ namespace QuanLyMayMoc
         {
             if (!AppData.isEnableFunctionButtion == false)
             {
-                DichVuTheoThang.IsEnabled = true;
-                QuanLyMayMoc.IsEnabled = true;
-                DanhSachNhanVien.IsEnabled = true;
-                TongHopMayTheoKy.IsEnabled = true;
+                //DichVuTheoThang.IsEnabled = true;
+                //QuanLyMayMoc.IsEnabled = true;
+                //DanhSachNhanVien.IsEnabled = true;
+                //TongHopMayTheoKy.IsEnabled = true;
                 AppData.isEnableFunctionButtion = false;
             }
             else
             {
-                DichVuTheoThang.IsEnabled = false;
-                QuanLyMayMoc.IsEnabled = false;
-                DanhSachNhanVien.IsEnabled = false;
-                TongHopMayTheoKy.IsEnabled = false;
+                //DichVuTheoThang.IsEnabled = false;
+                //QuanLyMayMoc.IsEnabled = false;
+                //DanhSachNhanVien.IsEnabled = false;
+                //TongHopMayTheoKy.IsEnabled = false;
                 AppData.isEnableFunctionButtion = true;
             }
         }
@@ -324,15 +334,15 @@ namespace QuanLyMayMoc
             if (!string.IsNullOrEmpty(projectName) && Regex.IsMatch(projectName, pattern))
             {
                 // Enable specific options if a valid project name is provided
-                DichVuTheoThang.IsEnabled = true;
-                QuanLyMayMoc.IsEnabled = true;
-                DanhSachNhanVien.IsEnabled = true;
-                TongHopMayTheoKy.IsEnabled = true;
+                //DichVuTheoThang.IsEnabled = true;
+                //QuanLyMayMoc.IsEnabled = true;
+                //DanhSachNhanVien.IsEnabled = true;
+                //TongHopMayTheoKy.IsEnabled = true;
 
                 string date = DateTime.Now.ToString("yyyy_MM_dd");
                 string time = DateTime.Now.ToString("HH_mm_ss");
                 string maDuAn = projectName + date + "_" + time;
-                string oldProjectName = AppData.ProjectID;
+                string oldProjectID = AppData.ProjectID;
                 AppData.ProjectID = maDuAn;
                 AppData.ProjectName = projectName;
                 AppData.ProjectTimeCreate = DateTime.Now;
@@ -343,8 +353,8 @@ namespace QuanLyMayMoc
                     TimeCreate = AppData.ProjectTimeCreate
                 };
                 try
-                {
-                    ViewModel.SaveProjectWithDifferentName(CurrentProject, oldProjectName);
+                {   
+                    ViewModel.SaveProjectWithDifferentName(CurrentProject, oldProjectID);
                     AppData.ProjectID = CurrentProject.ID;
                     AppData.ProjectName = CurrentProject.Name;
                     AppData.ProjectTimeCreate = CurrentProject.TimeCreate;
@@ -407,10 +417,10 @@ namespace QuanLyMayMoc
                         CurrentProject.TimeCreate = AppData.ProjectTimeCreate;
                     }
 
-                    ViewModel.DeleteProject(CurrentProject);
+                    ViewModel.DeleteProject(AppData.ProjectID);
                     //navigate to MoDuAn
                     this.FrameContent.Navigate(typeof(MoDuAn), this);
-                    buttonToggling();
+                    //buttonToggling();
                     await new ContentDialog
                     {
                         Title = "Thành công",
@@ -429,6 +439,66 @@ namespace QuanLyMayMoc
                         XamlRoot = this.XamlRoot
                     }.ShowAsync();
                 }
+            }
+        }
+        private async void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+        {
+            if (args.SelectedItemContainer != null)
+            {
+                string selectedItemTag = args.SelectedItemContainer.Tag?.ToString();
+                if (AppData.ProjectID == "")
+                {
+                    await ShowProjectNameDialog();
+                    if (AppData.ProjectID == "")
+                    {
+                        this.FrameContent.Navigate(typeof(MoDuAn));
+                        return;
+                    }
+                }
+                if (selectedItemTag != null)
+                {
+                    // Điều hướng đến các trang tương ứng
+                    switch (selectedItemTag)
+                    {
+                        case "DichVuTheoThang":
+                            FrameContent.Navigate(typeof(DichVuTheoThang));
+                            //ChangeHeaderTextBlock("Dịch vụ theo tháng");
+                            break;
+                        case "QuanLyMayMoc":
+                            FrameContent.Navigate(typeof(QuanLyMayMoc));
+                            //ChangeHeaderTextBlock("Quản lý máy móc");
+                            break;
+                        case "DanhSachNhanVien":
+                            FrameContent.Navigate(typeof(DanhSachNhanVien));
+                            //ChangeHeaderTextBlock("Danh sách nhân viên");
+                            break;
+                        case "ThongkeMayMoc":
+                            FrameContent.Navigate(typeof(TongHopMayTheoKy));
+                            //ChangeHeaderTextBlock("Thống kê máy móc");
+                            break;
+                        case "LinhKien":
+                            FrameContent.Navigate(typeof(LinhKien));
+                            break;
+                        case "Loi":
+                            FrameContent.Navigate(typeof(Loi));
+                            break;
+                        case "TongHopMay":
+                            FrameContent.Navigate(typeof(May));
+                            break;
+                        case "TongHopDichVu":
+                            FrameContent.Navigate(typeof(DichVu));
+                            break;
+                    }
+                }
+            }
+        }
+        // Phương thức tĩnh để thay đổi TextBlock trong Header
+        public static void ChangeHeaderTextBlock(string changed)
+        {
+            // Kiểm tra nếu Current không null (trong trường hợp đối tượng MainPage chưa được tạo)
+            if (Current != null)
+            {
+                Current.HeaderTextBlock.Text = changed;
             }
         }
     }

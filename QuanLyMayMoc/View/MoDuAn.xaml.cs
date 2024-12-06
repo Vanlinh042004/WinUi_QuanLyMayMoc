@@ -1,4 +1,4 @@
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Npgsql;
 using QuanLyMayMoc.Model;
@@ -33,6 +33,10 @@ namespace QuanLyMayMoc.View
             //loadDuAnFromDB();
             projects = mainViewModel.getProjects();
             showDuAn();
+            this.Loaded += (sender, args) =>
+            {
+                MainPage.ChangeHeaderTextBlock("Mở dự án");
+            };
         }
         public string connectionString = "Host=127.0.0.1;Port=5432;Username=postgres;Password=1234;Database=machine";
 
@@ -65,10 +69,11 @@ namespace QuanLyMayMoc.View
                 Button button = new Button();
                 button.Content = project.TimeCreate + " " + project.Name;
                 DataStackPanel.Children.Add(button);
+                button.Margin = new Thickness(0, 10, 0, 0);
                 button.Click += (sender, e) =>
                 {
                     AppData.isEnableFunctionButtion = true;
-                    _mainPage.buttonToggling();
+                    //_mainPage.buttonToggling();
 
                     AppData.ProjectID = project.ID;
                     AppData.ProjectName = project.Name;

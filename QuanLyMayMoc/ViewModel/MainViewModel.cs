@@ -44,14 +44,8 @@ namespace QuanLyMayMoc.ViewModel
             get; set;
         }
 
-        public ObservableCollection<Linhkien> Listlinhkien
-        {
-            get; set;
-        }
-        public ObservableCollection<Loisp> ListLoi
-        {
-            get; set;
-        }
+        
+
 
         public ObservableCollection<MonthlyProductSummary> MonthlyProductSummarys
         {
@@ -122,8 +116,14 @@ namespace QuanLyMayMoc.ViewModel
             SummaryService();
 
         }
+        public void InsertTaskToDaTaBaseTemp(Task newTask)
+        {
+            _dao.InsertTaskToDaTaBaseTemp(newTask);
+        }
+        public void loadNewData()
+        {
 
-
+        }
         public List<string> GetCustomerNames(string query)
         {
 
@@ -209,35 +209,9 @@ namespace QuanLyMayMoc.ViewModel
             return _dao.TimSttLonNhat(maduan);
         }
 
-        public void InsertTaskToDatabaseTemp(Task newTask)
-        {
-            _dao.InsertTaskToDatabaseTemp(newTask);
-        }
-        public ObservableCollection<Linhkien> linhkien
-        {
-            get; set;
-        }
-        public void SaveToLinhKienTam()
-        {
-            _dao.SaveToLinhKienTam();
-        }
-        public void DeleteAllLinhKienTam()
-        {
-            _dao.DeleteAllLinhKienTam();
-            
-        }
-        public void DeleteLinhKienTam(string maLinhKien)
-        {
-            _dao.DeleteLinhKienTam(maLinhKien);
-        }
-        public void InsertLinhKienToDaTaBaseTemp(Linhkien newLinhKien, string mahieuduan)
-        {
-            _dao.InsertLinhKienToDaTaBaseTemp(newLinhKien, mahieuduan);
-        }
-        public ObservableCollection<Loisp> ListLoi
-        {
-            get; set;
-        }
+        
+  
+       
        
         
         public void DeleteAllTask(string maDuAn)
@@ -252,19 +226,7 @@ namespace QuanLyMayMoc.ViewModel
         {
             get; set;
         }
-        //public void LoadData(bool _isLoadedFromTam)
-        //{
-        //    if (!_isLoadedFromTam)
-        //    {
-        //        Listlinhkien = _dao.GetAllLinhKienTam(); // Lần đầu load từ bảng gốc
-        //        SaveToLinhKienTam(); // Lưu dữ liệu vào bảng tạm
-        //        _isLoadedFromTam = true;
-        //    }
-        //    else
-        //    {
-        //        Listlinhkien = _dao.GetAllLinhKienTam(); // Lần sau load từ bảng tạm
-        //    }
-        //}
+ 
         public void LoadLinhKienFromDatabase()
         {
             Listlinhkien = _dao.GetAllLinhKien();
@@ -319,13 +281,9 @@ namespace QuanLyMayMoc.ViewModel
         // Lõi
         public ObservableCollection<Loisp> ListLoi
         {
-            _dao.SaveProjectWithDifferentName(project, oldProjectID);
+            set; get;
         }
 
-        public void DeleteProject(Project project)
-        {
-            _dao.DeleteProject(project);
-        }
         public void LoadLoiFromDatabase()
         {
             ListLoi = _dao.GetAllLoi();
@@ -378,11 +336,13 @@ namespace QuanLyMayMoc.ViewModel
             }
             CurrentSelectedLoi = null;
         }
-        public void SaveProjectWithDifferentName(Project project)
-        {
-            _dao.SaveProjectWithDifferentName(project);
-        }
+      
 
+
+        public void DeleteProject(string project)
+        {
+            _dao.DeleteProject(project);
+        }
         public void SummaryProduct()
         {
             // Tổng hợp dữ liệu từ Tasks để tạo MonthlyProductSummarys
@@ -538,7 +498,10 @@ namespace QuanLyMayMoc.ViewModel
         }
 
 
-
+        public void SaveProjectWithDifferentName(Project project, string newProject)
+        {
+            _dao.SaveProjectWithDifferentName(project, newProject);
+        }
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string propertyName)
         {
@@ -548,10 +511,7 @@ namespace QuanLyMayMoc.ViewModel
       
     }
 
-        //public void SaveProjectWithDifferentName(Project project)
-        //{
-        //    _dao.SaveProjectWithDifferentName(project);
-        //}
-    } 
+    
+} 
 
 

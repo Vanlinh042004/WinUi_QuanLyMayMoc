@@ -52,7 +52,10 @@ namespace QuanLyMayMoc
             HideFirstRow();
             ViewModel = new MainViewModel();
             ViewModel.LoadDataFilter();
-
+            this.Loaded += (sender, args) =>
+            {
+                MainPage.ChangeHeaderTextBlock("Dịch vụ theo tháng");
+            };
         }
         private void HideFirstRow()
         {
@@ -70,7 +73,7 @@ namespace QuanLyMayMoc
             Grid.SetColumn(emptyElement, 0);
             InputGrid.Children.Add(emptyElement);
         }
-
+        List<String> PlaceHolderText = new List<String> { "", "", "", "Nhập số điện thoại", "Nhập địa chỉ", "Nhập tên dịch vụ", "Nhập phí dịch vụ", "Nhập mã linh kiện", "Nhập tên linh kiện", "Nhập số lượng linh kiện", "Nhập mã lõi", "Nhập tên lõi", "Nhập số lượng lõi", "Nhập mã nhân viên", "Nhập tên nhân viên", "Nhập ghi chú" };
         private void AddNewRow()
         {
             var newTask = new Task();
@@ -83,7 +86,6 @@ namespace QuanLyMayMoc
             for (int col = 1; col < Columns; col++)
             {
                 FrameworkElement element;
-
 
 
                 if (col == 1)
@@ -121,8 +123,10 @@ namespace QuanLyMayMoc
                     var textBox = new TextBox
                     {
                         Margin = new Thickness(2),
-                        PlaceholderText = $"R{currentRow + 1}C{col + 1}",
-                        Background = new SolidColorBrush(Colors.White),
+                        //PlaceholderText = $"R{currentRow + 1}C{col + 1}",
+                        PlaceholderText= PlaceHolderText[col],
+                        //Background = CardBackgroundFillColorDefault 
+                        // Set the background using the theme resource
                         Foreground = new SolidColorBrush(Colors.Black),
                         BorderBrush = new SolidColorBrush(Colors.Black),
                         BorderThickness = new Thickness(1)

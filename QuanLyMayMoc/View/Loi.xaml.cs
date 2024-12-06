@@ -50,6 +50,10 @@ namespace QuanLyMayMoc
             this.InitializeComponent();
             HideFirstRow(); // Thêm dòng đầu tiên
             ViewModel = new MainViewModel();
+            this.Loaded += (sender, args) =>
+            {
+                MainPage.ChangeHeaderTextBlock("Quản lý lõi");
+            };
         }
 
 
@@ -145,18 +149,6 @@ namespace QuanLyMayMoc
 
 
         // Luu
-        private void SaveRowData(int rowIndex)
-        {
-            try
-            {
-                if (rowLoiDictionary.TryGetValue(rowIndex, out Loisp loi))
-                {
-                    for (int col = 0; col < Columns; col++)
-                    {
-                        var element = InputGrid.Children
-                            .OfType<FrameworkElement>()
-                            .FirstOrDefault(e => Grid.GetRow(e) == rowIndex && Grid.GetColumn(e) == col);
-
 
 
         // Xóa 1 dòng
@@ -220,15 +212,7 @@ namespace QuanLyMayMoc
             ViewModel.DeleteAllLoiTam();
 
         }
-        private void OnSaveRowDataClick(object sender, RoutedEventArgs e)
-        {
-            int stt = 0;
-            foreach (var entry in rowLoiDictionary)
-            {
-                stt++;
-                try
-                {
-
+      
         // Sửa
 
 

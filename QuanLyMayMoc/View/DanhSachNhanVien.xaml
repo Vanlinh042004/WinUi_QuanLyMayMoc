@@ -7,7 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local1="using:QuanLyMayMoc" xmlns:local2="using:QuanLyMayMoc.Model"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="White">
 
     <Page.Resources>
         
@@ -16,236 +16,236 @@
 
 
     <Grid>
-        <!-- ListView to display the employee list -->
-    <ScrollViewer HorizontalScrollMode="Enabled" HorizontalScrollBarVisibility="Auto">
-    <ListView ItemsSource="{x:Bind ViewModel.Employees}">
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="local2:Employee">
-                    <Grid>
-                      
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+            <!-- ListView to display the employee list -->
+        <ScrollViewer Grid.Row="0" HorizontalScrollMode="Enabled" HorizontalScrollBarVisibility="Auto" Margin="10">
+            <ListView ItemsSource="{x:Bind ViewModel.Employees}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="local2:Employee">
+                        <Grid>
 
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-
-                        <!-- Cột 1: Ảnh đại diện -->
-                        <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="0" Grid.Column="0">
-                            <TextBlock Text="Ảnh đại diện" FontWeight="Bold" FontSize="16" Foreground="White"/>
-                        </Border>
-
-                        <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="1" Grid.Column="0" Grid.RowSpan="5" Margin="10">
-                            <StackPanel>
-                                <!-- Hiển thị ảnh đại diện nếu có -->
-                                    <Image Source="{x:Bind AnhDaiDien, Mode=OneWay }"  Width="100" Height="150" />
-                                 
-                                    <!-- Văn bản thay thế nếu không có ảnh -->
-                                <TextBlock Text="No image data" Foreground="Gray" Visibility="{x:Bind AnhDaiDien, Converter={StaticResource NullToVisibilityConverter}}"/>
-                            </StackPanel>
-                        </Border>
-
-
-                        <!-- Cột 2: Thông tin cá nhân -->
-                        <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="4">
-                            <TextBlock Text="Thông tin cá nhân" FontWeight="Bold" FontSize="16" Foreground="White" />
-                        </Border>
-
-                        <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="1" Grid.Column="1">
-                            <TextBlock Text="Họ tên:" FontWeight="Bold" Foreground="White" Margin="5"/>
-                        </Border>
-                        <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="1" Grid.Column="2">
-                            <TextBlock Text="{x:Bind HoTen}" Foreground="White" Margin="5"/>
-                        </Border>
-
-                        <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="1" Grid.Column="3">
-                            <TextBlock Text="Dân tộc:" FontWeight="Bold" Foreground="White" Margin="5"/>
-                        </Border>
-                        <!--<Border BorderBrush="Gray" BorderThickness="1" Grid.Row="1" Grid.Column="4">
-                            <TextBlock Text="{x:Bind DanToc}" Foreground="White" Margin="5"/>
-                        </Border>-->
-
-                        <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="2" Grid.Column="3">
-                            <TextBlock Text="Số điện thoại:" FontWeight="Bold" Foreground="White" Margin="5"/>
-                        </Border>
-                        <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="2" Grid.Column="4">
-                            <TextBlock Text="{x:Bind SoDienThoai}" Foreground="White" Margin="5"/>
-                        </Border>
-
-                        <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="3" Grid.Column="3">
-                            <TextBlock Text="Trạng thái:" FontWeight="Bold" Foreground="White" Margin="5"/>
-                        </Border>
-                        <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="3" Grid.Column="4">
-                            <TextBlock Text="{x:Bind TrangThai}" Foreground="White" Margin="5"/>
-                        </Border>
-
-                        <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="4" Grid.Column="1">
-                            <TextBlock Text="CCCD:" FontWeight="Bold" Foreground="White" Margin="5"/>
-                        </Border>
-                        <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="4" Grid.Column="2">
-                            <TextBlock Text="{x:Bind CCCD}" Foreground="White" Margin="5"/>
-                        </Border>
-
-                        <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="4" Grid.Column="3">
-                            <TextBlock Text="Giới tính:" FontWeight="Bold" Foreground="White" Margin="5"/>
-                        </Border>
-                        <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="4" Grid.Column="4">
-                            <TextBlock Text="{x:Bind GioiTinh}" Foreground="White" Margin="5"/>
-                        </Border>
-
-                        <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="2" Grid.Column="1">
-                            <TextBlock Text="Mã nhân viên:" FontWeight="Bold" Foreground="White" Margin="5"/>
-                        </Border>
-                        <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="2" Grid.Column="2">
-                            <TextBlock Text="{x:Bind MaNhanVien}" Foreground="White" Margin="5"/>
-                        </Border>
-
-                      
-
-                        <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="3" Grid.Column="1">
-                            <TextBlock Text="Ngày kí HĐ:" FontWeight="Bold" Foreground="White" Margin="5"/>
-                        </Border>
-                        <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="3" Grid.Column="2">
-                            <TextBlock Text="{x:Bind NgayKyHD}" Foreground="White" Margin="5"/>
-                        </Border>
-
-                      
-
-                        <!-- Cột 3: Thông tin liên hệ -->
-                        <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="0" Grid.Column="5" Grid.ColumnSpan="2">
-                            <TextBlock Text="Thông tin liên hệ" FontWeight="Bold" FontSize="16" Foreground="White"/>
-                        </Border>
-
-                        <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="1" Grid.Column="5">
-                            <TextBlock Text="Ngày sinh:" FontWeight="Bold" Foreground="White" Margin="5"/>
-                        </Border>
-                        <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="1" Grid.Column="6">
-                            <TextBlock Text="{x:Bind NgaySinh}" Foreground="White" Margin="5"/>
-                        </Border>
-
-                      
-
-                        <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="2" Grid.Column="5">
-                            <TextBlock Text="Phòng ban:" FontWeight="Bold" Foreground="White" Margin="5"/>
-                        </Border>
-                        <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="2" Grid.Column="6">
-                            <TextBlock Text="{x:Bind PhongBan}" Foreground="White" Margin="5"/>
-                        </Border>
-
-                        <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="4" Grid.Column="5">
-                            <TextBlock Text="Email:" FontWeight="Bold" Foreground="White" Margin="5"/>
-                        </Border>
-                        <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="4" Grid.Column="6">
-                            <TextBlock Text="{x:Bind Email}" Foreground="White" Margin="5"/>
-                        </Border>
-
-                        <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="3" Grid.Column="5">
-                            <TextBlock Text="Địa chỉ:" FontWeight="Bold" Foreground="White" Margin="5"/>
-                        </Border>
-                        <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="3" Grid.Column="6">
-                            <TextBlock Text="{x:Bind DiaChi}" Foreground="White" Margin="5"/>
-                        </Border>
-
-                     
-                        
-                    </Grid>
-                   
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-        
-        
-    </ScrollViewer>
-
-    <!-- Nút thêm nhân viên ở dưới cùng -->
-    <Button Content="Thêm Nhân Viên"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Bottom"
-                Background="Black" Foreground="White"
-                FontSize="18" Click="OnAddEmployeeClicked"/>
-
-    <!-- Popup nhập thông tin nhân viên -->
-        <Popup x:Name="AddEmployeePopup" IsLightDismissEnabled="False" HorizontalAlignment="Left">
-            <Border Background="Black" BorderBrush="White" BorderThickness="2"  VerticalAlignment="Center" >
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <Grid Width="1000" Height="500">
-                       
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
-                              
-                             
-                                
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
                             <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
 
-                        <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Text="Thêm Nhân Viên Mới" FontWeight="Bold" FontSize="20"
-                           HorizontalAlignment="Center" />
+                            <!-- Cột 1: Ảnh đại diện -->
+                            <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0" Grid.Column="0">
+                                <TextBlock Text="Ảnh đại diện" FontWeight="Bold" FontSize="16" Foreground="Black" Margin="5"/>
+                            </Border>
 
-                            <TextBox Header="Mã nhân viên" x:Name="MaNhanVienInput" 
-                             Grid.Row="1" Grid.Column="0" PlaceholderText="Nhập mã nhân viên" />
-                        <TextBox Header="Họ tên" x:Name="HoTenInput" 
-                             Grid.Row="1" Grid.Column="1" PlaceholderText="Nhập họ và tên" />
+                            <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="1" Grid.Column="0" Grid.RowSpan="5" Margin="10">
+                                <StackPanel>
+                                    <!-- Hiển thị ảnh đại diện nếu có -->
+                                        <!--<Image Source="{x:Bind AnhDaiDien, Mode=OneWay }"  Width="150" Height="150" />-->
+                                 
+                                        <!-- Văn bản thay thế nếu không có ảnh -->
+                                    <TextBlock Text="No image data" Foreground="Gray" Visibility="{x:Bind AnhDaiDien, Converter={StaticResource NullToVisibilityConverter}}"/>
+                                </StackPanel>
+                            </Border>
+
+
+                            <!-- Cột 2: Thông tin cá nhân -->
+                            <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="4">
+                                <TextBlock Text="Thông tin cá nhân" FontWeight="Bold" FontSize="16" Foreground="Black"  />
+                            </Border>
+
+                            <Border BorderBrush="Black" BorderThickness="1" Grid.Row="1" Grid.Column="1">
+                                <TextBlock Text="Họ tên:" FontWeight="Bold" Foreground="Black"  Margin="5"/>
+                            </Border>
+                            <Border BorderBrush="Black" BorderThickness="1" Grid.Row="1" Grid.Column="2">
+                                <TextBlock Text="{x:Bind HoTen}" Foreground="Black" Margin="5"/>
+                            </Border>
+
+                            <Border BorderBrush="Black" BorderThickness="1" Grid.Row="1" Grid.Column="3">
+                                <TextBlock Text="Dân tộc:" FontWeight="Bold" Foreground="Black"  Margin="5"/>
+                            </Border>
+                            <!--<Border BorderBrush="Gray" BorderThickness="1" Grid.Row="1" Grid.Column="4">
+                                <TextBlock Text="{x:Bind DanToc}" Foreground="White" Margin="5"/>
+                            </Border>-->
+
+                            <Border BorderBrush="Black"  BorderThickness="1" Grid.Row="2" Grid.Column="3">
+                                <TextBlock Text="Số điện thoại:" FontWeight="Bold" Foreground="Black"  Margin="5"/>
+                            </Border>
+                            <Border BorderBrush="Black"  BorderThickness="1" Grid.Row="2" Grid.Column="4">
+                                <TextBlock Text="{x:Bind SoDienThoai}" Foreground="Black"  Margin="5"/>
+                            </Border>
+
+                            <Border BorderBrush="Black"  BorderThickness="1" Grid.Row="3" Grid.Column="3">
+                                <TextBlock Text="Trạng thái:" FontWeight="Bold" Foreground="Black"  Margin="5"/>
+                            </Border>
+                            <Border BorderBrush="Black" BorderThickness="1" Grid.Row="3" Grid.Column="4">
+                                <TextBlock Text="{x:Bind TrangThai}" Foreground="Black"  Margin="5"/>
+                            </Border>
+
+                            <Border BorderBrush="Black"  BorderThickness="1" Grid.Row="4" Grid.Column="1">
+                                <TextBlock Text="CCCD:" FontWeight="Bold" Foreground="Black" Margin="5"/>
+                            </Border>
+                            <Border BorderBrush="Black"  BorderThickness="1" Grid.Row="4" Grid.Column="2">
+                                <TextBlock Text="{x:Bind CCCD}" Foreground="Black"  Margin="5"/>
+                            </Border>
+
+                            <Border BorderBrush="Black"  BorderThickness="1" Grid.Row="4" Grid.Column="3">
+                                <TextBlock Text="Giới tính:" FontWeight="Bold" Foreground="Black"  Margin="5"/>
+                            </Border>
+                            <Border BorderBrush="Black"  BorderThickness="1" Grid.Row="4" Grid.Column="4">
+                                <TextBlock Text="{x:Bind GioiTinh}" Foreground="Black"  Margin="5"/>
+                            </Border>
+
+                            <Border BorderBrush="Black"  BorderThickness="1" Grid.Row="2" Grid.Column="1">
+                                <TextBlock Text="Mã nhân viên:" FontWeight="Bold" Foreground="Black"  Margin="5"/>
+                            </Border>
+                            <Border BorderBrush="Black"  BorderThickness="1" Grid.Row="2" Grid.Column="2">
+                                <TextBlock Text="{x:Bind MaNhanVien}" Foreground="Black"  Margin="5"/>
+                            </Border>
+
+
+
+                            <Border BorderBrush="Black"  BorderThickness="1" Grid.Row="3" Grid.Column="1">
+                                <TextBlock Text="Ngày kí HĐ:" FontWeight="Bold" Foreground="Black" Margin="5"/>
+                            </Border>
+                            <Border BorderBrush="Black"  BorderThickness="1" Grid.Row="3" Grid.Column="2">
+                                <TextBlock Text="{x:Bind NgayKyHD}" Foreground="Black" Margin="5"/>
+                            </Border>
+
                       
-                        <ComboBox Header="Giới tính" x:Name="GioiTinhInput" Grid.Row="1" Grid.Column="2" Width="200">
-                            <ComboBoxItem Content="Nam" />
-                            <ComboBoxItem Content="Nữ" />
-                        </ComboBox>
-                        <DatePicker  Header="Ngày sinh" x:Name="NgaySinhInput" Grid.Row="3" Grid.Column="0"  Grid.ColumnSpan="2"  />
-                        <DatePicker  Header="Ngày đăng ký HĐ" x:Name="NgayDKHDInput" Grid.Row="4" Grid.Column="0"  Grid.ColumnSpan="2"  />
-                        <TextBox Header="CCCD" x:Name="CCCDInput" Grid.Row="2" Grid.Column="0" />
-                        <TextBox Header="Số điện thoại" x:Name="SoDienThoaiInput" Grid.Row="2" Grid.Column="3" />
-                        <TextBox Header="Email" x:Name="EmailInput" Grid.Row="2" Grid.Column="1" />
-                        <TextBox Header="Địa chỉ" x:Name="DiaChiInput" Grid.Row="2" Grid.Column="2" />
-                        <TextBox Header="Ảnh đại diện" x:Name="AnhDaiDienInput" Grid.Row="1" Grid.Column="3" />
-                        <TextBox Header="Trạng thái" x:Name="TrangThaiInput" Grid.Row="3" Grid.Column="3" />
-                        <TextBox Header="Phòng ban" x:Name="PhongBanInput" Grid.Row="3" Grid.Column="2" />
 
-                        <!-- Nút Lưu và Hủy -->
+                            <!-- Cột 3: Thông tin liên hệ -->
+                            <Border BorderBrush="Black"  BorderThickness="1" Grid.Row="0" Grid.Column="5" Grid.ColumnSpan="2">
+                                <TextBlock Text="Thông tin liên hệ" FontWeight="Bold" FontSize="16" Foreground="Black"/>
+                            </Border>
+
+                            <Border BorderBrush="Black"  BorderThickness="1" Grid.Row="1" Grid.Column="5">
+                                <TextBlock Text="Ngày sinh:" FontWeight="Bold" Foreground="Black"  Margin="5"/>
+                            </Border>
+                            <Border BorderBrush="Black"  BorderThickness="1" Grid.Row="1" Grid.Column="6">
+                                <TextBlock Text="{x:Bind NgaySinh}" Foreground="Black"  Margin="5"/>
+                            </Border>
+
+
+
+                            <Border BorderBrush="Black"  BorderThickness="1" Grid.Row="2" Grid.Column="5">
+                                <TextBlock Text="Phòng ban:" FontWeight="Bold" Foreground="Black"  Margin="5"/>
+                            </Border>
+                            <Border BorderBrush="Black"  BorderThickness="1" Grid.Row="2" Grid.Column="6">
+                                <TextBlock Text="{x:Bind PhongBan}" Foreground="Black"  Margin="5"/>
+                            </Border>
+
+                            <Border BorderBrush="Black"  BorderThickness="1" Grid.Row="4" Grid.Column="5">
+                                <TextBlock Text="Email:" FontWeight="Bold" Foreground="Black"  Margin="5"/>
+                            </Border>
+                            <Border BorderBrush="Black"  BorderThickness="1" Grid.Row="4" Grid.Column="6">
+                                <TextBlock Text="{x:Bind Email}" Foreground="Black"  Margin="5"/>
+                            </Border>
+
+                            <Border BorderBrush="Black"  BorderThickness="1" Grid.Row="3" Grid.Column="5">
+                                <TextBlock Text="Địa chỉ:" FontWeight="Bold" Foreground="Black"  Margin="5"/>
+                            </Border>
+                            <Border BorderBrush="Black"  BorderThickness="1" Grid.Row="3" Grid.Column="6">
+                                <TextBlock Text="{x:Bind DiaChi}" Foreground="Black"  Margin="5"/>
+                            </Border>
+
+                     
                         
-                         <Button Grid.Row="5" Grid.Column="0" Content="Lưu" Click="OnSaveEmployeeClicked" Width="100"/>
-                         <Button  Grid.Row="5" Grid.Column="1" Content="Hủy" Click="OnCancelEmployeeClicked" Width="100"/>
-                       
-                    </Grid>
-     
+                        </Grid>
+                   
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        
+        
         </ScrollViewer>
-            </Border>
-        </Popup>
+
+        <!-- Nút thêm nhân viên ở dưới cùng -->
+        <Button Grid.Row="1" Content="Thêm Nhân Viên"
+                Style="{StaticResource AccentButtonStyle}"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Bottom"
+                FontSize="18" 
+                Click="OnAddEmployeeClicked"
+                Margin="5"/>
+
+        <!-- Popup nhập thông tin nhân viên -->
+        <StackPanel Grid.Row="0" Margin="20 20 0 0" Background="Transparent">
+            <Popup  x:Name="AddEmployeePopup" IsLightDismissEnabled="False" HorizontalAlignment="Left" Width="auto" Height="auto">
+                <Border Background="Black" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="2"  VerticalAlignment="Center" CornerRadius="8" >
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <Grid Width="auto" Height="auto">
+                       
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="250" />
+                                    <ColumnDefinition Width="250" />
+                                    <ColumnDefinition Width="250" />
+                                <ColumnDefinition Width="250" />
+                                <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+    
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Text="Thêm Nhân Viên Mới" FontWeight="Bold" FontSize="28" HorizontalAlignment="Center" />
+
+                            <TextBox Header="Mã nhân viên" x:Name="MaNhanVienInput" Grid.Row="1" Grid.Column="0" PlaceholderText="Nhập mã nhân viên" Margin="10" />
+                            <TextBox Header="Họ tên" x:Name="HoTenInput" Grid.Row="1" Grid.Column="1" PlaceholderText="Nhập họ và tên" Margin="10"/>
+                      
+                            <ComboBox Header="Giới tính" x:Name="GioiTinhInput" Grid.Row="1" Grid.Column="2" Margin="10">
+                                <ComboBoxItem Content="Nam" />
+                                <ComboBoxItem Content="Nữ" />
+                            </ComboBox>
+                            <TextBox Header="Ảnh đại diện" x:Name="AnhDaiDienInput" Grid.Row="1" Grid.Column="3" Margin="10"/>
+                            <TextBox Header="CCCD" x:Name="CCCDInput" Grid.Row="2" Grid.Column="0" Margin="10"/>
+                            <TextBox Header="Email" x:Name="EmailInput" Grid.Row="2" Grid.Column="1" Margin="10"/>
+                            <TextBox Header="Địa chỉ" x:Name="DiaChiInput" Grid.Row="2" Grid.Column="2" Margin="10"/>
+                            <TextBox Header="Số điện thoại" x:Name="SoDienThoaiInput" Grid.Row="2" Grid.Column="3" Margin="10" />
+                            <DatePicker  Header="Ngày sinh" x:Name="NgaySinhInput" Grid.Row="3" Grid.Column="0"  Grid.ColumnSpan="2" Width="450" Margin="10" />
+                            <TextBox Header="Phòng ban" x:Name="PhongBanInput" Grid.Row="3" Grid.Column="2" Margin="10"/>
+                            <TextBox Header="Trạng thái" x:Name="TrangThaiInput" Grid.Row="3" Grid.Column="3" Margin="10"/>
+
+                            <DatePicker  Header="Ngày đăng ký HĐ" x:Name="NgayDKHDInput" Grid.Row="4" Grid.Column="0"  Grid.ColumnSpan="2"  Width="450" Margin="10" />
+
+                            <!-- Nút Lưu và Hủy -->
+                        
+                             <Button Grid.Row="5" Grid.Column="1" Content="Lưu" Click="OnSaveEmployeeClicked" Width="100" Margin="120 0 0 0 "/>
+                             <Button  Grid.Row="5" Grid.Column="2" Content="Hủy" Click="OnCancelEmployeeClicked" Width="100" Margin="10"/>
+                       
+                        </Grid>
+     
+            </ScrollViewer>
+                </Border>
+            </Popup>
+        </StackPanel>
 
     </Grid>
 

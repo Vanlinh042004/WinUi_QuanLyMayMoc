@@ -15,12 +15,19 @@
 
     <Grid Background="White">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <!-- This will allow the scrollable content to take available space -->
             <RowDefinition Height="Auto"/>
             <!-- This will keep the buttons at the bottom -->
         </Grid.RowDefinitions>
-        <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+        <StackPanel Grid.Row="0" Margin="0 40 0 20" HorizontalAlignment="Center">
+            <TextBlock>
+                <Run Text="CHI TIẾT DỊCH VỤ THÁNG 6/2024 AOSMITH ĐÀ NẴNG" FontSize="20" FontWeight="Bold" Foreground="Black"/>
+            </TextBlock>
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
                  Height="Auto">
             <StackPanel>
                 <Grid Padding="10" RowSpacing="3" ColumnSpacing="3" Background="White" x:Name="DataEntryGrid">
@@ -32,14 +39,14 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0">
-                        <TextBlock Text="CHI TIẾT DỊCH VỤ THÁNG 6/2024 AOSMITH ĐÀ NẴNG"
+                        <!--<TextBlock Text="CHI TIẾT DỊCH VỤ THÁNG 6/2024 AOSMITH ĐÀ NẴNG"
                        Grid.Row="0"
                        HorizontalAlignment="Center"
                        FontSize="24"
                        FontWeight="Bold"
                        Margin="0,0,0,10"
                        Foreground="Black"
-                       />
+                       />-->
                     </Grid>
                     <!-- Row Header -->
                     <Grid Grid.Row ="1" >
@@ -60,10 +67,6 @@
                             <ColumnDefinition Width="200"/>
                             <ColumnDefinition Width="200"/>
                             <ColumnDefinition Width="200"/>
-                            <ColumnDefinition Width="200"/>
-                            <ColumnDefinition Width="200"/>
-                            <ColumnDefinition Width="200"/>
-                            <ColumnDefinition Width="350"/>
                             <ColumnDefinition Width="200"/>
                             <ColumnDefinition Width="200"/>
                             <ColumnDefinition Width="200"/>
@@ -163,10 +166,6 @@
                                             <ColumnDefinition Width="200"/>
                                             <ColumnDefinition Width="200"/>
                                             <ColumnDefinition Width="200"/>
-                                            <ColumnDefinition Width="350"/>
-                                            <ColumnDefinition Width="200"/>
-                                            <ColumnDefinition Width="200"/>
-                                            <ColumnDefinition Width="200"/>
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto"/>
@@ -251,10 +250,6 @@
                                 <ColumnDefinition Width="200"/>
                                 <ColumnDefinition Width="200"/>
                                 <ColumnDefinition Width="200"/>
-                                <ColumnDefinition Width="200"/>
-                                <ColumnDefinition Width="200"/>
-                                <ColumnDefinition Width="200"/>
-                                <ColumnDefinition Width="200"/>
                             </Grid.ColumnDefinitions>
 
 
@@ -269,19 +264,17 @@
             </StackPanel>
 
         </ScrollViewer>
-        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
-                <Button Content="Thêm dòng mới" Width="150" Margin="20" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnAddRowDataClick"/>
-                <Button Content="Xóa dòng" Width="150" Margin="20" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnDeleteRowDataClick"/>
-                <Button Content="Sửa dòng" Width="150" Margin="20" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnUpdateRowDataClick"/>
-               
-                <Button Content="Lưu" Width="100" Margin="10" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnSaveRowDataClick"/>
-                <Button Content="Xóa tất cả" Width="100" Margin="10" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnDeleteAllRowDataClick"/>
-                <Button Content="Lọc theo ngày" Width="150" Margin="50" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnFilterByDateClick"/>
-                <DatePicker x:Name="filterDatePicker" Width="300" Margin="30"
-            BorderThickness="1" BorderBrush="Black" Foreground="Black"
-            Background="White"/>
-                <Button Content="Làm mới" Width="150" Margin="10" Click="OnClearFilterClick" Foreground="Black" BorderBrush="Black" BorderThickness="1"/>
+        <ScrollViewer Grid.Row="2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,10">
+                <Button Content="Thêm dòng mới" Width="150" Margin="10 0 10 0" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnAddRowDataClick"/>
+                <Button Content="Xóa dòng" Width="150" Margin="10 0 10 0" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnDeleteRowDataClick"/>
+                <Button Content="Sửa dòng" Width="150" Margin="10 0 10 0" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnUpdateRowDataClick"/>
+
+                <Button Content="Lưu" Width="100" Margin="10 0 10 0" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnSaveRowDataClick"/>
+                <Button Content="Xóa tất cả" Width="100" Margin="10 0 10 0" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnDeleteAllRowDataClick"/>
+                <Button Content="Lọc theo ngày" Width="150" Margin="10 0 10 0" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnFilterByDateClick"/>
+                <DatePicker x:Name="filterDatePicker" Width="300" Margin="10 0 10 0" BorderThickness="1" BorderBrush="Black" Foreground="Black" Background="White"/>
+                <Button Content="Làm mới" Width="150" Margin="10 0 10 0" Click="OnClearFilterClick" Foreground="Black" BorderBrush="Black" BorderThickness="1"/>
                 <TextBox 
                      x:Name="SearchTextBox"
                     Foreground="Red" 

@@ -306,6 +306,35 @@ namespace QuanLyMayMoc.Service.DataAccess
         {
             //
         }
+
+        public void SummaryProduct(ObservableCollection<MonthlyProductSummary> monthlyProductSummaries)
+        {
+
+        }
+
+        public void SummaryService(ObservableCollection<MonthlyServiceSummary> monthlyServiceSummaries)
+        {
+
+        }
+
+        public void ClearSummary()
+        {
+
+        }
+
+        public ObservableCollection<MonthlyProductSummary> GetMonthlyProductSummaries()
+        {
+            return new ObservableCollection<MonthlyProductSummary> {
+                new MonthlyProductSummary {
+                } };
+        }
+        public ObservableCollection<MonthlyServiceSummary> GetMonthlyServiceSummaries()
+        {
+            return new ObservableCollection<MonthlyServiceSummary>
+                {
+                new MonthlyServiceSummary {
+                } };
+        }
     }
 
 }

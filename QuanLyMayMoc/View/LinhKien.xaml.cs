@@ -53,6 +53,10 @@ namespace QuanLyMayMoc
             HideFirstRow(); // Thêm dòng đầu tiên
             ViewModel = new MainViewModel();
             //ViewModel.SaveToLinhKienTam(); // Lưu dữ liệu từ bảng linhkien vào bảng LinhKien_Tam
+            this.Loaded += (sender, args) =>
+            {
+                MainPage.ChangeHeaderTextBlock("Quản lý linh kiện");
+            };
         }
 
         private void HideFirstRow()
@@ -72,7 +76,7 @@ namespace QuanLyMayMoc
             InputGrid.Children.Add(emptyElement);
         }
 
-        #region AddNewRow
+        
         private void AddNewRow()
         {
             var newLinhKien = new Linhkien();
@@ -179,17 +183,6 @@ namespace QuanLyMayMoc
         }
 
         // Lưu
-        private void SaveRowData(int rowIndex)
-        {
-            try
-            {
-                if (rowLinkKienDictionary.TryGetValue(rowIndex, out Linhkien linhkien))
-                {
-                    for (int col = 0; col < Columns; col++)
-                    {
-                        var element = InputGrid.Children
-                            .OfType<FrameworkElement>()
-                            .FirstOrDefault(e => Grid.GetRow(e) == rowIndex && Grid.GetColumn(e) == col);
 
 
         // Xóa tất cả các dòng  
@@ -260,7 +253,7 @@ namespace QuanLyMayMoc
 
             InputGrid.Children.Clear();
 
-
+        }
         private async void OnUpdateRowDataClick(object sender, RoutedEventArgs e)
         {
             var selectedLinhkien = (Linhkien)LinhKienListView.SelectedItem;
@@ -304,37 +297,37 @@ namespace QuanLyMayMoc
 
 
         // Delete row data
-        private async void OnDeleteRowDataClick(object sender, RoutedEventArgs e)
-        {
-            // Lấy dòng đang được chọn
-            var selectedItem = (Linhkien)LinhKienListView.SelectedItem;
-            if (selectedItem != null)
-            {
-                // Xóa dòng khỏi ViewModel
-                ViewModel.linhkien.Remove(selectedItem);
-                LinhKienListView.SelectedItem = null;
-                ViewModel.DeleteLinhKienTam(selectedItem.MaSanPham);
-                // Hiển thị thông báo nếu cần
-                await new ContentDialog
-                {
-                    Title = "Thành công",
-                    Content = "Linh kiện được xóa thành công.",
-                    CloseButtonText = "OK",
-                    XamlRoot = this.XamlRoot
-                }.ShowAsync();
-            }
-            else
-            {
-                // Hiển thị thông báo nếu không có dòng nào được chọn
-                await new ContentDialog
-                {
-                    Title = "Lỗi",
-                    Content = "Chưa có Linh Kiện nào được chọn.",
-                    CloseButtonText = "OK",
-                    XamlRoot = this.XamlRoot
-                }.ShowAsync();
-            }
-        }
+        //private async void OnDeleteRowDataClick(object sender, RoutedEventArgs e)
+        //{
+        //    // Lấy dòng đang được chọn
+        //    var selectedItem = (Linhkien)LinhKienListView.SelectedItem;
+        //    if (selectedItem != null)
+        //    {
+        //        // Xóa dòng khỏi ViewModel
+        //        ViewModel.Listlinhkien.Remove(selectedItem);
+        //        LinhKienListView.SelectedItem = null;
+        //        ViewModel.DeleteLinhKienTam(selectedItem.MaSanPham);
+        //        // Hiển thị thông báo nếu cần
+        //        await new ContentDialog
+        //        {
+        //            Title = "Thành công",
+        //            Content = "Linh kiện được xóa thành công.",
+        //            CloseButtonText = "OK",
+        //            XamlRoot = this.XamlRoot
+        //        }.ShowAsync();
+        //    }
+        //    else
+        //    {
+        //        // Hiển thị thông báo nếu không có dòng nào được chọn
+        //        await new ContentDialog
+        //        {
+        //            Title = "Lỗi",
+        //            Content = "Chưa có Linh Kiện nào được chọn.",
+        //            CloseButtonText = "OK",
+        //            XamlRoot = this.XamlRoot
+        //        }.ShowAsync();
+        //    }
+        //}
 
         private void SaveUpdateRowData(int rowIndex)
         {
@@ -479,14 +472,6 @@ namespace QuanLyMayMoc
             }
         }
 
-        private void ClearInputRows()
-        {
-
-            InputGrid.Children.Clear();
-
-
-            currentRow = 1;
-        }
 
         private async void OnSaveDataClick(object sender, RoutedEventArgs e)
         {
@@ -547,12 +532,11 @@ namespace QuanLyMayMoc
                 ClearInputRows();
 
             }
+            // Đặt lại số hàng hiện tại
+            currentRow = 1;
+            ViewModel.DeleteAllLinhKienTam();
         }
-          // Đặt lại số hàng hiện tại
-          currentRow = 1;
-          ViewModel.DeleteAllLinhKienTam();
+          
       }
   }
-
-}
 

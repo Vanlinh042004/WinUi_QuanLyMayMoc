@@ -32,6 +32,7 @@ namespace QuanLyMayMoc
         public void InsertAllDataFromTemp(string projectID);
         public void InsertEmployeeToDatabase(Employee newEmployee);
         public  int TimSttLonNhat(string maduan);
+        //public void InsertTaskToDaTaBaseTemp(Task newTask);
         public void InsertTaskToDaTaBaseTemp(Task newTask);
         public  void DeleteAllTasks(string maDuAn);
         public ObservableCollection<Linhkien> GetAllLinhKien();
@@ -54,12 +55,14 @@ namespace QuanLyMayMoc
         public void InsertLoiToDaTaBaseTemp(Loisp newLinhKien, string mahieuduan);
         public Task<bool> CheckLoiTonTai(string maSanPham);
         public  void UpdateLoisp(Loisp selectedLoi, Loisp newLoi);
-        public void SaveProjectWithDifferentName(Project projectInsert);
+        public void SaveProjectWithDifferentName(Project projectInsert, string maDuAnCu);
         public void SummaryProduct(ObservableCollection<MonthlyProductSummary> monthlyProductSummaries);
 
         public void SummaryService(ObservableCollection<MonthlyServiceSummary> monthlyServiceSummaries);
-
+        
         public void ClearSummary();
+
+        public void DeleteProject(string maDuAn);
 
     }
 

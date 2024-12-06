@@ -1,4 +1,4 @@
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
@@ -29,7 +29,10 @@ namespace QuanLyMayMoc
         {
             this.InitializeComponent();
             ViewModel = new MainViewModel();
-
+            this.Loaded += (sender, args) =>
+            {
+                MainPage.ChangeHeaderTextBlock("Tổng hợp máy");
+            };
 
         }
         public MainViewModel ViewModel

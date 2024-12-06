@@ -9,7 +9,7 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid Background="Black">
+    <Grid Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -17,7 +17,7 @@
         </Grid.RowDefinitions>
 
 
-        <Grid Grid.Row="1" Background="LightGray" Margin="10">
+        <Grid Grid.Row="1" Background="LightGray" Margin="0">
             <Frame Name="FrameContent">
             </Frame>
         </Grid>

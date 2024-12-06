@@ -41,7 +41,10 @@ namespace QuanLyMayMoc
 
             // Initialize the list with sample data
             ViewModel = new MainViewModel();
-            
+            this.Loaded += (sender, args) =>
+            {
+                MainPage.ChangeHeaderTextBlock("Danh sách nhân viên");
+            };
         }
 
 
@@ -74,8 +77,7 @@ namespace QuanLyMayMoc
                 Email = EmailInput.Text ?? "Không có",
 
                 DiaChi = DiaChiInput.Text ?? "Không có",
-                SoDienThoai = SoDienThoaiInput.Text ?? "Không có",  
-                Email = EmailInput.Text ?? "Không có",
+                
                 TrangThai = TrangThaiInput.Text ?? "Không có",
                 PhongBan = PhongBanInput.Text ?? "Không có",
                 AnhDaiDien = "ms-appx:///Assets/"+AnhDaiDienInput.Text,

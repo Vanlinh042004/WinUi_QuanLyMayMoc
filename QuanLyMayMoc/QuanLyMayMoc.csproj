@@ -13,6 +13,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Model\DataProvider.cs" />
+    <Compile Remove="Service\DataAccess\APIDao.cs" />
     <Compile Remove="Service\DataAccess\MockDao.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -58,19 +58,58 @@
 
 
         <!-- Nội dung chính của ứng dụng -->
-        <Grid Grid.Row="1" Background="LightGray" Margin="10">
+        <!--<Grid Grid.Row="1" Background="LightGray" Margin="10">
+            
             <Frame Name="FrameContent">
             </Frame>
+        </Grid>-->
+        <Grid Grid.Row="1" Background="LightGray" Margin="0">
+            <NavigationView x:Name="nvSample9"
+                    PaneDisplayMode="Left"
+                    SelectionChanged="NavigationView_SelectionChanged"
+                    IsSettingsVisible="False"
+                    Background="{ThemeResource SolidBackgroundFillColorSecondaryBrush}"
+                    Foreground="{ThemeResource TextFillColorPrimaryBrush}">
+                <NavigationView.Header>
+                    <TextBlock x:Name="HeaderTextBlock" Text="Mở Dự Án"/>
+                </NavigationView.Header>
+
+                <NavigationView.MenuItems>
+                    <NavigationViewItem Content="Dịch vụ theo tháng" Tag="DichVuTheoThang" Icon="Library" />
+                    <NavigationViewItem Content="Quản lý máy móc" Tag="QuanLyMayMoc" Icon="Map">
+                        <NavigationViewItem.MenuItems>
+                            <NavigationViewItem Content="Linh kiện" Icon="Mail" Tag="LinhKien"/>
+                            <NavigationViewItem Content="Lõi" Icon="Calendar" Tag="Loi"/>
+                        </NavigationViewItem.MenuItems>
+                    </NavigationViewItem>
+                    <NavigationViewItem Content="Danh sách nhân viên" Tag="DanhSachNhanVien" Icon="Tag" />
+                    <NavigationViewItem Content="Thống kê máy móc" Tag="ThongkeMayMoc" Icon="Tag">
+                        <NavigationViewItem.MenuItems>
+                            <NavigationViewItem Content="Tổng hợp máy" Icon="Mail" Tag="TongHopMay"/>
+                            <NavigationViewItem Content="Tổng hợp dịch vụ" Icon="Calendar" Tag="TongHopDichVu"/>
+                        </NavigationViewItem.MenuItems>
+                    </NavigationViewItem>
+                    
+                </NavigationView.MenuItems>
+                <NavigationView.FooterMenuItems>
+                    <!--<NavigationViewItem Content="Account" Tag="SamplePage4" Icon="Contact" />
+                    <NavigationViewItem Content="Your Cart" Tag="SamplePage5" Icon="Shop" />
+                    <NavigationViewItem Content="Help" Tag="SamplePage6" Icon="Help" />-->
+                </NavigationView.FooterMenuItems>
+                <!-- Frame để hiển thị nội dung được chọn -->
+                <Frame x:Name="FrameContent" />
+            </NavigationView>
         </Grid>
 
+
         <!--Đường phân tách giữa Main Content và Footer-->
-        <Rectangle Fill="Gray" Height="1" VerticalAlignment="Top" Grid.Row="2"/>
-        <!-- Footer -->
+        <!--<Rectangle Fill="Gray" Height="1" VerticalAlignment="Top" Grid.Row="2"/>-->
+        <!-- Footer --><!--
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10" Grid.Row="2" >
             <Button Style="{StaticResource AccentButtonStyle}" Name="DichVuTheoThang"  Content="Dịch vụ theo tháng" Margin="4" Padding="4" Click="dichVuTheoThangButton"/>
             <Button Style="{StaticResource AccentButtonStyle}" Name="QuanLyMayMoc" Content="Quản lý máy móc" Margin="4" Padding="4" Click="quanLyMayMocButton"/>
             <Button Style="{StaticResource AccentButtonStyle}" Name="DanhSachNhanVien"  Content="Danh sách nhân viên" Margin="4" Padding="4" Click="danhSachNhanVienButton"/>
             <Button Style="{StaticResource AccentButtonStyle}" Name="TongHopMayTheoKy" Content="Tổng hợp máy theo kỳ" Margin="4" Padding="4" Click="tongHopMayTheoKyButton"/>
-        </StackPanel>
+        </StackPanel>-->
     </Grid>
 </Page>

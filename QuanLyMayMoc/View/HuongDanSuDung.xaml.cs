@@ -30,6 +30,10 @@ namespace QuanLyMayMoc.View
         public HuongDanSuDung()
         {
             this.InitializeComponent();
+            this.Loaded += (sender, args) =>
+            {
+                MainPage.ChangeHeaderTextBlock("Hướng dẫn sử dụng phần mềm");
+            };
             TinhNangChinh = new ObservableCollection<string>
             {
                 "•   Nhập thông tin khách hàng và dịch vụ đã sử dụng.",

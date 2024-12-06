@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -28,7 +28,10 @@ namespace QuanLyMayMoc
         public TongHopMayTheoKy()
         {
             this.InitializeComponent();
-           
+            this.Loaded += (sender, args) =>
+            {
+                MainPage.ChangeHeaderTextBlock("Thống kê máy móc");
+            };
         }
 
         private void MayButton(object sender, RoutedEventArgs e)

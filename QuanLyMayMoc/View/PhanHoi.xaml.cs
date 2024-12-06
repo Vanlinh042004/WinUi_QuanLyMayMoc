@@ -1,4 +1,4 @@
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
@@ -27,6 +27,10 @@ namespace QuanLyMayMoc
         {
             this.InitializeComponent();
             MyWebView.Source = new Uri("https://forms.gle/ssMCExmAWqxBeaXw7");
+            this.Loaded += (sender, args) =>
+            {
+                MainPage.ChangeHeaderTextBlock("Phản hồi của người dùng");
+            };
         }
     }
 }

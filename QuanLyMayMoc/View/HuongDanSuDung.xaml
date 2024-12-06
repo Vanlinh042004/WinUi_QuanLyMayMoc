@@ -11,13 +11,13 @@
     <Grid Padding="20">
         <!-- Chia lưới thành 2 hàng -->
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <!-- Hàng chứa tiêu đề -->
+            <!--<RowDefinition Height="Auto"/>
+            --><!-- Hàng chứa tiêu đề -->
             <RowDefinition Height="*"/>
             <!-- Hàng chứa nội dung cuộn -->
         </Grid.RowDefinitions>
 
-        <!-- Tiêu đề chính -->
+        <!-- Tiêu đề chính --><!--
         <TextBlock 
             Text="HƯỚNG DẪN SỬ DỤNG PHẦN MỀM" 
             FontSize="40" 
@@ -25,7 +25,7 @@
             HorizontalAlignment="Center" 
             Margin="0,20"
             Grid.Row="0"/>
-        <!-- Thuộc về hàng 0 -->
+        --><!-- Thuộc về hàng 0 -->
 
         <!-- Nội dung -->
         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Grid.Row="1">

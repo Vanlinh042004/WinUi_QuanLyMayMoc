@@ -26,6 +26,10 @@ namespace QuanLyMayMoc
         public QuanLyMayMoc()
         {
             this.InitializeComponent();
+            this.Loaded += (sender, args) =>
+            {
+                MainPage.ChangeHeaderTextBlock("Quản lý máy móc");
+            };
         }
 
         private bool _isFirstLinhKienClick = true;
