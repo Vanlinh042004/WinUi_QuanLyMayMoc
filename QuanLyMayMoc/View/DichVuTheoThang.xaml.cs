@@ -240,6 +240,20 @@ namespace QuanLyMayMoc
         private async void OnDeleteRowDataClick(object sender, RoutedEventArgs e)
         {
 
+            if (ViewModel.CurrentSelectedTask == null)
+            {
+                ContentDialog noSelectionDialog = new ContentDialog
+                {
+                    Title = "Không có dòng nào được chọn",
+                    Content = "Vui lòng chọn một dòng trước khi thực hiện xóa.",
+                    CloseButtonText = "OK",
+                    XamlRoot = this.XamlRoot
+                };
+
+                await noSelectionDialog.ShowAsync();
+                return; 
+            }
+
             ContentDialog deleteDialog = new ContentDialog
             {
                 Title = "Xác nhận xóa",
@@ -457,7 +471,7 @@ namespace QuanLyMayMoc
 
 
 
-        private void OnFilterByDateClick(object sender, RoutedEventArgs e)
+        private async void OnFilterByDateClick(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -470,19 +484,32 @@ namespace QuanLyMayMoc
                 }
                 else
                 {
-                    throw new InvalidOperationException("Date is not selected. Please select a date!");
+                    // Hiển thị thông báo yêu cầu chọn ngày
+                    var dialog = new ContentDialog
+                    {
+                        Title = "Thông báo",
+                        Content = "Bạn chưa chọn ngày. Vui lòng chọn ngày để tiếp tục!",
+                        CloseButtonText = "OK",
+                        DefaultButton = ContentDialogButton.Close,
+                        XamlRoot = this.XamlRoot // Gắn XamlRoot cho ContentDialog
+                    };
+                    await dialog.ShowAsync();
                 }
-            }
-            catch (InvalidOperationException ex)
-            {
-                // Log lỗi hoặc hiển thị thông báo lỗi
-                Console.WriteLine($"Error: {ex.Message}");
             }
             catch (Exception ex)
             {
-                // Xử lý lỗi chung
-                Console.WriteLine($"An unexpected error occurred: {ex.Message}");
+                // Hiển thị thông báo lỗi chung
+                var dialog = new ContentDialog
+                {
+                    Title = "Lỗi",
+                    Content = $"Đã xảy ra lỗi: {ex.Message}",
+                    CloseButtonText = "OK",
+                    DefaultButton = ContentDialogButton.Close,
+                    XamlRoot = this.XamlRoot
+                };
+                await dialog.ShowAsync();
             }
+
         }
 
 

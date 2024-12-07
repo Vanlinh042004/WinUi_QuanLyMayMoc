@@ -15,12 +15,13 @@ using QuanLyMayMoc.Service;
 
 namespace QuanLyMayMoc.ViewModel
 {
+   
 
 
     public class MainViewModel
     {
         IDao _dao;
-        private string connectionString = "Host=127.0.0.1;Port=5432;Username=postgres;Password=1234;Database=machine";
+        
 
 
         private Task _currentSelectedTask;
@@ -30,7 +31,7 @@ namespace QuanLyMayMoc.ViewModel
             set
             {
                 _currentSelectedTask = value;
-                OnPropertyChanged(nameof(CurrentSelectedTask)); // Nếu ViewModel hỗ trợ INotifyPropertyChanged
+                OnPropertyChanged(nameof(CurrentSelectedTask)); 
             }
         }
 
@@ -57,6 +58,10 @@ namespace QuanLyMayMoc.ViewModel
             get; set;
         }
 
+        public ObservableCollection<GroupProductViewModel> GroupedProductItems { get; set; }
+        public ObservableCollection<GroupServiceViewModel> GroupedServiceItems { get; set; }
+        public ObservableCollection<MonthlyGroupViewModel> MonthlyGroupedItems { get; set; }
+
 
         public MainViewModel()
         {
@@ -68,6 +73,54 @@ namespace QuanLyMayMoc.ViewModel
             ListLoi = _dao.GetAllLoi();
             MonthlyProductSummarys= _dao.GetMonthlyProductSummaries();
             MonthlyServiceSummarys= _dao.GetMonthlyServiceSummaries();
+            GroupProducts();
+            GroupServices();
+           
+
+        }
+
+        private void GroupProducts()
+        {
+            var grouped = MonthlyProductSummarys
+           .GroupBy(p => p.Month)
+           .Select(g => new GroupProductViewModel(
+               g.Key,
+               g,
+               g.Sum(item => item.Quantity * item.Price)
+           ))
+           .ToList();
+
+            GroupedProductItems = new ObservableCollection<GroupProductViewModel>(grouped);
+        }
+
+            private void GroupServices()
+        {
+            var groupedServices = MonthlyServiceSummarys
+          .GroupBy(s => new { s.Month, s.EmployeeCode, s.EmployeeName }) // Gom theo tháng và nhân viên
+          .Select(g => new GroupServiceViewModel(
+              g.Key.Month,                     
+              g.Key.EmployeeCode,              
+              g.Key.EmployeeName,              
+              g,                                // Danh sách công việc
+              g.First().TotalServiceFee,       
+              g.First().MonthlyTotalFee         
+          )).ToList();
+
+            GroupedServiceItems = new ObservableCollection<GroupServiceViewModel>(groupedServices);
+
+            // Gom nhóm theo tháng
+            var monthlyGroups = GroupedServiceItems
+             .GroupBy(g => g.Month) // Gom nhóm theo tháng
+             .Select(g => new MonthlyGroupViewModel(
+                 g.Key,                      // Tháng
+                 g.First().MonthlyTotalFee,  // Lấy giá trị MonthlyTotalFee đầu tiên
+                 g                           // Danh sách nhân viên và công việc trong tháng
+             ))
+             .ToList();
+
+
+           
+            MonthlyGroupedItems = new ObservableCollection<MonthlyGroupViewModel>(monthlyGroups);
         }
 
         public void LoadDataFilter(DateTime ngaythuchien, string keyword)
@@ -352,7 +405,7 @@ namespace QuanLyMayMoc.ViewModel
             _dao.SummaryProduct(monthlyProductSummaries);
         }
 
-
+       
 
         private ObservableCollection<MonthlyProductSummary> AggregateTasksToMonthlyProductSummaries()
         {

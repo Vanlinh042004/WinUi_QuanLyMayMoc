@@ -32,6 +32,7 @@ namespace QuanLyMayMoc.View
             {
                 MainPage.ChangeHeaderTextBlock("Tổng hợp dịch vụ");
             };
+           
         }
         public MainViewModel ViewModel
         {

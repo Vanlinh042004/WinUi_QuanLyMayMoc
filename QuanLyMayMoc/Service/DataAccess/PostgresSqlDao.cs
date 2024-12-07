@@ -898,10 +898,10 @@ namespace QuanLyMayMoc
 
         public async void DeleteAllTasks(string maDuAn)
         {
-            string deleteQuery = "DELETE FROM congviectamthoi";
+            string deleteQuery = "DELETE FROM congviec WHERE maduan = @maduan";
 
 
-            string deleteQueryTemp = "DELETE FROM congviec WHERE maduan = @maduan";
+            string deleteQueryTemp = "DELETE FROM congviectamthoi WHERE maduan = @maduan";
 
 
             using (var connection = new NpgsqlConnection(connectionString))
@@ -914,6 +914,18 @@ namespace QuanLyMayMoc
                     await command.ExecuteNonQueryAsync();
                 }
             }
+
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                await connection.OpenAsync();
+
+                using (var command = new NpgsqlCommand(deleteQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@maduan", maDuAn);
+                    await command.ExecuteNonQueryAsync();
+                }
+            }
+
         }
         public async void UpdateTask(Task selectedTask, Task newTask)
         {

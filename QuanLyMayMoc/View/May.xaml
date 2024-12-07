@@ -46,6 +46,7 @@
                 <ColumnDefinition Width="100" />
                 <ColumnDefinition Width="100" />
                 <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="150" />
 
             </Grid.ColumnDefinitions>
 
@@ -66,56 +67,95 @@
                 <TextBlock Text="GIÁ BÁN" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
             </Border>
             <Border BorderBrush="Black" BorderThickness="1" Grid.Column="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <TextBlock Text="TỔNG TIỀN" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
+                        <TextBlock Text="THÀNH TIỀN" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
             </Border>
+            <Border BorderBrush="Black" BorderThickness="1" Grid.Column="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                   <TextBlock Text="TỔNG TIỀN THÁNG" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
+             </Border>
 
-        </Grid>
+                </Grid>
         <!-- Row Title -->
         <Grid Grid.Row="2">
-            <ItemsControl ItemsSource="{x:Bind ViewModel.MonthlyProductSummarys, Mode=OneWay}">
-                <ItemsControl.ItemTemplate>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                        <ItemsControl ItemsSource="{x:Bind ViewModel.GroupedProductItems}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="local:GroupProductViewModel">
+                                    <Grid>
+                                        <!-- Định nghĩa hàng -->
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <!-- Header -->
+                                           
+                                            <!-- Nội dung -->
+                                        </Grid.RowDefinitions>
 
-                    <DataTemplate x:DataType="local:MonthlyProductSummary">
-                        <Grid Padding="3"   >
-                            <!-- Thêm Padding cho Grid -->
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="100" />
-                                <ColumnDefinition Width="150" />
-                                <ColumnDefinition Width="300" />
-                                <ColumnDefinition Width="100" />
-                                <ColumnDefinition Width="100" />
-                                <ColumnDefinition Width="100" />
+                                        <!-- Định nghĩa cột -->
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="100" />
+                                            <!-- Tháng -->
+                                            <ColumnDefinition Width="150" />
+                                            <ColumnDefinition Width="300" />
+                                            <ColumnDefinition Width="100" />
+                                            <ColumnDefinition Width="100" />
+                                            <ColumnDefinition Width="100" />
+                                            <ColumnDefinition Width="150" />
+                                            <!-- Tổng Tiền Tháng -->
+                                        </Grid.ColumnDefinitions>
 
-                            </Grid.ColumnDefinitions>
+                                        <!-- Header: Tháng -->
+                                        <Border Grid.Row="0" Grid.RowSpan="{x:Bind Items.Count}" BorderBrush="Gray" BorderThickness="2" CornerRadius="5" Grid.Column="0" Margin="0,5,5,5" VerticalAlignment="Stretch">
+                                            <TextBlock Text="{x:Bind Month}" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Border>
 
-                            <!-- Thêm khoảng cách giữa các hàng và cột -->
+                                        <!-- Tổng Tiền Tháng -->
+                                        <Border Grid.Row="0" Grid.RowSpan="{x:Bind Items.Count}" BorderBrush="Gray" BorderThickness="2" CornerRadius="5" Grid.Column="6" Margin="0,5,5,5" VerticalAlignment="Stretch">
+                                            <TextBlock Text="{x:Bind TotalMonth}" 
+                               Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Border>
 
-                            <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="0" Margin="0,0,5,0">
-                                <TextBlock Text="{x:Bind Month}" HorizontalAlignment="Center" Foreground="Red" Margin="5" />
-                            </Border>
-                            <Border BorderBrush="Gray" BorderThickness="2" CornerRadius="5" Grid.Column="1" Margin="0,0,5,0">
-                                <TextBlock Text="{x:Bind ProductCode}" HorizontalAlignment="Center" Foreground="Red" Margin="5" />
-                            </Border>
-                            <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="2" Margin="0,0,5,0">
-                                <TextBlock Text="{x:Bind ProductName}" HorizontalAlignment="Center" Foreground="Red" Margin="5" />
-                            </Border>
-                            <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="3" Margin="0,0,5,0">
-                                <TextBlock Text="{x:Bind Quantity}" HorizontalAlignment="Center" Foreground="Red" Margin="5" />
-                            </Border>
-                            <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="4" Margin="0,0,5,0">
-                                <TextBlock Text="{x:Bind Price}" HorizontalAlignment="Center" Foreground="Red" Margin="5" />
-                            </Border>
-                            <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="5" Margin="0,0,5,0">
-                                <TextBlock Text="{x:Bind TotalPrice}" HorizontalAlignment="Center" Foreground="Red" Margin="5" />
-                            </Border>
+                                        <!-- Chi tiết sản phẩm -->
+                                        <ItemsControl Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="5" ItemsSource="{x:Bind Items}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate x:DataType="local:MonthlyProductSummary">
+                                                    <Grid Margin="0,0,0,5">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="150" />
+                                                            <ColumnDefinition Width="300" />
+                                                            <ColumnDefinition Width="100" />
+                                                            <ColumnDefinition Width="100" />
+                                                            <ColumnDefinition Width="100" />
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <!-- Hiển thị dữ liệu -->
+                                                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="0" Margin="0,5,5,0">
+                                                            <TextBlock Text="{x:Bind ProductCode}" Foreground="Red" HorizontalAlignment="Center" Margin="5" />
+                                                        </Border>
+                                                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="1" Margin="0,5,5,0">
+                                                            <TextBlock Text="{x:Bind ProductName}"  Foreground="Red" HorizontalAlignment="Center" Margin="5" />
+                                                        </Border>
+                                                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="2" Margin="0,5,5,0">
+                                                            <TextBlock Text="{x:Bind Quantity}" Foreground="Red"  HorizontalAlignment="Center" Margin="5" />
+                                                        </Border>
+                                                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="3" Margin="0,5,5,0">
+                                                            <TextBlock Text="{x:Bind Price}"  Foreground="Red" HorizontalAlignment="Center" Margin="5" />
+                                                        </Border>
+                                                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="4" Margin="0,5,5,0">
+                                                            <TextBlock Text="{x:Bind TotalPrice}"  Foreground="Red" HorizontalAlignment="Center" Margin="5" />
+                                                        </Border>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
 
 
+                    </ScrollViewer>
 
-                        </Grid>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </Grid>
+
+                </Grid>
 
 
         </StackPanel>
