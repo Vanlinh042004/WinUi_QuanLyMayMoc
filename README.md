@@ -7,3 +7,6 @@ Viết dùm Nhật mấy câu query của phần Lưu dự án với tên khác 
 Quay video demo (Để Nhật làm cho)
 
 Deadline 9/12 nha ae
+
+
+Nhánh Linh không cần merge nha ae, Lĩnh push lên dự trù có gì sai vào đó xem
