@@ -1,5 +1,6 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using Npgsql;
 using QuanLyMayMoc.Model;
 using QuanLyMayMoc.View;
@@ -678,7 +679,7 @@ namespace QuanLyMayMoc
                     await command.ExecuteNonQueryAsync();
                 }
 
-                
+
                 // Thêm dữ liệu từ nhanvientamthoi vào nhanvien
                 string insertNhanVien = @"
                         INSERT INTO nhanvien (
@@ -1564,7 +1565,7 @@ namespace QuanLyMayMoc
             }
         }
 
-        public void SaveProjectWithDifferentName(Project projectInsert, string maDuAnCu)
+        public async void SaveProjectWithDifferentName(Project projectInsert, string maDuAnCu)
         {
             string maDuAnMoi = projectInsert.ID;
             string tenDuAnMoi = projectInsert.Name;
@@ -1609,6 +1610,163 @@ namespace QuanLyMayMoc
                     }
                 }
             }
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                await connection.OpenAsync();
+
+                // Them du lieu tu linhkienduantam vào linhkien_duan
+                // Xóa dữ liệu cũ trong bảng linhkien_duan
+                string deleteLinhKienDuAnQuery = @" DELETE 
+                                                   FROM linhkien_duan
+                                                   WHERE maduan = @maDuAnCu";
+                using (var command = new NpgsqlCommand(deleteLinhKienDuAnQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@maDuAnCu", maDuAnCu);
+                    await command.ExecuteNonQueryAsync();
+                }
+                // Thêm dữ liệu từ linhkienduantam vào linhkien_duan
+                string insertLinhKienDuAnQuery = @" INSERT INTO LinhKien_DuAn (mahieuduan, mahieu, tenlinhkien, giaban, maduan)
+                                                   SELECT  CONCAT(mahieu,'_', @maDuAnMoi), mahieu, tenlinhkien, giaban, @maDuAnMoi
+                                                   FROM linhkienduantam
+                                                    WHERE maduan = @maDuAnCu";
+                using (var command = new NpgsqlCommand(insertLinhKienDuAnQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@maDuAnCu", maDuAnCu);
+                    command.Parameters.AddWithValue("@maDuAnMoi", maDuAnMoi);
+                    await command.ExecuteNonQueryAsync();
+                }
+                // Them du lieu tu loiduantam vào loisp_duan
+                // Xóa dữ liệu cũ trong bảng loi_duan
+                string deleteLoiDuAnQuery = @" DELETE 
+                                                FROM loi_duan
+                                                WHERE maduan = @maDuAnCu";
+                using (var command = new NpgsqlCommand(deleteLoiDuAnQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@maDuAnCu", maDuAnCu);
+                    await command.ExecuteNonQueryAsync();
+                }
+                // Thêm dữ liệu từ loiduantam vào loi_duan
+                string insertLoiDuAnQuery = @" INSERT INTO Loi_DuAn (mahieuduan, mahieu, tenloi, giaban, maduan)
+                                                   SELECT  CONCAT(mahieu,'_', @maDuAnMoi), mahieu, tenloi, giaban, @maDuAnMoi
+                                                   FROM loiduantam
+                                                    WHERE maduan = @maDuAnCu";
+                using (var command = new NpgsqlCommand(insertLoiDuAnQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@maDuAnCu", maDuAnCu);
+                    command.Parameters.AddWithValue("@maDuAnMoi", maDuAnMoi);
+                    await command.ExecuteNonQueryAsync();
+                }
+
+                string insertNhanVien = @"
+                        INSERT INTO nhanvien (
+                            manvduan,
+                            manv,
+                            hoten,
+                            dantoc,
+                            gioitinh,
+                            ngaysinh,
+                            diachi,
+                            sdt,
+                            email,
+                            phongban,
+                            cccd,
+                            trangthai,
+                            ngaykyhopdong,
+                            maduan
+                        )
+                        SELECT 
+                            manvduan,
+                            manv,
+                            hoten,
+                            dantoc,
+                            gioitinh,
+                            ngaysinh,
+                            diachi,
+                            sdt,
+                            email,
+                            phongban,
+                            cccd,
+                            trangthai,
+                            ngaykyhopdong,
+                            @maDuAnMoi
+                        FROM nhanvientamthoi
+                        WHERE maduan = @maDuAn;
+                    ";
+
+                using (var command = new NpgsqlCommand(insertNhanVien, connection))
+                {
+                    command.Parameters.AddWithValue("@maDuAn", maDuAnCu);
+                    command.Parameters.AddWithValue("@maDuAnMoi", maDuAnMoi);
+                    await command.ExecuteNonQueryAsync();
+                }
+                // Thêm dữ liệu từ congviectamthoi vào congviec
+                string insertCongViec = @"
+                        INSERT INTO congviec (
+                            macvduan,
+                            stt,
+                            tendichvu,
+                            ngaythuchien,
+                            hotenkh,
+                            sdt,
+                            diachi,
+                            manv,
+                            tennv,
+                            malinhkien,
+                            tenlinhkien,
+                            soluonglinhkien,
+                            maloi,
+                            tenloi,
+                            soluongloi,
+                            phidichvu,
+                            ghichu,
+                            maduan
+                        )
+                        SELECT 
+                            macvduan,
+                            stt,
+                            tendichvu,
+                            ngaythuchien,
+                            hotenkh,
+                            sdt,
+                            diachi,
+                            manv,
+                            tennv,
+                            malinhkien,
+                            tenlinhkien,
+                            soluonglinhkien,
+                            maloi,
+                            tenloi,
+                            soluongloi,
+                            phidichvu,
+                            ghichu,
+                            @maDuAnMoi
+                        FROM congviectamthoi
+                        WHERE maduan = @maDuAnCu;
+                    ";
+
+                using (var command = new NpgsqlCommand(insertCongViec, connection))
+                {
+                    command.Parameters.AddWithValue("@maDuAnCu", maDuAnCu);
+                    command.Parameters.AddWithValue("@maDuAnMoi", maDuAnMoi);
+                    await command.ExecuteNonQueryAsync();
+                }
+
+                // Xóa tất cả các dòng trong nhanvientamthoi và congviectamthoi, linhkientam, loitam
+                string deleteTempTables = @"
+                        DELETE FROM duan_tam;
+                        DELETE FROM nhanvientamthoi WHERE maduan = @maDuAn;
+                        DELETE FROM congviectamthoi WHERE maduan = @maDuAn;
+                        DELETE FROM linhkienduantam WHERE maduan = @maDuAn;
+                        DELETE FROM loiduantam WHERE maduan = @maDuAn;
+                    ";
+
+                using (var command = new NpgsqlCommand(deleteTempTables, connection))
+                {
+                    command.Parameters.AddWithValue("@maDuAn", maDuAnCu);
+                    await command.ExecuteNonQueryAsync();
+                }
+            }
+
         }
 
 
@@ -1685,7 +1843,7 @@ namespace QuanLyMayMoc
 
         public void SummaryProduct(ObservableCollection<MonthlyProductSummary> monthlyProductSummaries)
         {
-                string insertQuery = @"
+            string insertQuery = @"
                     INSERT INTO TongHopSanPhamTheoThang 
                     (MaTongHop, Thang, MaSanPham, TenSanPham, SoLuong, GiaBan, TongTien)
                     VALUES (@MaTongHop, @Thang, @MaSanPham, @TenSanPham, @SoLuong, @GiaBan, @TongTien)";
