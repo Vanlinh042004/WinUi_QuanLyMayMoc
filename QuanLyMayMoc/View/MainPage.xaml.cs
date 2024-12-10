@@ -45,6 +45,7 @@ namespace QuanLyMayMoc
         {
             this.InitializeComponent();
             ViewModel = new MainViewModel();
+            ViewModel.ClearSummary();
             // disable the button "DichVuTheoThang"
             AppData.isEnableFunctionButtion = false;
             AppData.ProjectID = "";

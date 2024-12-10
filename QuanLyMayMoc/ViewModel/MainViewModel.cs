@@ -67,7 +67,7 @@ namespace QuanLyMayMoc.ViewModel
         {
           
             _dao = ServiceFactory.GetChildOf(typeof(IDao)) as IDao;
-            Employees = _dao.GetEmployees();
+            Employees =new ObservableCollection<Employee>();
             Tasks = _dao.GetTasks();
             Listlinhkien = new ObservableCollection<Linhkien>();
             ListLoi = _dao.GetAllLoi();
@@ -169,14 +169,32 @@ namespace QuanLyMayMoc.ViewModel
             SummaryService();
 
         }
+
+        public void LoadDataEmployee()
+        {
+            if (Employees != null)
+            {
+                Employees.Clear();
+            }
+
+            var allEmployees = _dao.GetEmployees();
+
+         
+
+
+            foreach (var employee in allEmployees)
+            {
+                Employees.Add(employee);
+            }
+
+          
+
+        }
         public void InsertTaskToDaTaBaseTemp(Task newTask)
         {
             _dao.InsertTaskToDaTaBaseTemp(newTask);
         }
-        public void loadNewData()
-        {
-
-        }
+       
         public List<string> GetCustomerNames(string query)
         {
 
@@ -557,6 +575,13 @@ namespace QuanLyMayMoc.ViewModel
             _dao.ClearSummary();
         }
 
+        public bool CheckEmployeeExistsAsync(string MaNhanVien)
+        {
+
+            return _dao.CountMaNhanVien(MaNhanVien) > 0;
+
+
+        }
 
         public void SaveProjectWithDifferentName(Project project, string newProject)
         {

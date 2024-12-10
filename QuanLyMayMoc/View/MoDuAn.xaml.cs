@@ -79,7 +79,7 @@ namespace QuanLyMayMoc.View
                     AppData.ProjectName = project.Name;
                     AppData.ProjectTimeCreate = project.TimeCreate;
 
-                    mainViewModel.loadNewData();
+                   // mainViewModel.loadNewData();
 
                     // when a button is clicked, navigate to another page
                     // and pass the information of the item to the page
