@@ -777,7 +777,9 @@ namespace QuanLyMayMoc
                 string deleteTempTables = @"
                         DELETE FROM duan_tam;
                         DELETE FROM nhanvientamthoi WHERE maduan = @maDuAn;
-                        DELETE FROM congviectamthoi WHERE maduan = @maDuAn;";
+                        DELETE FROM congviectamthoi WHERE maduan = @maDuAn;
+                         DELETE FROM linhkienduantam WHERE maduan = @maDuAn;
+                        DELETE FROM loiduantam WHERE maduan = @maDuAn;";
 
                 using (var command = new NpgsqlCommand(deleteTempTables, connection))
                 {
@@ -1062,49 +1064,46 @@ namespace QuanLyMayMoc
             }
         }
 
-        public ObservableCollection<Linhkien> GetAllLinhKien()
+        public  ObservableCollection<Linhkien> GetAllLinhKien()
         {
-            string query = @"SELECT mahieu, tenlinhkien, giaban
-                             FROM linhkien";
-
             ObservableCollection<Linhkien> linhkiens = new ObservableCollection<Linhkien>();
-
-            using (var connection = new NpgsqlConnection(connectionString))
-            {
-                connection.Open();
-                using (var command = new NpgsqlCommand(query, connection))
+                string query = @"SELECT mahieu, tenlinhkien, giaban
+                             FROM linhkien";
+                using (var connection = new NpgsqlConnection(connectionString))
                 {
-                    using (var reader = command.ExecuteReader())
+                    connection.Open();
+                    using (var command = new NpgsqlCommand(query, connection))
                     {
-                        while (reader.Read())
+                        using (var reader = command.ExecuteReader())
                         {
-                            linhkiens.Add(new Linhkien
+                            while (reader.Read())
                             {
-                                MaSanPham = reader.IsDBNull(0) ? null : reader.GetString(0),
-                                TenSanPham = reader.IsDBNull(1) ? null : reader.GetString(1),
-                                GiaBan = reader.IsDBNull(2) ? 0 : reader.GetDouble(2)
-                            });
+                                linhkiens.Add(new Linhkien
+                                {
+                                    MaSanPham = reader.IsDBNull(0) ? null : reader.GetString(0),
+                                    TenSanPham = reader.IsDBNull(1) ? null : reader.GetString(1),
+                                    GiaBan = reader.IsDBNull(2) ? 0 : reader.GetDouble(2)
+                                });
 
+                            }
                         }
                     }
                 }
-            }
-
+                
             return linhkiens;
         }
 
         public ObservableCollection<Linhkien> GetAllLinhKienTam()
         {
-            string query = @"SELECT mahieu, tenlinhkien, giaban
+            ObservableCollection<Linhkien> linhkiens = new ObservableCollection<Linhkien>();
+            string query2 = @"SELECT mahieu, tenlinhkien, giaban
                              FROM linhkienduantam
                              WHERE maduan = @maDuan";
-
-            ObservableCollection<Linhkien> linhkiens = new ObservableCollection<Linhkien>();
 
             using (var connection = new NpgsqlConnection(connectionString))
             {
                 connection.Open();
-                using (var command = new NpgsqlCommand(query, connection))
+                using (var command = new NpgsqlCommand(query2, connection))
                 {
                     command.Parameters.AddWithValue("@maduan", AppData.ProjectID);
                     using (var reader = command.ExecuteReader())
@@ -1123,9 +1122,33 @@ namespace QuanLyMayMoc
                 }
             }
 
+            string query3 = @"SELECT mahieu, tenlinhkien, giaban
+                             FROM linhkien_duan
+                             WHERE maduan = @maDuan";
+
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+                using (var command = new NpgsqlCommand(query3, connection))
+                {
+                    command.Parameters.AddWithValue("@maduan", AppData.ProjectID);
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            linhkiens.Add(new Linhkien
+                            {
+                                MaSanPham = reader.IsDBNull(0) ? null : reader.GetString(0),
+                                TenSanPham = reader.IsDBNull(1) ? null : reader.GetString(1),
+                                GiaBan = reader.IsDBNull(2) ? 0 : reader.GetDouble(2)
+                            });
+
+                        }
+                    }
+                }
+            }
             return linhkiens;
         }
-
         public async void SaveToLinhKienTam()
         {
             try
@@ -1236,7 +1259,44 @@ namespace QuanLyMayMoc
             }
 
         }
+        public  int CheckLinhKienDuAnTamTonTai(string maDuAn)
+        {
+            string query = "SELECT COUNT(*) FROM linhkienduantam WHERE maduan = @MaDuAn";
 
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    // Thêm tham số để tránh SQL Injection
+                    command.Parameters.AddWithValue("@MaDuAn", AppData.ProjectID);
+
+                    // Thực thi truy vấn và trả về kết quả
+                    int count = Convert.ToInt32(command.ExecuteScalar());
+                    return count;
+                }
+            }
+        }
+        public int CheckLinhKienDuAnTonTai(string maDuAn)
+        {
+            string query = "SELECT COUNT(*) FROM linhkien_duan WHERE maduan = @MaDuAn";
+
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    // Thêm tham số để tránh SQL Injection
+                    command.Parameters.AddWithValue("@MaDuAn", AppData.ProjectID);
+
+                    // Thực thi truy vấn và trả về kết quả
+                    int count = Convert.ToInt32(command.ExecuteScalar());
+                    return count;
+                }
+            }
+        }
         public async void DeleteLinhKienTam(string maLinhKien)
         {
             string maLinhKienDuAn = maLinhKien + "_" + AppData.ProjectID;
