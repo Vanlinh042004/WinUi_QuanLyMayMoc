@@ -52,8 +52,9 @@ namespace QuanLyMayMoc
             this.InitializeComponent();
             HideFirstRow(); // Thêm dòng đầu tiên
             ViewModel = new MainViewModel();
-            //ViewModel.SaveToLinhKienTam(); // Lưu dữ liệu từ bảng linhkien vào bảng LinhKien_Tam
-            if (ViewModel.CheckLinhKienDuAnTonTai(AppData.ProjectID) > 0 || ViewModel.CheckLinhKienDuAnTamTonTai(AppData.ProjectID) > 0)
+
+            if(ViewModel.CheckLinhKienDuAnTonTai(AppData.ProjectID) > 0 || ViewModel.CheckLinhKienDuAnTamTonTai(AppData.ProjectID) > 0)
+
             {
                 ViewModel.LoadLinhKienFromTemp();
             }
@@ -61,6 +62,7 @@ namespace QuanLyMayMoc
             {
                 ViewModel.LoadLinhKienFromDatabase();
             }
+
             this.Loaded += (sender, args) =>
             {
                 MainPage.ChangeHeaderTextBlock("Quản lý linh kiện");
