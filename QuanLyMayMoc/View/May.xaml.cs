@@ -29,7 +29,6 @@ namespace QuanLyMayMoc
         {
             this.InitializeComponent();
             ViewModel = new MainViewModel();
-           
             this.Loaded += (sender, args) =>
             {
                 MainPage.ChangeHeaderTextBlock("Tổng hợp máy");

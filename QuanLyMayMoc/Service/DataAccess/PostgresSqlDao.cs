@@ -849,6 +849,84 @@ namespace QuanLyMayMoc
             }
         }
 
+        public int CheckLinhKienDuAnTamTonTai(string maDuAn)
+        {
+            string query = "SELECT COUNT(*) FROM linhkienduantam WHERE maduan = @MaDuAn";
+
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    // Thêm tham số để tránh SQL Injection
+                    command.Parameters.AddWithValue("@MaDuAn", AppData.ProjectID);
+
+                    // Thực thi truy vấn và trả về kết quả
+                    int count = Convert.ToInt32(command.ExecuteScalar());
+                    return count;
+                }
+            }
+        }
+        public int CheckLinhKienDuAnTonTai(string maDuAn)
+        {
+            string query = "SELECT COUNT(*) FROM linhkien_duan WHERE maduan = @MaDuAn";
+
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    // Thêm tham số để tránh SQL Injection
+                    command.Parameters.AddWithValue("@MaDuAn", AppData.ProjectID);
+
+                    // Thực thi truy vấn và trả về kết quả
+                    int count = Convert.ToInt32(command.ExecuteScalar());
+                    return count;
+                }
+            }
+        }
+
+
+        public int CheckLoiDuAnTamTonTai(string maDuAn)
+        {
+            string query = "SELECT COUNT(*) FROM loiduantam WHERE maduan = @MaDuAn";
+
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    // Thêm tham số để tránh SQL Injection
+                    command.Parameters.AddWithValue("@MaDuAn", AppData.ProjectID);
+
+                    // Thực thi truy vấn và trả về kết quả
+                    int count = Convert.ToInt32(command.ExecuteScalar());
+                    return count;
+                }
+            }
+        }
+        public int CheckLoiDuAnTonTai(string maDuAn)
+        {
+            string query = "SELECT COUNT(*) FROM loi_duan WHERE maduan = @MaDuAn";
+
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    // Thêm tham số để tránh SQL Injection
+                    command.Parameters.AddWithValue("@MaDuAn", AppData.ProjectID);
+
+                    // Thực thi truy vấn và trả về kết quả
+                    int count = Convert.ToInt32(command.ExecuteScalar());
+                    return count;
+                }
+            }
+        }
 
         public int TimSttLonNhat(string maduan)
         {
@@ -1082,9 +1160,14 @@ namespace QuanLyMayMoc
 
         public ObservableCollection<Linhkien> GetAllLinhKienTam()
         {
-            string query = @"SELECT mahieu, tenlinhkien, giaban
-                             FROM linhkienduantam
-                             WHERE maduan = @maDuan";
+            string query = @"
+                SELECT mahieu, tenlinhkien, giaban
+                FROM linhkienduantam
+                WHERE maduan = @maduan
+                UNION ALL
+                SELECT mahieu, tenlinhkien, giaban
+                FROM linhkien_duan
+                WHERE maduan = @maduan";
 
             ObservableCollection<Linhkien> linhkiens = new ObservableCollection<Linhkien>();
 
@@ -1104,7 +1187,6 @@ namespace QuanLyMayMoc
                                 TenSanPham = reader.IsDBNull(1) ? null : reader.GetString(1),
                                 GiaBan = reader.IsDBNull(2) ? 0 : reader.GetDouble(2)
                             });
-
                         }
                     }
                 }
@@ -1112,6 +1194,7 @@ namespace QuanLyMayMoc
 
             return linhkiens;
         }
+
 
         public async void SaveToLinhKienTam()
         {
@@ -1330,9 +1413,14 @@ namespace QuanLyMayMoc
 
         public ObservableCollection<Loisp> GetAllLoiTam()
         {
-            string query = @"SELECT mahieu, tenloi, giaban
-                             FROM loiduantam
-                             WHERE maduan = @maDuAn";
+            string query = @"
+        SELECT mahieu, tenloi, giaban
+        FROM loiduantam
+        WHERE maduan = @maDuAn
+        UNION ALL
+        SELECT mahieu, tenloi, giaban
+        FROM loi_duan
+        WHERE maduan = @maDuAn";
 
             ObservableCollection<Loisp> lois = new ObservableCollection<Loisp>();
 
@@ -1353,15 +1441,14 @@ namespace QuanLyMayMoc
                                 TenSanPham = reader.IsDBNull(1) ? null : reader.GetString(1),
                                 GiaBan = reader.IsDBNull(2) ? 0 : reader.GetDouble(2)
                             });
-
                         }
                     }
                 }
             }
 
             return lois;
-
         }
+
 
         public async void SaveToLoiTam()
         {
