@@ -41,6 +41,7 @@ namespace QuanLyMayMoc
 
             // Initialize the list with sample data
             ViewModel = new MainViewModel();
+            ViewModel.LoadDataEmployee();
             this.Loaded += (sender, args) =>
             {
                 MainPage.ChangeHeaderTextBlock("Danh sách nhân viên");
@@ -66,7 +67,7 @@ namespace QuanLyMayMoc
 
             var newEmployee = new Employee
             {
-                MaNhanVienDuAn = MaNhanVienInput.Text + AppData.ProjectID,
+                MaNhanVienDuAn = MaNhanVienInput.Text + AppData.ProjectID ,
                 MaNhanVien = MaNhanVienInput.Text ?? "Không có",
                 HoTen = HoTenInput.Text ?? "Không rõ",
                 GioiTinh = (GioiTinhInput.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "Khác",
@@ -75,7 +76,7 @@ namespace QuanLyMayMoc
                 CCCD = CCCDInput.Text ?? "Không có",
                 SoDienThoai = SoDienThoaiInput.Text ?? "Không có",
                 Email = EmailInput.Text ?? "Không có",
-
+                DanToc= DanTocInput.Text ?? "Không có",
                 DiaChi = DiaChiInput.Text ?? "Không có",
                 
                 TrangThai = TrangThaiInput.Text ?? "Không có",

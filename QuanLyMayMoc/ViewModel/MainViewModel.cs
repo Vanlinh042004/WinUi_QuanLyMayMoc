@@ -67,7 +67,7 @@ namespace QuanLyMayMoc.ViewModel
         {
           
             _dao = ServiceFactory.GetChildOf(typeof(IDao)) as IDao;
-            Employees = _dao.GetEmployees();
+            Employees =new ObservableCollection<Employee>();
             Tasks = _dao.GetTasks();
             Listlinhkien = _dao.GetAllLinhKien();
             ListLoi = _dao.GetAllLoi();
@@ -167,6 +167,27 @@ namespace QuanLyMayMoc.ViewModel
             ClearSummary();
             SummaryProduct();
             SummaryService();
+
+        }
+
+        public void LoadDataEmployee()
+        {
+            if (Employees != null)
+            {
+                Employees.Clear();
+            }
+
+            var allEmployees = _dao.GetEmployees();
+
+           // var sortedTasks = allTasks.OrderBy(task => task.Stt);
+
+
+            foreach (var employee in allEmployees)
+            {
+                Employees.Add(employee);
+            }
+
+          
 
         }
         public void InsertTaskToDaTaBaseTemp(Task newTask)
