@@ -767,8 +767,6 @@ namespace QuanLyMayMoc
                     await command.ExecuteNonQueryAsync();
                 }
             }
-
-
         }
         public async void InsertTaskToDaTaBaseTemp(Task newTask)
         {
@@ -2040,7 +2038,7 @@ namespace QuanLyMayMoc
 
         public int CountMaNhanVien(string MaNhanVien)
         {
-            string query = "SELECT COUNT(*) FROM NhanVien WHERE manv = @MaNhanVien";
+            string query = "SELECT COUNT(*) FROM NhanVien WHERE manv = @MaNhanVien and maduan = @MaDuAn";
 
             using (var connection = new NpgsqlConnection(connectionString))
             {
@@ -2050,6 +2048,7 @@ namespace QuanLyMayMoc
                 {
                     // Thêm tham số để tránh SQL Injection
                     command.Parameters.AddWithValue("@MaNhanVien", MaNhanVien);
+                    command.Parameters.AddWithValue("@MaDuAn", AppData.ProjectID);
 
                     // Thực thi truy vấn và trả về kết quả
                     int count = Convert.ToInt32(command.ExecuteScalar());
