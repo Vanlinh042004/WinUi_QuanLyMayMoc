@@ -27,7 +27,8 @@ Bấm thêm linh kiện, điền thông tin, bấm lưu không thấy lưu xuố
 Bấm sửa linh kiện, thay đổi thông tin, bấm lưu không thấy lưu xuống database => Tạm thời Nhật chưa biết sửa sao
 
 Bấm xóa linh kiện không có thay đổi gì trong database => Tạm thời Nhật chưa biết sửa sao ==> Cần họp để bàn lại xử lý chỗ này
-
+==============================================
+=> Lĩnh fix lại hết ròi, thao tác với Linh Kiện sẽ lưu vào bảng linhkenduantam -> Lưu dự án thì lưu từ bảng tạm sang linhkien_duan, Nhật muốn mở dự án cũ thì load từ bảng linhkien_duan
 
 Chức năng: LÕI	
 
@@ -35,7 +36,8 @@ Lõi được thêm mới thì có load xuống database, nhưng khi mở dự �
 
 Xóa lõi, xóa tất cả không có thay đổi gì trong database, lần sau mở lên vẫn load lại toàn bộ những cái lõi mẫu => Tạm thời Nhật chưa biết sửa sao
 
-
+================================================
+Tương tự Linh Kiên
 Chức năng: DANH SÁCH NHÂN VIÊN
 
 Nhân viên ở dự án nào cũng được load => Xử lý lại để nó chỉ load nhân viên của dự án đang mở thoi
