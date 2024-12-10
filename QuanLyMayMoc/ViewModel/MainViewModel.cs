@@ -179,7 +179,7 @@ namespace QuanLyMayMoc.ViewModel
 
             var allEmployees = _dao.GetEmployees();
 
-           // var sortedTasks = allTasks.OrderBy(task => task.Stt);
+         
 
 
             foreach (var employee in allEmployees)
@@ -194,10 +194,7 @@ namespace QuanLyMayMoc.ViewModel
         {
             _dao.InsertTaskToDaTaBaseTemp(newTask);
         }
-        public void loadNewData()
-        {
-
-        }
+       
         public List<string> GetCustomerNames(string query)
         {
 
@@ -571,6 +568,13 @@ namespace QuanLyMayMoc.ViewModel
             _dao.ClearSummary();
         }
 
+        public bool CheckEmployeeExistsAsync(string MaNhanVien)
+        {
+
+            return _dao.CountMaNhanVien(MaNhanVien) > 0;
+
+
+        }
 
         public void SaveProjectWithDifferentName(Project project, string newProject)
         {

@@ -64,10 +64,9 @@ namespace QuanLyMayMoc
 
         private async void OnSaveEmployeeClicked(object sender, RoutedEventArgs e)
         {
-
             var newEmployee = new Employee
             {
-                MaNhanVienDuAn = MaNhanVienInput.Text + AppData.ProjectID ,
+                MaNhanVienDuAn = MaNhanVienInput.Text + AppData.ProjectID,
                 MaNhanVien = MaNhanVienInput.Text ?? "Không có",
                 HoTen = HoTenInput.Text ?? "Không rõ",
                 GioiTinh = (GioiTinhInput.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "Khác",
@@ -76,19 +75,36 @@ namespace QuanLyMayMoc
                 CCCD = CCCDInput.Text ?? "Không có",
                 SoDienThoai = SoDienThoaiInput.Text ?? "Không có",
                 Email = EmailInput.Text ?? "Không có",
-                DanToc= DanTocInput.Text ?? "Không có",
+                DanToc = DanTocInput.Text ?? "Không có",
                 DiaChi = DiaChiInput.Text ?? "Không có",
-                
                 TrangThai = TrangThaiInput.Text ?? "Không có",
                 PhongBan = PhongBanInput.Text ?? "Không có",
-                AnhDaiDien = "ms-appx:///Assets/"+AnhDaiDienInput.Text,
+                AnhDaiDien = "ms-appx:///Assets/" + AnhDaiDienInput.Text,
                 MaDuAn = AppData.ProjectID,
             };
+
             try
             {
+                // Kiểm tra mã nhân viên trong cơ sở dữ liệu
+                bool isDuplicate =  ViewModel.CheckEmployeeExistsAsync(newEmployee.MaNhanVien);
+
+                if (isDuplicate)
+                {
+                    await new ContentDialog
+                    {
+                        Title = "Lỗi",
+                        Content = "Mã nhân viên đã tồn tại. Vui lòng nhập mã khác.",
+                        CloseButtonText = "OK",
+                        XamlRoot = this.XamlRoot
+                    }.ShowAsync();
+                    return; // Dừng việc thêm nhân viên mới
+                }
+
+                // Thêm nhân viên mới
                 ViewModel.Employees.Add(newEmployee);
                 ViewModel.InsertToEmployees(newEmployee);
                 AddEmployeePopup.IsOpen = false;
+
                 await new ContentDialog
                 {
                     Title = "Thành công",
@@ -96,9 +112,7 @@ namespace QuanLyMayMoc
                     CloseButtonText = "OK",
                     XamlRoot = this.XamlRoot
                 }.ShowAsync();
-
             }
-
             catch (Exception ex)
             {
                 await new ContentDialog
@@ -109,8 +123,8 @@ namespace QuanLyMayMoc
                     XamlRoot = this.XamlRoot
                 }.ShowAsync();
             }
-
         }
+
 
     }
 }

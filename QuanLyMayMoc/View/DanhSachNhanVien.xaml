@@ -86,7 +86,7 @@
                                 <TextBlock Text="Dân tộc:" FontWeight="Bold" Foreground="Black"  Margin="5"/>
                             </Border>
                             <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="1" Grid.Column="4">
-                                <TextBlock Text="{x:Bind DanToc}" Foreground="White" Margin="5"/>
+                                <TextBlock Text="{x:Bind DanToc}" Foreground="Black" Margin="5"/>
                             </Border>
 
                             <Border BorderBrush="Black"  BorderThickness="1" Grid.Row="2" Grid.Column="3">
@@ -217,18 +217,18 @@
 
                             <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Text="Thêm Nhân Viên Mới" FontWeight="Bold" FontSize="28" HorizontalAlignment="Center" />
 
-                            <TextBox Header="Mã nhân viên" x:Name="MaNhanVienInput" Grid.Row="1" Grid.Column="0" PlaceholderText="Nhập mã nhân viên" Margin="10" />
+                            <TextBox Header="Mã nhân viên" x:Name="MaNhanVienInput" Grid.Row="1" Grid.Column="0" PlaceholderText="Nhập mã nhân viên" Margin="10" MaxLength="30"  />
                             <TextBox Header="Họ tên" x:Name="HoTenInput" Grid.Row="1" Grid.Column="1" PlaceholderText="Nhập họ và tên" Margin="10"/>
                       
-                            <ComboBox Header="Giới tính" x:Name="GioiTinhInput" Grid.Row="1" Grid.Column="2" Margin="10">
+                            <ComboBox Header="Giới tính" x:Name="GioiTinhInput" Grid.Row="1" Grid.Column="2" Margin="10" Width="250">
                                 <ComboBoxItem Content="Nam" />
                                 <ComboBoxItem Content="Nữ" />
                             </ComboBox>
-                            <TextBox Header="Ảnh đại diện" x:Name="AnhDaiDienInput" Grid.Row="1" Grid.Column="3" Margin="10"/>
-                            <TextBox Header="CCCD" x:Name="CCCDInput" Grid.Row="2" Grid.Column="0" Margin="10"/>
+                            <TextBox Header="Ảnh đại diện" x:Name="AnhDaiDienInput" Grid.Row="1" Grid.Column="3" Margin="10" MaxLength="30" />
+                            <TextBox Header="CCCD" x:Name="CCCDInput" Grid.Row="2" Grid.Column="0" Margin="10" MaxLength="12" />
                             <TextBox Header="Email" x:Name="EmailInput" Grid.Row="2" Grid.Column="1" Margin="10"/>
                             <TextBox Header="Địa chỉ" x:Name="DiaChiInput" Grid.Row="2" Grid.Column="2" Margin="10"/>
-                            <TextBox Header="Số điện thoại" x:Name="SoDienThoaiInput" Grid.Row="2" Grid.Column="3" Margin="10" />
+                            <TextBox Header="Số điện thoại" x:Name="SoDienThoaiInput" Grid.Row="2" Grid.Column="3" Margin="10"  MaxLength="10" />
                             <DatePicker  Header="Ngày sinh" x:Name="NgaySinhInput" Grid.Row="3" Grid.Column="0"  Grid.ColumnSpan="2" Width="450" Margin="10" />
                             <TextBox Header="Phòng ban" x:Name="PhongBanInput" Grid.Row="3" Grid.Column="2" Margin="10"/>
                             <TextBox Header="Trạng thái" x:Name="TrangThaiInput" Grid.Row="3" Grid.Column="3" Margin="10"/>

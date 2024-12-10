@@ -2037,6 +2037,27 @@ namespace QuanLyMayMoc
 
             }
         }
+
+        public int CountMaNhanVien(string MaNhanVien)
+        {
+            string query = "SELECT COUNT(*) FROM NhanVien WHERE manv = @MaNhanVien";
+
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    // Thêm tham số để tránh SQL Injection
+                    command.Parameters.AddWithValue("@MaNhanVien", MaNhanVien);
+
+                    // Thực thi truy vấn và trả về kết quả
+                    int count = Convert.ToInt32(command.ExecuteScalar());
+                    return count;
+                }
+            }
+        }
+
     }
 
 }

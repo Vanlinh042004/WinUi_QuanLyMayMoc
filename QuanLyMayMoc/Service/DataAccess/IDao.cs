@@ -66,6 +66,8 @@ namespace QuanLyMayMoc
 
         public void DeleteProject(string maDuAn);
 
+        public int CountMaNhanVien(string MaNhanVien);
+
     }
 
 }

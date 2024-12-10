@@ -120,6 +120,19 @@ namespace QuanLyMayMoc
                 }
                 else
                 {
+                    int maxLength=0;
+                    if (col == 3) // Cột 3: Giới hạn 10 ký tự
+                    {
+                        maxLength = 10;
+                    }
+                    else if (col == 7 || col == 10 || col == 13) // Cột 7, 10, 13: Giới hạn 50 ký tự
+                    {
+                        maxLength = 50;
+                    }
+                    else
+                    {
+                        maxLength = 100; // Mặc định: 100 ký tự
+                    }
                     var textBox = new TextBox
                     {
                         Margin = new Thickness(2),
@@ -129,7 +142,8 @@ namespace QuanLyMayMoc
                         // Set the background using the theme resource
                         Foreground = new SolidColorBrush(Colors.Black),
                         BorderBrush = new SolidColorBrush(Colors.Black),
-                        BorderThickness = new Thickness(1)
+                        BorderThickness = new Thickness(1),
+                        MaxLength = maxLength // Áp dụng giới hạn ký tự
                     };
                     AddHoverEffect(textBox, Colors.Red, Colors.Black);
                     element = textBox;
@@ -594,6 +608,19 @@ namespace QuanLyMayMoc
                 }
                 else // TextBox
                 {
+                    int maxLength = 0;
+                    if (col == 3) // Cột 3: Giới hạn 10 ký tự
+                    {
+                        maxLength = 10;
+                    }
+                    else if (col == 7 || col == 10 || col == 13) // Cột 7, 10, 13: Giới hạn 50 ký tự
+                    {
+                        maxLength = 50;
+                    }
+                    else
+                    {
+                        maxLength = 100; // Mặc định: 100 ký tự
+                    }
                     var textBox = new TextBox
                     {
                         Margin = new Thickness(2),
@@ -602,6 +629,7 @@ namespace QuanLyMayMoc
                         Foreground = new SolidColorBrush(Colors.Black),
                         BorderBrush = new SolidColorBrush(Colors.Black),
                         BorderThickness = new Thickness(1),
+                        MaxLength = maxLength ,// Áp dụng giới hạn ký tự,
 
                         Text = task.GetPropertyForColumn(col) // Hiển thị giá trị đã lưu
                     };
