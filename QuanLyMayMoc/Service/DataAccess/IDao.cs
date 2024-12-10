@@ -39,29 +39,29 @@ namespace QuanLyMayMoc
         public void DeleteAllTasks(string maDuAn);
         public ObservableCollection<Linhkien> GetAllLinhKien();
         public ObservableCollection<Linhkien> GetAllLinhKienTam();
+        public ObservableCollection<Linhkien> GetAllLinhKienDuAn();
 
         public int CheckLinhKienDuAnTonTai(string maDuAn);
         public int CheckLinhKienDuAnTamTonTai(string maDuAn);
-
-        public int CheckLoiDuAnTonTai(string maDuAn);
-        public int CheckLoiDuAnTamTonTai(string maDuAn);
-
-
         public void SaveToLinhKienTam();
+        public void SaveToLinhKienDuAnToTam();
         public void DeleteAllLinhKienTam();
         public void DeleteLinhKienTam(string maLinhKien);
         public void InsertLinhKienToDaTaBaseTemp(Linhkien newLinhKien, string mahieuduan);
         public Task<bool> CheckLinhKienTonTai(string maSanPham);
         public void UpdateLinhkien(Linhkien selectedLinhkien, Linhkien newLinhkien);
         public ObservableCollection<Loisp> GetAllLoi();
-
         public ObservableCollection<Loisp> GetAllLoiTam();
-
+        public ObservableCollection<Loisp> GetAllLoiDuAn();
         public void SaveToLoiTam();
+        public void SaveToLoiDuAnToTam();
         public void DeleteAllLoiTam();
         public void DeleteLoiTam(string maLoi);
         public void InsertLoiToDaTaBaseTemp(Loisp newLinhKien, string mahieuduan);
         public Task<bool> CheckLoiTonTai(string maSanPham);
+        public int CheckLoiDuAnTonTai(string maDuAn);
+        public int CheckLoiDuAnTamTonTai(string maDuAn);
+
         public void UpdateLoisp(Loisp selectedLoi, Loisp newLoi);
         public void SaveProjectWithDifferentName(Project projectInsert, string maDuAnCu);
         public void SummaryProduct(ObservableCollection<MonthlyProductSummary> monthlyProductSummaries);

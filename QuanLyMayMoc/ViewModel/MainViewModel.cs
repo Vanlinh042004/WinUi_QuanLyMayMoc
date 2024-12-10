@@ -326,10 +326,17 @@ namespace QuanLyMayMoc.ViewModel
         {
             Listlinhkien = _dao.GetAllLinhKienTam();
         }
-
+        public void LoadLinhKienFromDuAn()
+        {
+            Listlinhkien = _dao.GetAllLinhKienDuAn();
+        }
         public void SaveToLinhKienTam()
         {
             _dao.SaveToLinhKienTam();
+        }
+        public void SaveToLinhKienDuAnToTam()
+        {
+            _dao.SaveToLinhKienDuAnToTam();
         }
         public void DeleteAllLinhKienTam()
         {
@@ -382,12 +389,18 @@ namespace QuanLyMayMoc.ViewModel
         {
             ListLoi = _dao.GetAllLoiTam();
         }
-
+        public void LoadLoiFromDuAn()
+        {
+            ListLoi = _dao.GetAllLoiDuAn();
+        }
         public void SaveToLoiTam()
         {
             _dao.SaveToLoiTam();
         }
-
+        public void SaveToLoiDuAnToTam()
+        {
+            _dao.SaveToLoiDuAnToTam();
+        }
         public void DeleteAllLoiTam()
         {
             _dao.DeleteAllLoiTam();

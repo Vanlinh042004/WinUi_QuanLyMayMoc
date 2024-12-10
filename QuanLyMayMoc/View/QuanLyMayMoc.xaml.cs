@@ -37,32 +37,22 @@ namespace QuanLyMayMoc
 
         private void LinhKienButton(object sender, RoutedEventArgs e)
         {
-            
-                FrameContent.Navigate(typeof(LinhKien)); // Điều hướng trang LinhKien
-            // Lần đầu tiên nhấn: Tải dữ liệu từ bảng gốc vào ViewModel
-            //if (app.IsFirstLinhKienClick)
-            //{
-            //    if (FrameContent.Content is LinhKien currentPage)
-            //    {
-            //        currentPage.ViewModel.LoadLinhKienFromDatabase();  // Tải dữ liệu từ bảng gốc
-            //    }
 
-            //    // Đổi cờ sau lần nhấn đầu tiên
-            //    app.IsFirstLinhKienClick = false;
-            //}
-            //else
-            //{
-            //    // Lần sau: Lấy dữ liệu từ bảng tạm
-            //    if (FrameContent.Content is LinhKien currentPage)
-            //    {
-            //        currentPage.ViewModel.LoadLinhKienFromTemp();  // Tải dữ liệu từ bảng tạm
-            //    }
-            //}
+            if (FrameContent.Content is not LinhKien linhkienPage)
+            {
+                linhkienPage = new LinhKien();
+                FrameContent.Navigate(typeof(LinhKien));
+            }
+            else
+            {
+                return;
+            }
+           
         }
 
         private void LoiButton(object sender, RoutedEventArgs e)
         {
-            var app = (App)Application.Current;
+            
             if (FrameContent.Content is not Loi loiPage)
             {
                 loiPage = new Loi();
@@ -72,21 +62,7 @@ namespace QuanLyMayMoc
             {
                 return;
             }
-            if (app.IsFirstLoiClick)
-            {
-                if (FrameContent.Content is Loi currentPage)
-                {
-                    currentPage.ViewModel.LoadLoiFromDatabase();
-                }
-                app.IsFirstLoiClick = false;
-            }
-            else
-            {
-                if (FrameContent.Content is Loi currentPage)
-                {
-                    currentPage.ViewModel.LoadLoiFromTemp();
-                }
-            }
+           
         }
     }
 }

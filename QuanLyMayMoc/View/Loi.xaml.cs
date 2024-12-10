@@ -50,9 +50,14 @@ namespace QuanLyMayMoc
             this.InitializeComponent();
             HideFirstRow(); // Thêm dòng đầu tiên
             ViewModel = new MainViewModel();
-            if (ViewModel.CheckLoiDuAnTonTai(AppData.ProjectID) > 0 || ViewModel.CheckLoiDuAnTamTonTai(AppData.ProjectID) > 0)
+            if (ViewModel.CheckLoiDuAnTamTonTai(AppData.ProjectID) > 0 )
             {
                 ViewModel.LoadLoiFromTemp();
+            }
+            else if (ViewModel.CheckLoiDuAnTonTai(AppData.ProjectID) > 0)
+            {
+                ViewModel.LoadLoiFromDuAn();
+                ViewModel.SaveToLoiDuAnToTam();
             }
             else
             {

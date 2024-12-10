@@ -53,10 +53,15 @@ namespace QuanLyMayMoc
             HideFirstRow(); // Thêm dòng đầu tiên
             ViewModel = new MainViewModel();
 
-            if(ViewModel.CheckLinhKienDuAnTonTai(AppData.ProjectID) > 0 || ViewModel.CheckLinhKienDuAnTamTonTai(AppData.ProjectID) > 0)
+            if(ViewModel.CheckLinhKienDuAnTamTonTai(AppData.ProjectID) > 0)
 
             {
                 ViewModel.LoadLinhKienFromTemp();
+            }
+            else if(ViewModel.CheckLinhKienDuAnTonTai(AppData.ProjectID) > 0)
+            {
+                ViewModel.LoadLinhKienFromDuAn();
+                ViewModel.SaveToLinhKienDuAnToTam();
             }
             else
             {
