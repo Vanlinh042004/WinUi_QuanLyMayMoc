@@ -50,6 +50,14 @@ namespace QuanLyMayMoc
             this.InitializeComponent();
             HideFirstRow(); // Thêm dòng đầu tiên
             ViewModel = new MainViewModel();
+            if (ViewModel.CheckLoiDuAnTonTai(AppData.ProjectID) > 0 || ViewModel.CheckLoiDuAnTamTonTai(AppData.ProjectID) > 0)
+            {
+                ViewModel.LoadLoiFromTemp();
+            }
+            else
+            {
+                ViewModel.LoadLoiFromDatabase();
+            }
             this.Loaded += (sender, args) =>
             {
                 MainPage.ChangeHeaderTextBlock("Quản lý lõi");

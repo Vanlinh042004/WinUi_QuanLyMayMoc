@@ -52,7 +52,9 @@ namespace QuanLyMayMoc
             this.InitializeComponent();
             HideFirstRow(); // Thêm dòng đầu tiên
             ViewModel = new MainViewModel();
+
             if(ViewModel.CheckLinhKienDuAnTonTai(AppData.ProjectID) > 0 || ViewModel.CheckLinhKienDuAnTamTonTai(AppData.ProjectID) > 0)
+
             {
                 ViewModel.LoadLinhKienFromTemp();
             }

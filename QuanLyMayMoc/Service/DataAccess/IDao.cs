@@ -40,6 +40,12 @@ namespace QuanLyMayMoc
         public ObservableCollection<Linhkien> GetAllLinhKien();
         public ObservableCollection<Linhkien> GetAllLinhKienTam();
 
+        public int CheckLinhKienDuAnTonTai(string maDuAn);
+        public int CheckLinhKienDuAnTamTonTai(string maDuAn);
+
+        public int CheckLoiDuAnTonTai(string maDuAn);
+        public int CheckLoiDuAnTamTonTai(string maDuAn);
+
 
         public void SaveToLinhKienTam();
         public void DeleteAllLinhKienTam();

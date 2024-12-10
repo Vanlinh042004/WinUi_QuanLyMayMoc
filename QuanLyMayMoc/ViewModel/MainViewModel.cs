@@ -70,8 +70,10 @@ namespace QuanLyMayMoc.ViewModel
             Employees =new ObservableCollection<Employee>();
             Tasks = _dao.GetTasks();
             Listlinhkien = new ObservableCollection<Linhkien>();
-            ListLoi = _dao.GetAllLoi();
-            MonthlyProductSummarys= _dao.GetMonthlyProductSummaries();
+
+            ListLoi = new ObservableCollection<Loisp>();
+            MonthlyProductSummarys = _dao.GetMonthlyProductSummaries();
+
             MonthlyServiceSummarys= _dao.GetMonthlyServiceSummaries();
             GroupProducts();
             GroupServices();
@@ -194,7 +196,25 @@ namespace QuanLyMayMoc.ViewModel
         {
             _dao.InsertTaskToDaTaBaseTemp(newTask);
         }
-       
+
+        public int CheckLinhKienDuAnTonTai(string maDuAn)
+        {
+            return _dao.CheckLinhKienDuAnTonTai(maDuAn);
+        }
+        public int CheckLinhKienDuAnTamTonTai(string maDuAn)
+        {
+            return _dao.CheckLinhKienDuAnTamTonTai(maDuAn);
+        }
+
+        public int CheckLoiDuAnTonTai(string maDuAn)
+        {
+            return _dao.CheckLoiDuAnTonTai(maDuAn);
+        }
+        public int CheckLoiDuAnTamTonTai(string maDuAn)
+        {
+            return _dao.CheckLoiDuAnTamTonTai(maDuAn);
+        }
+
         public List<string> GetCustomerNames(string query)
         {
 
