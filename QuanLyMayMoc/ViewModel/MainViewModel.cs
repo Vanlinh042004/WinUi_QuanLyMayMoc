@@ -69,7 +69,7 @@ namespace QuanLyMayMoc.ViewModel
             _dao = ServiceFactory.GetChildOf(typeof(IDao)) as IDao;
             Employees =new ObservableCollection<Employee>();
             Tasks = _dao.GetTasks();
-            Listlinhkien = _dao.GetAllLinhKien();
+            Listlinhkien = new ObservableCollection<Linhkien>();
             ListLoi = _dao.GetAllLoi();
             MonthlyProductSummarys= _dao.GetMonthlyProductSummaries();
             MonthlyServiceSummarys= _dao.GetMonthlyServiceSummaries();
@@ -330,7 +330,14 @@ namespace QuanLyMayMoc.ViewModel
         {
             return _dao.CheckLinhKienTonTai(maSanPham);
         }
-      
+        public int CheckLinhKienDuAnTonTai(string maDuAn)
+        {
+            return _dao.CheckLinhKienDuAnTonTai(maDuAn);
+        }
+        public int CheckLinhKienDuAnTamTonTai(string maDuAn)
+        {
+            return _dao.CheckLinhKienDuAnTamTonTai(maDuAn);
+        }
         public void UpdateSelectedLinhkien(Linhkien newLinhkien, Linhkien CurrentSelectedLinhkien)
         {
             if (CurrentSelectedLinhkien != null)
