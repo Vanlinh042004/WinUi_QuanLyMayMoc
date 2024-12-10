@@ -47,6 +47,9 @@ namespace QuanLyMayMoc
         private string _maDuAn;
 
         private bool _isSelected;
+
+        public string NgayThucHienFormatted => NgayThucHien.ToString("dd/MM/yyyy");
+
         public bool IsSelected
         {
             get => _isSelected;

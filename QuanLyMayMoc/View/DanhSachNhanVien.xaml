@@ -62,7 +62,7 @@
                             <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="1" Grid.Column="0" Grid.RowSpan="5" Margin="10">
                                 <StackPanel>
                                     <!-- Hiển thị ảnh đại diện nếu có -->
-                                        <!--<Image Source="{x:Bind AnhDaiDien, Mode=OneWay }"  Width="150" Height="150" />-->
+                                        <Image Source="{x:Bind AnhDaiDien, Mode=OneWay }"  Width="113" Height="149" />
                                  
                                         <!-- Văn bản thay thế nếu không có ảnh -->
                                     <TextBlock Text="No image data" Foreground="Gray" Visibility="{x:Bind AnhDaiDien, Converter={StaticResource NullToVisibilityConverter}}"/>
@@ -85,9 +85,9 @@
                             <Border BorderBrush="Black" BorderThickness="1" Grid.Row="1" Grid.Column="3">
                                 <TextBlock Text="Dân tộc:" FontWeight="Bold" Foreground="Black"  Margin="5"/>
                             </Border>
-                            <!--<Border BorderBrush="Gray" BorderThickness="1" Grid.Row="1" Grid.Column="4">
+                            <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="1" Grid.Column="4">
                                 <TextBlock Text="{x:Bind DanToc}" Foreground="White" Margin="5"/>
-                            </Border>-->
+                            </Border>
 
                             <Border BorderBrush="Black"  BorderThickness="1" Grid.Row="2" Grid.Column="3">
                                 <TextBlock Text="Số điện thoại:" FontWeight="Bold" Foreground="Black"  Margin="5"/>
@@ -193,7 +193,7 @@
         <!-- Popup nhập thông tin nhân viên -->
         <StackPanel Grid.Row="0" Margin="20 20 0 0" Background="Transparent">
             <Popup  x:Name="AddEmployeePopup" IsLightDismissEnabled="False" HorizontalAlignment="Left" Width="auto" Height="auto">
-                <Border Background="Black" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="2"  VerticalAlignment="Center" CornerRadius="8" >
+                <Border Background="{ThemeResource TextFillColorInverse}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="2"  VerticalAlignment="Center" CornerRadius="8" >
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
                         <Grid Width="auto" Height="auto">
                        
@@ -232,9 +232,10 @@
                             <DatePicker  Header="Ngày sinh" x:Name="NgaySinhInput" Grid.Row="3" Grid.Column="0"  Grid.ColumnSpan="2" Width="450" Margin="10" />
                             <TextBox Header="Phòng ban" x:Name="PhongBanInput" Grid.Row="3" Grid.Column="2" Margin="10"/>
                             <TextBox Header="Trạng thái" x:Name="TrangThaiInput" Grid.Row="3" Grid.Column="3" Margin="10"/>
+                           
 
                             <DatePicker  Header="Ngày đăng ký HĐ" x:Name="NgayDKHDInput" Grid.Row="4" Grid.Column="0"  Grid.ColumnSpan="2"  Width="450" Margin="10" />
-
+                            <TextBox Header="Dân tộc" x:Name="DanTocInput" Grid.Row="4" Grid.Column="2" Margin="10"/>
                             <!-- Nút Lưu và Hủy -->
                         
                              <Button Grid.Row="5" Grid.Column="1" Content="Lưu" Click="OnSaveEmployeeClicked" Width="100" Margin="120 0 0 0 "/>

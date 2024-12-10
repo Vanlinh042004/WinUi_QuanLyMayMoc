@@ -12,6 +12,8 @@ namespace QuanLyMayMoc
     public interface IDao
     {
          public ObservableCollection<Employee> GetEmployees();
+       
+
          public ObservableCollection<MonthlyProductSummary> GetMonthlyProductSummaries();
          public ObservableCollection<MonthlyServiceSummary> GetMonthlyServiceSummaries();
 
