@@ -15,13 +15,13 @@ using QuanLyMayMoc.Service;
 
 namespace QuanLyMayMoc.ViewModel
 {
-   
+
 
 
     public class MainViewModel
     {
         IDao _dao;
-        
+
 
 
         private Task _currentSelectedTask;
@@ -31,7 +31,7 @@ namespace QuanLyMayMoc.ViewModel
             set
             {
                 _currentSelectedTask = value;
-                OnPropertyChanged(nameof(CurrentSelectedTask)); 
+                OnPropertyChanged(nameof(CurrentSelectedTask));
             }
         }
 
@@ -45,7 +45,7 @@ namespace QuanLyMayMoc.ViewModel
             get; set;
         }
 
-        
+
 
 
         public ObservableCollection<MonthlyProductSummary> MonthlyProductSummarys
@@ -65,19 +65,17 @@ namespace QuanLyMayMoc.ViewModel
 
         public MainViewModel()
         {
-          
+
             _dao = ServiceFactory.GetChildOf(typeof(IDao)) as IDao;
-            Employees =new ObservableCollection<Employee>();
+            Employees = new ObservableCollection<Employee>();
             Tasks = _dao.GetTasks();
             Listlinhkien = new ObservableCollection<Linhkien>();
-
             ListLoi = new ObservableCollection<Loisp>();
             MonthlyProductSummarys = _dao.GetMonthlyProductSummaries();
-
-            MonthlyServiceSummarys= _dao.GetMonthlyServiceSummaries();
+            MonthlyServiceSummarys = _dao.GetMonthlyServiceSummaries();
             GroupProducts();
             GroupServices();
-           
+
 
         }
 
@@ -95,17 +93,17 @@ namespace QuanLyMayMoc.ViewModel
             GroupedProductItems = new ObservableCollection<GroupProductViewModel>(grouped);
         }
 
-            private void GroupServices()
+        private void GroupServices()
         {
             var groupedServices = MonthlyServiceSummarys
           .GroupBy(s => new { s.Month, s.EmployeeCode, s.EmployeeName }) // Gom theo tháng và nhân viên
           .Select(g => new GroupServiceViewModel(
-              g.Key.Month,                     
-              g.Key.EmployeeCode,              
-              g.Key.EmployeeName,              
+              g.Key.Month,
+              g.Key.EmployeeCode,
+              g.Key.EmployeeName,
               g,                                // Danh sách công việc
-              g.First().TotalServiceFee,       
-              g.First().MonthlyTotalFee         
+              g.First().TotalServiceFee,
+              g.First().MonthlyTotalFee
           )).ToList();
 
             GroupedServiceItems = new ObservableCollection<GroupServiceViewModel>(groupedServices);
@@ -121,7 +119,7 @@ namespace QuanLyMayMoc.ViewModel
              .ToList();
 
 
-           
+
             MonthlyGroupedItems = new ObservableCollection<MonthlyGroupViewModel>(monthlyGroups);
         }
 
@@ -144,19 +142,19 @@ namespace QuanLyMayMoc.ViewModel
             if (Tasks != null)
             {
                 Tasks.Clear();
-            }  
-          
+            }
+
             var allTasks = _dao.GetTasksFromTemp();
 
             var sortedTasks = allTasks.OrderBy(task => task.Stt);
 
-           
+
             foreach (var task in sortedTasks)
             {
                 Tasks.Add(task);
             }
 
-            if (    MonthlyProductSummarys != null)
+            if (MonthlyProductSummarys != null)
             {
                 MonthlyProductSummarys.Clear();
             }
@@ -181,7 +179,7 @@ namespace QuanLyMayMoc.ViewModel
 
             var allEmployees = _dao.GetEmployees();
 
-         
+
 
 
             foreach (var employee in allEmployees)
@@ -189,7 +187,7 @@ namespace QuanLyMayMoc.ViewModel
                 Employees.Add(employee);
             }
 
-          
+
 
         }
         public void InsertTaskToDaTaBaseTemp(Task newTask)
@@ -227,7 +225,7 @@ namespace QuanLyMayMoc.ViewModel
         }
 
 
-        public  void RemoveSelectedTask()
+        public void RemoveSelectedTask()
 
         {
             if (CurrentSelectedTask != null)
@@ -253,15 +251,15 @@ namespace QuanLyMayMoc.ViewModel
             {
                 var updatedTask = CurrentSelectedTask;
 
-             
-                _dao.UpdateTask(updatedTask,newTask);
 
-              
+                _dao.UpdateTask(updatedTask, newTask);
+
+
                 var taskIndex = Tasks.IndexOf(updatedTask);
 
                 if (taskIndex >= 0)
                 {
-                    
+
                     Tasks[taskIndex] = updatedTask;
                 }
             }
@@ -300,11 +298,11 @@ namespace QuanLyMayMoc.ViewModel
             return _dao.TimSttLonNhat(maduan);
         }
 
-        
-  
-       
-       
-        
+
+
+
+
+
         public void DeleteAllTask(string maDuAn)
         {
             _dao.DeleteAllTasks(maDuAn);
@@ -312,12 +310,12 @@ namespace QuanLyMayMoc.ViewModel
 
 
         //Linhkien
-        
+
         public ObservableCollection<Linhkien> Listlinhkien
         {
             get; set;
         }
- 
+
         public void LoadLinhKienFromDatabase()
         {
             Listlinhkien = _dao.GetAllLinhKien();
@@ -350,14 +348,7 @@ namespace QuanLyMayMoc.ViewModel
         {
             return _dao.CheckLinhKienTonTai(maSanPham);
         }
-        public int CheckLinhKienDuAnTonTai(string maDuAn)
-        {
-            return _dao.CheckLinhKienDuAnTonTai(maDuAn);
-        }
-        public int CheckLinhKienDuAnTamTonTai(string maDuAn)
-        {
-            return _dao.CheckLinhKienDuAnTamTonTai(maDuAn);
-        }
+
         public void UpdateSelectedLinhkien(Linhkien newLinhkien, Linhkien CurrentSelectedLinhkien)
         {
             if (CurrentSelectedLinhkien != null)
@@ -385,7 +376,7 @@ namespace QuanLyMayMoc.ViewModel
         public void LoadLoiFromDatabase()
         {
             ListLoi = _dao.GetAllLoi();
-            SaveToLoiTam(); 
+            SaveToLoiTam();
         }
         public void LoadLoiFromTemp()
         {
@@ -434,7 +425,7 @@ namespace QuanLyMayMoc.ViewModel
             }
             CurrentSelectedLoi = null;
         }
-      
+
 
 
         public void DeleteProject(string project)
@@ -450,7 +441,7 @@ namespace QuanLyMayMoc.ViewModel
             _dao.SummaryProduct(monthlyProductSummaries);
         }
 
-       
+
 
         private ObservableCollection<MonthlyProductSummary> AggregateTasksToMonthlyProductSummaries()
         {
@@ -590,7 +581,7 @@ namespace QuanLyMayMoc.ViewModel
             return timePart + randomPart;
         }
 
-       public void ClearSummary()
+        public void ClearSummary()
         {
             _dao.ClearSummary();
         }
@@ -613,10 +604,10 @@ namespace QuanLyMayMoc.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-      
+
     }
 
-    
-} 
+
+}
 
 
