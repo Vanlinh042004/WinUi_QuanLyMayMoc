@@ -752,12 +752,14 @@ namespace QuanLyMayMoc
                 // Xóa tất cả các dòng trong nhanvientamthoi và congviectamthoi, linhkientam, loitam
                 string deleteTempTables = @"
                         DELETE FROM duan_tam;
+
                      
                         DELETE FROM congviectamthoi WHERE maduan = @maDuAn;
                         DELETE FROM linhkienduantam WHERE maduan = @maDuAn;
                         DELETE FROM loiduantam WHERE maduan = @maDuAn;
 
                     ";
+
 
                 using (var command = new NpgsqlCommand(deleteTempTables, connection))
                 {
