@@ -193,7 +193,7 @@
         <!-- Popup nhập thông tin nhân viên -->
         <StackPanel Grid.Row="0" Margin="20 20 0 0" Background="Transparent">
             <Popup  x:Name="AddEmployeePopup" IsLightDismissEnabled="False" HorizontalAlignment="Left" Width="auto" Height="auto">
-                <Border Background="Black" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="2"  VerticalAlignment="Center" CornerRadius="8" >
+                <Border Background="{ThemeResource TextFillColorInverse}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="2"  VerticalAlignment="Center" CornerRadius="8" >
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
                         <Grid Width="auto" Height="auto">
                        
