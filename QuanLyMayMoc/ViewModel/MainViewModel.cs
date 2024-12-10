@@ -274,7 +274,7 @@ namespace QuanLyMayMoc.ViewModel
 
 
         //Linhkien
-
+        
         public ObservableCollection<Linhkien> Listlinhkien
         {
             get; set;

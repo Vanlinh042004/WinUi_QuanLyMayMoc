@@ -1551,12 +1551,13 @@ namespace QuanLyMayMoc
             {
                 await connection.OpenAsync();
                 // Cập nhật bảng `linhkienduantamthoi`
-                string updateLinhkienTamThoiQuery = @" UPDATE loiduantam
+                string updateLoiTamThoiQuery = @" UPDATE loiduantam
                                                         SET TenLoi = @TenLoi,
                                                              GiaBan = @GiaBan
                                                         WHERE maduan = @maDuAn and mahieu = @maHieu";
-                using (var command = new NpgsqlCommand(updateLinhkienTamThoiQuery, connection))
+                using (var command = new NpgsqlCommand(updateLoiTamThoiQuery, connection))
                 {
+                    command.Parameters.AddWithValue("@TenLoi", newLoi.TenSanPham);
                     command.Parameters.AddWithValue("@GiaBan", newLoi.GiaBan);
                     command.Parameters.AddWithValue("@maDuAn", AppData.ProjectID);
                     command.Parameters.AddWithValue("@maHieu", selectedLoi.MaSanPham);

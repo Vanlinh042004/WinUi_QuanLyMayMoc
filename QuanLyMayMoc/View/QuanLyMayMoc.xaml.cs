@@ -12,6 +12,7 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using QuanLyMayMoc.ViewModel;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -23,6 +24,8 @@ namespace QuanLyMayMoc
     /// </summary>
     public sealed partial class QuanLyMayMoc : Page
     {
+
+       
         public QuanLyMayMoc()
         {
             this.InitializeComponent();
@@ -32,10 +35,9 @@ namespace QuanLyMayMoc
             };
         }
 
-        private bool _isFirstLinhKienClick = true;
-        private bool _isFirstLoiClick = true;
         private void LinhKienButton(object sender, RoutedEventArgs e)
         {
+            var app = (App)Application.Current;
             // Kiểm tra nếu trang LinhKien chưa được điều hướng, thì mới điều hướng đến
             if (FrameContent.Content is not LinhKien linhKienPage)
             {
@@ -47,7 +49,7 @@ namespace QuanLyMayMoc
                 return;
             }
             // Lần đầu tiên nhấn: Tải dữ liệu từ bảng gốc vào ViewModel
-            if (_isFirstLinhKienClick)
+            if (app.IsFirstLinhKienClick)
             {
                 if (FrameContent.Content is LinhKien currentPage)
                 {
@@ -55,7 +57,7 @@ namespace QuanLyMayMoc
                 }
 
                 // Đổi cờ sau lần nhấn đầu tiên
-                _isFirstLinhKienClick = false;
+                app.IsFirstLinhKienClick = false;
             }
             else
             {
@@ -69,7 +71,8 @@ namespace QuanLyMayMoc
 
         private void LoiButton(object sender, RoutedEventArgs e)
         {
-           if(FrameContent.Content is not Loi loiPage)
+            var app = (App)Application.Current;
+            if (FrameContent.Content is not Loi loiPage)
             {
                 loiPage = new Loi();
                 FrameContent.Navigate(typeof(Loi));
@@ -78,13 +81,13 @@ namespace QuanLyMayMoc
             {
                 return;
             }
-            if (_isFirstLoiClick)
+            if (app.IsFirstLoiClick)
             {
                 if (FrameContent.Content is Loi currentPage)
                 {
                     currentPage.ViewModel.LoadLoiFromDatabase();
                 }
-                _isFirstLoiClick = false;
+                app.IsFirstLoiClick = false;
             }
             else
             {

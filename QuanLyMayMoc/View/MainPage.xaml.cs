@@ -477,7 +477,7 @@ namespace QuanLyMayMoc
                             //ChangeHeaderTextBlock("Thống kê máy móc");
                             break;
                         case "LinhKien":
-                            FrameContent.Navigate(typeof(LinhKien));
+                            //FrameContent.Navigate(typeof(LinhKien));
                             break;
                         case "Loi":
                             FrameContent.Navigate(typeof(Loi));
