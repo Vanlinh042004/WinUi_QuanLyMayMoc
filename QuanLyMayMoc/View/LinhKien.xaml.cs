@@ -182,8 +182,6 @@ namespace QuanLyMayMoc
             }
         }
 
-        // Lưu
-
 
         // Xóa tất cả các dòng  
         private void OnDeleteAllRowDataClick(object sender, RoutedEventArgs e)
@@ -296,38 +294,7 @@ namespace QuanLyMayMoc
         }
 
 
-        // Delete row data
-        //private async void OnDeleteRowDataClick(object sender, RoutedEventArgs e)
-        //{
-        //    // Lấy dòng đang được chọn
-        //    var selectedItem = (Linhkien)LinhKienListView.SelectedItem;
-        //    if (selectedItem != null)
-        //    {
-        //        // Xóa dòng khỏi ViewModel
-        //        ViewModel.Listlinhkien.Remove(selectedItem);
-        //        LinhKienListView.SelectedItem = null;
-        //        ViewModel.DeleteLinhKienTam(selectedItem.MaSanPham);
-        //        // Hiển thị thông báo nếu cần
-        //        await new ContentDialog
-        //        {
-        //            Title = "Thành công",
-        //            Content = "Linh kiện được xóa thành công.",
-        //            CloseButtonText = "OK",
-        //            XamlRoot = this.XamlRoot
-        //        }.ShowAsync();
-        //    }
-        //    else
-        //    {
-        //        // Hiển thị thông báo nếu không có dòng nào được chọn
-        //        await new ContentDialog
-        //        {
-        //            Title = "Lỗi",
-        //            Content = "Chưa có Linh Kiện nào được chọn.",
-        //            CloseButtonText = "OK",
-        //            XamlRoot = this.XamlRoot
-        //        }.ShowAsync();
-        //    }
-        //}
+        
 
         private void SaveUpdateRowData(int rowIndex)
         {
@@ -532,9 +499,7 @@ namespace QuanLyMayMoc
                 ClearInputRows();
 
             }
-            // Đặt lại số hàng hiện tại
-            currentRow = 1;
-            ViewModel.DeleteAllLinhKienTam();
+          
         }
           
       }
