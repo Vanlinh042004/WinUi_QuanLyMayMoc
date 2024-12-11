@@ -1835,16 +1835,33 @@ namespace QuanLyMayMoc
                     command.Parameters.AddWithValue("@maDuAn", maDuAnMoi);
                     await command.ExecuteNonQueryAsync();
                 }
-                // Thêm dữ liệu từ linhkienduantam vào linhkien_duan
-                string insertLinhKienDuAnQuery = @" INSERT INTO LinhKien_DuAn (mahieuduan, mahieu, tenlinhkien, giaban, maduan)
+                if(CheckLinhKienDuAnTamTonTai(maDuAnCu) > 0)
+                {
+                    // Thêm dữ liệu từ linhkienduantam vào linhkien_duan
+                    string insertLinhKienDuAnQuery = @" INSERT INTO LinhKien_DuAn (mahieuduan, mahieu, tenlinhkien, giaban, maduan)
                                                    SELECT  CONCAT(mahieu,'_', @maDuAnMoi), mahieu, tenlinhkien, giaban, @maDuAnMoi
                                                    FROM linhkienduantam
                                                     WHERE maduan = @maDuAnCu";
-                using (var command = new NpgsqlCommand(insertLinhKienDuAnQuery, connection))
+                    using (var command = new NpgsqlCommand(insertLinhKienDuAnQuery, connection))
+                    {
+                        command.Parameters.AddWithValue("@maDuAnCu", maDuAnCu);
+                        command.Parameters.AddWithValue("@maDuAnMoi", maDuAnMoi);
+                        await command.ExecuteNonQueryAsync();
+                    }
+                }
+                else if(CheckLinhKienDuAnTonTai(maDuAnCu) > 0)
                 {
-                    command.Parameters.AddWithValue("@maDuAnCu", maDuAnCu);
-                    command.Parameters.AddWithValue("@maDuAnMoi", maDuAnMoi);
-                    await command.ExecuteNonQueryAsync();
+                    // Thêm dữ liệu từ linhkien_duan vào linhkien_duan
+                    string insertLinhKienDuAnQuery = @" INSERT INTO LinhKien_DuAn (mahieuduan, mahieu, tenlinhkien, giaban, maduan)
+                                                   SELECT  CONCAT(mahieu,'_', @maDuAnMoi), mahieu, tenlinhkien, giaban, @maDuAnMoi
+                                                   FROM linhkien_duan
+                                                    WHERE maduan = @maDuAnCu";
+                    using (var command = new NpgsqlCommand(insertLinhKienDuAnQuery, connection))
+                    {
+                        command.Parameters.AddWithValue("@maDuAnCu", maDuAnCu);
+                        command.Parameters.AddWithValue("@maDuAnMoi", maDuAnMoi);
+                        await command.ExecuteNonQueryAsync();
+                    }
                 }
                 // Them du lieu tu loiduantam vào loisp_duan
                 // Xóa dữ liệu cũ trong bảng loi_duan
@@ -1856,17 +1873,33 @@ namespace QuanLyMayMoc
                     command.Parameters.AddWithValue("@maDuAn", maDuAnMoi);
                     await command.ExecuteNonQueryAsync();
                 }
-                // Thêm dữ liệu từ loiduantam vào loi_duan
-                string insertLoiDuAnQuery = @" INSERT INTO Loi_DuAn (mahieuduan, mahieu, tenloi, giaban, maduan)
+                if (CheckLoiDuAnTamTonTai(maDuAnCu) > 0) {
+                    // Thêm dữ liệu từ loiduantam vào loi_duan
+                    string insertLoiDuAnQuery = @" INSERT INTO Loi_DuAn (mahieuduan, mahieu, tenloi, giaban, maduan)
                                                    SELECT  CONCAT(mahieu,'_', @maDuAnMoi), mahieu, tenloi, giaban, @maDuAnMoi
                                                    FROM loiduantam
                                                     WHERE maduan = @maDuAnCu";
-                using (var command = new NpgsqlCommand(insertLoiDuAnQuery, connection))
-                {
-                    command.Parameters.AddWithValue("@maDuAnCu", maDuAnCu);
-                    command.Parameters.AddWithValue("@maDuAnMoi", maDuAnMoi);
-                    await command.ExecuteNonQueryAsync();
+                    using (var command = new NpgsqlCommand(insertLoiDuAnQuery, connection))
+                    {
+                        command.Parameters.AddWithValue("@maDuAnCu", maDuAnCu);
+                        command.Parameters.AddWithValue("@maDuAnMoi", maDuAnMoi);
+                        await command.ExecuteNonQueryAsync();
+                    }
                 }
+                else if (CheckLoiDuAnTonTai(maDuAnCu) > 0) {
+                    // Thêm dữ liệu từ loiduantam vào loi_duan
+                    string insertLoiDuAnQuery = @" INSERT INTO Loi_DuAn (mahieuduan, mahieu, tenloi, giaban, maduan)
+                                                   SELECT  CONCAT(mahieu,'_', @maDuAnMoi), mahieu, tenloi, giaban, @maDuAnMoi
+                                                   FROM loi_duan
+                                                    WHERE maduan = @maDuAnCu";
+                    using (var command = new NpgsqlCommand(insertLoiDuAnQuery, connection))
+                    {
+                        command.Parameters.AddWithValue("@maDuAnCu", maDuAnCu);
+                        command.Parameters.AddWithValue("@maDuAnMoi", maDuAnMoi);
+                        await command.ExecuteNonQueryAsync();
+                    }
+                }
+                
 
                 // Câu lệnh SQL để cập nhật cột maduan thành maDuAnMoi
                 string updateMaDuAn = @"
