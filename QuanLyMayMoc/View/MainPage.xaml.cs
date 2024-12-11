@@ -327,6 +327,7 @@ namespace QuanLyMayMoc
             {
                 // Retrieve the project name
                 projectName = projectNameTextBox.Text;
+                // ViewModel.LoadDataFilter();
             }
             else
             {
@@ -361,6 +362,7 @@ namespace QuanLyMayMoc
                     AppData.ProjectID = CurrentProject.ID;
                     AppData.ProjectName = CurrentProject.Name;
                     AppData.ProjectTimeCreate = CurrentProject.TimeCreate;
+                    ViewModel.LoadDataFilter();
                     await new ContentDialog
                     {
                         Title = "Thành công",

@@ -469,6 +469,7 @@ namespace QuanLyMayMoc.ViewModel
                          // Nếu có linh kiện
                          if (!string.IsNullOrEmpty(task.MaLK))
                          {
+                             LoadLinhKienFromTemp();
                              var linhkien = Listlinhkien.FirstOrDefault(lk => lk.MaSanPham == task.MaLK);
                              results.Add(new
                              {
@@ -484,6 +485,7 @@ namespace QuanLyMayMoc.ViewModel
                          // Nếu có lỗi
                          if (!string.IsNullOrEmpty(task.MaLoi))
                          {
+                             LoadLoiFromTemp();
                              var loi = ListLoi.FirstOrDefault(l => l.MaSanPham == task.MaLoi);
                              results.Add(new
                              {

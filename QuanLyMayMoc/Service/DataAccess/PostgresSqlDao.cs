@@ -1900,61 +1900,48 @@ namespace QuanLyMayMoc
                         await command.ExecuteNonQueryAsync();
                     }
                 }
-                
 
-                // Câu lệnh SQL để cập nhật cột maduan thành maDuAnMoi
-                string updateMaDuAn = @"
-                        UPDATE nhanvien
-                        SET maduan = @maDuAnMoi
-                        WHERE maduan = @maDuAnCu;
-                        ";
 
-                // Câu lệnh SQL để cập nhật cột manvduan = manv + maDuAnMoi
-                string updateManvDuAn = @"
-                        UPDATE nhanvien
-                        SET manvduan = CONCAT(manv, maduan)
-                        WHERE maduan = @maDuAnMoi;
-                        ";
+                string copyNhanVien = @"
+                    INSERT INTO nhanvien (
+                        MaNVDuAn, MaNV, HoTen, DanToc, GioiTinh, NgaySinh, DiaChi, SDT, Email, 
+                        PhongBan, CCCD, AnhDaiDien, TrangThai, NgayKyHopDong, MaDuAn, DaLuu)
+                    SELECT 
+                        CONCAT(MaNV, @maDuAnMoi) AS MaNVDuAn,
+                        MaNV,
+                        HoTen,
+                        DanToc,
+                        GioiTinh,
+                        NgaySinh,
+                        DiaChi,
+                        SDT,
+                        Email,
+                        PhongBan,
+                        CCCD,
+                        AnhDaiDien,
+                        TrangThai,
+                        NgayKyHopDong,
+                        @maDuAnMoi AS MaDuAn,
+                        B'1' AS DaLuu 
+                    FROM nhanvien
+                    WHERE MaDuAn = @maDuAnCu;
+                ";
 
 
 
 
                 // Cập nhật maduan thành maDuAnMoi
-                using (var updateMaDuAnCommand = new NpgsqlCommand(updateMaDuAn, connection))
+                using (var updateMaDuAnCommand = new NpgsqlCommand(copyNhanVien, connection))
                 {
                     updateMaDuAnCommand.Parameters.AddWithValue("@maDuAnCu", maDuAnCu);   // Mã dự án cũ
                     updateMaDuAnCommand.Parameters.AddWithValue("@maDuAnMoi", maDuAnMoi); // Mã dự án mới
                     await updateMaDuAnCommand.ExecuteNonQueryAsync();
                 }
-
-                // Cập nhật manvduan = manv + maDuAnMoi
-                using (var updateManvDuAnCommand = new NpgsqlCommand(updateManvDuAn, connection))
-                {
-                    updateManvDuAnCommand.Parameters.AddWithValue("@maDuAnMoi", maDuAnMoi); // Mã dự án mới
-                    await updateManvDuAnCommand.ExecuteNonQueryAsync();
-                }
-
-
-
-
-
             }
 
             // Thêm dữ liệu từ congviectamthoi vào congviec
             // Câu lệnh SQL để cập nhật maduan trong bảng congviectamthoi
-            string updateMaDuAnCongViecTamThoi = @"
-                    UPDATE congviectamthoi
-                    SET maduan = @maDuAnMoi
-                    WHERE maduan = @maDuAnCu;
-                ";
-            string updateMaDuanCongViec = @"
-                    UPDATE congviec
-                    SET maduan = @maDuAnMoi
-                    WHERE maduan = @maDuAnCu;
-                ";
-
-            // Câu lệnh SQL để chèn dữ liệu từ congviectamthoi vào congviec
-            string insertCongViec = @"
+            string copyFromCongViec = @"
                     INSERT INTO congviec (
                         macvduan,
                         stt,
@@ -1976,7 +1963,7 @@ namespace QuanLyMayMoc
                         maduan
                     )
                     SELECT 
-                        macvduan,
+                        CONCAT(@maDuAnMoi, '_', TO_CHAR(NOW(), 'YYYY_MM_DD_HH24_MI_SS'), '_', stt) AS macvduan, -- Tạo khóa chính mới
                         stt,
                         tendichvu,
                         ngaythuchien,
@@ -1993,36 +1980,77 @@ namespace QuanLyMayMoc
                         soluongloi,
                         phidichvu,
                         ghichu,
-                        maduan
-                    FROM congviectamthoi
-                    WHERE maduan = @maDuAnMoi;
+                        @maDuAnMoi AS maduan
+                    FROM congviec
+                    WHERE maduan = @maDuAnCu;
                 ";
 
+            string copyFromCongViecTamThoi = @"
+                        INSERT INTO congviec (
+                            macvduan,
+                            stt,
+                            tendichvu,
+                            ngaythuchien,
+                            hotenkh,
+                            sdt,
+                            diachi,
+                            manv,
+                            tennv,
+                            malinhkien,
+                            tenlinhkien,
+                            soluonglinhkien,
+                            maloi,
+                            tenloi,
+                            soluongloi,
+                            phidichvu,
+                            ghichu,
+                            maduan
+                        )
+                        SELECT 
+                            CONCAT(@maDuAnMoi, '_', TO_CHAR(NOW(), 'YYYY_MM_DD_HH24_MI_SS'), '_', stt) AS macvduan, -- Tạo khóa chính mới
+                            stt,
+                            tendichvu,
+                            ngaythuchien,
+                            hotenkh,
+                            sdt,
+                            diachi,
+                            manv,
+                            tennv,
+                            malinhkien,
+                            tenlinhkien,
+                            soluonglinhkien,
+                            maloi,
+                            tenloi,
+                            soluongloi,
+                            phidichvu,
+                            ghichu,
+                            @maDuAnMoi AS maduan
+                        FROM congviectamthoi
+                        WHERE maduan = @maDuAnCu;
+                    ";
+
+
+          
             using (var connection = new NpgsqlConnection(connectionString))
             {
                 await connection.OpenAsync();
 
-                // Bước 1: Cập nhật maduan trong bảng congviectamthoi
-                using (var updateCommand = new NpgsqlCommand(updateMaDuAnCongViecTamThoi, connection))
+                // Copy từ bảng congviec
+                using (var copyCommand = new NpgsqlCommand(copyFromCongViec, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@maDuAnCu", maDuAnCu);
-                    updateCommand.Parameters.AddWithValue("@maDuAnMoi", maDuAnMoi);
-                    await updateCommand.ExecuteNonQueryAsync();
+                    copyCommand.Parameters.AddWithValue("@maDuAnCu", maDuAnCu);
+                    copyCommand.Parameters.AddWithValue("@maDuAnMoi", maDuAnMoi);
+                    await copyCommand.ExecuteNonQueryAsync();
                 }
 
-                using (var updateCommand = new NpgsqlCommand(updateMaDuanCongViec, connection))
+                // Copy từ bảng congviectamthoi
+                using (var copyCommand = new NpgsqlCommand(copyFromCongViecTamThoi, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@maDuAnCu", maDuAnCu);
-                    updateCommand.Parameters.AddWithValue("@maDuAnMoi", maDuAnMoi);
-                    await updateCommand.ExecuteNonQueryAsync();
+                    copyCommand.Parameters.AddWithValue("@maDuAnCu", maDuAnCu);
+                    copyCommand.Parameters.AddWithValue("@maDuAnMoi", maDuAnMoi);
+                    await copyCommand.ExecuteNonQueryAsync();
                 }
-
-                // Bước 2: Chèn dữ liệu từ congviectamthoi vào congviec
-                using (var insertCommand = new NpgsqlCommand(insertCongViec, connection))
-                {
-                    insertCommand.Parameters.AddWithValue("@maDuAnMoi", maDuAnMoi);
-                    await insertCommand.ExecuteNonQueryAsync();
-                }
+               
                 // Xóa tất cả các dòng trong nhanvientamthoi và congviectamthoi, linhkientam, loitam
                 string deleteTempTables = @"
                         DELETE FROM duan_tam;
