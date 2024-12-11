@@ -5,6 +5,7 @@ using Npgsql;
 using QuanLyMayMoc.Model;
 using QuanLyMayMoc.View;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
@@ -1184,7 +1185,7 @@ namespace QuanLyMayMoc
                     Title = "Lỗi",
                     Content = $"Có lỗi xảy ra khi tạo dự án: {ex.Message}",
                     CloseButtonText = "OK",
-                    XamlRoot = this.XamlRoot
+                    //XamlRoot = this.XamlRoot
                 }.ShowAsync();
             }
 
@@ -2255,7 +2256,6 @@ namespace QuanLyMayMoc
         {
             List<String> deleteQueries = new List<string> {"DELETE FROM duan WHERE maduan = @maDuAn",
                     "DELETE FROM nhanvien WHERE maduan = @maDuAn",
-                    "DELETE FROM nhanvientamthoi WHERE maduan = @maDuAn",
                     "DELETE FROM linhkien_duan WHERE maduan = @maDuAn",
                     "DELETE FROM linhkienduantam WHERE maduan = @maDuAn",
                     "DELETE FROM loiduantam WHERE maduan = @maDuAn",
@@ -2317,6 +2317,24 @@ namespace QuanLyMayMoc
             }
         }
 
+        public void ClearAllTempData()
+        {
+            string deleteTempTables = @"
+                        DELETE FROM duan_tam;
+                        DELETE FROM linhkienduantam;
+                        DELETE FROM loiduantam;
+                        DELETE FROM congviectamthoi;
+                    ";
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+
+                using (var command = new NpgsqlCommand(deleteTempTables, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
     }
 
 }

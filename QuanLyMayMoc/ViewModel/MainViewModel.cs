@@ -617,7 +617,10 @@ namespace QuanLyMayMoc.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-
+        public void ClearAllTempData()
+        {
+            _dao.ClearAllTempData();
+        }
     }
 
 

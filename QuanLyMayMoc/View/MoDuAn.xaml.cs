@@ -41,6 +41,7 @@ namespace QuanLyMayMoc.View
             }
 
             showDuAn();
+            mainViewModel.ClearAllTempData();
             this.Loaded += (sender, args) =>
             {
                 MainPage.ChangeHeaderTextBlock("Mở dự án");

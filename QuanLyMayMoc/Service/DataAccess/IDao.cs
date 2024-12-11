@@ -74,6 +74,7 @@ namespace QuanLyMayMoc
 
         public int CountMaNhanVien(string MaNhanVien);
 
+        public void ClearAllTempData();
     }
 
 }
