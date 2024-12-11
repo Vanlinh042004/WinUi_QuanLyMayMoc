@@ -32,6 +32,14 @@ namespace QuanLyMayMoc.View
 
             //loadDuAnFromDB();
             projects = mainViewModel.getProjects();
+            // print in the UI that let the user know there is no project
+            if (projects.Count == 0)
+            {
+                TextBlock textBlock = new TextBlock();
+                textBlock.Text = "Không có dự án nào";
+                DataStackPanel.Children.Add(textBlock);
+            }
+
             showDuAn();
             this.Loaded += (sender, args) =>
             {

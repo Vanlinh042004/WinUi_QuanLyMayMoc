@@ -56,6 +56,7 @@ namespace QuanLyMayMoc
             {
                 MainPage.ChangeHeaderTextBlock("Dịch vụ theo tháng");
             };
+            AddNewRow();
         }
         private void HideFirstRow()
         {

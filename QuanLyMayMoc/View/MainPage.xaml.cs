@@ -82,6 +82,7 @@ namespace QuanLyMayMoc
         private async void TaoDuAnMoiClick(object sender, RoutedEventArgs e)
         {
             await ShowProjectNameDialog();
+            this.FrameContent.Navigate(typeof(DichVuTheoThang));
         }
 
         private async System.Threading.Tasks.Task ShowProjectNameDialog()
@@ -233,6 +234,7 @@ namespace QuanLyMayMoc
                     CloseButtonText = "OK",
                     XamlRoot = this.XamlRoot
                 }.ShowAsync();
+
             }
             catch (Exception ex)
             {
@@ -421,6 +423,7 @@ namespace QuanLyMayMoc
                     ViewModel.DeleteProject(AppData.ProjectID);
                     //navigate to MoDuAn
                     this.FrameContent.Navigate(typeof(MoDuAn), this);
+                    AppData.ProjectID = "";
                     //buttonToggling();
                     await new ContentDialog
                     {
@@ -501,6 +504,11 @@ namespace QuanLyMayMoc
             {
                 Current.HeaderTextBlock.Text = changed;
             }
+        }
+
+        private void ExitClick(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Exit();
         }
     }
 }
