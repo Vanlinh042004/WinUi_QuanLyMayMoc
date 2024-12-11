@@ -359,6 +359,13 @@ namespace QuanLyMayMoc
                     AppData.ProjectID = CurrentProject.ID;
                     AppData.ProjectName = CurrentProject.Name;
                     AppData.ProjectTimeCreate = CurrentProject.TimeCreate;
+                    await new ContentDialog
+                    {
+                        Title = "Thành công",
+                        Content = "Dự án đã được lưu thành công.",
+                        CloseButtonText = "OK",
+                        XamlRoot = this.XamlRoot
+                    }.ShowAsync();
 
                 }
                 catch (Exception ex)

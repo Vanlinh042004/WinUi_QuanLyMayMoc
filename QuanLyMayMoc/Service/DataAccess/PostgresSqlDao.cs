@@ -651,7 +651,7 @@ namespace QuanLyMayMoc
                 // Xóa dữ liệu cũ trong bảng linhkien_duan
                 string deleteLinhKienDuAnQuery = @" DELETE 
                                                    FROM linhkien_duan
-                                                   WHERE maduan = @maduan";
+                                                   WHERE maduan = @maDuAn";
                 using (var command = new NpgsqlCommand(deleteLinhKienDuAnQuery, connection))
                 {
                     command.Parameters.AddWithValue("@maDuAn", AppData.ProjectID);
@@ -660,16 +660,18 @@ namespace QuanLyMayMoc
                 // Thêm dữ liệu từ linhkienduantam vào linhkien_duan
                 string insertLinhKienDuAnQuery = @" INSERT INTO LinhKien_DuAn (mahieuduan, mahieu, tenlinhkien, giaban, maduan)
                                                    SELECT mahieuduan, mahieu, tenlinhkien, giaban, maduan
-                                                   FROM linhkienduantam";
+                                                   FROM linhkienduantam
+                                                    WHERE maduan = @maDuAn";
                 using (var command = new NpgsqlCommand(insertLinhKienDuAnQuery, connection))
                 {
+                    command.Parameters.AddWithValue("@maDuAn", AppData.ProjectID);
                     await command.ExecuteNonQueryAsync();
                 }
                 // Them du lieu tu loiduantam vào loisp_duan
                 // Xóa dữ liệu cũ trong bảng loi_duan
                 string deleteLoiDuAnQuery = @" DELETE 
                                                 FROM loi_duan
-                                                WHERE maduan = @maduan";
+                                                WHERE maduan = @maDuAn";
                 using (var command = new NpgsqlCommand(deleteLoiDuAnQuery, connection))
                 {
                     command.Parameters.AddWithValue("@maDuAn", AppData.ProjectID);
@@ -678,9 +680,11 @@ namespace QuanLyMayMoc
                 // Thêm dữ liệu từ loiduantam vào loi_duan
                 string insertLoiDuAnQuery = @" INSERT INTO Loi_DuAn (mahieuduan, mahieu, tenloi, giaban, maduan)
                                                    SELECT mahieuduan, mahieu, tenloi, giaban, maduan
-                                                   FROM loiduantam";
+                                                   FROM loiduantam
+                                                   WHERE maduan = @maDuAn";
                 using (var command = new NpgsqlCommand(insertLoiDuAnQuery, connection))
                 {
+                    command.Parameters.AddWithValue("@maDuAn", AppData.ProjectID);
                     await command.ExecuteNonQueryAsync();
                 }
 
@@ -1825,10 +1829,10 @@ namespace QuanLyMayMoc
                 // Xóa dữ liệu cũ trong bảng linhkien_duan
                 string deleteLinhKienDuAnQuery = @" DELETE 
                                                    FROM linhkien_duan
-                                                   WHERE maduan = @maDuAnCu";
+                                                   WHERE maduan = @maDuAn";
                 using (var command = new NpgsqlCommand(deleteLinhKienDuAnQuery, connection))
                 {
-                    command.Parameters.AddWithValue("@maDuAnCu", maDuAnCu);
+                    command.Parameters.AddWithValue("@maDuAn", maDuAnMoi);
                     await command.ExecuteNonQueryAsync();
                 }
                 // Thêm dữ liệu từ linhkienduantam vào linhkien_duan
@@ -1846,10 +1850,10 @@ namespace QuanLyMayMoc
                 // Xóa dữ liệu cũ trong bảng loi_duan
                 string deleteLoiDuAnQuery = @" DELETE 
                                                 FROM loi_duan
-                                                WHERE maduan = @maDuAnCu";
+                                                WHERE maduan = @maDuAn";
                 using (var command = new NpgsqlCommand(deleteLoiDuAnQuery, connection))
                 {
-                    command.Parameters.AddWithValue("@maDuAnCu", maDuAnCu);
+                    command.Parameters.AddWithValue("@maDuAn", maDuAnMoi);
                     await command.ExecuteNonQueryAsync();
                 }
                 // Thêm dữ liệu từ loiduantam vào loi_duan
