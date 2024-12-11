@@ -34,17 +34,17 @@ namespace QuanLyMayMoc
             };
         }
 
-        private void MayButton(object sender, RoutedEventArgs e)
-        {
-            this.FrameContent.Navigate(typeof(May));
+        //private void MayButton(object sender, RoutedEventArgs e)
+        //{
+        //    this.FrameContent.Navigate(typeof(May));
            
-        }
+        //}
 
-        private void DichVuButton(object sender, RoutedEventArgs e)
-        {
-            this.FrameContent.Navigate(typeof(DichVu));
+        //private void DichVuButton(object sender, RoutedEventArgs e)
+        //{
+        //    this.FrameContent.Navigate(typeof(DichVu));
           
-        }
+        //}
        
     }
 }

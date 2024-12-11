@@ -35,34 +35,34 @@ namespace QuanLyMayMoc
             };
         }
 
-        private void LinhKienButton(object sender, RoutedEventArgs e)
-        {
+        //private void LinhKienButton(object sender, RoutedEventArgs e)
+        //{
 
-            if (FrameContent.Content is not LinhKien linhkienPage)
-            {
-                linhkienPage = new LinhKien();
-                FrameContent.Navigate(typeof(LinhKien));
-            }
-            else
-            {
-                return;
-            }
+        //    if (FrameContent.Content is not LinhKien linhkienPage)
+        //    {
+        //        linhkienPage = new LinhKien();
+        //        FrameContent.Navigate(typeof(LinhKien));
+        //    }
+        //    else
+        //    {
+        //        return;
+        //    }
            
-        }
+        //}
 
-        private void LoiButton(object sender, RoutedEventArgs e)
-        {
+        //private void LoiButton(object sender, RoutedEventArgs e)
+        //{
             
-            if (FrameContent.Content is not Loi loiPage)
-            {
-                loiPage = new Loi();
-                FrameContent.Navigate(typeof(Loi));
-            }
-            else
-            {
-                return;
-            }
+        //    if (FrameContent.Content is not Loi loiPage)
+        //    {
+        //        loiPage = new Loi();
+        //        FrameContent.Navigate(typeof(Loi));
+        //    }
+        //    else
+        //    {
+        //        return;
+        //    }
            
-        }
+        //}
     }
 }
