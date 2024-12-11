@@ -1520,14 +1520,14 @@ namespace QuanLyMayMoc
                     await connection.OpenAsync();
                     {
                         // Xóa dữ liệu cũ trong bảng loiduantam (nếu có)
-                        string deleteLoiDuAnQuery = @" DELETE 
-                                                   FROM loiduantam
-                                                   WHERE maduan = @maduan";
-                        using (var command = new NpgsqlCommand(deleteLoiDuAnQuery, connection))
-                        {
-                            command.Parameters.AddWithValue("@maDuAn", AppData.ProjectID);
-                            await command.ExecuteNonQueryAsync();
-                        }
+                        //string deleteLoiDuAnQuery = @" DELETE 
+                        //                           FROM loiduantam
+                        //                           WHERE maduan = @maDuAn";
+                        //using (var command = new NpgsqlCommand(deleteLoiDuAnQuery, connection))
+                        //{
+                        //    command.Parameters.AddWithValue("@maDuAn", AppData.ProjectID);
+                        //    await command.ExecuteNonQueryAsync();
+                        //}
                         // Thêm dữ liệu từ loi vào loiduantam
                         string insertQuery = @" INSERT INTO loiduantam (mahieuduan, mahieu, tenloi, giaban, maduan)
                                                 SELECT CONCAT(mahieu,'_', @maDuAn), mahieu, tenloi, giaban, @maDuAn

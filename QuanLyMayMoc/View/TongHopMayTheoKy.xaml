@@ -25,10 +25,13 @@
         <!--Đường phân tách giữa Main Content và Footer-->
         <Rectangle Fill="Gray" Height="1" VerticalAlignment="Top" Grid.Row="2"/>
 
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10" Grid.Row="2" >
+        <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10" Grid.Row="2" >
             <Button Style="{StaticResource AccentButtonStyle}" Content="Tổng hợp máy" Margin="4" Padding="4" Width="200" Click="MayButton"/>
             <Button Style="{StaticResource AccentButtonStyle}" Content="Tổng hợp dịch vụ" Margin="4" Padding="4" Width="200" Click="DichVuButton"/>
-        </StackPanel>
+        </StackPanel>--><!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10" Grid.Row="2" >
+            <Button Style="{StaticResource AccentButtonStyle}" Content="Tổng hợp máy" Margin="4" Padding="4" Width="200" Click="MayButton"/>
+            <Button Style="{StaticResource AccentButtonStyle}" Content="Tổng hợp dịch vụ" Margin="4" Padding="4" Width="200" Click="DichVuButton"/>
+        </StackPanel>-->
 
     </Grid>
 </Page>
