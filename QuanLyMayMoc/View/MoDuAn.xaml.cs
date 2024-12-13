@@ -1,4 +1,5 @@
-﻿using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Text;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Npgsql;
 using QuanLyMayMoc.Model;
@@ -7,6 +8,7 @@ using QuanLyMayMoc.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using static QuanLyMayMoc.AppData;
 
@@ -26,6 +28,8 @@ namespace QuanLyMayMoc.View
         private ObservableCollection<Project> projects;
         private MainViewModel mainViewModel = new MainViewModel();
 
+        // ...
+
         public MoDuAn()
         {
             this.InitializeComponent();
@@ -39,7 +43,6 @@ namespace QuanLyMayMoc.View
                 textBlock.Text = "Không có dự án nào";
                 DataStackPanel.Children.Add(textBlock);
             }
-
             showDuAn();
             mainViewModel.ClearAllTempData();
             this.Loaded += (sender, args) =>
@@ -73,12 +76,47 @@ namespace QuanLyMayMoc.View
             // show data stored in Items to MoDuAn page
             // with each item in Items, create a new line in a grid
             // and show the information of the item in the grid
+
             foreach (Project project in projects)
             {
                 Button button = new Button();
-                button.Content = project.TimeCreate + " " + project.Name;
                 DataStackPanel.Children.Add(button);
                 button.Margin = new Thickness(0, 10, 0, 0);
+                button.HorizontalAlignment = HorizontalAlignment.Stretch;
+                button.HorizontalContentAlignment = HorizontalAlignment.Left;
+
+                // Create a Grid to host the TextBlocks
+                Grid grid = new Grid();
+                grid.HorizontalAlignment = HorizontalAlignment.Stretch;
+                grid.Padding = new Thickness(10, 10, 10, 10); // Add padding to the left
+
+                // Define two columns in the Grid
+                grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(200) }); // Fixed width for time
+                grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) }); // Auto stretch for name
+
+                // Create TextBlock for time
+                TextBlock timeTextBlock = new TextBlock();
+                timeTextBlock.Text = project.TimeCreate.ToString("g");
+                timeTextBlock.HorizontalAlignment = HorizontalAlignment.Left;
+                timeTextBlock.VerticalAlignment = VerticalAlignment.Center;
+                timeTextBlock.FontSize = 16; // Increase the font size
+                Grid.SetColumn(timeTextBlock, 0); // Set to first column
+
+                // Create TextBlock for name
+                TextBlock nameTextBlock = new TextBlock();
+                nameTextBlock.Text = project.Name;
+                nameTextBlock.HorizontalAlignment = HorizontalAlignment.Left;
+                nameTextBlock.VerticalAlignment = VerticalAlignment.Center;
+                nameTextBlock.FontWeight = FontWeights.Bold;  // Make the text bold
+                nameTextBlock.FontSize = 16; // Increase the font size
+                Grid.SetColumn(nameTextBlock, 1); // Set to second column
+
+                // Add TextBlocks to Grid
+                grid.Children.Add(timeTextBlock);
+                grid.Children.Add(nameTextBlock);
+
+                button.Content = grid;
+
                 button.Click += (sender, e) =>
                 {
                     AppData.isEnableFunctionButtion = true;
@@ -93,10 +131,19 @@ namespace QuanLyMayMoc.View
                     // when a button is clicked, navigate to another page
                     // and pass the information of the item to the page
                     this.Frame.Navigate(typeof(DichVuTheoThang), project);
+
+                    UpdateShellWindowTitle(AppData.ProjectName);
                 };
             }
         }
-
+        private void UpdateShellWindowTitle(string title)
+        {
+            // Access the ShellWindow instance and update the title
+            if (App.MainShellWindow != null)
+            {
+                App.MainShellWindow.UpdateTitle(title + " - Quản lý máy móc");
+            }
+        }
 
         //public void loadDuAnFromDB()
         //{

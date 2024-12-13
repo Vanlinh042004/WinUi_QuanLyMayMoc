@@ -381,7 +381,7 @@ namespace QuanLyMayMoc
             using (var connection = new NpgsqlConnection(connectionString))
             {
                 connection.Open();
-                using (var cmd = new NpgsqlCommand("SELECT * FROM duan", connection))
+                using (var cmd = new NpgsqlCommand("SELECT * FROM duan ORDER BY \"ngaythuchien\" DESC", connection))
                 {
                     using (var reader = cmd.ExecuteReader())
                     {
@@ -1589,7 +1589,7 @@ namespace QuanLyMayMoc
                     Title = "Lỗi",
                     Content = $"Có lỗi xảy ra khi tạo dự án: {ex.Message}",
                     CloseButtonText = "OK",
-                    XamlRoot = this.XamlRoot
+                    //XamlRoot = this.XamlRoot
                 }.ShowAsync();
             }
 

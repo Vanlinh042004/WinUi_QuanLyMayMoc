@@ -34,6 +34,8 @@ namespace QuanLyMayMoc
         /// </summary>
         public bool IsFirstLinhKienClick { get; set; } = true;
         public bool IsFirstLoiClick { get; set; } = true;
+        public static ShellWindow MainShellWindow { get; private set; }
+
         public App()
         {
             this.InitializeComponent();
@@ -46,10 +48,10 @@ namespace QuanLyMayMoc
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
             ServiceFactory.Register(typeof(IDao), typeof(PostgresSqlDao));
-            m_window = new ShellWindow();
-            m_window.Activate();
+            MainShellWindow = new ShellWindow();
+            MainShellWindow.Activate();
+
         }
 
-        private Window m_window;
     }
 }

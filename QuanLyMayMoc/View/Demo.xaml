@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Page
-    x:Class="QuanLyMayMoc.View.MoDuAn"
+    x:Class="QuanLyMayMoc.View.Demo"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:QuanLyMayMoc.View"
@@ -9,10 +9,8 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <ScrollViewer>
-        <Grid>
-            <StackPanel x:Name="DataStackPanel" Margin="80 0">
-            </StackPanel>
-        </Grid>
-    </ScrollViewer>
+    <Grid>
+        <!-- WebView2 Control to load a webpage -->
+        <WebView2 x:Name="MyWebView" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+    </Grid>
 </Page>

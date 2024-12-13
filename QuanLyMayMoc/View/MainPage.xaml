@@ -40,7 +40,7 @@
             <MenuBarItem Title="Chia sẻ dự án" Margin="0,0,10,0"/>
 
             <MenuBarItem Title="Hướng dẫn" Margin="0,0,10,0">
-                <MenuFlyoutItem Text="Demo"/>
+                <MenuFlyoutItem Text="Demo" Click="DemoClick"/>
                 <MenuFlyoutSeparator/>
                 <MenuFlyoutItem Text="Hướng dẫn sử dụng" Click="HuongDanSuDungButton"/>
             </MenuBarItem>
@@ -68,6 +68,7 @@
                     PaneDisplayMode="Left"
                     SelectionChanged="NavigationView_SelectionChanged"
                     IsSettingsVisible="False"
+                    IsBackButtonVisible="Collapsed"
                     Background="{ThemeResource SolidBackgroundFillColorSecondaryBrush}"
                     Foreground="{ThemeResource TextFillColorPrimaryBrush}">
                 <NavigationView.Header>
@@ -75,18 +76,18 @@
                 </NavigationView.Header>
 
                 <NavigationView.MenuItems>
-                    <NavigationViewItem Content="Dịch vụ theo tháng" Tag="DichVuTheoThang" Icon="Library" />
-                    <NavigationViewItem Content="Quản lý máy móc" Tag="QuanLyMayMoc" Icon="Map">
+                    <NavigationViewItem Content="Dịch vụ theo tháng" Tag="DichVuTheoThang" Icon="AllApps"/>
+                    <NavigationViewItem Content="Quản lý máy móc" Tag="QuanLyMayMoc" Icon="Setting">
                         <NavigationViewItem.MenuItems>
-                            <NavigationViewItem Content="Linh kiện" Icon="Mail" Tag="LinhKien"/>
-                            <NavigationViewItem Content="Lõi" Icon="Calendar" Tag="Loi"/>
+                            <NavigationViewItem Content="Linh kiện" Icon="Calculator" Tag="LinhKien"/>
+                            <NavigationViewItem Content="Lõi" Icon="Filter" Tag="Loi"/>
                         </NavigationViewItem.MenuItems>
                     </NavigationViewItem>
-                    <NavigationViewItem Content="Danh sách nhân viên" Tag="DanhSachNhanVien" Icon="Tag" />
-                    <NavigationViewItem Content="Thống kê máy móc" Tag="ThongkeMayMoc" Icon="Tag">
+                    <NavigationViewItem Content="Danh sách nhân viên" Tag="DanhSachNhanVien" Icon="OtherUser" />
+                    <NavigationViewItem Content="Thống kê máy móc" Tag="ThongkeMayMoc" Icon="Accept">
                         <NavigationViewItem.MenuItems>
-                            <NavigationViewItem Content="Tổng hợp máy" Icon="Mail" Tag="TongHopMay"/>
-                            <NavigationViewItem Content="Tổng hợp dịch vụ" Icon="Calendar" Tag="TongHopDichVu"/>
+                            <NavigationViewItem Content="Tổng hợp máy" Icon="OneBar" Tag="TongHopMay"/>
+                            <NavigationViewItem Content="Tổng hợp dịch vụ" Icon="OpenWith" Tag="TongHopDichVu"/>
                         </NavigationViewItem.MenuItems>
                     </NavigationViewItem>
                     

@@ -17,6 +17,8 @@ using System.Text.RegularExpressions;
 using Npgsql;
 using QuanLyMayMoc.ViewModel;
 using QuanLyMayMoc.View;
+using Microsoft.UI.Windowing;
+using Windows.UI.WindowManagement;
 
 
 // To learn more about WinUI, the WinUI project structure,
@@ -35,11 +37,19 @@ namespace QuanLyMayMoc
 
         private string projectName = "";
         public Project CurrentProject { get; set; }
+
         public MainViewModel ViewModel
         {
             get; set;
         }
-
+        private void UpdateShellWindowTitle(string title)
+        {
+            // Access the ShellWindow instance and update the title
+            if (App.MainShellWindow != null)
+            {
+                App.MainShellWindow.UpdateTitle(title + " - Quản lý máy móc");
+            }
+        }
 
         public MainPage()
         {
@@ -82,7 +92,16 @@ namespace QuanLyMayMoc
         private async void TaoDuAnMoiClick(object sender, RoutedEventArgs e)
         {
             await ShowProjectNameDialog();
-            this.FrameContent.Navigate(typeof(DichVuTheoThang));
+            if (AppData.ProjectID == "")
+            {
+                this.FrameContent.Navigate(typeof(MoDuAn));
+                return;
+            }
+            else
+            {
+                this.FrameContent.Navigate(typeof(DichVuTheoThang));
+                UpdateShellWindowTitle(AppData.ProjectName);
+            }
         }
 
         private async System.Threading.Tasks.Task ShowProjectNameDialog()
@@ -255,7 +274,6 @@ namespace QuanLyMayMoc
         {
             // Navigate to the ShellWindow
             this.FrameContent.Navigate(typeof(MoDuAn), this);
-
         }
 
         public void buttonToggling()
@@ -462,10 +480,15 @@ namespace QuanLyMayMoc
                 if (AppData.ProjectID == "")
                 {
                     await ShowProjectNameDialog();
+                    
                     if (AppData.ProjectID == "")
                     {
                         this.FrameContent.Navigate(typeof(MoDuAn));
                         return;
+                    }
+                    else
+                    {
+                        UpdateShellWindowTitle(AppData.ProjectName);
                     }
                 }
                 if (selectedItemTag != null)
@@ -518,6 +541,11 @@ namespace QuanLyMayMoc
         private void ExitClick(object sender, RoutedEventArgs e)
         {
             Application.Current.Exit();
+        }
+
+        private void DemoClick(object sender, RoutedEventArgs e)
+        {
+            this.FrameContent.Navigate(typeof(Demo));
         }
     }
 }
