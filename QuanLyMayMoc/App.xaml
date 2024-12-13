@@ -4,14 +4,47 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:QuanLyMayMoc">
-    <Application.Resources>
-        
+    <!--<Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" ></XamlControlsResources>
-                <!-- Other merged dictionaries here -->
+                --><!-- Thêm các merged dictionaries nếu cần --><!--
+                <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+                --><!-- Các tài nguyên hợp nhất khác ở đây --><!--
             </ResourceDictionary.MergedDictionaries>
-            <!-- Other app resources here -->
+
+            --><!-- Định nghĩa font Lora trong resources --><!--
+            <FontFamily x:Key="LoraFont">ms-appx:///Fonts/Lora-Regular.ttf#Lora</FontFamily>
+            <FontFamily x:Key="DefaultFont">ms-appx:///Fonts/Lora-Regular.ttf#Lora</FontFamily>
+
+            --><!-- Các tài nguyên ứng dụng khác ở đây --><!--
+        </ResourceDictionary>
+    </Application.Resources>-->
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <FontFamily x:Key="DefaultFont">ms-appx:///Fonts/Lora-Regular.ttf#Lora</FontFamily>
+ 
+            <Style TargetType="TextBlock">
+                <Setter Property="FontFamily" Value="{StaticResource DefaultFont}" />
+            </Style>
+            <Style TargetType="Button">
+                <Setter Property="FontFamily" Value="{StaticResource DefaultFont}" />
+            </Style>
+            <Style TargetType="TextBox">
+                <Setter Property="FontFamily" Value="{StaticResource DefaultFont}" />
+            </Style>
+            <Style TargetType="MenuFlyoutItem">
+                <Setter Property="FontFamily" Value="{StaticResource DefaultFont}" />
+            </Style>
+            <Style TargetType="NavigationViewItem">
+                <Setter Property="FontFamily" Value="{StaticResource DefaultFont}" />
+            </Style>
+
+            <FontFamily x:Key="LoraFont">ms-appx:///Fonts/Lora-Regular.ttf#Lora</FontFamily>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>

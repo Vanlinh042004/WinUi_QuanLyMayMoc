@@ -4,8 +4,23 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:QuanLyMayMoc"
     Title="Quản Lý Máy Móc">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Title bar -->
+            <RowDefinition Height="*"/>
+            <!-- Content -->
+        </Grid.RowDefinitions>
+        <Grid x:Name="AppTitleBar" Background="Transparent" VerticalAlignment="Top" Height="32" Grid.Row="0" Margin="0, 0, 0, 0">
+            <Image Source="/Assets/WindowIcon.png" HorizontalAlignment="Left" Width="24" Height="24" Margin="12,0"/>
+            <TextBlock x:Name="AppTitleTextBlock" Text="Quản Lý Máy Móc" 
+                   Style="{StaticResource CaptionTextBlockStyle}" 
+                   VerticalAlignment="Center" Margin="48,0,0,0"
+                   FontFamily="{StaticResource LoraFont}"   
+                   FontSize="14"            
+                   Foreground="Black"/>     
+        </Grid>
+        <Frame Name="RootFrame" Grid.Row="1"/>
+    </Grid>
 
-    <Frame Name="RootFrame">
-        
-    </Frame>
 </Window>
