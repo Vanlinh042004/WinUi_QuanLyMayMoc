@@ -50,7 +50,7 @@ namespace QuanLyMayMoc.View
                 MainPage.ChangeHeaderTextBlock("Mở dự án");
             };
         }
-        public string connectionString = "Host=127.0.0.1;Port=5432;Username=postgres;Password=1234;Database=machine";
+      
 
         private MainPage _mainPage;
 
@@ -59,17 +59,7 @@ namespace QuanLyMayMoc.View
             base.OnNavigatedTo(e);
             _mainPage = e.Parameter as MainPage;
         }
-        //public class DuAn
-        //{
-        //    public string maDuAn { get; set; }
-        //    public string tenDuAn { get; set; }
-        //    public string ngayThucHien { get; set; }
-        //}
-
-        //public class DuAnList
-        //{
-        //    public static List<DuAn> Items { get; set; } = new List<DuAn>();
-        //}
+       
 
         public void showDuAn()
         {

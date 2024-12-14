@@ -612,6 +612,7 @@ namespace QuanLyMayMoc.ViewModel
         public void SaveProjectWithDifferentName(Project project, string newProject)
         {
             _dao.SaveProjectWithDifferentName(project, newProject);
+            LoadDataFilter();
         }
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string propertyName)

@@ -973,7 +973,8 @@ namespace QuanLyMayMoc
                         command.Parameters.AddWithValue("@manv", newTask.MaNV ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@tennv", newTask.TenNV ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@ghichu", newTask.GhiChu ?? (object)DBNull.Value);
-                        command.Parameters.AddWithValue("@maduan", AppData.ProjectID/*newTask.MaDuAn ?? (object)DBNull.Value*/);
+                       // command.Parameters.AddWithValue("@maduan", AppData.ProjectID/*newTask.MaDuAn ?? (object)DBNull.Value*/);
+                        command.Parameters.AddWithValue("@maduan", selectedTask.MaDuAn/*newTask.MaDuAn ?? (object)DBNull.Value*/);
 
                         command.Parameters.AddWithValue("@macvduan", selectedTask.MaCVDuAn);
                         await command.ExecuteNonQueryAsync();
@@ -1031,7 +1032,8 @@ namespace QuanLyMayMoc
                             command.Parameters.AddWithValue("@manv", newTask.MaNV ?? (object)DBNull.Value);
                             command.Parameters.AddWithValue("@tennv", newTask.TenNV ?? (object)DBNull.Value);
                             command.Parameters.AddWithValue("@ghichu", newTask.GhiChu ?? (object)DBNull.Value);
-                            command.Parameters.AddWithValue("@maduan", AppData.ProjectID/*newTask.MaDuAn ?? (object)DBNull.Value*/);
+                            // command.Parameters.AddWithValue("@maduan", AppData.ProjectID/*newTask.MaDuAn ?? (object)DBNull.Value*/);
+                            command.Parameters.AddWithValue("@maduan", selectedTask.MaDuAn/*newTask.MaDuAn ?? (object)DBNull.Value*/);
 
                             command.Parameters.AddWithValue("@macvduan", selectedTask.MaCVDuAn);
                             await command.ExecuteNonQueryAsync();

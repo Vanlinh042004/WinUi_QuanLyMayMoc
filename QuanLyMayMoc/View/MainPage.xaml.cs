@@ -380,7 +380,9 @@ namespace QuanLyMayMoc
                     AppData.ProjectID = CurrentProject.ID;
                     AppData.ProjectName = CurrentProject.Name;
                     AppData.ProjectTimeCreate = CurrentProject.TimeCreate;
-                    ViewModel.LoadDataFilter();
+                    // Navigate to the ShellWindow
+                    this.FrameContent.Navigate(typeof(MoDuAn), this);
+
                     await new ContentDialog
                     {
                         Title = "Thành công",
@@ -388,6 +390,7 @@ namespace QuanLyMayMoc
                         CloseButtonText = "OK",
                         XamlRoot = this.XamlRoot
                     }.ShowAsync();
+                   
 
                 }
                 catch (Exception ex)

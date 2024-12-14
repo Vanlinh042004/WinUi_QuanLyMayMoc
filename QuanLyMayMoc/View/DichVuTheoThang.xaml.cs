@@ -56,7 +56,7 @@ namespace QuanLyMayMoc
             {
                 MainPage.ChangeHeaderTextBlock("Dịch vụ theo tháng");
             };
-            AddNewRow();
+            //AddNewRow();
         }
         private void HideFirstRow()
         {
@@ -712,7 +712,7 @@ namespace QuanLyMayMoc
 
                   
                     ViewModel.UpdateSelectedTask(task);
-                    
+                    ViewModel.LoadDataFilter();
                  
                     ClearInputRows();
                    
