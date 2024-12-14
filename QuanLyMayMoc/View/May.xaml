@@ -11,6 +11,8 @@
     <Page.Resources>
         <local:BooleanToBrushConverter x:Key="BooleanToBrushConverter"/>
         <local:BooleanToBorderBrushConverter x:Key="BooleanToBorderBrushConverter"/>
+        <local:CurrencyFormatConverter x:Key="CurrencyFormatConverter"/>
+
     </Page.Resources>
 
     <Grid Background="White">
@@ -109,7 +111,7 @@
 
                                         <!-- Tổng Tiền Tháng -->
                                         <Border Grid.Row="0" Grid.RowSpan="{x:Bind Items.Count}" BorderBrush="Gray" BorderThickness="2" CornerRadius="5" Grid.Column="6" Margin="0,5,5,5" VerticalAlignment="Stretch">
-                                            <TextBlock Text="{x:Bind TotalMonth}" 
+                                            <TextBlock Text="{x:Bind TotalMonth, Converter={StaticResource CurrencyFormatConverter}}" 
                                Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" />
                                         </Border>
 
@@ -137,10 +139,10 @@
                                                             <TextBlock Text="{x:Bind Quantity}" Foreground="Red"  HorizontalAlignment="Center" Margin="5" />
                                                         </Border>
                                                         <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="3" Margin="0,5,5,0">
-                                                            <TextBlock Text="{x:Bind Price}"  Foreground="Red" HorizontalAlignment="Center" Margin="5" />
+                                                            <TextBlock Text="{x:Bind Price, Converter={StaticResource CurrencyFormatConverter}}"  Foreground="Red" HorizontalAlignment="Center" Margin="5" />
                                                         </Border>
                                                         <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="4" Margin="0,5,5,0">
-                                                            <TextBlock Text="{x:Bind TotalPrice}"  Foreground="Red" HorizontalAlignment="Center" Margin="5" />
+                                                            <TextBlock Text="{x:Bind TotalPrice, Converter={StaticResource CurrencyFormatConverter}}"  Foreground="Red" HorizontalAlignment="Center" Margin="5" />
                                                         </Border>
                                                     </Grid>
                                                 </DataTemplate>

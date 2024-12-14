@@ -31,6 +31,8 @@ namespace QuanLyMayMoc
             set { _giaban = value; OnPropertyChanged(nameof(GiaBan)); }
         }
 
+        public string FormattedGiaBan => GiaBan.ToString("N0", new System.Globalization.CultureInfo("vi-VN"));
+
         public string GetPropertyForColumn(int column)
         {
             switch (column)

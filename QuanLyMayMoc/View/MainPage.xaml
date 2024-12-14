@@ -72,7 +72,9 @@
                     Background="{ThemeResource SolidBackgroundFillColorSecondaryBrush}"
                     Foreground="{ThemeResource TextFillColorPrimaryBrush}">
                 <NavigationView.Header>
-                    <TextBlock x:Name="HeaderTextBlock" Text="Mở Dự Án"/>
+                    <TextBlock x:Name="HeaderTextBlock" 
+                       Text="Mở Dự Án" 
+                       VerticalAlignment="Center"/>
                 </NavigationView.Header>
 
                 <NavigationView.MenuItems>

@@ -94,6 +94,7 @@ namespace QuanLyMayMoc
                     var datePicker = new DatePicker
                     {
                         Margin = new Thickness(2),
+                        RequestedTheme = ElementTheme.Light,
                         Width = 300,
                         Background = new SolidColorBrush(Colors.White),
                         Foreground = new SolidColorBrush(Colors.Black),
@@ -108,6 +109,7 @@ namespace QuanLyMayMoc
                     var autoSuggestBox = new AutoSuggestBox
                     {
                         Margin = new Thickness(2),
+                        RequestedTheme = ElementTheme.Light,
                         PlaceholderText = $"Nhập họ tên khách hàng",
                         Width = 300,
                         Background = new SolidColorBrush(Colors.White),
@@ -137,8 +139,9 @@ namespace QuanLyMayMoc
                     var textBox = new TextBox
                     {
                         Margin = new Thickness(2),
+                        RequestedTheme = ElementTheme.Light,
                         //PlaceholderText = $"R{currentRow + 1}C{col + 1}",
-                        PlaceholderText= PlaceHolderText[col],
+                        PlaceholderText = PlaceHolderText[col],
                         //Background = CardBackgroundFillColorDefault 
                         // Set the background using the theme resource
                         Foreground = new SolidColorBrush(Colors.Black),
@@ -585,6 +588,7 @@ namespace QuanLyMayMoc
                         Background = new SolidColorBrush(Colors.White),
                         Foreground = new SolidColorBrush(Colors.Black),
                         BorderBrush = new SolidColorBrush(Colors.Black),
+                        RequestedTheme = ElementTheme.Light,
                         BorderThickness = new Thickness(1),
                         Date = task.NgayThucHien  // Hiển thị giá trị đã lưu hoặc ngày hiện tại
                     };
@@ -595,6 +599,7 @@ namespace QuanLyMayMoc
                     var autoSuggestBox = new AutoSuggestBox
                     {
                         Margin = new Thickness(2),
+                        RequestedTheme = ElementTheme.Light,
                         PlaceholderText = "Nhập họ tên khách hàng",
                         Width = 300,
                         Background = new SolidColorBrush(Colors.White),
@@ -630,8 +635,8 @@ namespace QuanLyMayMoc
                         Foreground = new SolidColorBrush(Colors.Black),
                         BorderBrush = new SolidColorBrush(Colors.Black),
                         BorderThickness = new Thickness(1),
-                        MaxLength = maxLength ,// Áp dụng giới hạn ký tự,
-
+                        MaxLength = maxLength,// Áp dụng giới hạn ký tự,
+                        RequestedTheme = ElementTheme.Light,
                         Text = task.GetPropertyForColumn(col) // Hiển thị giá trị đã lưu
                     };
                     element = textBox;

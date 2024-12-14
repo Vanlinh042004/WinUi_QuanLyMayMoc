@@ -11,24 +11,52 @@
     <Page.Resources>
         <local:BooleanToBrushConverter x:Key="BooleanToBrushConverter"/>
         <local:BooleanToBorderBrushConverter x:Key="BooleanToBorderBrushConverter"/>
+        <local:CurrencyFormatConverter x:Key="CurrencyFormatConverter"/>
     </Page.Resources>
 
     <Grid Background="White">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <!-- This will allow the scrollable content to take available space -->
             <RowDefinition Height="Auto"/>
             <!-- This will keep the buttons at the bottom -->
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Margin="0 40 0 20" HorizontalAlignment="Center">
+        <Grid Grid.Row="0" Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Margin="0 0 0 0" HorizontalAlignment="Left" Orientation="Horizontal">
+                <Button Margin="10 0 0 0" Click="OnClearFilterClick" Foreground="Black" BorderBrush="Black" BorderThickness="1" CornerRadius="4" RequestedTheme="Light">
+                    <Button.Content> 
+                        <FontIcon Glyph="&#xE72C;" FontFamily="Segoe MDL2 Assets" FontSize="17"/>
+                    </Button.Content>
+                </Button>
+                <DatePicker x:Name="filterDatePicker" Width="300" Margin="10 0 0 0" BorderThickness="1" BorderBrush="Black" Foreground="Black" RequestedTheme="Light"/>
+                <Button Margin="10 0 0 0" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnFilterByDateClick" CornerRadius="4" RequestedTheme="Light">
+                    <Button.Content>
+                        <FontIcon Glyph="&#xE71C;" FontFamily="Segoe MDL2 Assets" FontSize="17" />
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Margin="0 0 0 0" Orientation="Horizontal" HorizontalAlignment="Right" >
+                <TextBox x:Name="SearchTextBox" Foreground="Red" BorderBrush="Black" BorderThickness="1" Margin="5" Width="150" VerticalAlignment="Center" HorizontalAlignment="Left" PlaceholderText="Tìm tên nhân viên" CornerRadius="4" RequestedTheme="Light"/>
+                <Button Margin="10" Click="OnSearchClick" Foreground="Black" BorderBrush="Black" BorderThickness="1" CornerRadius="4" RequestedTheme="Light">
+                    <Button.Content>
+                        <FontIcon Glyph="&#xE721;" FontFamily="Segoe MDL2 Assets" FontSize="18"/>
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+        </Grid>
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center">
             <TextBlock>
-                <Run Text="CHI TIẾT DỊCH VỤ THÁNG 6/2024 AOSMITH ĐÀ NẴNG" FontSize="20" FontWeight="Bold" Foreground="Black"/>
+                <Run Text="CHI TIẾT DỊCH VỤ AOSMITH ĐÀ NẴNG" FontSize="20" FontWeight="Bold" Foreground="Black"/>
             </TextBlock>
         </StackPanel>
 
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
-                 Height="Auto">
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Height="Auto" RequestedTheme="Light">
             <StackPanel>
                 <Grid Padding="10" RowSpacing="3" ColumnSpacing="3" Background="White" x:Name="DataEntryGrid">
                     <Grid.RowDefinitions>
@@ -182,7 +210,7 @@
                                             <TextBlock Text="{x:Bind TenDichVu}" Foreground="Red" Margin="5"/>
                                         </Border>
                                         <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="6" Margin="0,0,5,0">
-                                            <TextBlock Text="{x:Bind PhiDichVu}" Foreground="Red" Margin="5"/>
+                                            <TextBlock Text="{x:Bind PhiDichVu, Converter={StaticResource CurrencyFormatConverter}}" Foreground="Red" Margin="5"/>
                                         </Border>
                                         <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="7" Margin="0,0,5,0">
                                             <TextBlock Text="{x:Bind MaLK}" Foreground="Red" Margin="5"/>
@@ -257,39 +285,13 @@
             </StackPanel>
 
         </ScrollViewer>
-        <ScrollViewer Grid.Row="2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+        <ScrollViewer Grid.Row="3" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" RequestedTheme="Light">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,10">
-                <Button Content="Thêm dòng mới" Width="150" Margin="10 0 10 0" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnAddRowDataClick"/>
-                <Button Content="Xóa dòng" Width="150" Margin="10 0 10 0" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnDeleteRowDataClick"/>
-                <Button Content="Sửa dòng" Width="150" Margin="10 0 10 0" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnUpdateRowDataClick"/>
-
-                <Button Content="Lưu" Width="100" Margin="10 0 10 0" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnSaveRowDataClick"/>
-                <Button Content="Xóa tất cả" Width="100" Margin="10 0 10 0" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnDeleteAllRowDataClick"/>
-                <Button Content="Lọc theo ngày" Width="150" Margin="10 0 10 0" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnFilterByDateClick"/>
-                <DatePicker x:Name="filterDatePicker" Width="300" Margin="10 0 10 0" BorderThickness="1" BorderBrush="Black" Foreground="Black" Background="White"/>
-                <Button Content="Làm mới" Width="150" Margin="10 0 10 0" Click="OnClearFilterClick" Foreground="Black" BorderBrush="Black" BorderThickness="1"/>
-                <TextBox 
-                     x:Name="SearchTextBox"
-                    Foreground="Red" 
-                    BorderBrush="Black" 
-                    BorderThickness="1" 
-                    Margin="5" 
-                    Width="200" 
-                    Height="30" 
-                    VerticalAlignment="Center" 
-                    HorizontalAlignment="Left" 
-                   
-                    PlaceholderText="Enter your text here"
-                />
-                <Button 
-                    Content="Tìm Tên Nhân Viên" 
-                    Width="150" 
-                    Margin="10" 
-                    Click="OnSearchClick" 
-                    Foreground="Black" 
-                    BorderBrush="Black" 
-                    BorderThickness="1"
-                   />  
+                <Button Content="Thêm dòng mới" Width="150" Margin="10 0 10 0" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnAddRowDataClick" RequestedTheme="Light"/>
+                <Button Content="Xóa dòng" Width="150" Margin="10 0 10 0" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnDeleteRowDataClick" RequestedTheme="Light"/>
+                <Button Content="Sửa dòng" Width="150" Margin="10 0 10 0" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnUpdateRowDataClick" RequestedTheme="Light"/>
+                <Button Content="Lưu" Width="100" Margin="10 0 10 0" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnSaveRowDataClick" RequestedTheme="Light"/>
+                <Button Content="Xóa tất cả" Width="100" Margin="10 0 10 0" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnDeleteAllRowDataClick" RequestedTheme="Light"/>
 
             </StackPanel>
         </ScrollViewer>
