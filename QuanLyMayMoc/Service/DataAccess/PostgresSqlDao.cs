@@ -2236,7 +2236,6 @@ namespace QuanLyMayMoc
                         command.Parameters.AddWithValue("@ServiceFee", summary.ServiceFee);
                         command.Parameters.AddWithValue("@TotalServiceFee", summary.TotalServiceFee);
                         command.Parameters.AddWithValue("@MonthlyTotalFee", summary.MonthlyTotalFee);
-
                         command.ExecuteNonQuery();
                     }
                 }

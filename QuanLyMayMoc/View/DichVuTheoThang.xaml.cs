@@ -37,7 +37,7 @@ namespace QuanLyMayMoc
         private int currentRow = 1;
         private bool isUpdate = false;
 
-        private int Columns = 16;
+        private int Columns = 13;
         private Dictionary<int, Task> rowTaskDictionary = new Dictionary<int, Task>();
         private Dictionary<int, Task> rowUpdateTaskDictionary = new Dictionary<int, Task>();
 
@@ -74,7 +74,7 @@ namespace QuanLyMayMoc
             Grid.SetColumn(emptyElement, 0);
             InputGrid.Children.Add(emptyElement);
         }
-        List<String> PlaceHolderText = new List<String> { "", "", "", "Nhập số điện thoại", "Nhập địa chỉ", "Nhập tên dịch vụ", "Nhập phí dịch vụ", "Nhập mã linh kiện", "Nhập tên linh kiện", "Nhập số lượng linh kiện", "Nhập mã lõi", "Nhập tên lõi", "Nhập số lượng lõi", "Nhập mã nhân viên", "Nhập tên nhân viên", "Nhập ghi chú" };
+        List<String> PlaceHolderText = new List<String> { "", "", "", "Nhập số điện thoại", "Nhập địa chỉ", "Nhập tên dịch vụ", "Nhập phí dịch vụ", "Nhập mã linh kiện", "Nhập số lượng linh kiện", "Nhập mã lõi", "Nhập số lượng lõi", "Nhập mã nhân viên", "Nhập ghi chú" };
         private void AddNewRow()
         {
             var newTask = new Task();
