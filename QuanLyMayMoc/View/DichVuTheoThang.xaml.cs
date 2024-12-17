@@ -733,21 +733,37 @@ namespace QuanLyMayMoc
             
         }
 
-      
 
-        private void OnSearchClick(object sender, RoutedEventArgs e)
+
+        private async void OnSearchClick(object sender, RoutedEventArgs e)
         {
             // Kiểm tra nếu người dùng không chọn ngày thì mặc định là DateTime.MinValue
             DateTime selectedDate = filterDatePicker.SelectedDate.HasValue
                 ? filterDatePicker.SelectedDate.Value.Date // Lấy giá trị ngày nếu có
                 : DateTime.MinValue; // Ngày mặc định nếu không chọn
 
-
             string keyword = SearchTextBox.Text;
 
+            // Kiểm tra nếu từ khóa rỗng hoặc chỉ chứa khoảng trắng
+            if (string.IsNullOrWhiteSpace(keyword))
+            {
+                // Hiển thị thông báo yêu cầu nhập từ khóa
+                var dialog = new ContentDialog
+                {
+                    Title = "Thông báo",
+                    Content = "Vui lòng nhập mã nhân viên để tìm kiếm.",
+                    CloseButtonText = "OK",
+                    XamlRoot = this.XamlRoot // Đảm bảo dialog hiển thị trên cửa sổ hiện tại
+                };
 
+                await dialog.ShowAsync();
+                return; // Dừng thực thi nếu không có từ khóa
+            }
+
+            // Gọi ViewModel để làm mới dữ liệu
             ViewModel.RefreshData(selectedDate, keyword);
         }
+
 
         private async void  OnUpdateRowDataClick(object sender, RoutedEventArgs e)
         {

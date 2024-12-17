@@ -233,7 +233,7 @@ namespace QuanLyMayMoc
 
             return tasks;
         }
-        public ObservableCollection<Task> GetAllTasksFromDatabase(DateTime? ngaythuchien, string tennv)
+        public ObservableCollection<Task> GetAllTasksFromDatabase(DateTime? ngaythuchien, string manv)
         {
             var tasks = new ObservableCollection<Task>();
             try
@@ -246,27 +246,27 @@ namespace QuanLyMayMoc
                     string query = "";
 
                     // Xây dựng câu truy vấn dựa trên các điều kiện
-                    if (ngaythuchien.HasValue && !string.IsNullOrEmpty(tennv) && ngaythuchien != DateTime.MinValue)
+                    if (ngaythuchien.HasValue && !string.IsNullOrEmpty(manv) && ngaythuchien != DateTime.MinValue)
                     {
-                        // Cả hai điều kiện đều có giá trị
+                        
                         query = @"
                             SELECT 
                                 stt, ngaythuchien, hotenkh, sdt, diachi, tendichvu, 
                                 manv, tennv, malinhkien, tenlinhkien, soluonglinhkien, 
                                 maloi, tenloi, soluongloi, phidichvu, ghichu, maduan, macvduan
                             FROM congviec
-                            WHERE ngaythuchien = @ngaythuchien AND tennv ILIKE @tennv AND maduan = @maduan
+                            WHERE ngaythuchien = @ngaythuchien AND manv ILIKE @manv AND maduan = @maduan
                             UNION ALL
                             SELECT 
                                 stt, ngaythuchien, hotenkh, sdt, diachi, tendichvu, 
                                 manv, tennv, malinhkien, tenlinhkien, soluonglinhkien, 
                                 maloi, tenloi, soluongloi, phidichvu, ghichu, maduan, macvduan
                             FROM congviectamthoi
-                            WHERE ngaythuchien = @ngaythuchien AND tennv ILIKE @tennv AND maduan = @maduan";
+                            WHERE ngaythuchien = @ngaythuchien AND manv ILIKE @manv AND maduan = @maduan";
                     }
-                    else if (ngaythuchien.HasValue && string.IsNullOrEmpty(tennv))
+                    else if (ngaythuchien.HasValue && string.IsNullOrEmpty(manv))
                     {
-                        // Chỉ có ngày thực hiện
+                       
                         query = @"
                             SELECT 
                                 stt, ngaythuchien, hotenkh, sdt, diachi, tendichvu, 
@@ -282,27 +282,27 @@ namespace QuanLyMayMoc
                             FROM congviectamthoi
                             WHERE ngaythuchien = @ngaythuchien AND maduan = @maduan";
                     }
-                    else if (!string.IsNullOrEmpty(tennv) && (ngaythuchien == DateTime.MinValue))
+                    else if (!string.IsNullOrEmpty(manv) && (ngaythuchien == DateTime.MinValue))
                     {
-                        // Có cả tên nhân viên và ngày thực hiện (ngaythuchien hợp lệ)
+                       
                         query = @"
                             SELECT 
                                 stt, ngaythuchien, hotenkh, sdt, diachi, tendichvu, 
                                 manv, tennv, malinhkien, tenlinhkien, soluonglinhkien, 
                                 maloi, tenloi, soluongloi, phidichvu, ghichu, maduan, macvduan
                             FROM congviec
-                            WHERE  tennv ILIKE @tennv AND maduan = @maduan
+                            WHERE  manv ILIKE @manv AND maduan = @maduan
                             UNION ALL
                             SELECT 
                                 stt, ngaythuchien, hotenkh, sdt, diachi, tendichvu, 
                                 manv, tennv, malinhkien, tenlinhkien, soluonglinhkien, 
                                 maloi, tenloi, soluongloi, phidichvu, ghichu, maduan, macvduan
                             FROM congviectamthoi
-                            WHERE  tennv ILIKE @tennv AND maduan = @maduan";
+                            WHERE  manv ILIKE @manv AND maduan = @maduan";
                     }
-                    else if (string.IsNullOrEmpty(tennv) && (ngaythuchien == DateTime.MinValue))
+                    else if (string.IsNullOrEmpty(manv) && (ngaythuchien == DateTime.MinValue))
                     {
-                        // Chỉ có tên nhân viên
+                       
                         query = @"
                             SELECT 
                                 stt, ngaythuchien, hotenkh, sdt, diachi, tendichvu, 
@@ -320,6 +320,7 @@ namespace QuanLyMayMoc
                     }
 
 
+
                     using (var command = new NpgsqlCommand(query, connection))
                     {
                         // Thêm tham số vào câu truy vấn
@@ -328,9 +329,9 @@ namespace QuanLyMayMoc
                             command.Parameters.AddWithValue("@ngaythuchien", ngaythuchien);
                         }
 
-                        if (!string.IsNullOrEmpty(tennv))
+                        if (!string.IsNullOrEmpty(manv))
                         {
-                            command.Parameters.AddWithValue("@tennv", $"%{tennv}%");
+                            command.Parameters.AddWithValue("@manv", $"%{manv}%");
                         }
 
                         command.Parameters.AddWithValue("@maduan", AppData.ProjectID);
