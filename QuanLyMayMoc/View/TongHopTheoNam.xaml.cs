@@ -1,4 +1,4 @@
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
@@ -26,6 +26,10 @@ namespace QuanLyMayMoc.View
         public TongHopTheoNam()
         {
             this.InitializeComponent();
+            this.Loaded += (sender, args) =>
+            {
+                MainPage.ChangeHeaderTextBlock("Tổng hợp theo năm");
+            };
         }
     }
 }
