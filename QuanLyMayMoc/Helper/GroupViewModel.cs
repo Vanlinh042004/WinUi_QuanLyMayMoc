@@ -26,6 +26,21 @@ namespace QuanLyMayMoc
         }
     }
 
+    public class YearGroupViewModel
+    {
+        public int Year { get; set; }
+        public ObservableCollection<GroupProductViewModel> MonthlyGroups { get; set; }
+        public double TotalYear { get; set; }
+
+        public YearGroupViewModel(int year, IEnumerable<GroupProductViewModel> monthlyGroups)
+        {
+            Year = year;
+            MonthlyGroups = new ObservableCollection<GroupProductViewModel>(monthlyGroups);
+            TotalYear = monthlyGroups.Sum(group => group.TotalMonth);
+        }
+    }
+
+
     public class GroupServiceViewModel
     {
         public int Month { get; set; } 
@@ -61,6 +76,19 @@ namespace QuanLyMayMoc
         }
     }
 
+    public class YearlyServiceGroupViewModel
+    {
+        public int Year { get; set; } // Năm
+        public double YearlyTotalFee { get; set; } // Tổng tiền theo năm
+        public ObservableCollection<MonthlyGroupViewModel> MonthlyGroups { get; set; } // Nhóm theo tháng
+
+        public YearlyServiceGroupViewModel(int year, double yearlyTotalFee, IEnumerable<MonthlyGroupViewModel> monthlyGroups)
+        {
+            Year = year;
+            YearlyTotalFee = yearlyTotalFee;
+            MonthlyGroups = new ObservableCollection<MonthlyGroupViewModel>(monthlyGroups);
+        }
+    }
 
 
 }

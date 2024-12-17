@@ -25,7 +25,7 @@ namespace QuanLyMayMoc
         public PostgresSqlDao()
         {
         }
-
+        //WHERE maduan = @maduan";
 
         public ObservableCollection<Employee> GetEmployees()
         {
@@ -34,8 +34,8 @@ namespace QuanLyMayMoc
                 hoten, manv, gioitinh, ngaykyhopdong, ngaysinh, 
                 trangthai, dantoc, cccd, phongban, email, 
                 sdt, diachi, maduan, anhdaidien
-            FROM nhanvien
-            WHERE maduan = @maduan";
+            FROM nhanvien";
+          
 
             ObservableCollection<Employee> employees = new ObservableCollection<Employee>();
 
@@ -45,7 +45,7 @@ namespace QuanLyMayMoc
                 using (var command = new NpgsqlCommand(query, connection))
                 {
                     // Truyền giá trị cho tham số @maduan
-                    command.Parameters.AddWithValue("@maduan", AppData.ProjectID);
+                   // command.Parameters.AddWithValue("@maduan", AppData.ProjectID);
 
                     using (var reader = command.ExecuteReader())
                     {
@@ -1320,8 +1320,8 @@ namespace QuanLyMayMoc
         }
         public async void SaveToLinhKienTam()
         {
-            try
-            {
+           // try
+           // {
                 using (var connection = new NpgsqlConnection(connectionString))
                 {
                     await connection.OpenAsync();
@@ -1345,17 +1345,17 @@ namespace QuanLyMayMoc
                         }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                await new ContentDialog
-                {
-                    Title = "Lỗi",
-                    Content = $"Có lỗi xảy ra khi tạo dự án: {ex.Message}",
-                    CloseButtonText = "OK",
-                    //XamlRoot = this.XamlRoot
-                }.ShowAsync();
-            }
+           // }
+            //catch (Exception ex)
+            //{
+            //    await new ContentDialog
+            //    {
+            //        Title = "Lỗi",
+            //        Content = $"Có lỗi xảy ra khi tạo dự án: {ex.Message}",
+            //        CloseButtonText = "OK",
+            //        XamlRoot = this.XamlRoot
+            //    }.ShowAsync();
+            //}
 
         }
         public async void SaveToLinhKienDuAnToTam()
@@ -1688,14 +1688,14 @@ namespace QuanLyMayMoc
                     await connection.OpenAsync();
                     {
                         // Xóa dữ liệu cũ trong bảng loiduantam (nếu có)
-                        //string deleteLoiDuAnQuery = @" DELETE 
-                        //                           FROM loiduantam
-                        //                           WHERE maduan = @maDuAn";
-                        //using (var command = new NpgsqlCommand(deleteLoiDuAnQuery, connection))
-                        //{
-                        //    command.Parameters.AddWithValue("@maDuAn", AppData.ProjectID);
-                        //    await command.ExecuteNonQueryAsync();
-                        //}
+                        string deleteLoiDuAnQuery = @" DELETE 
+                                                   FROM loiduantam
+                                                   WHERE maduan = @maDuAn";
+                        using (var command = new NpgsqlCommand(deleteLoiDuAnQuery, connection))
+                        {
+                            command.Parameters.AddWithValue("@maDuAn", AppData.ProjectID);
+                            await command.ExecuteNonQueryAsync();
+                        }
                         // Thêm dữ liệu từ loi vào loiduantam
                         string insertQuery = @" INSERT INTO loiduantam (mahieuduan, mahieu, tenloi, giaban, maduan)
                                                 SELECT CONCAT(mahieu,'_', @maDuAn), mahieu, tenloi, giaban, @maDuAn
@@ -2269,9 +2269,9 @@ namespace QuanLyMayMoc
         public ObservableCollection<MonthlyProductSummary> GetMonthlyProductSummaries()
         {
             string query = @"
-            SELECT 
-                Thang, MaSanPham, TenSanPham, SoLuong, GiaBan, TongTien
-            FROM TongHopSanPhamTheoThang";
+    SELECT 
+        Nam, Thang, MaSanPham, TenSanPham, SoLuong, GiaBan, TongTienThang, TongTienNam
+    FROM TongHopSanPham";
 
             ObservableCollection<MonthlyProductSummary> monthlyProductSummaries = new ObservableCollection<MonthlyProductSummary>();
 
@@ -2286,12 +2286,14 @@ namespace QuanLyMayMoc
                         {
                             monthlyProductSummaries.Add(new MonthlyProductSummary
                             {
-                                Month = reader.IsDBNull(0) ? 0 : reader.GetInt32(0), // Thang
-                                ProductCode = reader.IsDBNull(1) ? null : reader.GetString(1), // MaSanPham
-                                ProductName = reader.IsDBNull(2) ? null : reader.GetString(2), // TenSanPham
-                                Quantity = reader.IsDBNull(3) ? 0 : reader.GetInt32(3), // SoLuong
-                                Price = reader.IsDBNull(4) ? 0.0 : reader.GetDouble(4), // GiaBan
-                                TotalPrice = reader.IsDBNull(5) ? 0.0 : reader.GetDouble(5) // TongTien
+                                Year = reader.IsDBNull(0) ? 0 : reader.GetInt32(0),          // Nam
+                                Month = reader.IsDBNull(1) ? 0 : reader.GetInt32(1),         // Thang
+                                ProductCode = reader.IsDBNull(2) ? null : reader.GetString(2), // MaSanPham
+                                ProductName = reader.IsDBNull(3) ? null : reader.GetString(3), // TenSanPham
+                                Quantity = reader.IsDBNull(4) ? 0 : reader.GetInt32(4),      // SoLuong
+                                Price = reader.IsDBNull(5) ? 0.0 : reader.GetDouble(5),      // GiaBan
+                                TotalPrice = reader.IsDBNull(6) ? 0.0 : reader.GetDouble(6), // TongTienThang
+                                TotalYear = reader.IsDBNull(7) ? 0.0 : reader.GetDouble(7) // TongTienNam
                             });
                         }
                     }
@@ -2300,12 +2302,13 @@ namespace QuanLyMayMoc
 
             return monthlyProductSummaries;
         }
+
         public ObservableCollection<MonthlyServiceSummary> GetMonthlyServiceSummaries()
         {
             string query = @"
-                SELECT 
-                    MaTongHop, Thang, MaNhanVien, TenNhanVien, SoThuTu, PhiDichVu, TongPhiDichVu, TongPhiDichVuThang
-                FROM TongHopDichVuTheoThang";
+        SELECT 
+            MaTongHop, Thang, Nam, MaNhanVien, TenNhanVien, SoThuTu, PhiDichVu, TongPhiDichVu, TongPhiDichVuThang, TongPhiDichVuNam
+        FROM TongHopDichVu";
 
             ObservableCollection<MonthlyServiceSummary> monthlyServiceSummaries = new ObservableCollection<MonthlyServiceSummary>();
 
@@ -2322,12 +2325,14 @@ namespace QuanLyMayMoc
                             {
                                 Code = reader.IsDBNull(0) ? null : reader.GetString(0), // MaTongHop
                                 Month = reader.IsDBNull(1) ? 0 : reader.GetInt32(1), // Thang
-                                EmployeeCode = reader.IsDBNull(2) ? null : reader.GetString(2), // MaNhanVien
-                                EmployeeName = reader.IsDBNull(3) ? null : reader.GetString(3), // TenNhanVien
-                                STT = reader.IsDBNull(4) ? 0 : reader.GetInt32(4), // MaCongViec
-                                ServiceFee = reader.IsDBNull(5) ? 0.0 : reader.GetDouble(5), // PhiDichVu
-                                TotalServiceFee = reader.IsDBNull(6) ? 0.0 : reader.GetDouble(6), // TongPhiDichVu
-                                MonthlyTotalFee = reader.IsDBNull(7) ? 0.0 : reader.GetDouble(7) // TongPhiDichVuThang
+                                Year = reader.IsDBNull(2) ? 0 : reader.GetInt32(2), // Nam
+                                EmployeeCode = reader.IsDBNull(3) ? null : reader.GetString(3), // MaNhanVien
+                                EmployeeName = reader.IsDBNull(4) ? null : reader.GetString(4), // TenNhanVien
+                                STT = reader.IsDBNull(5) ? 0 : reader.GetInt32(5), // SoThuTu
+                                ServiceFee = reader.IsDBNull(6) ? 0.0 : reader.GetDouble(6), // PhiDichVu
+                                TotalServiceFee = reader.IsDBNull(7) ? 0.0 : reader.GetDouble(7), // TongPhiDichVu
+                                MonthlyTotalFee = reader.IsDBNull(8) ? 0.0 : reader.GetDouble(8), // TongPhiDichVuThang
+                                YearlyTotalFee = reader.IsDBNull(9) ? 0.0 : reader.GetDouble(9) // TongPhiDichVuNam
                             });
                         }
                     }
@@ -2337,12 +2342,13 @@ namespace QuanLyMayMoc
             return monthlyServiceSummaries;
         }
 
+
         public void SummaryProduct(ObservableCollection<MonthlyProductSummary> monthlyProductSummaries)
         {
             string insertQuery = @"
-                    INSERT INTO TongHopSanPhamTheoThang 
-                    (MaTongHop, Thang, MaSanPham, TenSanPham, SoLuong, GiaBan, TongTien)
-                    VALUES (@MaTongHop, @Thang, @MaSanPham, @TenSanPham, @SoLuong, @GiaBan, @TongTien)";
+            INSERT INTO TongHopSanPham 
+            (MaTongHop, Nam, Thang, MaSanPham, TenSanPham, SoLuong, GiaBan, TongTienThang, TongTienNam)
+            VALUES (@MaTongHop, @Nam, @Thang, @MaSanPham, @TenSanPham, @SoLuong, @GiaBan, @TongTienThang, @TongTienNam)";
 
             using (var connection = new NpgsqlConnection(connectionString))
             {
@@ -2352,17 +2358,27 @@ namespace QuanLyMayMoc
                 {
                     try
                     {
+                        // Tính tổng tiền theo năm
+                        var yearlyTotals = monthlyProductSummaries
+                            .GroupBy(summary => summary.Year)
+                            .ToDictionary(group => group.Key, group => group.Sum(item => item.TotalPrice));
+
                         foreach (var summary in monthlyProductSummaries)
                         {
                             using (var command = new NpgsqlCommand(insertQuery, connection, transaction))
                             {
                                 command.Parameters.AddWithValue("@MaTongHop", summary.Code);
+                                command.Parameters.AddWithValue("@Nam", summary.Year);
                                 command.Parameters.AddWithValue("@Thang", summary.Month);
                                 command.Parameters.AddWithValue("@MaSanPham", summary.ProductCode);
                                 command.Parameters.AddWithValue("@TenSanPham", summary.ProductName);
                                 command.Parameters.AddWithValue("@SoLuong", summary.Quantity);
                                 command.Parameters.AddWithValue("@GiaBan", summary.Price);
-                                command.Parameters.AddWithValue("@TongTien", summary.TotalPrice);
+                                command.Parameters.AddWithValue("@TongTienThang", summary.TotalPrice);
+
+                                // Lấy tổng tiền năm từ dictionary
+                                var totalYear = yearlyTotals[summary.Year];
+                                command.Parameters.AddWithValue("@TongTienNam", totalYear);
 
                                 command.ExecuteNonQuery();
                             }
@@ -2379,12 +2395,13 @@ namespace QuanLyMayMoc
             }
         }
 
+
         public void SummaryService(ObservableCollection<MonthlyServiceSummary> monthlyServiceSummaries)
         {
             string query = @"
-                INSERT INTO TongHopDichVuTheoThang 
-                (MaTongHop, Thang, MaNhanVien, TenNhanVien, SoThuTu, PhiDichVu, TongPhiDichVu, TongPhiDichVuThang) 
-                VALUES (@Code, @Month, @EmployeeCode, @EmployeeName, @SoThuTu, @ServiceFee, @TotalServiceFee, @MonthlyTotalFee)";
+        INSERT INTO TongHopDichVu 
+        (MaTongHop, Thang, Nam, MaNhanVien, TenNhanVien, SoThuTu, PhiDichVu, TongPhiDichVu, TongPhiDichVuThang, TongPhiDichVuNam) 
+        VALUES (@Code, @Month, @Year, @EmployeeCode, @EmployeeName, @STT, @ServiceFee, @TotalServiceFee, @MonthlyTotalFee, @YearlyTotalFee)";
 
             using (var connection = new NpgsqlConnection(connectionString))
             {
@@ -2396,22 +2413,25 @@ namespace QuanLyMayMoc
                     {
                         command.Parameters.AddWithValue("@Code", summary.Code);
                         command.Parameters.AddWithValue("@Month", summary.Month);
+                        command.Parameters.AddWithValue("@Year", summary.Year); // Thêm cột Nam
                         command.Parameters.AddWithValue("@EmployeeCode", summary.EmployeeCode);
                         command.Parameters.AddWithValue("@EmployeeName", summary.EmployeeName);
-                        command.Parameters.AddWithValue("@SoThuTu", summary.STT);
+                        command.Parameters.AddWithValue("@STT", summary.STT);
                         command.Parameters.AddWithValue("@ServiceFee", summary.ServiceFee);
                         command.Parameters.AddWithValue("@TotalServiceFee", summary.TotalServiceFee);
                         command.Parameters.AddWithValue("@MonthlyTotalFee", summary.MonthlyTotalFee);
+                        command.Parameters.AddWithValue("@YearlyTotalFee", summary.YearlyTotalFee); // Thêm cột TongPhiDichVuNam
                         command.ExecuteNonQuery();
                     }
                 }
             }
         }
 
+
         public void ClearSummary()
         {
-            string deleteProductSummaryQuery = "DELETE FROM TongHopSanPhamTheoThang";
-            string deleteServiceSummaryQuery = "DELETE FROM TongHopDichVuTheoThang";
+            string deleteProductSummaryQuery = "DELETE FROM TongHopSanPham";
+            string deleteServiceSummaryQuery = "DELETE FROM TongHopDichVu";
 
             using (var connection = new NpgsqlConnection(connectionString))
             {
@@ -2512,6 +2532,54 @@ namespace QuanLyMayMoc
                 }
             }
         }
+
+        public int CountTask(Task congviec)
+        {
+            int count = 0;
+            // Truy vấn SQL để đếm số lượng công việc từ cả hai bảng
+            string query = @"
+                SELECT COUNT(*) 
+                 FROM CongViec WHERE MaCvDuan = @MaCvDuan
+
+                   ";
+
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    // Thêm tham số để tránh SQL Injection
+                    command.Parameters.AddWithValue("@MaCVDuan", congviec.MaCVDuAn);
+
+                    // Thực thi truy vấn và trả về kết quả
+                     count = Convert.ToInt32(command.ExecuteScalar());
+                   
+                }
+            }
+            string queryTemp = @"
+                SELECT COUNT(*) 
+                 FROM CongViecTamThoi WHERE MaCvDuan = @MaCvDuan
+
+                   ";
+
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+
+                using (var command = new NpgsqlCommand(queryTemp, connection))
+                {
+                    // Thêm tham số để tránh SQL Injection
+                    command.Parameters.AddWithValue("@MaCVDuan", congviec.MaCVDuAn);
+
+                    // Thực thi truy vấn và trả về kết quả
+                   count+=  Convert.ToInt32(command.ExecuteScalar());
+                    
+                }
+            }
+            return count;
+        }
+
 
         public void ClearAllTempData()
         {

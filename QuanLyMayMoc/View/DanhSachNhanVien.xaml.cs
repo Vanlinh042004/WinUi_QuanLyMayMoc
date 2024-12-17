@@ -42,6 +42,7 @@ namespace QuanLyMayMoc
 
         private string _selectedImagePath;
 
+        private DispatcherTimer refreshTimer; // Timer để tự động refresh
 
         public DanhSachNhanVien()
         {
@@ -49,6 +50,8 @@ namespace QuanLyMayMoc
        
             // Initialize the list with sample data
             ViewModel = new MainViewModel();
+            InitializeRefreshTimer();
+
             ViewModel.LoadDataEmployee();
             _window = new Page();
             this.Loaded += (sender, args) =>
@@ -58,7 +61,23 @@ namespace QuanLyMayMoc
 
         }
 
-       
+        private void InitializeRefreshTimer()
+        {
+            refreshTimer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(5) // Khoảng thời gian lặp lại (5 giây)
+            };
+            refreshTimer.Tick += (sender, e) => ViewModel.RefreshData();
+            refreshTimer.Start();
+        }
+
+        protected override void OnNavigatedFrom(Microsoft.UI.Xaml.Navigation.NavigationEventArgs e)
+        {
+            // Dừng Timer khi trang không còn hiển thị
+            refreshTimer?.Stop();
+            base.OnNavigatedFrom(e);
+        }
+
 
 
         private async void ChooseImageButton_Click(object sender, RoutedEventArgs e)

@@ -43,40 +43,48 @@
 
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="100" />
-                        <ColumnDefinition Width="250"/>
-                        <ColumnDefinition Width="400"/>
-                        <ColumnDefinition Width="250"/>
+                        <ColumnDefinition Width="100" />
                         <ColumnDefinition Width="200"/>
-                        <ColumnDefinition Width="230"/>
-                        <ColumnDefinition Width="250"/>
+                        <ColumnDefinition Width="300"/>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="300"/>
+                        <ColumnDefinition Width="300"/>
+                        <ColumnDefinition Width="300"/>
+                        <ColumnDefinition Width="300"/>
 
                     </Grid.ColumnDefinitions>
 
                     <!-- Tiêu đề cột -->
                     <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <TextBlock Text="THÁNG" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
+                        <TextBlock Text="NĂM" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
                     </Border>
                     <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <TextBlock Text="MÃ NHÂN VIÊN" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
+                        <TextBlock Text="THÁNG" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
                     </Border>
                     <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <TextBlock Text="TÊN NHÂN VIÊN" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
+                        <TextBlock Text="MÃ NHÂN VIÊN" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
                     </Border>
                     <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <TextBlock Text="STT CÔNG VIỆC" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
+                        <TextBlock Text="TÊN NHÂN VIÊN" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
                     </Border>
                     <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0" Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <TextBlock Text="PHÍ DỊCH VỤ" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
+                        <TextBlock Text="STT CÔNG VIỆC" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
                     </Border>
                     <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0" Grid.Column="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <TextBlock Text="TỔNG PHÍ DỊCH VỤ" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
+                        <TextBlock Text="PHÍ DỊCH VỤ" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
                     </Border>
                     <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0" Grid.Column="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <TextBlock Text="TỔNG PHÍ DỊCH VỤ" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
+                    </Border>
+                    <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0" Grid.Column="7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <TextBlock Text="TỔNG PHÍ DỊCH VỤ THÁNG" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
+                    </Border>
+                    <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0" Grid.Column="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <TextBlock Text="TỔNG PHÍ DỊCH VỤ NĂM" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
                     </Border>
                 </Grid>
              
-                <Grid Grid.Row="2">
+                <!--<Grid Grid.Row="2">
                   
                     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                         <ItemsControl ItemsSource="{x:Bind ViewModel.MonthlyGroupedItems}">
@@ -85,55 +93,55 @@
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*" />
-                                        <!-- Dòng dữ liệu nhân viên và công việc -->
+                                        --><!-- Dòng dữ liệu nhân viên và công việc --><!--
                                     </Grid.RowDefinitions>
 
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="100" />
-                                        <!-- Cột Tháng -->
+                                        --><!-- Cột Tháng --><!--
                                         <ColumnDefinition Width="1330" />
-                                        <!-- Cột chứa chi tiết nhân viên -->
+                                        --><!-- Cột chứa chi tiết nhân viên --><!--
                                         <ColumnDefinition Width="250" />
-                                        <!-- Cột Tổng tiền tháng -->
+                                        --><!-- Cột Tổng tiền tháng --><!--
                                     </Grid.ColumnDefinitions>
 
-                                    <!-- Cột Tháng -->
+                                    --><!-- Cột Tháng --><!--
                                     <Border Grid.Row="0" Grid.RowSpan="{x:Bind EmployeeGroups.Count}" Grid.Column="0" 
                         BorderBrush="Gray" BorderThickness="1" Background="LightGray" Margin="0,5,5,5">
                                         <TextBlock Text="{x:Bind Month}" FontWeight="Bold" FontSize="16" 
                                Foreground="DarkBlue" HorizontalAlignment="Center" VerticalAlignment="Center" />
                                     </Border>
 
-                                    <!-- Nhóm theo nhân viên và công việc -->
+                                    --><!-- Nhóm theo nhân viên và công việc --><!--
                                     <ItemsControl Grid.Row="0" Grid.Column="1" ItemsSource="{x:Bind EmployeeGroups}">
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate x:DataType="local:GroupServiceViewModel">
                                                 <Grid Margin="0,5,0,5">
                                                     <Grid.RowDefinitions>
                                                         <RowDefinition Height="Auto" />
-                                                        <!-- Thông tin nhân viên -->
+                                                        --><!-- Thông tin nhân viên -->
                                                       
-                                                        <!-- Chi tiết công việc -->
+                                                        <!-- Chi tiết công việc --><!--
                                                     </Grid.RowDefinitions>
 
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="250" />
-                                                        <!-- Mã nhân viên -->
+                                                        --><!-- Mã nhân viên --><!--
                                                         <ColumnDefinition Width="400" />
-                                                        <!-- Tên nhân viên -->
+                                                        --><!-- Tên nhân viên --><!--
                                                         <ColumnDefinition Width="450" />
                                                       
                                                         <ColumnDefinition Width="230" />                                                                                                        
                                                     </Grid.ColumnDefinitions>
 
-                                                    <!-- Mã nhân viên -->
+                                                    --><!-- Mã nhân viên --><!--
                                                     <Border Grid.Row="0" Grid.RowSpan="{x:Bind Items.Count}" Grid.Column="0"
                                         BorderBrush="Gray" BorderThickness="1" Margin="0,0,5,0">
                                                         <TextBlock Text="{x:Bind EmployeeCode}" HorizontalAlignment="Center" 
                                                VerticalAlignment="Center" Foreground="DarkRed" />
                                                     </Border>
 
-                                                    <!-- Tên nhân viên -->
+                                                    --><!-- Tên nhân viên --><!--
                                                     <Border Grid.Row="0" Grid.RowSpan="{x:Bind Items.Count}" Grid.Column="1"
                                         BorderBrush="Gray" BorderThickness="1" Margin="0,0,5,0">
                                                         <TextBlock Text="{x:Bind EmployeeName}" HorizontalAlignment="Center" 
@@ -146,10 +154,10 @@
                                                                     <Grid Margin="0,2,0,2">
                                                                         <Grid.ColumnDefinitions>
                                                                             <ColumnDefinition Width="250" />
-                                                                            <!-- Mã công việc -->
+                                                                            --><!-- Mã công việc --><!--
                                                                             <ColumnDefinition Width="200" />
                                                                            
-                                                                            <!-- Phí dịch vụ -->
+                                                                            --><!-- Phí dịch vụ --><!--
                                                                         </Grid.ColumnDefinitions>
 
                                                                         <Border Grid.Column="0" BorderBrush="Gray" BorderThickness="1" Margin="0,0,5,0" CornerRadius="5">
@@ -166,21 +174,21 @@
                                                             </ItemsControl.ItemTemplate>
                                                         </ItemsControl>
 
-                                                        <!-- Tổng phí dịch vụ -->
+                                                        --><!-- Tổng phí dịch vụ --><!--
                                                     <Border Grid.Row="0" Grid.RowSpan="{x:Bind Items.Count}" Grid.Column="3"
                                         BorderBrush="Gray" BorderThickness="1" Margin="0,0,5,0">
                                                     <TextBlock Text="{x:Bind TotalServiceFee, Converter={StaticResource CurrencyFormatConverter}}" HorizontalAlignment="Center" 
                                                VerticalAlignment="Center" Foreground="Green" />
                                                     </Border>
 
-                                                    <!-- Chi tiết công việc -->
+                                                    --><!-- Chi tiết công việc --><!--
                                                   
                                                 </Grid>
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>
                                     </ItemsControl>
 
-                                    <!-- Cột Tổng tiền tháng -->
+                                    --><!-- Cột Tổng tiền tháng --><!--
                                     <Border Grid.Row="0" Grid.RowSpan="{x:Bind EmployeeGroups.Count}" Grid.Column="2"
                         BorderBrush="Gray" BorderThickness="1" Background="LightYellow" Margin="5,5,0,5">
                                     <TextBlock Text="{x:Bind MonthlyTotalFee    , Converter={StaticResource CurrencyFormatConverter}}" FontWeight="Bold" FontSize="16" 
@@ -194,6 +202,154 @@
                     </ScrollViewer>
 
 
+                </Grid>-->
+
+                <Grid Grid.Row="2">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                        <!-- Group theo Năm -->
+                        <ItemsControl ItemsSource="{x:Bind ViewModel.GroupedYearServiecItems}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="local:YearlyServiceGroupViewModel">
+                                    <Grid Margin="0,10,0,10">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="100" />
+                                            <!-- Cột Năm -->
+                                            <ColumnDefinition Width="*" />
+                                            <!-- Cột Tháng và Dịch vụ -->
+                                            <ColumnDefinition Width="300" />
+                                            <!-- Tổng tiền Năm -->
+                                        </Grid.ColumnDefinitions>
+
+                                        <!-- Hiển thị Năm -->
+                                        <Border Grid.Row="0" Grid.RowSpan="{x:Bind MonthlyGroups.Count}" Grid.Column="0"
+                                BorderBrush="Gray" BorderThickness="2" CornerRadius="5" Margin="0,5,5,5">
+                                            <TextBlock Text="{x:Bind Year}" FontSize="18" FontWeight="Bold" 
+                                       Foreground="Blue" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Border>
+
+                                        <!-- Group theo Tháng -->
+                                        <ItemsControl Grid.Row="0" Grid.Column="1" ItemsSource="{x:Bind MonthlyGroups}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate x:DataType="local:MonthlyGroupViewModel">
+                                                    <Grid Margin="0,5,0,5">
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="Auto" />
+                                                        </Grid.RowDefinitions>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="100" />
+                                                            <!-- Cột Tháng -->
+                                                            <ColumnDefinition Width="*" />
+                                                            <!-- Nhân viên và Chi tiết công việc -->
+                                                            <ColumnDefinition Width="300" />
+                                                            <!-- Tổng tiền Tháng -->
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <!-- Hiển thị Tháng -->
+                                                        <Border Grid.Row="0" Grid.RowSpan="{x:Bind EmployeeGroups.Count}" Grid.Column="0"
+                                                BorderBrush="Gray" BorderThickness="2" CornerRadius="5" Margin="0,5,5,5">
+                                                            <TextBlock Text="{x:Bind Month}" FontWeight="Bold" FontSize="16"
+                                                       Foreground="DarkRed" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                        </Border>
+
+                                                        <!-- Group theo Nhân viên -->
+                                                        <ItemsControl Grid.Row="0" Grid.Column="1" ItemsSource="{x:Bind EmployeeGroups}">
+                                                            <ItemsControl.ItemTemplate>
+                                                                <DataTemplate x:DataType="local:GroupServiceViewModel">
+                                                                    <Grid Margin="0,2,0,2">
+                                                                        <Grid.RowDefinitions>
+                                                                            <RowDefinition Height="Auto" />
+                                                                        </Grid.RowDefinitions>
+                                                                        <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition Width="200" />
+                                                                            <!-- Mã Nhân viên -->
+                                                                            <ColumnDefinition Width="300" />
+                                                                            <!-- Tên Nhân viên -->
+                                                                            <ColumnDefinition Width="*" />
+                                                                            <!-- Chi tiết công việc -->
+                                                                            <ColumnDefinition Width="300" />
+                                                                            <!-- Tổng phí Nhân viên -->
+                                                                        </Grid.ColumnDefinitions>
+
+                                                                        <!-- Mã Nhân viên -->
+                                                                        <Border Grid.Column="0" BorderBrush="Gray" BorderThickness="1" Margin="0,0,5,0">
+                                                                            <TextBlock Text="{x:Bind EmployeeCode}" HorizontalAlignment="Center" 
+                                                                       VerticalAlignment="Center" Foreground="DarkBlue" />
+                                                                        </Border>
+
+                                                                        <!-- Tên Nhân viên -->
+                                                                        <Border Grid.Column="1" BorderBrush="Gray" BorderThickness="1" Margin="0,0,5,0">
+                                                                            <TextBlock Text="{x:Bind EmployeeName}" HorizontalAlignment="Center" 
+                                                                       VerticalAlignment="Center" Foreground="DarkBlue" />
+                                                                        </Border>
+
+                                                                        <!-- Chi tiết công việc -->
+                                                                        <ItemsControl Grid.Column="2" ItemsSource="{x:Bind Items}">
+                                                                            <ItemsControl.ItemTemplate>
+                                                                                <DataTemplate x:DataType="local:MonthlyServiceSummary">
+                                                                                    <Grid Margin="0,2,0,2">
+                                                                                        <Grid.ColumnDefinitions>
+                                                                                            <ColumnDefinition Width="150" />
+                                                                                            <!-- STT -->
+                                                                                            <ColumnDefinition Width="300" />
+                                                                                            <!-- Phí dịch vụ -->
+                                                                                        </Grid.ColumnDefinitions>
+
+                                                                                        <Border Grid.Column="0" BorderBrush="Gray" BorderThickness="1" Margin="0,0,5,0">
+                                                                                            <TextBlock Text="{x:Bind STT}" HorizontalAlignment="Center" 
+                                                                                       VerticalAlignment="Center" Foreground="Black" />
+                                                                                        </Border>
+
+                                                                                        <Border Grid.Column="1" BorderBrush="Gray" BorderThickness="1" Margin="0,0,5,0">
+                                                                                            <TextBlock Text="{x:Bind ServiceFee, Converter={StaticResource CurrencyFormatConverter}}"
+                                                                                       HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black" />
+                                                                                        </Border>
+                                                                                    </Grid>
+                                                                                </DataTemplate>
+                                                                            </ItemsControl.ItemTemplate>
+                                                                        </ItemsControl>
+
+                                                                        <!-- Tổng phí dịch vụ Nhân viên -->
+                                                                        <!-- Tổng phí dịch vụ Nhân viên -->
+                                                                        <Border Grid.Column="3" Grid.RowSpan="{x:Bind Items.Count}" BorderBrush="Gray" BorderThickness="1" Margin="0,0,5,0">
+                                                                            <TextBlock Text="{x:Bind TotalServiceFee, Converter={StaticResource CurrencyFormatConverter}}"
+                                                                             FontWeight="Bold" Foreground="Green" 
+                                                                             HorizontalAlignment="Center" VerticalAlignment="Center" />       
+                                                                        </Border>
+
+                                                                    </Grid>
+                                                                </DataTemplate>
+                                                            </ItemsControl.ItemTemplate>
+                                                        </ItemsControl>
+
+                                                        <!-- Tổng phí Tháng -->
+                                                        <!-- Tổng phí dịch vụ Tháng -->
+                                                        <Border Grid.Row="0" Grid.Column="2" Grid.RowSpan="{x:Bind EmployeeGroups.Count}" 
+        BorderBrush="Gray" BorderThickness="2" CornerRadius="5" Margin="0,5,0,5" Background="LightYellow">
+                                                            <TextBlock Text="{x:Bind MonthlyTotalFee, Converter={StaticResource CurrencyFormatConverter}}"
+               FontWeight="Bold" FontSize="14" Foreground="Red" 
+               HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                        </Border>
+
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+
+                                        <!-- Tổng phí Năm -->
+                                        <Border Grid.Row="0" Grid.Column="2" Grid.RowSpan="{x:Bind MonthlyGroups.Count}"
+                                BorderBrush="Gray" BorderThickness="2" CornerRadius="5" Background="LightCyan">
+                                            <TextBlock Text="{x:Bind YearlyTotalFee, Converter={StaticResource CurrencyFormatConverter}}"
+                                       FontWeight="Bold" FontSize="18" Foreground="DarkGreen" 
+                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Border>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
                 </Grid>
 
 

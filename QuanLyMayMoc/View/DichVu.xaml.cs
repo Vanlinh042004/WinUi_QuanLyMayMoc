@@ -24,16 +24,37 @@ namespace QuanLyMayMoc.View
     /// </summary>
     public sealed partial class DichVu : Page
     {
+        private DispatcherTimer refreshTimer; // Timer để tự động refresh
+
         public DichVu()
         {
             this.InitializeComponent();
             ViewModel = new MainViewModel();
+            InitializeRefreshTimer();
+
             this.Loaded += (sender, args) =>
             {
                 MainPage.ChangeHeaderTextBlock("Tổng hợp dịch vụ");
             };
            
         }
+        private void InitializeRefreshTimer()
+        {
+            refreshTimer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(5) // Khoảng thời gian lặp lại (5 giây)
+            };
+            refreshTimer.Tick += (sender, e) => ViewModel.RefreshData();
+            refreshTimer.Start();
+        }
+
+        protected override void OnNavigatedFrom(Microsoft.UI.Xaml.Navigation.NavigationEventArgs e)
+        {
+            // Dừng Timer khi trang không còn hiển thị
+            refreshTimer?.Stop();
+            base.OnNavigatedFrom(e);
+        }
+
         public MainViewModel ViewModel
         {
             get; set;

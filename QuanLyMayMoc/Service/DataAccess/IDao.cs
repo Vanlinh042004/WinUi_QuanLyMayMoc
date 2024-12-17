@@ -76,6 +76,7 @@ namespace QuanLyMayMoc
         public void DeleteProject(string maDuAn);
 
         public int CountMaNhanVien(string MaNhanVien);
+        public int CountTask(Task congviec);
 
         public void ClearAllTempData();
     }

@@ -7,15 +7,19 @@ using System.Threading.Tasks;
 
 namespace QuanLyMayMoc
 {
+    using System.ComponentModel;
+
     public class MonthlyProductSummary : INotifyPropertyChanged
     {
         private string _code;
         private int _month;
+        private int _year; // Thuộc tính năm mới
         private string _productCode;
         private string _productName;
         private int _quantity;
         private double _price;
         private double _totalPrice;
+        private double _totalYear;
 
         public string Code
         {
@@ -34,6 +38,16 @@ namespace QuanLyMayMoc
             {
                 _month = value;
                 OnPropertyChanged(nameof(Month));
+            }
+        }
+
+        public int Year // Thuộc tính năm
+        {
+            get => _year;
+            set
+            {
+                _year = value;
+                OnPropertyChanged(nameof(Year));
             }
         }
 
@@ -87,6 +101,16 @@ namespace QuanLyMayMoc
             }
         }
 
+        public double TotalYear
+        {
+            get => _totalYear;
+            set
+            {
+                _totalYear = value;
+                OnPropertyChanged(nameof(TotalYear));
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged(string propertyName)
@@ -94,4 +118,5 @@ namespace QuanLyMayMoc
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
+
 }

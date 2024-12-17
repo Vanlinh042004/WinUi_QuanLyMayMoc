@@ -25,10 +25,14 @@ namespace QuanLyMayMoc
     /// </summary>
     public sealed partial class May : Page
     {
+        private DispatcherTimer refreshTimer; // Timer để tự động refresh
+
         public May()
         {
             this.InitializeComponent();
             ViewModel = new MainViewModel();
+            InitializeRefreshTimer();
+           // ViewModel.LoadSummary();
             this.Loaded += (sender, args) =>
             {
                 MainPage.ChangeHeaderTextBlock("Tổng hợp máy");
@@ -38,6 +42,23 @@ namespace QuanLyMayMoc
         public MainViewModel ViewModel
         {
             get; set;
+        }
+
+        private void InitializeRefreshTimer()
+        {
+            refreshTimer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(2) // Khoảng thời gian lặp lại (5 giây)
+            };
+            refreshTimer.Tick += (sender, e) => ViewModel.RefreshData();
+            refreshTimer.Start();
+        }
+
+        protected override void OnNavigatedFrom(Microsoft.UI.Xaml.Navigation.NavigationEventArgs e)
+        {
+            // Dừng Timer khi trang không còn hiển thị
+            refreshTimer?.Stop();
+            base.OnNavigatedFrom(e);
         }
 
     }
