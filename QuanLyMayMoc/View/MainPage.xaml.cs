@@ -527,6 +527,9 @@ namespace QuanLyMayMoc
                         case "TongHopDichVu":
                             FrameContent.Navigate(typeof(DichVu));
                             break;
+                        case "TongHopTheoNam":
+                            FrameContent.Navigate(typeof(TongHopTheoNam));
+                            break;
                     }
                 }
             }

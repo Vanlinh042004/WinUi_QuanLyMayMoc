@@ -90,6 +90,7 @@
                         <NavigationViewItem.MenuItems>
                             <NavigationViewItem Content="Tổng hợp máy" Icon="OneBar" Tag="TongHopMay"/>
                             <NavigationViewItem Content="Tổng hợp dịch vụ" Icon="OpenWith" Tag="TongHopDichVu"/>
+                            <NavigationViewItem Content="Tổng hợp theo năm" Icon="Calendar" Tag="TongHopTheoNam"/>
                         </NavigationViewItem.MenuItems>
                     </NavigationViewItem>
                     

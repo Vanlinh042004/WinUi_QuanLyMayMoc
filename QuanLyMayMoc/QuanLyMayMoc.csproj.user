@@ -18,6 +18,9 @@
     <None Update="Package.appxmanifest">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="View\TongHopTheoNam.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="View\Demo.xaml">
       <SubType>Designer</SubType>
     </Page>

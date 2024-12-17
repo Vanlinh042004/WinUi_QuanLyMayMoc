@@ -52,12 +52,12 @@
     <None Remove="QuanLyMayMoc.xaml" />
     <None Remove="TongHopMayTheoKy.xaml" />
     <None Remove="VeChungToi.xaml" />
-    <None Remove="View\BlankPage1.xaml" />
     <None Remove="View\Demo.xaml" />
     <None Remove="View\DichVu.xaml" />
     <None Remove="View\HuongDanSuDung.xaml" />
     <None Remove="View\May.xaml" />
     <None Remove="View\MoDuAn.xaml" />
+    <None Remove="View\TongHopTheoNam.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -129,6 +129,9 @@
     <None Update="Fonts\Lora-Regular.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="View\TongHopTheoNam.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="View\Demo.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -142,9 +145,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Update="View\MoDuAn.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="View\BlankPage1.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Update="PhanHoi.xaml">
