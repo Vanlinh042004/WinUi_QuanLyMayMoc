@@ -51,7 +51,7 @@ namespace QuanLyMayMoc
             this.InitializeComponent();
             HideFirstRow();
             ViewModel = new MainViewModel();
-            ViewModel.LoadDataFilter();
+            ViewModel.RefreshData();
             this.Loaded += (sender, args) =>
             {
                 MainPage.ChangeHeaderTextBlock("Dịch vụ theo tháng");
@@ -79,7 +79,6 @@ namespace QuanLyMayMoc
         {
             var newTask = new Task();
 
-
             rowTaskDictionary[currentRow] = newTask;
 
             InputGrid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
@@ -87,7 +86,6 @@ namespace QuanLyMayMoc
             for (int col = 1; col < Columns; col++)
             {
                 FrameworkElement element;
-
 
                 if (col == 1)
                 {
@@ -106,48 +104,45 @@ namespace QuanLyMayMoc
                 }
                 else if (col == 2)
                 {
-                    var autoSuggestBox = new AutoSuggestBox
-                    {
-                        Margin = new Thickness(2),
-                        RequestedTheme = ElementTheme.Light,
-                        PlaceholderText = $"Nhập họ tên khách hàng",
-                        Width = 300,
-                        Background = new SolidColorBrush(Colors.White),
-                        Foreground = new SolidColorBrush(Colors.Black),
-                        BorderBrush = new SolidColorBrush(Colors.Black),
-                        BorderThickness = new Thickness(1)
-                    };
-                    autoSuggestBox.TextChanged += AutoSuggestBox_TextChanged;
-                    autoSuggestBox.SuggestionChosen += AutoSuggestBox_SuggestionChosen;
-                    element = autoSuggestBox;
+                    element = CreateCustomerNameAutoSuggestBox();
                 }
+                else if (col == 11)
+                {
+                    element = CreateEmployeeCodeAutoSuggestBox();
+                }
+                else if (col == 7)
+                {
+                    element = CreatePartCodeAutoSuggestBox();
+                }
+                else if (col == 9)
+                {
+                    element = CreateCoreCodeAutoSuggestBox();
+                }
+
                 else
                 {
-                    int maxLength=0;
-                    if (col == 3) // Cột 3: Giới hạn 10 ký tự
+                    int maxLength = 0;
+                    if (col == 3) // Giới hạn số ký tự cho cột số điện thoại
                     {
                         maxLength = 10;
                     }
-                    else if (col == 7 || col == 10 || col == 13) // Cột 7, 10, 13: Giới hạn 50 ký tự
+                    else if (col == 11 || col == 7 || col == 9) // Giới hạn 50 ký tự cho các cột linh kiện và lõi
                     {
                         maxLength = 50;
                     }
                     else
                     {
-                        maxLength = 100; // Mặc định: 100 ký tự
+                        maxLength = 100; // Mặc định 100 ký tự
                     }
                     var textBox = new TextBox
                     {
                         Margin = new Thickness(2),
                         RequestedTheme = ElementTheme.Light,
-                        //PlaceholderText = $"R{currentRow + 1}C{col + 1}",
                         PlaceholderText = PlaceHolderText[col],
-                        //Background = CardBackgroundFillColorDefault 
-                        // Set the background using the theme resource
                         Foreground = new SolidColorBrush(Colors.Black),
                         BorderBrush = new SolidColorBrush(Colors.Black),
                         BorderThickness = new Thickness(1),
-                        MaxLength = maxLength // Áp dụng giới hạn ký tự
+                        MaxLength = maxLength
                     };
                     AddHoverEffect(textBox, Colors.Red, Colors.Black);
                     element = textBox;
@@ -159,10 +154,11 @@ namespace QuanLyMayMoc
                 InputGrid.Children.Add(element);
             }
             currentRow++; // Tăng số hàng hiện tại
-
         }
 
-        private async void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+
+        // Phương thức này sẽ được gọi khi người dùng thay đổi văn bản trong AutoSuggestBox
+        private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
@@ -172,8 +168,33 @@ namespace QuanLyMayMoc
                 {
                     try
                     {
-                        var suggestions = ViewModel.GetCustomerNames(query);
+                        List<string> suggestions = null;
+
+                        if (sender.PlaceholderText.Contains("họ tên khách hàng"))
+                        {
+                            // Lấy danh sách gợi ý họ tên khách hàng
+                            suggestions = ViewModel.GetCustomerNames(query);
+                        }
+                        else if (sender.PlaceholderText.Contains("mã nhân viên"))
+                        {
+                            // Lấy danh sách gợi ý mã nhân viên
+                            suggestions = ViewModel.GetEmployeeCodes(query);
+                        }
+                        else if (sender.PlaceholderText.Contains("mã linh kiện"))
+                        {
+                            // Lấy danh sách gợi ý mã linh kiện
+                            suggestions = ViewModel.GetPartCodes(query);
+                        }
+                        else if (sender.PlaceholderText.Contains("mã lõi"))
+                        {
+                            // Lấy danh sách gợi ý mã lõi
+                            suggestions = ViewModel.GetCoreCodes(query);
+                        }
+
+                        //if (suggestions != null)
+                        //{
                         sender.ItemsSource = suggestions;
+                        // }
                     }
                     catch (Exception ex)
                     {
@@ -187,14 +208,141 @@ namespace QuanLyMayMoc
             }
         }
 
-
-
-
+        // Sự kiện khi người dùng chọn một gợi ý từ AutoSuggestBox
         private void AutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
             sender.Text = args.SelectedItem.ToString();
         }
 
+        private AutoSuggestBox CreateCustomerNameAutoSuggestBox()
+        {
+            var autoSuggestBox = new AutoSuggestBox
+            {
+                Margin = new Thickness(2),
+                RequestedTheme = ElementTheme.Light,
+                PlaceholderText = "Nhập họ tên khách hàng",
+                Width = 300,
+                Background = new SolidColorBrush(Colors.White),
+                Foreground = new SolidColorBrush(Colors.Black),
+                BorderBrush = new SolidColorBrush(Colors.Black),
+                BorderThickness = new Thickness(1)
+            };
+            autoSuggestBox.TextChanged += (sender, args) =>
+            {
+                HandleAutoSuggestBoxTextChanged(sender, args, "customer");
+            };
+            autoSuggestBox.SuggestionChosen += AutoSuggestBox_SuggestionChosen;
+
+            return autoSuggestBox;
+        }
+
+        private AutoSuggestBox CreateEmployeeCodeAutoSuggestBox()
+        {
+            var autoSuggestBox = new AutoSuggestBox
+            {
+                Margin = new Thickness(2),
+                RequestedTheme = ElementTheme.Light,
+                PlaceholderText = "Nhập mã nhân viên",
+                Width = 300,
+                Background = new SolidColorBrush(Colors.White),
+                Foreground = new SolidColorBrush(Colors.Black),
+                BorderBrush = new SolidColorBrush(Colors.Black),
+                BorderThickness = new Thickness(1)
+            };
+            autoSuggestBox.TextChanged += (sender, args) =>
+            {
+                HandleAutoSuggestBoxTextChanged(sender, args, "employee");
+            };
+            autoSuggestBox.SuggestionChosen += AutoSuggestBox_SuggestionChosen;
+
+            return autoSuggestBox;
+        }
+
+        private AutoSuggestBox CreatePartCodeAutoSuggestBox()
+        {
+            var autoSuggestBox = new AutoSuggestBox
+            {
+                Margin = new Thickness(2),
+                RequestedTheme = ElementTheme.Light,
+                PlaceholderText = "Nhập mã linh kiện",
+                Width = 300,
+                Background = new SolidColorBrush(Colors.White),
+                Foreground = new SolidColorBrush(Colors.Black),
+                BorderBrush = new SolidColorBrush(Colors.Black),
+                BorderThickness = new Thickness(1)
+            };
+            autoSuggestBox.TextChanged += (sender, args) =>
+            {
+                HandleAutoSuggestBoxTextChanged(sender, args, "part");
+            };
+            autoSuggestBox.SuggestionChosen += AutoSuggestBox_SuggestionChosen;
+
+            return autoSuggestBox;
+        }
+
+        private AutoSuggestBox CreateCoreCodeAutoSuggestBox()
+        {
+            var autoSuggestBox = new AutoSuggestBox
+            {
+                Margin = new Thickness(2),
+                RequestedTheme = ElementTheme.Light,
+                PlaceholderText = "Nhập mã lõi",
+                Width = 300,
+                Background = new SolidColorBrush(Colors.White),
+                Foreground = new SolidColorBrush(Colors.Black),
+                BorderBrush = new SolidColorBrush(Colors.Black),
+                BorderThickness = new Thickness(1)
+            };
+            autoSuggestBox.TextChanged += (sender, args) =>
+            {
+                HandleAutoSuggestBoxTextChanged(sender, args, "core");
+            };
+            autoSuggestBox.SuggestionChosen += AutoSuggestBox_SuggestionChosen;
+
+            return autoSuggestBox;
+        }
+
+        private void HandleAutoSuggestBoxTextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args, string type)
+        {
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                var query = sender.Text;
+
+                if (!string.IsNullOrEmpty(query))
+                {
+                    try
+                    {
+                        List<string> suggestions = null;
+
+                        switch (type)
+                        {
+                            case "customer":
+                                suggestions = ViewModel.GetCustomerNames(query);
+                                break;
+                            case "employee":
+                                suggestions = ViewModel.GetEmployeeCodes(query);
+                                break;
+                            case "part":
+                                suggestions = ViewModel.GetPartCodes(query);
+                                break;
+                            case "core":
+                                suggestions = ViewModel.GetCoreCodes(query);
+                                break;
+                        }
+
+                        sender.ItemsSource = suggestions;
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine($"Error fetching suggestions: {ex.Message}");
+                    }
+                }
+                else
+                {
+                    sender.ItemsSource = null;
+                }
+            }
+        }
 
 
         private void OnAddRowDataClick(object sender, RoutedEventArgs e)
@@ -302,7 +450,7 @@ namespace QuanLyMayMoc
 
                 await successDialog.ShowAsync();
             }
-            ViewModel.LoadDataFilter();
+            ViewModel.RefreshData();
         }
 
 
@@ -330,7 +478,7 @@ namespace QuanLyMayMoc
 
                     ViewModel.RemoveAllTask();
                     ViewModel.DeleteAllTask(AppData.ProjectID);
-                    ViewModel.LoadDataFilter();
+                    ViewModel.RefreshData();
 
 
 
@@ -380,21 +528,67 @@ namespace QuanLyMayMoc
                             .OfType<FrameworkElement>()
                             .FirstOrDefault(e => Grid.GetRow(e) == rowIndex && Grid.GetColumn(e) == col);
 
+                        // AutoSuggestBox
                         if (element is AutoSuggestBox autoSuggestBox)
                         {
-                            service.HoTenKH = autoSuggestBox.Text;
+                            if (autoSuggestBox.PlaceholderText.Contains("họ tên khách hàng"))
+                            {
+                                if (!string.IsNullOrWhiteSpace(autoSuggestBox.Text))
+                                {
+                                    service.HoTenKH = autoSuggestBox.Text;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Họ tên khách hàng không được để trống.");
+                                }
+                            }
+                            else if (autoSuggestBox.PlaceholderText.Contains("mã nhân viên"))
+                            {
+                                if (!string.IsNullOrWhiteSpace(autoSuggestBox.Text))
+                                {
+                                    service.MaNV = autoSuggestBox.Text;
+                                }
+                                else
+                                {
+                                    service.MaNV = "unkhow";
+                                    Console.WriteLine("Mã nhân viên không được để trống.");
+                                }
+                            }
+                            else if (autoSuggestBox.PlaceholderText.Contains("mã linh kiện"))
+                            {
+                                if (!string.IsNullOrWhiteSpace(autoSuggestBox.Text))
+                                {
+                                    service.MaLK = autoSuggestBox.Text;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Mã linh kiện không được để trống.");
+                                }
+                            }
+                            else if (autoSuggestBox.PlaceholderText.Contains("mã lõi"))
+                            {
+                                if (!string.IsNullOrWhiteSpace(autoSuggestBox.Text))
+                                {
+                                    service.MaLoi = autoSuggestBox.Text;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Mã lõi không được để trống.");
+                                }
+                            }
                         }
+                        // TextBox
                         else if (element is TextBox textBox)
                         {
                             service.SetPropertyForColumn(col, textBox.Text);
                         }
+                        // DatePicker
                         else if (element is DatePicker datePicker)
                         {
                             if (datePicker.Date != null) // Kiểm tra nếu datePicker có dữ liệu
                             {
                                 service.SetPropertyForDateColumn(col, datePicker.Date.DateTime);
                             }
-
                         }
                         else
                         {
@@ -425,7 +619,8 @@ namespace QuanLyMayMoc
         }
 
 
-        private  void OnSaveRowDataClick(object sender, RoutedEventArgs e)
+
+        private void OnSaveRowDataClick(object sender, RoutedEventArgs e)
         {
             if (EditingRowIndex != -1&& isUpdate)
             {
@@ -479,7 +674,7 @@ namespace QuanLyMayMoc
 
                  rowTaskDictionary.Clear();
                 ClearInputRows();
-                ViewModel.LoadDataFilter();
+                ViewModel.RefreshData();
 
             }
           
@@ -498,7 +693,7 @@ namespace QuanLyMayMoc
                     DateTime selectedDate = filterDatePicker.SelectedDate.Value.Date; // Lấy giá trị ngày đã chọn
                     string keyword = SearchTextBox.Text; // Lấy từ khóa từ hộp tìm kiếm
 
-                    ViewModel.LoadDataFilter(selectedDate, keyword); // Gọi phương thức load dữ liệu
+                    ViewModel.RefreshData(selectedDate, keyword); // Gọi phương thức load dữ liệu
                 }
                 else
                 {
@@ -534,7 +729,7 @@ namespace QuanLyMayMoc
 
         private void OnClearFilterClick(object sender, RoutedEventArgs e)
         {
-            ViewModel.LoadDataFilter();
+            ViewModel.RefreshData();
             
         }
 
@@ -551,13 +746,41 @@ namespace QuanLyMayMoc
             string keyword = SearchTextBox.Text;
 
 
-            ViewModel.LoadDataFilter(selectedDate, keyword);
+            ViewModel.RefreshData(selectedDate, keyword);
         }
 
-        private void OnUpdateRowDataClick(object sender, RoutedEventArgs e)
+        private async void  OnUpdateRowDataClick(object sender, RoutedEventArgs e)
         {
-            if (ViewModel.CurrentSelectedTask != null)
+            if (ViewModel.CurrentSelectedTask == null)
             {
+                ContentDialog noSelectionDialog = new ContentDialog
+                {
+                    Title = "Không có dòng nào được chọn",
+                    Content = "Vui lòng chọn một dòng trước khi thực hiện chỉnh sửa.",
+                    CloseButtonText = "OK",
+                    XamlRoot = this.XamlRoot
+                };
+
+                await noSelectionDialog.ShowAsync();
+                return;
+            }
+
+            ContentDialog deleteDialog = new ContentDialog
+            {
+                Title = "Xác nhận xóa",
+                Content = "Bạn có chắc chắn muốn chỉnh sửa dòng này?",
+                PrimaryButtonText = "OK",
+                CloseButtonText = "Hủy",
+                XamlRoot = this.XamlRoot
+            };
+
+
+            ContentDialogResult result = await deleteDialog.ShowAsync();
+
+
+            if (result == ContentDialogResult.Primary)
+            {
+               
                 isUpdate=true;
                 var selectedTask = ViewModel.CurrentSelectedTask;
                
@@ -717,7 +940,7 @@ namespace QuanLyMayMoc
 
                   
                     ViewModel.UpdateSelectedTask(task);
-                    ViewModel.LoadDataFilter();
+                    ViewModel.RefreshData();
                  
                     ClearInputRows();
                    
@@ -734,7 +957,7 @@ namespace QuanLyMayMoc
                     };
 
                     await successDialog.ShowAsync();
-                    ViewModel.LoadDataFilter();
+                    ViewModel.RefreshData();
                 }
                 else
                 {

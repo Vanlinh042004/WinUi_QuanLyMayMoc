@@ -16,6 +16,12 @@ using QuanLyMayMoc.ViewModel;
 using QuanLyMayMoc.Model;
 using System.Data;
 using Npgsql;
+using Windows.Storage.Pickers;
+using Windows.Storage;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml;
+using Windows.Storage.Pickers;
+using Windows.Storage;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -27,30 +33,70 @@ namespace QuanLyMayMoc
     /// </summary>
     public sealed partial class DanhSachNhanVien : Page
     {
-
+        private Page _window;
 
         public MainViewModel ViewModel
         {
             get; set;
         }
 
+        private string _selectedImagePath;
+
 
         public DanhSachNhanVien()
         {
             this.InitializeComponent();
-
+       
             // Initialize the list with sample data
             ViewModel = new MainViewModel();
             ViewModel.LoadDataEmployee();
+            _window = new Page();
             this.Loaded += (sender, args) =>
             {
                 MainPage.ChangeHeaderTextBlock("Danh sách nhân viên");
             };
+
         }
 
+       
 
 
-        private void OnAddEmployeeClicked(object sender, RoutedEventArgs e)
+        private async void ChooseImageButton_Click(object sender, RoutedEventArgs e)
+    {
+        var picker = new FileOpenPicker();
+
+            // Cần thiết để hỗ trợ WinUI 3 trên desktop
+            var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(new Window());
+
+            WinRT.Interop.InitializeWithWindow.Initialize(picker, hwnd);
+
+        picker.ViewMode = PickerViewMode.Thumbnail;
+        picker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
+        picker.FileTypeFilter.Add(".jpg");
+        picker.FileTypeFilter.Add(".png");
+        picker.FileTypeFilter.Add(".jpeg");
+
+            StorageFile file = await picker.PickSingleFileAsync();
+            if (file != null)
+            {
+                // Sao chép file vào thư mục LocalFolder
+                var localFolder = ApplicationData.Current.LocalFolder;
+                var copiedFile = await file.CopyAsync(localFolder, file.Name, NameCollisionOption.ReplaceExisting);
+
+                // Lưu tên ảnh vào biến tạm để sử dụng sau khi lưu vào database
+                _selectedImagePath = copiedFile.Name;  // Chỉ lưu tên file, không bao gồm đường dẫn đầy đủ
+
+                // Hiển thị đường dẫn file ảnh đã chọn (local path)
+                SelectedImagePath.Text = copiedFile.Path;
+                _selectedImagePath = copiedFile.Path;
+            }
+            else
+        {
+            SelectedImagePath.Text = "Không có ảnh nào được chọn.";
+        }
+    }
+
+    private void OnAddEmployeeClicked(object sender, RoutedEventArgs e)
         {
             AddEmployeePopup.IsOpen = true; // Mở popup
         }
@@ -79,7 +125,7 @@ namespace QuanLyMayMoc
                 DiaChi = DiaChiInput.Text ?? "Không có",
                 TrangThai = TrangThaiInput.Text ?? "Không có",
                 PhongBan = PhongBanInput.Text ?? "Không có",
-                AnhDaiDien = "ms-appx:///Assets/" + AnhDaiDienInput.Text,
+                AnhDaiDien = _selectedImagePath/*"ms-appx:///Assets/"*/ /*+ AnhDaiDienInput.Text*/,
                 MaDuAn = AppData.ProjectID,
             };
 

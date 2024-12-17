@@ -30,6 +30,7 @@ namespace QuanLyMayMoc
             this.RootFrame.Navigate(typeof(MainPage));
             this.ExtendsContentIntoTitleBar = true;  // enable custom titlebar
             this.SetTitleBar(AppTitleBar);      // set user ui element as titlebar
+       
         }
 
         // function to set title name 

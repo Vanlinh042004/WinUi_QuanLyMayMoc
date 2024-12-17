@@ -15,7 +15,7 @@ namespace QuanLyMayMoc
         private int _month;
         private string _employeeCode;
         private string _employeeName;
-        private string _taskCode;
+        private int _stt;
         private double _serviceFee;
         private double _totalServiceFee;
         private double _monthlyTotalFee;
@@ -60,13 +60,13 @@ namespace QuanLyMayMoc
             }
         }
 
-        public string TaskCode
+        public int STT
         {
-            get => _taskCode;
+            get => _stt;
             set
             {
-                _taskCode = value;
-                OnPropertyChanged(nameof(TaskCode));
+                _stt = value;
+                OnPropertyChanged(nameof(STT));
             }
         }
 

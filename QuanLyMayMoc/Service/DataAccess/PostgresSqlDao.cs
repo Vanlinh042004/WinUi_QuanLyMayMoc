@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using static QuanLyMayMoc.View.MoDuAn;
 
@@ -108,12 +109,12 @@ namespace QuanLyMayMoc
                                 DiaChi = reader.IsDBNull(4) ? null : reader.GetString(4), // DiaChi
                                 TenDichVu = reader.IsDBNull(5) ? null : reader.GetString(5), // TenDichVu
                                 MaNV = reader.IsDBNull(6) ? null : reader.GetString(6), // MaNV
-                                TenNV = reader.IsDBNull(7) ? null : reader.GetString(7), // TenNV
+                                //TenNV = reader.IsDBNull(7) ? null : reader.GetString(7), // TenNV
                                 MaLK = reader.IsDBNull(8) ? null : reader.GetString(8), // MaLinhKien
-                                TenLK = reader.IsDBNull(9) ? null : reader.GetString(9), // TenLinhKien
+                                //TenLK = reader.IsDBNull(9) ? null : reader.GetString(9), // TenLinhKien
                                 SoLuongLK = reader.IsDBNull(10) ? 0 : reader.GetInt32(10), // SoLuongLinhKien
                                 MaLoi = reader.IsDBNull(11) ? null : reader.GetString(11), // MaLoi
-                                TenLoi = reader.IsDBNull(12) ? null : reader.GetString(12), // TenLoi
+                                //TenLoi = reader.IsDBNull(12) ? null : reader.GetString(12), // TenLoi
                                 SoLuongLoi = reader.IsDBNull(13) ? 0 : reader.GetInt32(13), // SoLuongLoi
                                 PhiDichVu = reader.IsDBNull(14) ? 0 : reader.GetInt32(14), // PhiDichVu
                                 GhiChu = reader.IsDBNull(15) ? null : reader.GetString(15), // GhiChu
@@ -129,7 +130,7 @@ namespace QuanLyMayMoc
 
             return tasks;
         }
-        public ObservableCollection<Task> GetTasksFromTemp()
+        public ObservableCollection<Task> GetAllTasksFromDatabase()
         {
             ObservableCollection<Task> tasks = new ObservableCollection<Task>();
 
@@ -159,12 +160,12 @@ namespace QuanLyMayMoc
                                 DiaChi = reader.IsDBNull(4) ? null : reader.GetString(4), // DiaChi
                                 TenDichVu = reader.IsDBNull(5) ? null : reader.GetString(5), // TenDichVu
                                 MaNV = reader.IsDBNull(6) ? null : reader.GetString(6), // MaNV
-                                TenNV = reader.IsDBNull(7) ? null : reader.GetString(7), // TenNV
+                                //TenNV = reader.IsDBNull(7) ? null : reader.GetString(7), // TenNV
                                 MaLK = reader.IsDBNull(8) ? null : reader.GetString(8), // MaLinhKien
-                                TenLK = reader.IsDBNull(9) ? null : reader.GetString(9), // TenLinhKien
+                                //TenLK = reader.IsDBNull(9) ? null : reader.GetString(9), // TenLinhKien
                                 SoLuongLK = reader.IsDBNull(10) ? 0 : reader.GetInt32(10), // SoLuongLinhKien
                                 MaLoi = reader.IsDBNull(11) ? null : reader.GetString(11), // MaLoi
-                                TenLoi = reader.IsDBNull(12) ? null : reader.GetString(12), // TenLoi
+                              //  TenLoi = reader.IsDBNull(12) ? null : reader.GetString(12), // TenLoi
                                 SoLuongLoi = reader.IsDBNull(13) ? 0 : reader.GetInt32(13), // SoLuongLoi
                                 PhiDichVu = reader.IsDBNull(14) ? 0 : reader.GetInt32(14), // PhiDichVu
                                 GhiChu = reader.IsDBNull(15) ? null : reader.GetString(15), // GhiChu
@@ -207,12 +208,12 @@ namespace QuanLyMayMoc
                                 DiaChi = reader.IsDBNull(4) ? null : reader.GetString(4),
                                 TenDichVu = reader.IsDBNull(5) ? null : reader.GetString(5),
                                 MaNV = reader.IsDBNull(6) ? null : reader.GetString(6),
-                                TenNV = reader.IsDBNull(7) ? null : reader.GetString(7),
+                                //TenNV = reader.IsDBNull(7) ? null : reader.GetString(7),
                                 MaLK = reader.IsDBNull(8) ? null : reader.GetString(8),
-                                TenLK = reader.IsDBNull(9) ? null : reader.GetString(9),
+                                //TenLK = reader.IsDBNull(9) ? null : reader.GetString(9),
                                 SoLuongLK = reader.IsDBNull(10) ? 0 : reader.GetInt32(10),
                                 MaLoi = reader.IsDBNull(11) ? null : reader.GetString(11),
-                                TenLoi = reader.IsDBNull(12) ? null : reader.GetString(12),
+                              //  TenLoi = reader.IsDBNull(12) ? null : reader.GetString(12),
                                 SoLuongLoi = reader.IsDBNull(13) ? 0 : reader.GetInt32(13),
                                 PhiDichVu = reader.IsDBNull(14) ? 0 : reader.GetInt32(14),
                                 GhiChu = reader.IsDBNull(15) ? null : reader.GetString(15),
@@ -232,7 +233,7 @@ namespace QuanLyMayMoc
 
             return tasks;
         }
-        public ObservableCollection<Task> GetTasksFromTemp(DateTime? ngaythuchien, string tennv)
+        public ObservableCollection<Task> GetAllTasksFromDatabase(DateTime? ngaythuchien, string tennv)
         {
             var tasks = new ObservableCollection<Task>();
             try
@@ -347,12 +348,12 @@ namespace QuanLyMayMoc
                                     DiaChi = reader.IsDBNull(4) ? null : reader.GetString(4),
                                     TenDichVu = reader.IsDBNull(5) ? null : reader.GetString(5),
                                     MaNV = reader.IsDBNull(6) ? null : reader.GetString(6),
-                                    TenNV = reader.IsDBNull(7) ? null : reader.GetString(7),
+                                    //TenNV = reader.IsDBNull(7) ? null : reader.GetString(7),
                                     MaLK = reader.IsDBNull(8) ? null : reader.GetString(8),
-                                    TenLK = reader.IsDBNull(9) ? null : reader.GetString(9),
+                                    //TenLK = reader.IsDBNull(9) ? null : reader.GetString(9),
                                     SoLuongLK = reader.IsDBNull(10) ? 0 : reader.GetInt32(10),
                                     MaLoi = reader.IsDBNull(11) ? null : reader.GetString(11),
-                                    TenLoi = reader.IsDBNull(12) ? null : reader.GetString(12),
+                                  //  TenLoi = reader.IsDBNull(12) ? null : reader.GetString(12),
                                     SoLuongLoi = reader.IsDBNull(13) ? 0 : reader.GetInt32(13),
                                     PhiDichVu = reader.IsDBNull(14) ? 0 : reader.GetInt32(14),
                                     GhiChu = reader.IsDBNull(15) ? null : reader.GetString(15),
@@ -493,6 +494,170 @@ namespace QuanLyMayMoc
 
             return customerNames; // Trả về danh sách tên khách hàng
         }
+
+        public List<string> GetEmployeeCodesFromDatabase(string query)
+        {
+            var employeeCodes = new List<string>(); // Danh sách mã nhân viên sẽ trả về
+
+            try
+            {
+                using (var connection = new NpgsqlConnection(connectionString))
+                {
+                    connection.Open(); // Mở kết nối
+
+                    // Truy vấn SQL từ bảng nhanvien
+                    string sqlQuery = @"
+                SELECT DISTINCT manv
+                FROM nhanvien
+                WHERE manv ILIKE @query and maduan=@maduan
+                LIMIT 10
+               ";
+
+                    using (var command = new NpgsqlCommand(sqlQuery, connection))
+                    {
+                        command.Parameters.AddWithValue("@query", $"%{query}%");
+                        command.Parameters.AddWithValue("@maduan", AppData.ProjectID);
+
+                        using (var reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                employeeCodes.Add(reader.GetString(0));
+                            }
+                        }
+                    }
+
+                    connection.Close(); // Đóng kết nối
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Lỗi khi lấy dữ liệu: {ex.Message}");
+            }
+
+            return employeeCodes; // Trả về danh sách mã nhân viên
+        }
+
+        public List<string> GetPartCodesFromDatabase(string query)
+        {
+            var partCodes = new HashSet<string>(); // Sử dụng HashSet để loại bỏ trùng lặp
+
+            try
+            {
+                using (var connection = new NpgsqlConnection(connectionString))
+                {
+                    connection.Open(); // Mở kết nối
+
+                    // Truy vấn 1: Bảng linhkien
+                    string sqlQuery1 = @"
+                SELECT DISTINCT mahieu
+                FROM linhkien
+                WHERE mahieu ILIKE @query
+                LIMIT 10";
+
+                    // Truy vấn 2: Bảng linhkien_duan
+                    string sqlQuery2 = @"
+                SELECT DISTINCT mahieu
+                FROM linhkien_duan
+                WHERE maduan = @maduan AND mahieu ILIKE @query
+                LIMIT 10";
+
+                    // Truy vấn 3: Bảng linhkienduantam
+                    string sqlQuery3 = @"
+                SELECT DISTINCT mahieu
+                FROM linhkienduantam
+                WHERE maduan = @maduan AND mahieu ILIKE @query
+                LIMIT 10";
+
+                    // Chạy từng truy vấn và thêm kết quả vào danh sách
+                    ExecuteQueryAndAddResults(sqlQuery1, connection, partCodes, query, null);
+                    ExecuteQueryAndAddResults(sqlQuery2, connection, partCodes, query, AppData.ProjectID);
+                    ExecuteQueryAndAddResults(sqlQuery3, connection, partCodes, query, AppData.ProjectID);
+
+                    connection.Close(); // Đóng kết nối
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Lỗi khi lấy dữ liệu: {ex.Message}");
+            }
+
+            return partCodes.ToList(); // Chuyển HashSet thành List và trả về
+        }
+
+        public List<string> GetCoreCodesFromDatabase(string query)
+        {
+            var coreCodes = new HashSet<string>(); // Sử dụng HashSet để loại bỏ trùng lặp
+
+            try
+            {
+                using (var connection = new NpgsqlConnection(connectionString))
+                {
+                    connection.Open(); // Mở kết nối
+
+                    // Truy vấn 1: Bảng loi
+                    string sqlQuery1 = @"
+                SELECT DISTINCT mahieu
+                FROM loi
+                WHERE mahieu ILIKE @query
+                LIMIT 10";
+
+                    // Truy vấn 2: Bảng loi_duan
+                    string sqlQuery2 = @"
+                SELECT DISTINCT mahieu
+                FROM loi_duan
+                WHERE maduan = @maduan AND mahieu ILIKE @query
+                LIMIT 10";
+
+                    // Truy vấn 3: Bảng loiduantam
+                    string sqlQuery3 = @"
+                SELECT DISTINCT mahieu
+                FROM loiduantam
+                WHERE maduan = @maduan AND mahieu ILIKE @query
+                LIMIT 10";
+
+                    // Chạy từng truy vấn và thêm kết quả vào danh sách
+                    ExecuteQueryAndAddResults(sqlQuery1, connection, coreCodes, query, null);
+                    ExecuteQueryAndAddResults(sqlQuery2, connection, coreCodes, query, AppData.ProjectID);
+                    ExecuteQueryAndAddResults(sqlQuery3, connection, coreCodes, query, AppData.ProjectID);
+
+                    connection.Close(); // Đóng kết nối
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Lỗi khi lấy dữ liệu: {ex.Message}");
+            }
+
+            return coreCodes.ToList(); // Chuyển HashSet thành List và trả về
+        }
+
+        private void ExecuteQueryAndAddResults(
+            string sqlQuery,
+            NpgsqlConnection connection,
+            HashSet<string> resultSet,
+            string queryParam,
+            string? maduanParam)
+        {
+            using (var command = new NpgsqlCommand(sqlQuery, connection))
+            {
+                command.Parameters.AddWithValue("@query", $"%{queryParam}%");
+
+                if (maduanParam != null)
+                {
+                    command.Parameters.AddWithValue("@maduan", maduanParam);
+                }
+
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        resultSet.Add(reader.GetString(0)); // Thêm vào HashSet để tự động loại bỏ trùng lặp
+                    }
+                }
+            }
+        }
+
 
         public async void DeleteTask(Task selectedTask)
         {
@@ -775,11 +940,11 @@ namespace QuanLyMayMoc
         {
             string insertCongViecQuery = @"
                 INSERT INTO congviectamthoi (
-                    stt, macvduan, ngaythuchien, hotenkh, sdt, diachi, tendichvu, manv, tennv, malinhkien, 
-                    tenlinhkien, soluonglinhkien, maloi, tenloi, soluongloi, phidichvu, ghichu, maduan
+                    stt, macvduan, ngaythuchien, hotenkh, sdt, diachi, tendichvu, manv,  malinhkien, 
+                    soluonglinhkien, maloi,  soluongloi, phidichvu, ghichu, maduan
                 ) VALUES (
-                    @stt, @macvduan, @ngaythuchien, @hotenkh, @sdt, @diachi, @tendichvu, @manv, @tennv, @malinhkien, 
-                    @tenlinhkien, @soluonglinhkien, @maloi, @tenloi, @soluongloi, @phidichvu, @ghichu, @maduan
+                    @stt, @macvduan, @ngaythuchien, @hotenkh, @sdt, @diachi, @tendichvu, @manv,  @malinhkien, 
+                     @soluonglinhkien, @maloi,  @soluongloi, @phidichvu, @ghichu, @maduan
                 )";
 
             using (var connection = new NpgsqlConnection(connectionString))
@@ -797,12 +962,12 @@ namespace QuanLyMayMoc
                     command.Parameters.AddWithValue("@diachi", newTask.DiaChi ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@tendichvu", newTask.TenDichVu ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@manv", newTask.MaNV ?? (object)DBNull.Value);
-                    command.Parameters.AddWithValue("@tennv", newTask.TenNV ?? (object)DBNull.Value);
+                    //command.Parameters.AddWithValue("@tennv", newTask.TenNV ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@malinhkien", newTask.MaLK ?? (object)DBNull.Value);
-                    command.Parameters.AddWithValue("@tenlinhkien", newTask.TenLK ?? (object)DBNull.Value);
+                   // command.Parameters.AddWithValue("@tenlinhkien", newTask.TenLK ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@soluonglinhkien", newTask.SoLuongLK);
                     command.Parameters.AddWithValue("@maloi", newTask.MaLoi ?? (object)DBNull.Value);
-                    command.Parameters.AddWithValue("@tenloi", newTask.TenLoi ?? (object)DBNull.Value);
+                   // command.Parameters.AddWithValue("@tenloi", newTask.TenLoi ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@soluongloi", newTask.SoLuongLoi);
                     command.Parameters.AddWithValue("@phidichvu", newTask.PhiDichVu);
                     command.Parameters.AddWithValue("@ghichu", newTask.GhiChu ?? (object)DBNull.Value);
@@ -945,13 +1110,13 @@ namespace QuanLyMayMoc
                             tendichvu = @tendichvu,
                             phidichvu = @phidichvu,
                             malinhkien = @malinhkien,
-                            tenlinhkien = @tenlinhkien,
+                          
                             soluonglinhkien = @soluonglinhkien,
                             maloi = @maloi,
-                            tenloi = @tenloi,
+                         
                             soluongloi = @soluongloi,
                             manv = @manv,
-                            tennv = @tennv,
+                           
                             ghichu = @ghichu,
                             maduan = @maduan
                
@@ -965,13 +1130,13 @@ namespace QuanLyMayMoc
                         command.Parameters.AddWithValue("@tendichvu", newTask.TenDichVu ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@phidichvu", newTask.PhiDichVu);
                         command.Parameters.AddWithValue("@malinhkien", newTask.MaLK ?? (object)DBNull.Value);
-                        command.Parameters.AddWithValue("@tenlinhkien", newTask.TenLK ?? (object)DBNull.Value);
+                      //  command.Parameters.AddWithValue("@tenlinhkien", newTask.TenLK ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@soluonglinhkien", newTask.SoLuongLK);
                         command.Parameters.AddWithValue("@maloi", newTask.MaLoi ?? (object)DBNull.Value);
-                        command.Parameters.AddWithValue("@tenloi", newTask.TenLoi ?? (object)DBNull.Value);
+                       // command.Parameters.AddWithValue("@tenloi", newTask.TenLoi ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@soluongloi", newTask.SoLuongLoi);
                         command.Parameters.AddWithValue("@manv", newTask.MaNV ?? (object)DBNull.Value);
-                        command.Parameters.AddWithValue("@tennv", newTask.TenNV ?? (object)DBNull.Value);
+                        //command.Parameters.AddWithValue("@tennv", newTask.TenNV ?? (object)DBNull.Value);
                         command.Parameters.AddWithValue("@ghichu", newTask.GhiChu ?? (object)DBNull.Value);
                        // command.Parameters.AddWithValue("@maduan", AppData.ProjectID/*newTask.MaDuAn ?? (object)DBNull.Value*/);
                         command.Parameters.AddWithValue("@maduan", selectedTask.MaDuAn/*newTask.MaDuAn ?? (object)DBNull.Value*/);
@@ -1004,13 +1169,13 @@ namespace QuanLyMayMoc
                                 tendichvu = @tendichvu,
                                 phidichvu = @phidichvu,
                                 malinhkien = @malinhkien,
-                                tenlinhkien = @tenlinhkien,
+                             
                                 soluonglinhkien = @soluonglinhkien,
                                 maloi = @maloi,
-                                tenloi = @tenloi,
+                              
                                 soluongloi = @soluongloi,
                                 manv = @manv,
-                                tennv = @tennv,
+                               
                                 ghichu = @ghichu,
                                 maduan = @maduan
                   
@@ -1024,13 +1189,13 @@ namespace QuanLyMayMoc
                             command.Parameters.AddWithValue("@tendichvu", newTask.TenDichVu ?? (object)DBNull.Value);
                             command.Parameters.AddWithValue("@phidichvu", newTask.PhiDichVu);
                             command.Parameters.AddWithValue("@malinhkien", newTask.MaLK ?? (object)DBNull.Value);
-                            command.Parameters.AddWithValue("@tenlinhkien", newTask.TenLK ?? (object)DBNull.Value);
+                           // command.Parameters.AddWithValue("@tenlinhkien", newTask.TenLK ?? (object)DBNull.Value);
                             command.Parameters.AddWithValue("@soluonglinhkien", newTask.SoLuongLK);
                             command.Parameters.AddWithValue("@maloi", newTask.MaLoi ?? (object)DBNull.Value);
-                            command.Parameters.AddWithValue("@tenloi", newTask.TenLoi ?? (object)DBNull.Value);
+                          //  command.Parameters.AddWithValue("@tenloi", newTask.TenLoi ?? (object)DBNull.Value);
                             command.Parameters.AddWithValue("@soluongloi", newTask.SoLuongLoi);
                             command.Parameters.AddWithValue("@manv", newTask.MaNV ?? (object)DBNull.Value);
-                            command.Parameters.AddWithValue("@tennv", newTask.TenNV ?? (object)DBNull.Value);
+                           // command.Parameters.AddWithValue("@tennv", newTask.TenNV ?? (object)DBNull.Value);
                             command.Parameters.AddWithValue("@ghichu", newTask.GhiChu ?? (object)DBNull.Value);
                             // command.Parameters.AddWithValue("@maduan", AppData.ProjectID/*newTask.MaDuAn ?? (object)DBNull.Value*/);
                             command.Parameters.AddWithValue("@maduan", selectedTask.MaDuAn/*newTask.MaDuAn ?? (object)DBNull.Value*/);
@@ -1953,12 +2118,12 @@ namespace QuanLyMayMoc
                         sdt,
                         diachi,
                         manv,
-                        tennv,
+                       
                         malinhkien,
-                        tenlinhkien,
+                       
                         soluonglinhkien,
                         maloi,
-                        tenloi,
+                      
                         soluongloi,
                         phidichvu,
                         ghichu,
@@ -1973,12 +2138,12 @@ namespace QuanLyMayMoc
                         sdt,
                         diachi,
                         manv,
-                        tennv,
+                       
                         malinhkien,
-                        tenlinhkien,
+                        
                         soluonglinhkien,
                         maloi,
-                        tenloi,
+                       
                         soluongloi,
                         phidichvu,
                         ghichu,
@@ -1997,12 +2162,12 @@ namespace QuanLyMayMoc
                             sdt,
                             diachi,
                             manv,
-                            tennv,
+                          
                             malinhkien,
-                            tenlinhkien,
+                          
                             soluonglinhkien,
                             maloi,
-                            tenloi,
+                           
                             soluongloi,
                             phidichvu,
                             ghichu,
@@ -2017,12 +2182,12 @@ namespace QuanLyMayMoc
                             sdt,
                             diachi,
                             manv,
-                            tennv,
+                          
                             malinhkien,
-                            tenlinhkien,
+                           
                             soluonglinhkien,
                             maloi,
-                            tenloi,
+                           
                             soluongloi,
                             phidichvu,
                             ghichu,
@@ -2138,7 +2303,7 @@ namespace QuanLyMayMoc
         {
             string query = @"
                 SELECT 
-                    MaTongHop, Thang, MaNhanVien, TenNhanVien, MaCongViec, PhiDichVu, TongPhiDichVu, TongPhiDichVuThang
+                    MaTongHop, Thang, MaNhanVien, TenNhanVien, SoThuTu, PhiDichVu, TongPhiDichVu, TongPhiDichVuThang
                 FROM TongHopDichVuTheoThang";
 
             ObservableCollection<MonthlyServiceSummary> monthlyServiceSummaries = new ObservableCollection<MonthlyServiceSummary>();
@@ -2158,7 +2323,7 @@ namespace QuanLyMayMoc
                                 Month = reader.IsDBNull(1) ? 0 : reader.GetInt32(1), // Thang
                                 EmployeeCode = reader.IsDBNull(2) ? null : reader.GetString(2), // MaNhanVien
                                 EmployeeName = reader.IsDBNull(3) ? null : reader.GetString(3), // TenNhanVien
-                                TaskCode = reader.IsDBNull(4) ? null : reader.GetString(4), // MaCongViec
+                                STT = reader.IsDBNull(4) ? 0 : reader.GetInt32(4), // MaCongViec
                                 ServiceFee = reader.IsDBNull(5) ? 0.0 : reader.GetDouble(5), // PhiDichVu
                                 TotalServiceFee = reader.IsDBNull(6) ? 0.0 : reader.GetDouble(6), // TongPhiDichVu
                                 MonthlyTotalFee = reader.IsDBNull(7) ? 0.0 : reader.GetDouble(7) // TongPhiDichVuThang
@@ -2217,8 +2382,8 @@ namespace QuanLyMayMoc
         {
             string query = @"
                 INSERT INTO TongHopDichVuTheoThang 
-                (MaTongHop, Thang, MaNhanVien, TenNhanVien, MaCongViec, PhiDichVu, TongPhiDichVu, TongPhiDichVuThang) 
-                VALUES (@Code, @Month, @EmployeeCode, @EmployeeName, @TaskCode, @ServiceFee, @TotalServiceFee, @MonthlyTotalFee)";
+                (MaTongHop, Thang, MaNhanVien, TenNhanVien, SoThuTu, PhiDichVu, TongPhiDichVu, TongPhiDichVuThang) 
+                VALUES (@Code, @Month, @EmployeeCode, @EmployeeName, @SoThuTu, @ServiceFee, @TotalServiceFee, @MonthlyTotalFee)";
 
             using (var connection = new NpgsqlConnection(connectionString))
             {
@@ -2232,7 +2397,7 @@ namespace QuanLyMayMoc
                         command.Parameters.AddWithValue("@Month", summary.Month);
                         command.Parameters.AddWithValue("@EmployeeCode", summary.EmployeeCode);
                         command.Parameters.AddWithValue("@EmployeeName", summary.EmployeeName);
-                        command.Parameters.AddWithValue("@TaskCode", summary.TaskCode);
+                        command.Parameters.AddWithValue("@SoThuTu", summary.STT);
                         command.Parameters.AddWithValue("@ServiceFee", summary.ServiceFee);
                         command.Parameters.AddWithValue("@TotalServiceFee", summary.TotalServiceFee);
                         command.Parameters.AddWithValue("@MonthlyTotalFee", summary.MonthlyTotalFee);
@@ -2283,7 +2448,8 @@ namespace QuanLyMayMoc
         }
         public void DeleteProject(string maDuAn)
         {
-            List<String> deleteQueries = new List<string> {"DELETE FROM duan WHERE maduan = @maDuAn",
+            List<String> deleteQueries = new List<string> {
+                    "DELETE FROM duan WHERE maduan = @maDuAn",
                     "DELETE FROM nhanvien WHERE maduan = @maDuAn",
                     "DELETE FROM linhkien_duan WHERE maduan = @maDuAn",
                     "DELETE FROM linhkienduantam WHERE maduan = @maDuAn",

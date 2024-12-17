@@ -63,7 +63,7 @@
                         <TextBlock Text="TÊN NHÂN VIÊN" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
                     </Border>
                     <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <TextBlock Text="MÃ CÔNG VIỆC" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
+                        <TextBlock Text="STT CÔNG VIỆC" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
                     </Border>
                     <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0" Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <TextBlock Text="PHÍ DỊCH VỤ" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
@@ -153,7 +153,7 @@
                                                                         </Grid.ColumnDefinitions>
 
                                                                         <Border Grid.Column="0" BorderBrush="Gray" BorderThickness="1" Margin="0,0,5,0" CornerRadius="5">
-                                                                            <TextBlock Text="{x:Bind TaskCode}" Foreground="Black" 
+                                                                            <TextBlock Text="{x:Bind STT}" Foreground="Black" 
                                                                             HorizontalAlignment="Center" VerticalAlignment="Center" />
                                                                         </Border>
 

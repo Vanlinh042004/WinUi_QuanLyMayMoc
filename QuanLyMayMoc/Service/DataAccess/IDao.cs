@@ -22,9 +22,12 @@ namespace QuanLyMayMoc
 
         // Lấy tất cả công việc từ bảng Task
         public ObservableCollection<Task> GetTasks();
-        public ObservableCollection<Task> GetTasksFromTemp();
-        public ObservableCollection<Task> GetTasksFromTemp(DateTime? ngaythuchien, string keyword);
+        public ObservableCollection<Task> GetAllTasksFromDatabase();
+        public ObservableCollection<Task> GetAllTasksFromDatabase(DateTime? ngaythuchien, string keyword);
         public List<string> GetCustomerNamesFromDatabase(string query);
+        public List<string> GetEmployeeCodesFromDatabase(string query);
+        public List<string> GetPartCodesFromDatabase(string query);
+        public List<string> GetCoreCodesFromDatabase(string query);
 
         public ObservableCollection<Project> GetProjects();
         public void DeleteTask(Task selectedTask);

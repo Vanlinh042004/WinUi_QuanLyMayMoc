@@ -12,6 +12,7 @@
     <Page.Resources>
         
         <local1:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+          <local:ImagePathConverter x:Key="ImagePathConverter" />
     </Page.Resources>
 
 
@@ -65,7 +66,9 @@
                                         <Image Source="{x:Bind AnhDaiDien, Mode=OneWay }"  Width="113" Height="149" />
                                  
                                         <!-- Văn bản thay thế nếu không có ảnh -->
-                                    <TextBlock Text="No image data" Foreground="Gray" Visibility="{x:Bind AnhDaiDien, Converter={StaticResource NullToVisibilityConverter}}"/>
+                                    <TextBlock Text="No image data" Foreground="Gray" 
+           Visibility="{x:Bind AnhDaiDien, Converter={StaticResource NullToVisibilityConverter}, 
+                       ConverterParameter={StaticResource ImagePathConverter}}"/>
                                 </StackPanel>
                             </Border>
 
@@ -224,7 +227,11 @@
                                 <ComboBoxItem Content="Nam" />
                                 <ComboBoxItem Content="Nữ" />
                             </ComboBox>
-                            <TextBox Header="Ảnh đại diện" x:Name="AnhDaiDienInput" Grid.Row="1" Grid.Column="3" Margin="10" MaxLength="30" />
+                            <StackPanel Grid.Row="1" Grid.Column="3" Margin="10">
+                                <Button Content="Chọn ảnh đại diện" Click="ChooseImageButton_Click" />
+                                <TextBlock x:Name="SelectedImagePath" Text="Chưa chọn ảnh" Margin="5,10,0,0" />
+                            </StackPanel>
+
                             <TextBox Header="CCCD" x:Name="CCCDInput" Grid.Row="2" Grid.Column="0" Margin="10" MaxLength="12" />
                             <TextBox Header="Email" x:Name="EmailInput" Grid.Row="2" Grid.Column="1" Margin="10"/>
                             <TextBox Header="Địa chỉ" x:Name="DiaChiInput" Grid.Row="2" Grid.Column="2" Margin="10"/>

@@ -26,19 +26,19 @@ namespace QuanLyMayMoc
 
         private string _maNV;
 
-        private string _tenNV;
+        //private string _tenNV;
 
         private int _phiDichVu;
 
         private string _maLK;
 
-        private string _tenLK;
+       // private string _tenLK;
 
         private int _soLuongLK;
 
         private string _maLoi;
 
-        private string _tenLoi;
+       // private string _tenLoi;
 
         private int _soLuongLoi;
 
@@ -101,11 +101,11 @@ namespace QuanLyMayMoc
             get => _maNV;
             set { _maNV = value; OnPropertyChanged(nameof(MaNV)); }
         }
-        public string TenNV
-        {
-            get => _tenNV;
-            set { _tenNV = value; OnPropertyChanged(nameof(TenNV)); }
-        }
+        //public string TenNV
+        //{
+        //    get => _tenNV;
+        //    set { _tenNV = value; OnPropertyChanged(nameof(TenNV)); }
+        //}
 
         [JsonProperty("MaLinhKien")]
         public string MaLK
@@ -114,12 +114,12 @@ namespace QuanLyMayMoc
             set { _maLK = value; OnPropertyChanged(nameof(MaLK)); }
         }
 
-        [JsonProperty("TenLinhKien")]
-        public string TenLK
-        {
-            get => _tenLK;
-            set { _tenLK = value; OnPropertyChanged(nameof(TenLK)); }
-        }
+       // [JsonProperty("TenLinhKien")]
+        //public string TenLK
+        //{
+        //    get => _tenLK;
+        //    set { _tenLK = value; OnPropertyChanged(nameof(TenLK)); }
+        //}
 
         [JsonProperty("SoLuongLinhKien")]
         public int SoLuongLK
@@ -132,11 +132,11 @@ namespace QuanLyMayMoc
             get => _maLoi;
             set { _maLoi = value; OnPropertyChanged(nameof(MaLoi)); }
         }
-        public string TenLoi
-        {
-            get => _tenLoi;
-            set { _tenLoi = value; OnPropertyChanged(nameof(TenLoi)); }
-        }
+        //public string TenLoi
+        //{
+        //    get => _tenLoi;
+        //    set { _tenLoi = value; OnPropertyChanged(nameof(TenLoi)); }
+        //}
         public int SoLuongLoi
         {
             get => _soLuongLoi;
@@ -205,30 +205,30 @@ namespace QuanLyMayMoc
                     break;              
                
            
+                //case 8:
+                //    TenLK = value; // Model
+                //    break;
                 case 8:
-                    TenLK = value; // Model
-                    break;
-                case 9:
                     int.TryParse(value, out int sllk); // Chuyển đổi value thành int                 
                     SoLuongLK = sllk;
                     break;
-                case 10:
+                case 9:
                     MaLoi = value; // Kỹ thuật viên thực hiện
                     break;
-                case 11:
-                    TenLoi = value; // Model
-                    break;
-                case 12:
+                //case 11:
+                //    TenLoi = value; // Model
+                //    break;
+                case 10:
                     int.TryParse(value, out int sll); // Chuyển đổi value thành int                              
                     SoLuongLoi = sll; // Mã linh kiện
                     break;
-                case 13:
+                case 11:
                     MaNV = value; // Tên dịch vụ
                     break;
-                case 14:
-                    TenNV = value; // Tên dịch vụ
-                    break;
-                case 15:
+                //case 14:
+                //    TenNV = value; // Tên dịch vụ
+                //    break;
+                case 12:
                     GhiChu = value; // Ghi chú
                     break;
                 default:
@@ -259,14 +259,14 @@ namespace QuanLyMayMoc
                 case 5: return TenDichVu; // Tên dịch vụ
                 case 6: return PhiDichVu.ToString(); // Phí dịch vụ
                 case 7: return MaLK; // Mã linh kiện
-                case 8: return TenLK; // Tên linh kiện
-                case 9: return SoLuongLK.ToString(); // Số lượng linh kiện
-                case 10: return MaLoi; // Mã lỗi
-                case 11: return TenLoi; // Tên lỗi
-                case 12: return SoLuongLoi.ToString(); // Số lượng lỗi
-                case 13: return MaNV; // Mã nhân viên
-                case 14: return TenNV; // Tên nhân viên
-                case 15: return GhiChu; // Ghi chú
+               // case 8: return TenLK; // Tên linh kiện
+                case 8: return SoLuongLK.ToString(); // Số lượng linh kiện
+                case 9: return MaLoi; // Mã lỗi
+               // case 11: return TenLoi; // Tên lỗi
+                case 10: return SoLuongLoi.ToString(); // Số lượng lỗi
+                case 11: return MaNV; // Mã nhân viên
+              //  case 14: return TenNV; // Tên nhân viên
+                case 12: return GhiChu; // Ghi chú
                 default: return string.Empty; // Trường hợp không xác định
             }
         }

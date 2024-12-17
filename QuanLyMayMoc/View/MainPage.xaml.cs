@@ -345,7 +345,7 @@ namespace QuanLyMayMoc
             {
                 // Retrieve the project name
                 projectName = projectNameTextBox.Text;
-                // ViewModel.LoadDataFilter();
+                // ViewModel.RefreshData();
             }
             else
             {

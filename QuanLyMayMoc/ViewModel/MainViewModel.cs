@@ -123,28 +123,28 @@ namespace QuanLyMayMoc.ViewModel
             MonthlyGroupedItems = new ObservableCollection<MonthlyGroupViewModel>(monthlyGroups);
         }
 
-        public void LoadDataFilter(DateTime ngaythuchien, string keyword)
+        public void RefreshData(DateTime ngaythuchien, string keyword)
         {
 
 
             Tasks.Clear();
 
 
-            var filteredTasks = _dao.GetTasksFromTemp(ngaythuchien, keyword);
+            var filteredTasks = _dao.GetAllTasksFromDatabase(ngaythuchien, keyword);
             foreach (var task in filteredTasks)
             {
                 Tasks.Add(task);
             }
         }
 
-        public void LoadDataFilter()
+        public void RefreshData()
         {
             if (Tasks != null)
             {
                 Tasks.Clear();
             }
 
-            var allTasks = _dao.GetTasksFromTemp();
+            var allTasks = _dao.GetAllTasksFromDatabase();
 
             var sortedTasks = allTasks.OrderBy(task => task.Stt);
 
@@ -217,6 +217,24 @@ namespace QuanLyMayMoc.ViewModel
         {
 
             return _dao.GetCustomerNamesFromDatabase(query);
+        }
+
+        public List<string> GetEmployeeCodes(string query)
+        {
+
+            return _dao.GetEmployeeCodesFromDatabase(query);
+        }
+
+        public List<string> GetPartCodes(string query)
+        {
+
+            return _dao.GetPartCodesFromDatabase(query);
+        }
+
+        public List<string> GetCoreCodes(string query)
+        {
+
+            return _dao.GetCoreCodesFromDatabase(query);
         }
 
         public ObservableCollection<Project> getProjects()
@@ -469,7 +487,21 @@ namespace QuanLyMayMoc.ViewModel
                          // Nếu có linh kiện
                          if (!string.IsNullOrEmpty(task.MaLK))
                          {
-                             LoadLinhKienFromTemp();
+                             if (CheckLinhKienDuAnTamTonTai(AppData.ProjectID) > 0)
+
+                             {
+                                 LoadLinhKienFromTemp();
+                             }
+                             else if (CheckLinhKienDuAnTonTai(AppData.ProjectID) > 0)
+                             {
+                                 LoadLinhKienFromDuAn();
+                                 SaveToLinhKienDuAnToTam();
+                             }
+                             else
+                             {
+                                 LoadLinhKienFromDatabase();
+                             }
+                            // LoadLinhKienFromTemp();
                              var linhkien = Listlinhkien.FirstOrDefault(lk => lk.MaSanPham == task.MaLK);
                              results.Add(new
                              {
@@ -485,7 +517,20 @@ namespace QuanLyMayMoc.ViewModel
                          // Nếu có lỗi
                          if (!string.IsNullOrEmpty(task.MaLoi))
                          {
-                             LoadLoiFromTemp();
+                             if (CheckLoiDuAnTamTonTai(AppData.ProjectID) > 0)
+                             {
+                                 LoadLoiFromTemp();
+                             }
+                             else if (CheckLoiDuAnTonTai(AppData.ProjectID) > 0)
+                             {
+                                 LoadLoiFromDuAn();
+                                 SaveToLoiDuAnToTam();
+                             }
+                             else
+                             {
+                                 LoadLoiFromDatabase();
+                             }
+                           //  LoadLoiFromTemp();
                              var loi = ListLoi.FirstOrDefault(l => l.MaSanPham == task.MaLoi);
                              results.Add(new
                              {
@@ -554,16 +599,25 @@ namespace QuanLyMayMoc.ViewModel
 
             // Nhóm các Task theo tháng và nhân viên
             var groupedTasks = Tasks
-                .GroupBy(task => new { Month = task.NgayThucHien.Month, EmployeeCode = task.MaNV })
-                .Select(group => new
-                {
-                    Month = group.Key.Month,
-                    EmployeeCode = group.Key.EmployeeCode,
-                    EmployeeName = group.First().TenNV ?? "Unknown Employee",
-                    TaskCode = group.First().MaCVDuAn ?? "Unknown Task",
-                    TotalServiceFee = group.Sum(task => task.PhiDichVu) // Tổng phí dịch vụ của nhân viên
-                })
-                .ToList();
+                 .GroupBy(task => new { Month = task.NgayThucHien.Month, EmployeeCode = task.MaNV })
+                 .Select(group =>
+                 {
+                     LoadDataEmployee();
+                     // Tìm nhân viên từ danh sách Employees dựa trên mã nhân viên
+                     var employee = Employees.FirstOrDefault(emp => emp.MaNhanVien == group.Key.EmployeeCode);
+
+                     return new
+                     {
+                         Month = group.Key.Month,
+                         EmployeeCode = group.Key.EmployeeCode,
+                         EmployeeName = employee?.HoTen ?? "Unknown Employee", // Lấy tên nhân viên hoặc gán mặc định
+                         STT = group.Select(task => task.Stt).DefaultIfEmpty(0).First(),
+
+                     TotalServiceFee = group.Sum(task => task.PhiDichVu) // Tổng phí dịch vụ của nhân viên
+                     };
+                 })
+                 .ToList();
+
 
             // Tạo danh sách MonthlyServiceSummary
             foreach (var groupedTask in groupedTasks)
@@ -576,7 +630,7 @@ namespace QuanLyMayMoc.ViewModel
                         Month = groupedTask.Month,
                         EmployeeCode = groupedTask.EmployeeCode,
                         EmployeeName = groupedTask.EmployeeName,
-                        TaskCode = task.MaCVDuAn ?? "Unknown Task",
+                        STT = task.Stt ,
                         ServiceFee = task.PhiDichVu,
                         TotalServiceFee = groupedTask.TotalServiceFee,
                         MonthlyTotalFee = monthlyTotalFees[groupedTask.Month] // Lấy tổng phí dịch vụ của tháng từ dictionary
@@ -612,7 +666,7 @@ namespace QuanLyMayMoc.ViewModel
         public void SaveProjectWithDifferentName(Project project, string newProject)
         {
             _dao.SaveProjectWithDifferentName(project, newProject);
-            LoadDataFilter();
+            RefreshData();
         }
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string propertyName)
