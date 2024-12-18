@@ -80,6 +80,7 @@ namespace QuanLyMayMoc.ViewModel
 
         public ObservableCollection<YearlyServiceGroupViewModel> GroupedYearServiecItems { get; set; }
 
+        public ObservableCollection<ConsolidatedYearSummary> ConsolidatedYearSummaries { get; set; }
 
         public MainViewModel()
         {
@@ -91,13 +92,55 @@ namespace QuanLyMayMoc.ViewModel
             ListLoi = new ObservableCollection<Loisp>();
             MonthlyProductSummarys = _dao.GetMonthlyProductSummaries();
             MonthlyServiceSummarys = _dao.GetMonthlyServiceSummaries();
-            GroupProducts();
-            GroupServices();
-        
+            GroupedYearItems = GroupProducts();
+            GroupedYearServiecItems= GroupServices();
+            ConsolidatedYearSummaries= SummaryYear();
 
         }
 
-        private void GroupProducts()
+        public ObservableCollection<ConsolidatedYearSummary> SummaryYear()
+        {
+            // Tạo một danh sách rỗng để lưu kết quả tổng hợp
+            var consolidatedYearSummaries = new ObservableCollection<ConsolidatedYearSummary>();
+
+            // Lấy tất cả các năm từ cả hai danh sách
+            var allYears = GroupedYearItems.Select(p => p.Year)
+                                           .Union(GroupedYearServiecItems.Select(s => s.Year))
+                                           .Distinct();
+
+            foreach (var year in allYears)
+            {
+                // Lấy dữ liệu sản phẩm và dịch vụ theo năm
+                var productYear = GroupedYearItems.FirstOrDefault(p => p.Year == year);
+                var serviceYear = GroupedYearServiecItems.FirstOrDefault(s => s.Year == year);
+
+                // Lấy tất cả các tháng từ cả sản phẩm và dịch vụ
+                var allMonths = (productYear?.MonthlyGroups.Select(p => p.Month) ?? Enumerable.Empty<int>())
+                                .Union(serviceYear?.MonthlyGroups.Select(s => s.Month) ?? Enumerable.Empty<int>())
+                                .Distinct();
+
+                var consolidatedMonthlySummaries = allMonths.Select(month =>
+                {
+                    // Lấy dữ liệu tháng từ sản phẩm và dịch vụ
+                    var productMonth = productYear?.MonthlyGroups.FirstOrDefault(p => p.Month == month);
+                    var serviceMonth = serviceYear?.MonthlyGroups.FirstOrDefault(s => s.Month == month);
+
+                    double productFee = productMonth?.TotalMonth ?? 0; // Nếu không có thì là 0
+                    double serviceFee = serviceMonth?.MonthlyTotalFee ?? 0; // Nếu không có thì là 0
+
+                    return new ConsolidatedMonthSummary(month, serviceFee, productFee);
+                }).ToList();
+
+                // Thêm dữ liệu tổng hợp của năm vào danh sách
+                consolidatedYearSummaries.Add(new ConsolidatedYearSummary(year, consolidatedMonthlySummaries));
+            }
+
+            // Trả về danh sách đã tổng hợp
+            return consolidatedYearSummaries;
+        }
+
+
+        private ObservableCollection<YearGroupViewModel> GroupProducts()
         {
             var groupedByYear = MonthlyProductSummarys
                 .GroupBy(p => p.Year)
@@ -113,11 +156,11 @@ namespace QuanLyMayMoc.ViewModel
                 ))
                 .ToList();
 
-            GroupedYearItems = new ObservableCollection<YearGroupViewModel>(groupedByYear);
+             return new ObservableCollection<YearGroupViewModel>(groupedByYear);
         }
 
 
-        private void GroupServices()
+        private ObservableCollection<YearlyServiceGroupViewModel> GroupServices()
         {
             var monthlyServiceSummaries = MonthlyServiceSummarys;
 
@@ -158,7 +201,7 @@ namespace QuanLyMayMoc.ViewModel
                 }).ToList();
 
             // Gán dữ liệu vào GroupedYearServiecItems
-            GroupedYearServiecItems = new ObservableCollection<YearlyServiceGroupViewModel>(yearlyGroupedServices);
+            return new ObservableCollection<YearlyServiceGroupViewModel>(yearlyGroupedServices);
         }
 
         public void RefreshData(DateTime ngaythuchien, string keyword)
@@ -191,19 +234,16 @@ namespace QuanLyMayMoc.ViewModel
             {
                 Tasks.Add(task);
             }
+            
 
             LoadDataEmployee();
-
-           
-
-          
-          
-         
             LoadSummary();
+            LoadSummaryYear();
 
         }
         public void LoadSummary()
         {
+            // Clear existing summaries
             if (MonthlyProductSummarys != null)
             {
                 MonthlyProductSummarys.Clear();
@@ -213,25 +253,59 @@ namespace QuanLyMayMoc.ViewModel
             {
                 MonthlyServiceSummarys.Clear();
             }
+
             ClearSummary();
             SummaryProduct();
             SummaryService();
-           
-            if (GroupedProductItems != null)
+
+            // Clear the grouped items
+            if (GroupedYearItems != null)
             {
-                GroupedProductItems.Clear();            
-            }                 
-            MonthlyProductSummarys = _dao.GetMonthlyProductSummaries();
-            GroupProducts();
-            if (MonthlyGroupedItems != null)
-            {
-                MonthlyGroupedItems.Clear();
+                GroupedYearItems.Clear();
             }
+
+            // Get new monthly product summaries and group products
+            MonthlyProductSummarys = _dao.GetMonthlyProductSummaries();
+            var groupedProducts = GroupProducts(); // Get grouped product items
+
+            // Add grouped product items to GroupedYearItems
+            foreach (var item in groupedProducts)
+            {
+                GroupedYearItems.Add(item);
+            }
+
+            // Clear and get new monthly service summaries and group services
+            if (GroupedYearServiecItems != null)
+            {
+                GroupedYearServiecItems.Clear();
+            }
+
             MonthlyServiceSummarys = _dao.GetMonthlyServiceSummaries();
-            GroupServices();
-            
+            var groupedServices = GroupServices(); // Get grouped service items
 
+            // Add grouped service items to GroupedYearServiecItems
+            foreach (var item in groupedServices)
+            {
+                GroupedYearServiecItems.Add(item);
+            }
+        }
 
+        public void LoadSummaryYear()
+        {
+            // If ConsolidatedYearSummaries is not null, clear the collection
+            if (ConsolidatedYearSummaries != null)
+            {
+                ConsolidatedYearSummaries.Clear();
+            }
+
+            // Get the summary year data from the SummaryYear method
+            var yearSummaries = SummaryYear();
+
+            // Loop through each year summary and add it to ConsolidatedYearSummaries
+            foreach (var yearSummary in yearSummaries)
+            {
+                ConsolidatedYearSummaries.Add(yearSummary);
+            }
         }
 
         public void LoadDataEmployee()

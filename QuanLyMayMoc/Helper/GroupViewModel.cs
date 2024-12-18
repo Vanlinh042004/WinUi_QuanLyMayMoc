@@ -90,5 +90,33 @@ namespace QuanLyMayMoc
         }
     }
 
+    public class ConsolidatedMonthSummary
+    {
+        public int Month { get; set; } // Tháng
+        public double TotalServiceFee { get; set; } // Tổng phí dịch vụ
+        public double TotalProductFee { get; set; } // Tổng phí sản phẩm
+        public double CombinedTotal => TotalServiceFee + TotalProductFee; // Tổng cộng
+
+        public ConsolidatedMonthSummary(int month, double totalServiceFee, double totalProductFee)
+        {
+            Month = month;
+            TotalServiceFee = totalServiceFee;
+            TotalProductFee = totalProductFee;
+        }
+    }
+
+    public class ConsolidatedYearSummary
+    {
+        public int Year { get; set; }
+        public ObservableCollection<ConsolidatedMonthSummary> MonthlySummaries { get; set; }
+        public double TotalYear => MonthlySummaries.Sum(x => x.CombinedTotal); // Tổng tiền cả năm
+
+        public ConsolidatedYearSummary(int year, IEnumerable<ConsolidatedMonthSummary> monthlySummaries)
+        {
+            Year = year;
+            MonthlySummaries = new ObservableCollection<ConsolidatedMonthSummary>(monthlySummaries);
+        }
+    }
+
 
 }

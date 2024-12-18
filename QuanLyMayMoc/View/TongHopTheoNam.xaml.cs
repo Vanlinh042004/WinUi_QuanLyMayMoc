@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using QuanLyMayMoc.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,13 +24,38 @@ namespace QuanLyMayMoc.View
     /// </summary>
     public sealed partial class TongHopTheoNam : Page
     {
+        public MainViewModel ViewModel
+        {
+            get; set;
+        }
+        private DispatcherTimer refreshTimer; // Timer để tự động refresh
+
         public TongHopTheoNam()
         {
             this.InitializeComponent();
+            ViewModel = new MainViewModel();
+            InitializeRefreshTimer();
             this.Loaded += (sender, args) =>
             {
                 MainPage.ChangeHeaderTextBlock("Tổng hợp theo năm");
             };
         }
+        private void InitializeRefreshTimer()
+        {
+            refreshTimer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(2) // Khoảng thời gian lặp lại (2 giây)
+            };
+            refreshTimer.Tick += (sender, e) => ViewModel.RefreshData();
+            refreshTimer.Start();
+        }
+
+        protected override void OnNavigatedFrom(Microsoft.UI.Xaml.Navigation.NavigationEventArgs e)
+        {
+            // Dừng Timer khi trang không còn hiển thị
+            refreshTimer?.Stop();
+            base.OnNavigatedFrom(e);
+        }
+
     }
 }

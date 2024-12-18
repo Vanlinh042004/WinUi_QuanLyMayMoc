@@ -48,7 +48,7 @@ namespace QuanLyMayMoc
         {
             refreshTimer = new DispatcherTimer
             {
-                Interval = TimeSpan.FromSeconds(2) // Khoảng thời gian lặp lại (5 giây)
+                Interval = TimeSpan.FromSeconds(2) // Khoảng thời gian lặp lại (2 giây)
             };
             refreshTimer.Tick += (sender, e) => ViewModel.RefreshData();
             refreshTimer.Start();

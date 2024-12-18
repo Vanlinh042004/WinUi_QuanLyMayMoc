@@ -73,7 +73,7 @@ namespace QuanLyMayMoc
         {
             refreshTimer = new DispatcherTimer
             {
-                Interval = TimeSpan.FromSeconds(5) // Khoảng thời gian lặp lại (5 giây)
+                Interval = TimeSpan.FromSeconds(2) // Khoảng thời gian lặp lại (2 giây)
             };
             refreshTimer.Tick += (sender, e) => ViewModel.RefreshData();
             refreshTimer.Start();
@@ -149,9 +149,14 @@ namespace QuanLyMayMoc
                 else
                 {
                     int maxLength = 0;
-                   
-                    maxLength = 100; // Mặc định 100 ký tự
-                    
+                    if (col == 3)
+                    {
+                        maxLength = 10;
+                    }
+                    else
+                    {
+                        maxLength = 100; // Mặc định 100 ký tự
+                    }
                     var textBox = new TextBox
                     {
                         Margin = new Thickness(2),

@@ -33,7 +33,7 @@ namespace QuanLyMayMoc
     /// </summary>
     public sealed partial class LinhKien : Page
     {
-
+        private DispatcherTimer refreshTimer; // Timer để tự động refresh
         private int currentRow = 1;
         private int Columns = 3;
         private int EditingRowIndex = -1;
@@ -52,8 +52,8 @@ namespace QuanLyMayMoc
             this.InitializeComponent();
             HideFirstRow(); // Thêm dòng đầu tiên
             ViewModel = new MainViewModel();
-
-            if(ViewModel.CheckLinhKienDuAnTamTonTai(AppData.ProjectID) > 0)
+            InitializeRefreshTimer();
+            if (ViewModel.CheckLinhKienDuAnTamTonTai(AppData.ProjectID) > 0)
 
             {
                 ViewModel.LoadLinhKienFromTemp();
@@ -72,6 +72,23 @@ namespace QuanLyMayMoc
             {
                 MainPage.ChangeHeaderTextBlock("Quản lý linh kiện");
             };
+        }
+
+        private void InitializeRefreshTimer()
+        {
+            refreshTimer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(2) // Khoảng thời gian lặp lại (2 giây)
+            };
+            refreshTimer.Tick += (sender, e) => ViewModel.RefreshData();
+            refreshTimer.Start();
+        }
+
+        protected override void OnNavigatedFrom(Microsoft.UI.Xaml.Navigation.NavigationEventArgs e)
+        {
+            // Dừng Timer khi trang không còn hiển thị
+            refreshTimer?.Stop();
+            base.OnNavigatedFrom(e);
         }
 
         private void HideFirstRow()
