@@ -34,6 +34,7 @@ namespace QuanLyMayMoc
         /// </summary>
         public bool IsFirstLinhKienClick { get; set; } = true;
         public bool IsFirstLoiClick { get; set; } = true;
+        public Linhkien SelectedLinhKien { get; set; }
         public static ShellWindow MainShellWindow { get; private set; }
 
         public App()

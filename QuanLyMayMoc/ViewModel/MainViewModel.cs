@@ -23,7 +23,16 @@ namespace QuanLyMayMoc.ViewModel
         IDao _dao;
 
 
-
+        private Linhkien _currentSelectedLinhkien;
+        public Linhkien CurrentSelectedLinhkien
+        {
+            get => _currentSelectedLinhkien;
+            set
+            {
+                _currentSelectedLinhkien = value;
+                OnPropertyChanged(nameof(CurrentSelectedLinhkien));
+            }
+        }
         private Task _currentSelectedTask;
         public Task CurrentSelectedTask
         {
@@ -240,6 +249,9 @@ namespace QuanLyMayMoc.ViewModel
             LoadSummary();
             LoadSummaryYear();
 
+            RefreshLinhKien();
+            RefreshLoi();
+
         }
         public void LoadSummary()
         {
@@ -333,23 +345,9 @@ namespace QuanLyMayMoc.ViewModel
             _dao.InsertTaskToDaTaBaseTemp(newTask);
         }
 
-        public int CheckLinhKienDuAnTonTai(string maDuAn)
-        {
-            return _dao.CheckLinhKienDuAnTonTai(maDuAn);
-        }
-        public int CheckLinhKienDuAnTamTonTai(string maDuAn)
-        {
-            return _dao.CheckLinhKienDuAnTamTonTai(maDuAn);
-        }
+      
 
-        public int CheckLoiDuAnTonTai(string maDuAn)
-        {
-            return _dao.CheckLoiDuAnTonTai(maDuAn);
-        }
-        public int CheckLoiDuAnTamTonTai(string maDuAn)
-        {
-            return _dao.CheckLoiDuAnTamTonTai(maDuAn);
-        }
+     
 
         public List<string> GetCustomerNames(string query)
         {
@@ -454,11 +452,6 @@ namespace QuanLyMayMoc.ViewModel
             return _dao.TimSttLonNhat(maduan);
         }
 
-
-
-
-
-
         public void DeleteAllTask(string maDuAn)
         {
             _dao.DeleteAllTasks(maDuAn);
@@ -511,25 +504,65 @@ namespace QuanLyMayMoc.ViewModel
         {
             return _dao.CheckLinhKienTonTai(maSanPham);
         }
+        public int CheckMaSanPhamLinhKienTonTaiKhac(string maSanPham)
+        {
+            return _dao.CheckLinhKienTonTaiKhac(maSanPham);
+        }
+        public int CheckLinhKienDuAnTonTai(string maDuAn)
+        {
+            return _dao.CheckLinhKienDuAnTonTai(maDuAn);
+        }
+        public int CheckLinhKienDuAnTamTonTai(string maDuAn)
+        {
+            return _dao.CheckLinhKienDuAnTamTonTai(maDuAn);
+        }
 
         public void UpdateSelectedLinhkien(Linhkien newLinhkien, Linhkien CurrentSelectedLinhkien)
         {
+            
             if (CurrentSelectedLinhkien != null)
             {
+                string maHieuDuAn = CurrentSelectedLinhkien.MaSanPham + "_" + AppData.ProjectID;
                 var updatedLinhkien = CurrentSelectedLinhkien;
-
-                _dao.UpdateLinhkien(updatedLinhkien, newLinhkien);
-
-                var linhkienIndex = Listlinhkien.IndexOf(updatedLinhkien);
-
-                if (linhkienIndex >= 0)
+                if(CheckMaSanPhamLinhKienTonTaiKhac(CurrentSelectedLinhkien.MaSanPham) > 0)
                 {
-                    Listlinhkien[linhkienIndex] = newLinhkien;
+                    _dao.UpdateLinhkien(updatedLinhkien, newLinhkien);
+
+                    var linhkienIndex = Listlinhkien.IndexOf(updatedLinhkien);
+
+                    if (linhkienIndex >= 0)
+                    {
+                        Listlinhkien[linhkienIndex] = newLinhkien;
+                    }
                 }
+                else
+                {
+                    _dao.InsertLinhKienToDaTaBaseTemp(newLinhkien, maHieuDuAn);
+                    var linhkienIndex = Listlinhkien.IndexOf(CurrentSelectedLinhkien);
+
+                    if (linhkienIndex >= 0)
+                    {
+                        Listlinhkien[linhkienIndex] = newLinhkien;
+                    }
+                }
+
             }
             CurrentSelectedLinhkien = null;
         }
+        public void RefreshLinhKien()
+        {
+            
+            if (Listlinhkien != null)
+            {
+                Listlinhkien.Clear();
+            }
+            var allLinhKien = _dao.GetAllLinhKienTam();
+            foreach (var linhkien in allLinhKien)
+            {
+                Listlinhkien.Add(linhkien);
+            }
 
+        }
         // Lõi
         public ObservableCollection<Loisp> ListLoi
         {
@@ -576,20 +609,52 @@ namespace QuanLyMayMoc.ViewModel
         {
             return _dao.CheckLoiTonTai(maSanPham);
         }
-
-
+        public int CheckLoiTonTaiKhac(string maSanPham)
+        {
+            return _dao.CheckLoiTonTaiKhac(maSanPham);
+        }
+        public int CheckLoiDuAnTonTai(string maDuAn)
+        {
+            return _dao.CheckLoiDuAnTonTai(maDuAn);
+        }
+        public int CheckLoiDuAnTamTonTai(string maDuAn)
+        {
+            return _dao.CheckLoiDuAnTamTonTai(maDuAn);
+        }
+        public void RefreshLoi()
+        {
+            if (ListLoi != null)
+            {
+                ListLoi.Clear();
+            }
+            var allLoi = _dao.GetAllLoiTam();
+            foreach (var loi in allLoi)
+            {
+                ListLoi.Add(loi);
+            }
+        }
         public void UpdateSelectedLoi(Loisp newLoi, Loisp CurrentSelectedLoi)
         {
             if (CurrentSelectedLoi != null)
             {
 
-                _dao.UpdateLoisp(CurrentSelectedLoi, newLoi);
-
-                var loiIndex = ListLoi.IndexOf(CurrentSelectedLoi);
-
-                if (loiIndex >= 0)
+                if (CheckLoiTonTaiKhac(CurrentSelectedLoi.MaSanPham) > 0)
                 {
-                    ListLoi[loiIndex] = newLoi;
+                    _dao.UpdateLoisp(CurrentSelectedLoi, newLoi);
+                    var loiIndex = ListLoi.IndexOf(CurrentSelectedLoi);
+                    if (loiIndex >= 0)
+                    {
+                        ListLoi[loiIndex] = newLoi;
+                    }
+                }
+                else
+                {
+                    _dao.InsertLoiToDaTaBaseTemp(newLoi, AppData.ProjectID);
+                    var loiIndex = ListLoi.IndexOf(CurrentSelectedLoi);
+                    if (loiIndex >= 0)
+                    {
+                        ListLoi[loiIndex] = newLoi;
+                    }
                 }
             }
             CurrentSelectedLoi = null;

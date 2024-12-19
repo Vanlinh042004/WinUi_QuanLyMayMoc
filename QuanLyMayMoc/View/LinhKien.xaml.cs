@@ -20,6 +20,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.System;
 using Windows.UI;
 
@@ -38,7 +39,6 @@ namespace QuanLyMayMoc
         private int Columns = 3;
         private int EditingRowIndex = -1;
         private bool isUpdate = false;
-
         private Dictionary<int, Linhkien> rowLinkKienDictionary = new Dictionary<int, Linhkien>();
         private Dictionary<int, Linhkien> rowUpdateLinhkienDictionary = new Dictionary<int, Linhkien>();
 
@@ -53,9 +53,7 @@ namespace QuanLyMayMoc
             HideFirstRow(); // Thêm dòng đầu tiên
             ViewModel = new MainViewModel();
             InitializeRefreshTimer();
-            if (ViewModel.CheckLinhKienDuAnTamTonTai(AppData.ProjectID) > 0)
-
-            {
+            if (ViewModel.CheckLinhKienDuAnTamTonTai(AppData.ProjectID) > 0)            {
                 ViewModel.LoadLinhKienFromTemp();
             }
             else if(ViewModel.CheckLinhKienDuAnTonTai(AppData.ProjectID) > 0)
@@ -78,7 +76,7 @@ namespace QuanLyMayMoc
         {
             refreshTimer = new DispatcherTimer
             {
-                Interval = TimeSpan.FromSeconds(2) // Khoảng thời gian lặp lại (2 giây)
+                Interval = TimeSpan.FromSeconds(10) // Khoảng thời gian lặp lại (2 giây)
             };
             refreshTimer.Tick += (sender, e) => ViewModel.RefreshData();
             refreshTimer.Start();
@@ -184,14 +182,14 @@ namespace QuanLyMayMoc
         {
             // Lấy dòng đang được chọn
             var selectedItem = (Linhkien)LinhKienListView.SelectedItem;
-
-
             if (selectedItem != null)
             {
                 // Xóa dòng khỏi ViewModel
                 ViewModel.Listlinhkien.Remove(selectedItem);
                 LinhKienListView.SelectedItem = null;
+                ApplicationData.Current.LocalSettings.Values.Remove("SelectedLinhkienMaSanPham");
                 ViewModel.DeleteLinhKienTam(selectedItem.MaSanPham);
+                ViewModel.CurrentSelectedLinhkien = null;
                 // Hiển thị thông báo nếu cần
                 await new ContentDialog
                 {
@@ -286,6 +284,7 @@ namespace QuanLyMayMoc
         }
         private async void OnUpdateRowDataClick(object sender, RoutedEventArgs e)
         {
+            ViewModel.CurrentSelectedLinhkien= (Linhkien)LinhKienListView.SelectedItem;
             var selectedLinhkien = (Linhkien)LinhKienListView.SelectedItem;
             if (selectedLinhkien != null)
             {
@@ -533,7 +532,8 @@ namespace QuanLyMayMoc
             }
           
         }
-          
-      }
+
+        
+    }
   }
 

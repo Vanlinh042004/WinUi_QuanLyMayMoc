@@ -1488,6 +1488,26 @@ namespace QuanLyMayMoc
                 }
             }
         }
+        public int CheckLinhKienTonTaiKhac(string maSanPham)
+        {
+            string query = "SELECT COUNT(*) FROM linhkienduantam WHERE maduan = @MaDuAn and mahieu = @maSanPham";
+
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    // Thêm tham số để tránh SQL Injection
+                    command.Parameters.AddWithValue("@MaDuAn", AppData.ProjectID);
+                    command.Parameters.AddWithValue("@maSanPham", maSanPham);
+
+                    // Thực thi truy vấn và trả về kết quả
+                    int count = Convert.ToInt32(command.ExecuteScalar());
+                    return count;
+                }
+            }
+        }
         public int CheckLinhKienDuAnTonTai(string maDuAn)
         {
             string query = "SELECT COUNT(*) FROM linhkien_duan WHERE maduan = @MaDuAn";
@@ -1923,7 +1943,27 @@ namespace QuanLyMayMoc
                 }
             }
         }
+        
+        public int CheckLoiTonTaiKhac(string maSanPham)
+        {
+            string query = "SELECT COUNT(*) FROM loiduantam WHERE maduan = @MaDuAn and mahieu = @maSanPham";
 
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    // Thêm tham số để tránh SQL Injection
+                    command.Parameters.AddWithValue("@MaDuAn", AppData.ProjectID);
+                    command.Parameters.AddWithValue("@maSanPham", maSanPham);
+
+                    // Thực thi truy vấn và trả về kết quả
+                    int count = Convert.ToInt32(command.ExecuteScalar());
+                    return count;
+                }
+            }
+        }   
         public async void UpdateLoisp(Loisp selectedLoi, Loisp newLoi)
         {
             using (var connection = new NpgsqlConnection(connectionString))
