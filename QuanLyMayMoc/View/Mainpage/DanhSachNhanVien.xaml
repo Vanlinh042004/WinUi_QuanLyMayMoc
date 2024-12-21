@@ -197,11 +197,11 @@
                 Margin="5"/>
 
         <!-- Popup nhập thông tin nhân viên -->
-        <StackPanel Grid.Row="0" Margin="20 20 0 0" Background="Transparent">
-            <Popup  x:Name="AddEmployeePopup" IsLightDismissEnabled="False" HorizontalAlignment="Left" Width="auto" Height="auto">
+        <Grid x:Name="Overlay" Background="#AA000000" Visibility="Collapsed" Grid.Row="0">
+            <Popup  x:Name="AddEmployeePopup" IsLightDismissEnabled="False" HorizontalAlignment="Left" Width="auto" Height="auto" IsOpen="False">
                 <Border Background="{ThemeResource TextFillColorInverse}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="2"  VerticalAlignment="Center" CornerRadius="8" >
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
-                        <Grid Width="auto" Height="auto">
+                        <Grid Width="auto" Height="auto" Margin="20">
                        
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="250" />
@@ -256,7 +256,7 @@
             </ScrollViewer>
                 </Border>
             </Popup>
-        </StackPanel>
+        </Grid>
 
     </Grid>
 

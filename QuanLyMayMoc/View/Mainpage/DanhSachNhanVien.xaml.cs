@@ -117,12 +117,14 @@ namespace QuanLyMayMoc
 
     private void OnAddEmployeeClicked(object sender, RoutedEventArgs e)
         {
+            Overlay.Visibility = Visibility.Visible;
             AddEmployeePopup.IsOpen = true; // Mở popup
         }
 
         // Sự kiện khi nhấn nút "Hủy"
         private void OnCancelEmployeeClicked(object sender, RoutedEventArgs e)
         {
+            Overlay.Visibility = Visibility.Collapsed;
             AddEmployeePopup.IsOpen = false; // Đóng popup
         }
 
