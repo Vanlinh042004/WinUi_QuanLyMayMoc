@@ -31,6 +31,19 @@ namespace QuanLyMayMoc.View.Mainpage
         {
             this.InitializeComponent();
             currentUsername = AppData.Username; // Truyền tên đăng nhập từ session hoặc trạng thái đăng nhập
+            this.Loaded += (sender, args) =>
+            {
+                MainPage.ChangeHeaderTextBlock("Thông tin tài khoản");
+            };
+        }
+
+        private void NavigateToLoginPage()
+        {
+            // Access the ShellWindow instance and update the title
+            if (App.MainShellWindow != null)
+            {
+                App.MainShellWindow.SetContentFrame(typeof(LoginPage));
+            }
         }
 
         private async void ChangePasswordButton_Click(object sender, RoutedEventArgs e)
@@ -82,7 +95,7 @@ namespace QuanLyMayMoc.View.Mainpage
                     }
 
                     ShowMessage("Đổi mật khẩu thành công!");
-                    Frame.Navigate(typeof(LoginPage)); // Chuyển về trang đăng nhập hoặc trang chính
+                    //Frame.Navigate(typeof(LoginPage)); // Chuyển về trang đăng nhập hoặc trang chính
                 }
             }
             catch (Exception ex)
@@ -102,5 +115,97 @@ namespace QuanLyMayMoc.View.Mainpage
             };
             dialog.ShowAsync();
         }
+
+        public async void DeleteAccountButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Lấy thông tin UserId hiện tại (giả sử được lưu trong AppData)
+            int userId = AppData.UserId;
+
+            if (userId < 0)
+            {
+                // Hiển thị thông báo lỗi nếu không tìm thấy UserId
+                ContentDialog errorDialog = new ContentDialog
+                {
+                    XamlRoot = this.XamlRoot, // Gắn XamlRoot của trang hiện tại
+                    Title = "Lỗi",
+                    Content = "Không tìm thấy tài khoản để xóa.",
+                    CloseButtonText = "Đóng"
+                };
+                await errorDialog.ShowAsync();
+                return;
+            }
+
+            var confirmDialog = new ContentDialog
+            {
+                XamlRoot = this.XamlRoot, // Đảm bảo gắn XamlRoot hiện tại
+                Title = "Xác nhận xóa tài khoản",
+                Content = "Bạn có chắc chắn muốn xóa tài khoản này? Hành động này không thể hoàn tác.",
+                PrimaryButtonText = "Xóa",
+                CloseButtonText = "Hủy"
+            };
+            var result = await confirmDialog.ShowAsync();
+
+            if (result != ContentDialogResult.Primary)
+            {
+                // Người dùng chọn hủy
+                return;
+            }
+
+            try
+            {
+                // Kết nối với PostgreSQL
+                using (var conn = new NpgsqlConnection("Host=127.0.0.1;Port=5432;Username=postgres;Password=1234;Database=machine"))
+                {
+                    await conn.OpenAsync();
+
+                    // Thực hiện lệnh xóa
+                    using (var cmd = new NpgsqlCommand("DELETE FROM users WHERE id = @userId", conn))
+                    {
+                        cmd.Parameters.AddWithValue("userId", userId);
+                        int rowsAffected = await cmd.ExecuteNonQueryAsync();
+
+                        if (rowsAffected > 0)
+                        {
+                            // Hiển thị thông báo thành công
+                            ContentDialog successDialog = new ContentDialog
+                            {
+                                XamlRoot = this.XamlRoot, // Gắn XamlRoot của trang hiện tại
+                                Title = "Thành công",
+                                Content = "Tài khoản đã được xóa thành công.",
+                                CloseButtonText = "Đóng"
+                            };
+                            await successDialog.ShowAsync();
+
+                            NavigateToLoginPage();
+                        }
+                        else
+                        {
+                            // Hiển thị thông báo nếu không tìm thấy tài khoản
+                            ContentDialog notFoundDialog = new ContentDialog
+                            {
+                                XamlRoot = this.XamlRoot, // Gắn XamlRoot của trang hiện tại
+                                Title = "Lỗi",
+                                Content = "Không tìm thấy tài khoản để xóa.",
+                                CloseButtonText = "Đóng"
+                            };
+                            await notFoundDialog.ShowAsync();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ContentDialog errorDialog = new ContentDialog
+                {
+                    XamlRoot = this.XamlRoot, // Gắn XamlRoot của trang hiện tại
+                    Title = "Lỗi",
+                    Content = $"Đã xảy ra lỗi: {ex.Message}",
+                    CloseButtonText = "Đóng"
+                };
+                await errorDialog.ShowAsync();
+
+            }
+        }
+
     }
 }
