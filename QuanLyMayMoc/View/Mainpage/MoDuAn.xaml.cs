@@ -1,6 +1,7 @@
 ﻿using Microsoft.UI.Text;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using Npgsql;
 using QuanLyMayMoc.Model;
 using QuanLyMayMoc.Service;
@@ -74,6 +75,7 @@ namespace QuanLyMayMoc.View
                 button.Margin = new Thickness(0, 10, 0, 0);
                 button.HorizontalAlignment = HorizontalAlignment.Stretch;
                 button.HorizontalContentAlignment = HorizontalAlignment.Left;
+                button.RequestedTheme = ElementTheme.Light;
 
                 // Create a Grid to host the TextBlocks
                 Grid grid = new Grid();

@@ -11,6 +11,9 @@
 
     <ScrollViewer>
         <Grid>
+            <Grid.Background>
+                <ImageBrush ImageSource="ms-appx:///Assets/empty_background.png" Stretch="UniformToFill"/>
+            </Grid.Background>
             <StackPanel x:Name="DataStackPanel" Margin="80 0">
             </StackPanel>
         </Grid>

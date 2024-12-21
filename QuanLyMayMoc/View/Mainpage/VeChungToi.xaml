@@ -6,10 +6,12 @@
     xmlns:local="using:QuanLyMayMoc"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    mc:Ignorable="d">
     
     <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="ms-appx:///Assets/empty_background.png" Stretch="UniformToFill"/>
+        </Grid.Background>
         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Grid.Row="1">
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="20">
                 <!-- Team Description -->

@@ -19,6 +19,7 @@ using QuanLyMayMoc.ViewModel;
 using QuanLyMayMoc.View;
 using Microsoft.UI.Windowing;
 using Windows.UI.WindowManagement;
+using QuanLyMayMoc.View.Mainpage;
 
 
 // To learn more about WinUI, the WinUI project structure,
@@ -480,6 +481,24 @@ namespace QuanLyMayMoc
             if (args.SelectedItemContainer != null)
             {
                 string selectedItemTag = args.SelectedItemContainer.Tag?.ToString();
+                if (selectedItemTag != null)
+                {
+                    switch (selectedItemTag)
+                    {
+                        case "User":
+                            this.FrameContent.Navigate(typeof(ChangePasswordPage));
+                            return;
+                        case "Logout":
+                            AppData.Username = "";
+                            AppData.UserId = 0;
+                            AppData.ProjectID = "";
+                            AppData.ProjectName = "";
+                            AppData.ProjectTimeCreate = DateTime.MinValue;
+                            //navigate to the login page using the function in ShellWindow
+                            App.MainShellWindow.SetContentFrame(typeof(LoginPage));
+                            return;
+                    }
+                }
                 if (AppData.ProjectID == "")
                 {
                     await ShowProjectNameDialog();

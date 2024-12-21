@@ -383,8 +383,10 @@ namespace QuanLyMayMoc
             using (var connection = new NpgsqlConnection(connectionString))
             {
                 connection.Open();
-                using (var cmd = new NpgsqlCommand("SELECT * FROM duan ORDER BY \"ngaythuchien\" DESC", connection))
+                using (var cmd = new NpgsqlCommand("SELECT * FROM duan WHERE UserId = @userid ORDER BY \"ngaythuchien\" DESC", connection))
                 {
+                    cmd.Parameters.AddWithValue("@userid", AppData.UserId);
+
                     using (var reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
@@ -762,12 +764,14 @@ namespace QuanLyMayMoc
                     if (duAnExists == 0)
                     {
                         // Nếu dự án chưa tồn tại, thêm vào bảng `duan`
-                        string insertDuanQuery = "INSERT INTO duan (maduan, tenduan, ngaythuchien) VALUES (@maDuAn, @tenDuAn, @ngayThucHien)";
+                        string insertDuanQuery = "INSERT INTO duan (maduan, tenduan, ngaythuchien, userid) VALUES (@maDuAn, @tenDuAn, @ngayThucHien, @userid)";
                         using (var command = new NpgsqlCommand(insertDuanQuery, connection))
                         {
                             command.Parameters.AddWithValue("@maDuAn", projectInsert.ID);
                             command.Parameters.AddWithValue("@tenDuAn", projectInsert.Name);
                             command.Parameters.AddWithValue("@ngayThucHien", projectInsert.TimeCreate);
+                            command.Parameters.AddWithValue("@userid", AppData.UserId);
+
                             await command.ExecuteNonQueryAsync();
                         }
                     }
@@ -792,12 +796,14 @@ namespace QuanLyMayMoc
                 await connection.OpenAsync();
 
                 // Nếu dự án chưa tồn tại, thêm vào bảng `duan`
-                string insertDuanQuery = "INSERT INTO duan_tam (maduan, tenduan, ngaythuchien) VALUES (@maDuAn, @tenDuAn, @ngayThucHien)";
+                string insertDuanQuery = "INSERT INTO duan_tam (maduan, tenduan, ngaythuchien, userid) VALUES (@maDuAn, @tenDuAn, @ngayThucHien, @userid)";
                 using (var command = new NpgsqlCommand(insertDuanQuery, connection))
                 {
                     command.Parameters.AddWithValue("@maDuAn", projectInsert.ID);
                     command.Parameters.AddWithValue("@tenDuAn", projectInsert.Name);
                     command.Parameters.AddWithValue("@ngayThucHien", projectInsert.TimeCreate);
+                    command.Parameters.AddWithValue("@userid", AppData.UserId);
+
                     await command.ExecuteNonQueryAsync();
                 }
             }
@@ -1994,7 +2000,7 @@ namespace QuanLyMayMoc
             List<String> Queries = new List<string>
             {
                 @"
-                INSERT INTO duan (maduan, tenduan, ngaythuchien)
+                INSERT INTO duan (maduan, tenduan, ngaythuchien, @userid)
                 SELECT @maDuAnMoi, @tenDuAnMoi, @ngayThucHienDuAnMoi
                 FROM duan
                 WHERE maduan = @maDuAnCu;
@@ -2017,6 +2023,8 @@ namespace QuanLyMayMoc
                                 command.Parameters.AddWithValue("@maDuAnMoi", maDuAnMoi);
                                 command.Parameters.AddWithValue("@tenDuAnMoi", tenDuAnMoi);
                                 command.Parameters.AddWithValue("@ngayThucHienDuAnMoi", ngayBatDauDuAnMoi);
+                                command.Parameters.AddWithValue("@userid", AppData.UserId);
+
                                 command.ExecuteNonQuery();
                             }
                         }

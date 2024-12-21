@@ -96,8 +96,9 @@
                     
                 </NavigationView.MenuItems>
                 <NavigationView.FooterMenuItems>
-                    <!--<NavigationViewItem Content="Account" Tag="SamplePage4" Icon="Contact" />
-                    <NavigationViewItem Content="Your Cart" Tag="SamplePage5" Icon="Shop" />
+                    <NavigationViewItem Content="Tài khoản" Tag="User" Icon="OtherUser" />
+                    <NavigationViewItem Content="Đăng xuất" Tag="Logout" Icon="Switch"/>
+                    <!--<NavigationViewItem Content="Your Cart" Tag="SamplePage5" Icon="Shop" />
                     <NavigationViewItem Content="Help" Tag="SamplePage6" Icon="Help" />-->
                 </NavigationView.FooterMenuItems>
                 <!-- Frame để hiển thị nội dung được chọn -->

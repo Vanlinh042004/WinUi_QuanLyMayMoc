@@ -15,7 +15,10 @@
 
     </Page.Resources>
 
-    <Grid Background="White">
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="ms-appx:///Assets/empty_background.png" Stretch="UniformToFill"/>
+        </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -85,7 +88,7 @@
                 </ListView>
 
                 <!-- Nội dung Row 3 -->
-                <Grid Padding="10" RowSpacing="5" ColumnSpacing="5" Background="White" x:Name="DataEntryGrid">
+                <Grid Padding="10" RowSpacing="5" ColumnSpacing="5"  x:Name="DataEntryGrid">
                     <Grid x:Name="InputGrid" ColumnSpacing="5" RowSpacing="5">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="200"/>

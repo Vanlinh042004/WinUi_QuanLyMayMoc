@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using QuanLyMayMoc.View;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -27,7 +28,7 @@ namespace QuanLyMayMoc
         {
             this.InitializeComponent();
             // set the WindowFrame to mainpage
-            this.RootFrame.Navigate(typeof(MainPage));
+            this.RootFrame.Navigate(typeof(LoginPage));
             this.ExtendsContentIntoTitleBar = true;  // enable custom titlebar
             this.SetTitleBar(AppTitleBar);      // set user ui element as titlebar
        
@@ -37,6 +38,11 @@ namespace QuanLyMayMoc
         public void UpdateTitle(string newTitle)
         {
             this.AppTitleTextBlock.Text = newTitle;
+        }
+
+        public void SetContentFrame(Type pageType)
+        {
+            this.RootFrame.Navigate(pageType);
         }
     }
 }

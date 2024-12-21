@@ -14,7 +14,10 @@
         <local:CurrencyFormatConverter x:Key="CurrencyFormatConverter"/>
     </Page.Resources>
 
-    <Grid Background="White">
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="ms-appx:///Assets/empty_background.png" Stretch="UniformToFill"/>
+        </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -57,8 +60,9 @@
         </StackPanel>
 
         <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Height="Auto" RequestedTheme="Light">
+
             <StackPanel>
-                <Grid Padding="10" RowSpacing="3" ColumnSpacing="3" Background="White" x:Name="DataEntryGrid">
+                <Grid Padding="10" RowSpacing="3" ColumnSpacing="3" x:Name="DataEntryGrid">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
@@ -152,9 +156,15 @@
                             <ItemsControl.ItemTemplate>
 
                                 <DataTemplate x:DataType="local:Task">
-                                    <Grid Padding="3"  Tapped="OnTaskTapped"  Background="{Binding IsSelected, Converter={StaticResource BooleanToBrushConverter}}"
+                                    <Grid Padding="3"  Tapped="OnTaskTapped" 
                   BorderBrush="{Binding IsSelected, Converter={StaticResource BooleanToBorderBrushConverter}}" >
-                                        <!-- Thêm Padding cho Grid -->
+                                        <!-- Hình nền mặc định -->
+                                        <Grid.Background>
+                                            <ImageBrush ImageSource="ms-appx:///Assets/empty_background.jpg" Stretch="UniformToFill" />
+                                        </Grid.Background>
+
+
+                                        <!-- Thêm Padding cho Grid -->  
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="80"/>
                                             <ColumnDefinition Width="305"/>
@@ -175,48 +185,45 @@
                                         </Grid.RowDefinitions>
 
                                         <!-- Thêm khoảng cách giữa các hàng và cột -->
-                                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="0" Margin="0,0,5,0">
+                                        <Border BorderBrush="Black" BorderThickness="1" CornerRadius="5" Grid.Column="0" Margin="0,0,5,0">
                                             <TextBlock Text="{x:Bind Stt}" Foreground="Red" Margin="5" />
                                         </Border>
-                                        <Border BorderBrush="Gray" BorderThickness="2" CornerRadius="5" Grid.Column="1" Margin="0,0,5,0">
+                                        <Border BorderBrush="Black" BorderThickness="1" CornerRadius="5" Grid.Column="1" Margin="0,0,5,0">
                                             <TextBlock Text="{x:Bind NgayThucHienFormatted}" Foreground="Red" Margin="5"/>
                                         </Border>
-                                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="2" Margin="0,0,5,0">
+                                        <Border BorderBrush="Black" BorderThickness="1" CornerRadius="5" Grid.Column="2" Margin="0,0,5,0">
                                             <TextBlock Text="{x:Bind HoTenKH}" Foreground="Red" Margin="5"/>
                                         </Border>
-                                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="3" Margin="0,0,5,0">
+                                        <Border BorderBrush="Black" BorderThickness="1" CornerRadius="5" Grid.Column="3" Margin="0,0,5,0">
                                             <TextBlock Text="{x:Bind SDT}" Foreground="Red" Margin="5"/>
                                         </Border>
-                                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="4" Margin="0,0,5,0">
+                                        <Border BorderBrush="Black" BorderThickness="1" CornerRadius="5" Grid.Column="4" Margin="0,0,5,0">
                                             <TextBlock Text="{x:Bind DiaChi}" Foreground="Red" Margin="5"/>
                                         </Border>
-                                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="5" Margin="0,0,5,0">
+                                        <Border BorderBrush="Black" BorderThickness="1" CornerRadius="5" Grid.Column="5" Margin="0,0,5,0">
                                             <TextBlock Text="{x:Bind TenDichVu}" Foreground="Red" Margin="5"/>
                                         </Border>
-                                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="6" Margin="0,0,5,0">
+                                        <Border BorderBrush="Black" BorderThickness="1" CornerRadius="5" Grid.Column="6" Margin="0,0,5,0">
                                             <TextBlock Text="{x:Bind PhiDichVu, Converter={StaticResource CurrencyFormatConverter}}" Foreground="Red" Margin="5"/>
                                         </Border>
-                                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="7" Margin="0,0,5,0">
+                                        <Border BorderBrush="Black" BorderThickness="1" CornerRadius="5" Grid.Column="7" Margin="0,0,5,0">
                                             <TextBlock Text="{x:Bind MaLK}" Foreground="Red" Margin="5"/>
                                         </Border>
-                                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="8" Margin="0,0,5,0">
+                                        <Border BorderBrush="Black" BorderThickness="1" CornerRadius="5" Grid.Column="8" Margin="0,0,5,0">
                                             <TextBlock Text="{x:Bind SoLuongLK}" Foreground="Red" Margin="5"/>
                                         </Border>
-                                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="9" Margin="0,0,5,0">
+                                        <Border BorderBrush="Black" BorderThickness="1" CornerRadius="5" Grid.Column="9" Margin="0,0,5,0">
                                             <TextBlock Text="{x:Bind MaLoi}" Foreground="Red" Margin="5"/>
                                         </Border>
-                                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="10" Margin="0,0,5,0">
+                                        <Border BorderBrush="Black" BorderThickness="1" CornerRadius="5" Grid.Column="10" Margin="0,0,5,0">
                                             <TextBlock Text="{x:Bind SoLuongLoi}" Foreground="Red" Margin="5"/>
                                         </Border>
-                                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="11" Margin="0,0,5,0">
+                                        <Border BorderBrush="Black" BorderThickness="1" CornerRadius="5" Grid.Column="11" Margin="0,0,5,0">
                                             <TextBlock Text="{x:Bind MaNV}" Foreground="Red" Margin="5"/>
                                         </Border>
-                                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="12" Margin="0,0,5,0">
+                                        <Border BorderBrush="Black" BorderThickness="1" CornerRadius="5" Grid.Column="12" Margin="0,0,5,0">
                                             <TextBlock Text="{x:Bind GhiChu}" Foreground="Red" Margin="5"/>
                                         </Border>
-
-
-
 
                                     </Grid>
                                 </DataTemplate>

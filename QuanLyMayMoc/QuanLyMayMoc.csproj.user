@@ -18,27 +18,15 @@
     <None Update="Package.appxmanifest">
       <SubType>Designer</SubType>
     </None>
-    <Page Update="View\TongHopTheoNam.xaml">
+    <Page Update="View\Mainpage\ChangePasswordPage.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="View\Demo.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="View\HuongDanSuDung.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="View\DichVu.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="View\May.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="View\MoDuAn.xaml">
+    <Page Update="View\RegisterPage.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="View\DanhSachNhanVien.xaml">
+    <Page Update="View\LoginPage.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

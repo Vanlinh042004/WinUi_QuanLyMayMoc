@@ -17,12 +17,15 @@
     <Compile Remove="Service\DataAccess\MockDao.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Remove="Assets\background.png" />
     <Content Remove="Assets\BadgeLogo.scale-100.png" />
     <Content Remove="Assets\BadgeLogo.scale-125.png" />
     <Content Remove="Assets\BadgeLogo.scale-150.png" />
     <Content Remove="Assets\BadgeLogo.scale-200.png" />
     <Content Remove="Assets\BadgeLogo.scale-400.png" />
+    <Content Remove="Assets\empty_background.png" />
     <Content Remove="Assets\imageholder.png" />
+    <Content Remove="Assets\qlmm_background.png" />
     <Content Remove="Assets\Square44x44Logo.altform-lightunplated_targetsize-16.png" />
     <Content Remove="Assets\Square44x44Logo.altform-lightunplated_targetsize-24.png" />
     <Content Remove="Assets\Square44x44Logo.altform-lightunplated_targetsize-256.png" />
@@ -41,6 +44,8 @@
     <Content Remove="Assets\Square44x44Logo.targetsize-256.png" />
     <Content Remove="Assets\Square44x44Logo.targetsize-32.png" />
     <Content Remove="Assets\Square44x44Logo.targetsize-48.png" />
+    <Content Remove="Assets\taikhoan_background.png" />
+    <Content Remove="Assets\tk_background.png" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="DanhSachNhanVien.xaml" />
@@ -55,8 +60,11 @@
     <None Remove="View\Demo.xaml" />
     <None Remove="View\DichVu.xaml" />
     <None Remove="View\HuongDanSuDung.xaml" />
+    <None Remove="View\LoginPage.xaml" />
+    <None Remove="View\Mainpage\ChangePasswordPage.xaml" />
     <None Remove="View\May.xaml" />
     <None Remove="View\MoDuAn.xaml" />
+    <None Remove="View\RegisterPage.xaml" />
     <None Remove="View\TongHopTheoNam.xaml" />
   </ItemGroup>
 
@@ -82,6 +90,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="Dapper" Version="2.1.35" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.230913002" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
@@ -123,12 +132,36 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <None Update="Assets\background.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\empty_background.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Assets\imageholder.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\qlmm_background.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\taikhoan_background.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\tk_background.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Fonts\Lora-Regular.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="View\Mainpage\ChangePasswordPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="View\RegisterPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="View\LoginPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="View\TongHopTheoNam.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
