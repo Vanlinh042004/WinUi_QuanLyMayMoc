@@ -33,6 +33,16 @@ namespace QuanLyMayMoc.ViewModel
                 OnPropertyChanged(nameof(CurrentSelectedLinhkien));
             }
         }
+        private Loisp _currentSelectedLoi;
+        public Loisp CurrentSelectedLoi
+        {
+            get => _currentSelectedLoi;
+            set
+            {
+                _currentSelectedLoi = value;
+                OnPropertyChanged(nameof(CurrentSelectedLoi));
+            }
+        }
         private Task _currentSelectedTask;
         public Task CurrentSelectedTask
         {

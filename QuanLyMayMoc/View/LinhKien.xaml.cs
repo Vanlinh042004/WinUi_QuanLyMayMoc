@@ -76,7 +76,7 @@ namespace QuanLyMayMoc
         {
             refreshTimer = new DispatcherTimer
             {
-                Interval = TimeSpan.FromSeconds(10) // Khoảng thời gian lặp lại (2 giây)
+                Interval = TimeSpan.FromSeconds(2) // Khoảng thời gian lặp lại (2 giây)
             };
             refreshTimer.Tick += (sender, e) => ViewModel.RefreshData();
             refreshTimer.Start();
@@ -173,21 +173,41 @@ namespace QuanLyMayMoc
 
             AddNewRow();
         }
+        // Chọn dòng
+        private void OnTaskTapped(object sender, TappedRoutedEventArgs e)
+        {
+            var selectedLinhKien = (sender as FrameworkElement)?.DataContext as Linhkien;
+            if (selectedLinhKien != null)
+            {
+                ViewModel.CurrentSelectedLinhkien = selectedLinhKien;
+            }
 
-   
+            var grid = sender as Grid;
+            var service = grid.DataContext as Linhkien;
+
+
+            foreach (var item in ViewModel.Listlinhkien)
+            {
+                item.IsSelected = false;
+            }
+
+            service.IsSelected = true;
+
+        }
+
 
 
         // Xóa 1 dòng
         private async void OnDeleteRowDataClick(object sender, RoutedEventArgs e)
         {
             // Lấy dòng đang được chọn
-            var selectedItem = (Linhkien)LinhKienListView.SelectedItem;
+            //var selectedItem = (Linhkien)LinhKienListView.SelectedItem;
+            var selectedItem = ViewModel.CurrentSelectedLinhkien;
             if (selectedItem != null)
             {
                 // Xóa dòng khỏi ViewModel
                 ViewModel.Listlinhkien.Remove(selectedItem);
-                LinhKienListView.SelectedItem = null;
-                ApplicationData.Current.LocalSettings.Values.Remove("SelectedLinhkienMaSanPham");
+                //LinhKienListView.SelectedItem = null;
                 ViewModel.DeleteLinhKienTam(selectedItem.MaSanPham);
                 ViewModel.CurrentSelectedLinhkien = null;
                 // Hiển thị thông báo nếu cần
@@ -284,8 +304,8 @@ namespace QuanLyMayMoc
         }
         private async void OnUpdateRowDataClick(object sender, RoutedEventArgs e)
         {
-            ViewModel.CurrentSelectedLinhkien= (Linhkien)LinhKienListView.SelectedItem;
-            var selectedLinhkien = (Linhkien)LinhKienListView.SelectedItem;
+            //ViewModel.CurrentSelectedLinhkien = (Linhkien)LinhKienListView.SelectedItem;
+            var selectedLinhkien = ViewModel.CurrentSelectedLinhkien;
             if (selectedLinhkien != null)
             {
                 isUpdate = true;
@@ -475,9 +495,11 @@ namespace QuanLyMayMoc
         {
             if (EditingRowIndex != -1 && isUpdate)
             {
-                var selectedLinhKien = (Linhkien)LinhKienListView.SelectedItem;
+                //var selectedLinhKien = (Linhkien)LinhKienListView.SelectedItem;
+                var selectedLinhKien = ViewModel.CurrentSelectedLinhkien;
                 UpdateDataClick(selectedLinhKien);
-                LinhKienListView.SelectedItem = null;
+                //LinhKienListView.SelectedItem = null;
+                ViewModel.CurrentSelectedLinhkien = null;
                 rowUpdateLinhkienDictionary.Clear();
             }
             else
@@ -530,7 +552,7 @@ namespace QuanLyMayMoc
                 ClearInputRows();
 
             }
-          
+
         }
 
         

@@ -179,20 +179,42 @@ namespace QuanLyMayMoc
         #endregion
 
 
-        // Luu
+        // Chọn dòng
+        private void OnTaskTapped(object sender, TappedRoutedEventArgs e)
+        {
+            var selectedLoi = (sender as FrameworkElement)?.DataContext as Loisp;
+            if (selectedLoi != null)
+            {
+                ViewModel.CurrentSelectedLoi = selectedLoi;
+            }
+
+            var grid = sender as Grid;
+            var service = grid.DataContext as Loisp;
+
+
+            foreach (var item in ViewModel.ListLoi)
+            {
+                item.IsSelected = false;
+            }
+
+            service.IsSelected = true;
+
+        }
+
 
 
         // Xóa 1 dòng
         private async void OnDeleteRowDataClick(object sender, RoutedEventArgs e)
         {
             // Lấy dòng đang được chọn
-            var selectedItem = (Loisp)LoiListView.SelectedItem;
-
+            //var selectedItem = (Loisp)LoiListView.SelectedItem;
+            var selectedItem = ViewModel.CurrentSelectedLoi;
             if (selectedItem != null)
             {
                 // Xóa dòng khỏi ViewModel
                 ViewModel.ListLoi.Remove(selectedItem);
-                LoiListView.SelectedItem = null;
+                //LoiListView.SelectedItem = null;
+                ViewModel.CurrentSelectedLoi = null;
                 ViewModel.DeleteLoiTam(selectedItem.MaSanPham);
                 // Hiển thị thông báo nếu cần
                 await new ContentDialog
@@ -286,7 +308,8 @@ namespace QuanLyMayMoc
 
         private async void OnUpdateRowDataClick(object sender, RoutedEventArgs e)
         {
-            var CurrentSelectedLoisp = (Loisp)LoiListView.SelectedItem;
+            //var CurrentSelectedLoisp = (Loisp)LoiListView.SelectedItem;
+            var CurrentSelectedLoisp = ViewModel.CurrentSelectedLoi;
             if (CurrentSelectedLoisp != null)
             {
                 isUpdate = true;
@@ -482,9 +505,11 @@ namespace QuanLyMayMoc
         {
             if (EditingRowIndex != -1 && isUpdate)
             {
-                var selectedLoi = (Loisp)LoiListView.SelectedItem;
+                //var selectedLoi = (Loisp)LoiListView.SelectedItem;
+                var selectedLoi = ViewModel.CurrentSelectedLoi;
                 UpdateDataClick(selectedLoi);
-                LoiListView.SelectedItem = null;
+                //LoiListView.SelectedItem = null;
+                ViewModel.CurrentSelectedLoi = null;
                 rowUpdateLoispDictionary.Clear();
             }
             else
