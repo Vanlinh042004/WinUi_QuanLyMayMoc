@@ -33,6 +33,16 @@ namespace QuanLyMayMoc.ViewModel
                 OnPropertyChanged(nameof(CurrentSelectedLinhkien));
             }
         }
+        private Loisp _currentSelectedLoi;
+        public Loisp CurrentSelectedLoi
+        {
+            get => _currentSelectedLoi;
+            set
+            {
+                _currentSelectedLoi = value;
+                OnPropertyChanged(nameof(CurrentSelectedLoi));
+            }
+        }
         private Task _currentSelectedTask;
         public Task CurrentSelectedTask
         {
@@ -516,7 +526,15 @@ namespace QuanLyMayMoc.ViewModel
         {
             return _dao.CheckLinhKienDuAnTamTonTai(maDuAn);
         }
+        public int CheckDuAnTamTonTai(string maDuAn)
+        {
+            return _dao.CheckDuAnTam(maDuAn);
+        }
 
+        public int CheckDuAnTonTai(string maDuAn)
+        {
+            return _dao.CheckDuAn(maDuAn);
+        }
         public void UpdateSelectedLinhkien(Linhkien newLinhkien, Linhkien CurrentSelectedLinhkien)
         {
             

@@ -1606,6 +1606,44 @@ namespace QuanLyMayMoc
             }
         }
 
+        public int CheckDuAnTam(string maDuAn)
+        {
+            string query = "SELECT COUNT(*) FROM duan_tam WHERE maduan = @MaDuAn";
+
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    // Thêm tham số để tránh SQL Injection
+                    command.Parameters.AddWithValue("@MaDuAn", maDuAn);
+
+                    // Thực thi truy vấn và trả về kết quả
+                    int count = Convert.ToInt32(command.ExecuteScalar());
+                    return count;
+                }
+            }
+        }
+        public int CheckDuAn(string maDuAn)
+        {
+            string query = "SELECT COUNT(*) FROM duan WHERE maduan = @MaDuAn";
+
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    // Thêm tham số để tránh SQL Injection
+                    command.Parameters.AddWithValue("@MaDuAn", maDuAn);
+
+                    // Thực thi truy vấn và trả về kết quả
+                    int count = Convert.ToInt32(command.ExecuteScalar());
+                    return count;
+                }
+            }
+        }
         public ObservableCollection<Loisp> GetAllLoi()
         {
             string query = @"SELECT mahieu, tenloi, giaban
@@ -1637,7 +1675,6 @@ namespace QuanLyMayMoc
             return lois;
 
         }
-
         public ObservableCollection<Loisp> GetAllLoiTam()
         {
             string query = @"SELECT mahieu, tenloi, giaban

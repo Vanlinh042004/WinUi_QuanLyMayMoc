@@ -43,7 +43,6 @@ namespace QuanLyMayMoc
         public ObservableCollection<Linhkien> GetAllLinhKien();
         public ObservableCollection<Linhkien> GetAllLinhKienTam();
         public ObservableCollection<Linhkien> GetAllLinhKienDuAn();
-
         public int CheckLinhKienDuAnTonTai(string maDuAn);
         public int CheckLinhKienDuAnTamTonTai(string maDuAn);
         public void SaveToLinhKienTam();
@@ -53,6 +52,8 @@ namespace QuanLyMayMoc
         public void InsertLinhKienToDaTaBaseTemp(Linhkien newLinhKien, string mahieuduan);
         public Task<bool> CheckLinhKienTonTai(string maSanPham);
         public int CheckLinhKienTonTaiKhac(string maSanPham);
+        public int CheckDuAnTam(string maDuAn);
+        public int CheckDuAn(string maDuAn);
         public void UpdateLinhkien(Linhkien selectedLinhkien, Linhkien newLinhkien);
         public ObservableCollection<Loisp> GetAllLoi();
         public ObservableCollection<Loisp> GetAllLoiTam();

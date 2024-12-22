@@ -33,7 +33,6 @@ namespace QuanLyMayMoc
     /// </summary>
     public sealed partial class Loi : Page
     {
-        private string connectionString = "Host=127.0.0.1;Port=5432;Username=postgres;Password=1234;Database=machine";
         private int currentRow = 1;
         private int Columns = 3;
         private int EditingRowIndex = -1;
@@ -51,8 +50,20 @@ namespace QuanLyMayMoc
             HideFirstRow(); // Thêm dòng đầu tiên
             ViewModel = new MainViewModel();
             InitializeRefreshTimer();
+            var app = (App)Application.Current;
+            // Xóa tất cả nhưng chưa lưu
+            if (ViewModel.CheckDuAnTamTonTai(AppData.ProjectID) > 0 && ViewModel.CheckLoiDuAnTamTonTai(AppData.ProjectID) == 0 && ViewModel.CheckLoiDuAnTonTai(AppData.ProjectID) == 0 && app.IsFirstLoiClick == false)
+            {
+                ViewModel.LoadLoiFromTemp();
 
-            if (ViewModel.CheckLoiDuAnTamTonTai(AppData.ProjectID) > 0 )
+            }
+            // Xóa tất cả nhưng lưu
+            else if (ViewModel.CheckLoiDuAnTamTonTai(AppData.ProjectID) == 0 && ViewModel.CheckLoiDuAnTonTai(AppData.ProjectID) == 0 && ViewModel.CheckDuAnTonTai(AppData.ProjectID) > 0 && app.IsFirstLoiClick == false)
+            {
+                ViewModel.LoadLinhKienFromDuAn();
+                ViewModel.SaveToLinhKienDuAnToTam();
+            }
+            else if (ViewModel.CheckLoiDuAnTamTonTai(AppData.ProjectID) > 0)
             {
                 ViewModel.LoadLoiFromTemp();
             }
@@ -61,9 +72,11 @@ namespace QuanLyMayMoc
                 ViewModel.LoadLoiFromDuAn();
                 ViewModel.SaveToLoiDuAnToTam();
             }
+            
             else
             {
                 ViewModel.LoadLoiFromDatabase();
+                app.IsFirstLoiClick = false;
             }
             this.Loaded += (sender, args) =>
             {
@@ -179,20 +192,42 @@ namespace QuanLyMayMoc
         #endregion
 
 
-        // Luu
+        // Chọn dòng
+        private void OnTaskTapped(object sender, TappedRoutedEventArgs e)
+        {
+            var selectedLoi = (sender as FrameworkElement)?.DataContext as Loisp;
+            if (selectedLoi != null)
+            {
+                ViewModel.CurrentSelectedLoi = selectedLoi;
+            }
+
+            var grid = sender as Grid;
+            var service = grid.DataContext as Loisp;
+
+
+            foreach (var item in ViewModel.ListLoi)
+            {
+                item.IsSelected = false;
+            }
+
+            service.IsSelected = true;
+
+        }
+
 
 
         // Xóa 1 dòng
         private async void OnDeleteRowDataClick(object sender, RoutedEventArgs e)
         {
             // Lấy dòng đang được chọn
-            var selectedItem = (Loisp)LoiListView.SelectedItem;
-
+            //var selectedItem = (Loisp)LoiListView.SelectedItem;
+            var selectedItem = ViewModel.CurrentSelectedLoi;
             if (selectedItem != null)
             {
                 // Xóa dòng khỏi ViewModel
                 ViewModel.ListLoi.Remove(selectedItem);
-                LoiListView.SelectedItem = null;
+                //LoiListView.SelectedItem = null;
+                ViewModel.CurrentSelectedLoi = null;
                 ViewModel.DeleteLoiTam(selectedItem.MaSanPham);
                 // Hiển thị thông báo nếu cần
                 await new ContentDialog
@@ -216,7 +251,7 @@ namespace QuanLyMayMoc
             }
         }
 
-      
+
 
         // Xóa tất cả
         private void OnDeleteAllRowDataClick(object sender, RoutedEventArgs e)
@@ -243,7 +278,7 @@ namespace QuanLyMayMoc
             ViewModel.DeleteAllLoiTam();
 
         }
-      
+
         // Sửa
 
 
@@ -286,7 +321,8 @@ namespace QuanLyMayMoc
 
         private async void OnUpdateRowDataClick(object sender, RoutedEventArgs e)
         {
-            var CurrentSelectedLoisp = (Loisp)LoiListView.SelectedItem;
+            //var CurrentSelectedLoisp = (Loisp)LoiListView.SelectedItem;
+            var CurrentSelectedLoisp = ViewModel.CurrentSelectedLoi;
             if (CurrentSelectedLoisp != null)
             {
                 isUpdate = true;
@@ -482,9 +518,11 @@ namespace QuanLyMayMoc
         {
             if (EditingRowIndex != -1 && isUpdate)
             {
-                var selectedLoi = (Loisp)LoiListView.SelectedItem;
+                //var selectedLoi = (Loisp)LoiListView.SelectedItem;
+                var selectedLoi = ViewModel.CurrentSelectedLoi;
                 UpdateDataClick(selectedLoi);
-                LoiListView.SelectedItem = null;
+                //LoiListView.SelectedItem = null;
+                ViewModel.CurrentSelectedLoi = null;
                 rowUpdateLoispDictionary.Clear();
             }
             else
@@ -537,4 +575,5 @@ namespace QuanLyMayMoc
         }
     }
 }
+
 

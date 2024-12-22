@@ -57,15 +57,13 @@
                         <TextBlock Text="GIÁ SẢN PHẨM" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
                     </Border>
                 </Grid>
-                <ListView ItemsSource="{x:Bind ViewModel.Listlinhkien, Mode=TwoWay}" 
-
-                          x:Name="LinhKienListView" 
-                          SelectionMode="Single" 
-                          HorizontalAlignment="Center" 
-                          IsItemClickEnabled="True">
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="local:Linhkien">
-                            <Grid Padding="3">
+                <ItemsControl ItemsSource="{x:Bind ViewModel.Listlinhkien, Mode=TwoWay}" 
+              x:Name="LinhKienItemsControl" 
+              HorizontalAlignment="Center">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="local:Linhkien" >
+                            <Grid Padding="3" Tapped="OnTaskTapped" Background="{Binding IsSelected, Converter={StaticResource BooleanToBrushConverter}}"
+                  BorderBrush="{Binding IsSelected, Converter={StaticResource BooleanToBorderBrushConverter}}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="200" />
                                     <ColumnDefinition Width="600" />
@@ -84,8 +82,8 @@
                                 </Border>
                             </Grid>
                         </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
 
                 <!-- Nội dung Row 3 -->
                 <Grid Padding="10" RowSpacing="5" ColumnSpacing="5"  x:Name="DataEntryGrid">

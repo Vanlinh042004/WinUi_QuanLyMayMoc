@@ -53,17 +53,38 @@ namespace QuanLyMayMoc
             HideFirstRow(); // Thêm dòng đầu tiên
             ViewModel = new MainViewModel();
             InitializeRefreshTimer();
-            if (ViewModel.CheckLinhKienDuAnTamTonTai(AppData.ProjectID) > 0)            {
+            int check1 = ViewModel.CheckDuAnTamTonTai(AppData.ProjectID);
+            int check2 = ViewModel.CheckLinhKienDuAnTamTonTai(AppData.ProjectID);
+            int check3 = ViewModel.CheckLinhKienDuAnTonTai(AppData.ProjectID);
+            var app = (App)Application.Current;
+            // Xóa tất cả nhưng chưa lưu
+            if (ViewModel.CheckDuAnTamTonTai(AppData.ProjectID) > 0 && ViewModel.CheckLinhKienDuAnTamTonTai(AppData.ProjectID) == 0 && ViewModel.CheckLinhKienDuAnTonTai(AppData.ProjectID) == 0 && app.IsFirstLinhKienClick == false)
+            {
                 ViewModel.LoadLinhKienFromTemp();
+
             }
-            else if(ViewModel.CheckLinhKienDuAnTonTai(AppData.ProjectID) > 0)
+            // Xóa tất cả và đã lưu
+            else if( ViewModel.CheckLinhKienDuAnTamTonTai(AppData.ProjectID) == 0 && ViewModel.CheckLinhKienDuAnTonTai(AppData.ProjectID) == 0 && ViewModel.CheckDuAnTonTai(AppData.ProjectID) >0 && app.IsFirstLinhKienClick == false)
             {
                 ViewModel.LoadLinhKienFromDuAn();
                 ViewModel.SaveToLinhKienDuAnToTam();
             }
+            // Chưa lưu
+            else if (ViewModel.CheckLinhKienDuAnTamTonTai(AppData.ProjectID) > 0 && ViewModel.CheckLinhKienDuAnTonTai(AppData.ProjectID) == 0)
+            {
+                ViewModel.LoadLinhKienFromTemp();
+            }
+            // Đã lưu
+            else if (ViewModel.CheckLinhKienDuAnTonTai(AppData.ProjectID) > 0 && ViewModel.CheckLinhKienDuAnTamTonTai(AppData.ProjectID) == 0)
+            {
+                ViewModel.LoadLinhKienFromDuAn();
+                ViewModel.SaveToLinhKienDuAnToTam();
+            }
+            
             else
             {
                 ViewModel.LoadLinhKienFromDatabase();
+                app.IsFirstLinhKienClick = false;
             }
 
             this.Loaded += (sender, args) =>
@@ -76,7 +97,7 @@ namespace QuanLyMayMoc
         {
             refreshTimer = new DispatcherTimer
             {
-                Interval = TimeSpan.FromSeconds(10) // Khoảng thời gian lặp lại (2 giây)
+                Interval = TimeSpan.FromSeconds(2) // Khoảng thời gian lặp lại (2 giây)
             };
             refreshTimer.Tick += (sender, e) => ViewModel.RefreshData();
             refreshTimer.Start();
@@ -106,7 +127,7 @@ namespace QuanLyMayMoc
             InputGrid.Children.Add(emptyElement);
         }
 
-        
+
         private void AddNewRow()
         {
             var newLinhKien = new Linhkien();
@@ -127,7 +148,7 @@ namespace QuanLyMayMoc
                     BorderBrush = new SolidColorBrush(Colors.Black),
                     BorderThickness = new Thickness(1)
                 };
-                AddHoverEffect(textBox, Colors.Gray, Colors.Black); 
+                AddHoverEffect(textBox, Colors.Gray, Colors.Black);
 
                 element = textBox;
                 // Đặt phần tử vào đúng vị trí trong Grid
@@ -173,21 +194,41 @@ namespace QuanLyMayMoc
 
             AddNewRow();
         }
+        // Chọn dòng
+        private void OnTaskTapped(object sender, TappedRoutedEventArgs e)
+        {
+            var selectedLinhKien = (sender as FrameworkElement)?.DataContext as Linhkien;
+            if (selectedLinhKien != null)
+            {
+                ViewModel.CurrentSelectedLinhkien = selectedLinhKien;
+            }
 
-   
+            var grid = sender as Grid;
+            var service = grid.DataContext as Linhkien;
+
+
+            foreach (var item in ViewModel.Listlinhkien)
+            {
+                item.IsSelected = false;
+            }
+
+            service.IsSelected = true;
+
+        }
+
 
 
         // Xóa 1 dòng
         private async void OnDeleteRowDataClick(object sender, RoutedEventArgs e)
         {
             // Lấy dòng đang được chọn
-            var selectedItem = (Linhkien)LinhKienListView.SelectedItem;
+            //var selectedItem = (Linhkien)LinhKienListView.SelectedItem;
+            var selectedItem = ViewModel.CurrentSelectedLinhkien;
             if (selectedItem != null)
             {
                 // Xóa dòng khỏi ViewModel
                 ViewModel.Listlinhkien.Remove(selectedItem);
-                LinhKienListView.SelectedItem = null;
-                ApplicationData.Current.LocalSettings.Values.Remove("SelectedLinhkienMaSanPham");
+                //LinhKienListView.SelectedItem = null;
                 ViewModel.DeleteLinhKienTam(selectedItem.MaSanPham);
                 ViewModel.CurrentSelectedLinhkien = null;
                 // Hiển thị thông báo nếu cần
@@ -257,18 +298,18 @@ namespace QuanLyMayMoc
                     continue;
                 }
                 var textBox = new TextBox
-                    {
-                        Margin = new Thickness(2),
-                        PlaceholderText = $"R{rowIndex + 1}C{col + 1}",
-                        Background = new SolidColorBrush(Colors.White),
-                        Foreground = new SolidColorBrush(Colors.Black),
-                        BorderBrush = new SolidColorBrush(Colors.Black),
-                        BorderThickness = new Thickness(1),
+                {
+                    Margin = new Thickness(2),
+                    PlaceholderText = $"R{rowIndex + 1}C{col + 1}",
+                    Background = new SolidColorBrush(Colors.White),
+                    Foreground = new SolidColorBrush(Colors.Black),
+                    BorderBrush = new SolidColorBrush(Colors.Black),
+                    BorderThickness = new Thickness(1),
 
-                        Text = linhkien.GetPropertyForColumn(col) // Hiển thị giá trị đã lưu
-                    };
-                    element = textBox;
-                
+                    Text = linhkien.GetPropertyForColumn(col) // Hiển thị giá trị đã lưu
+                };
+                element = textBox;
+
 
                 // Đặt phần tử vào đúng vị trí trong Grid
                 Grid.SetRow(element, rowIndex);
@@ -284,8 +325,8 @@ namespace QuanLyMayMoc
         }
         private async void OnUpdateRowDataClick(object sender, RoutedEventArgs e)
         {
-            ViewModel.CurrentSelectedLinhkien= (Linhkien)LinhKienListView.SelectedItem;
-            var selectedLinhkien = (Linhkien)LinhKienListView.SelectedItem;
+            //ViewModel.CurrentSelectedLinhkien = (Linhkien)LinhKienListView.SelectedItem;
+            var selectedLinhkien = ViewModel.CurrentSelectedLinhkien;
             if (selectedLinhkien != null)
             {
                 isUpdate = true;
@@ -325,7 +366,7 @@ namespace QuanLyMayMoc
         }
 
 
-        
+
 
         private void SaveUpdateRowData(int rowIndex)
         {
@@ -475,9 +516,11 @@ namespace QuanLyMayMoc
         {
             if (EditingRowIndex != -1 && isUpdate)
             {
-                var selectedLinhKien = (Linhkien)LinhKienListView.SelectedItem;
+                //var selectedLinhKien = (Linhkien)LinhKienListView.SelectedItem;
+                var selectedLinhKien = ViewModel.CurrentSelectedLinhkien;
                 UpdateDataClick(selectedLinhKien);
-                LinhKienListView.SelectedItem = null;
+                //LinhKienListView.SelectedItem = null;
+                ViewModel.CurrentSelectedLinhkien = null;
                 rowUpdateLinhkienDictionary.Clear();
             }
             else
@@ -530,10 +573,10 @@ namespace QuanLyMayMoc
                 ClearInputRows();
 
             }
-          
+
         }
 
-        
+
     }
   }
 
