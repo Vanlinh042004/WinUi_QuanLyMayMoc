@@ -24,13 +24,13 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-            <!-- ListView to display the employee list -->
-        <ScrollViewer Grid.Row="0" HorizontalScrollMode="Enabled" HorizontalScrollBarVisibility="Auto" Margin="10">
-            <ListView ItemsSource="{x:Bind ViewModel.Employees}">
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="local2:Employee">
-                        <Grid>
+         
 
+        <ScrollViewer HorizontalScrollMode="Enabled" HorizontalScrollBarVisibility="Auto" Margin="10">
+            <ItemsControl ItemsSource="{x:Bind ViewModel.Employees, Mode=OneWay}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="local2:Employee">
+                        <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
@@ -50,33 +50,30 @@
                             </Grid.ColumnDefinitions>
 
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
 
                             <!-- Cột 1: Ảnh đại diện -->
                             <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0" Grid.Column="0">
-                                <TextBlock Text="Ảnh đại diện" FontWeight="Bold" FontSize="16" Foreground="Black" Margin="5"/>
+                                <TextBlock Text="Ảnh đại diện" FontWeight="Bold" FontSize="16" Foreground="Black" Margin="5" />
                             </Border>
-
                             <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="1" Grid.Column="0" Grid.RowSpan="5" Margin="10">
                                 <StackPanel>
-                                    <!-- Hiển thị ảnh đại diện nếu có -->
-                                        <Image Source="{x:Bind AnhDaiDien, Mode=OneWay }"  Width="113" Height="149" />
-                                 
-                                        <!-- Văn bản thay thế nếu không có ảnh -->
-                                    <TextBlock Text="No image data" Foreground="Gray" 
-           Visibility="{x:Bind AnhDaiDien, Converter={StaticResource NullToVisibilityConverter}, 
-                       ConverterParameter={StaticResource ImagePathConverter}}"/>
+                                    <Image Source="{x:Bind AnhDaiDien, Mode=OneWay}" Width="113" Height="149" />
+                                    <TextBlock Text="No image data" Foreground="Gray"
+                                       Visibility="{x:Bind AnhDaiDien, Converter={StaticResource NullToVisibilityConverter}}" />
                                 </StackPanel>
                             </Border>
 
 
+                           
                             <!-- Cột 2: Thông tin cá nhân -->
+                            
                             <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="4">
                                 <TextBlock Text="Thông tin cá nhân" FontWeight="Bold" FontSize="16" Foreground="Black"  />
                             </Border>
@@ -141,7 +138,9 @@
 
                       
 
+                          
                             <!-- Cột 3: Thông tin liên hệ -->
+                           
                             <Border BorderBrush="Black"  BorderThickness="1" Grid.Row="0" Grid.Column="5" Grid.ColumnSpan="2">
                                 <TextBlock Text="Thông tin liên hệ" FontWeight="Bold" FontSize="16" Foreground="Black"/>
                             </Border>
@@ -176,15 +175,10 @@
                                 <TextBlock Text="{x:Bind DiaChi}" Foreground="Black"  Margin="5"/>
                             </Border>
 
-                     
-                        
                         </Grid>
-                   
                     </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        
-        
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </ScrollViewer>
 
         <!-- Nút thêm nhân viên ở dưới cùng -->
