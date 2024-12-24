@@ -1,30 +1,11 @@
-Nhật test 14/12/2024
 
-
-Cần FIX: 
-
-Dịch vụ theo tháng:
-
-Không yêu cầu người dùng nhập tên linh kiện, tên lõi, tên nhân viên nữa (Xóa các cột đó đi), thay thế các cột mã linh kiện, mã lõi, mã nhân viên thành dạng AutoSuggestBox để liệt kê các mã có trong dữ liệu
-
-
-Danh sách nhân viên:
-
-Khi thêm nhân viên, bấm vào ảnh đại diện thì phải hiện lên File Explorer để chọn ảnh chứ không nhập tay cái tên file nữa.
-
-Tổng hợp dịch vụ, tổng hợp máy
-
-Làm sao để không cần phải bấm vào dịch vụ theo tháng trước nó mới tạo bảng
-
-Cần LÀM CHỨC NĂNG MỚI:
-
-**1. So sánh tổng tiền trong cùng 1 tháng của bảng (1) và (2)**
-
-**2. Chia sẻ dự án**
-
-**3. Tổng hợp thông tin theo năm**
-
-Cần cải thiện nếu có thời gian (Làm phần này khi đã xong các phần trên):
-
-Paging, sorting, searching
-
+** Hướng dẫn sử dụng:
+- Hạn chế thao tác với Lõi và Linh kiện gốc
+** Lĩnh fix
+- Không còn xóa tất cả nha ae, tại dữ liệu gốc sao xóa tất cả được, nó k hợp lý cho lắm
+- Một phần nữa là thêm xóa tất cả sẽ xuất hiện hiện tượng hai trường hợp trùng nhau + rất rất nhiều trường hợp
+  + Xóa tất cả nhưng chưa lưu: dữ liệu chưa có trong bảng tạm + dự án tạm có rồi
+  + Load lần đầu từ bảng gốc:  dữ liệu chưa có trong bảng tạm + dự án tạm có rồi
+    => Xử lý được nhưng cần thêm 1 trường nữa vào bảng dự án + tạm => ảnh hưởng tới toàn code
+    => Không cần thiết, Làm undo redo có vẻ nó cũng sẽ khó tại bên Lĩnh có 3 bảng lận
+    
