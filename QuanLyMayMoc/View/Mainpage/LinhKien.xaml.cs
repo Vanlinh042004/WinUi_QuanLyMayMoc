@@ -53,24 +53,14 @@ namespace QuanLyMayMoc
             HideFirstRow(); // Thêm dòng đầu tiên
             ViewModel = new MainViewModel();
             InitializeRefreshTimer();
-            int check1 = ViewModel.CheckDuAnTamTonTai(AppData.ProjectID);
-            int check2 = ViewModel.CheckLinhKienDuAnTamTonTai(AppData.ProjectID);
-            int check3 = ViewModel.CheckLinhKienDuAnTonTai(AppData.ProjectID);
-            var app = (App)Application.Current;
-            // Xóa tất cả nhưng chưa lưu
-            if (ViewModel.CheckDuAnTamTonTai(AppData.ProjectID) > 0 && ViewModel.CheckLinhKienDuAnTamTonTai(AppData.ProjectID) == 0 && ViewModel.CheckLinhKienDuAnTonTai(AppData.ProjectID) == 0 && app.IsFirstLinhKienClick == false)
-            {
-                ViewModel.LoadLinhKienFromTemp();
+            LoadDataForProject();
 
-            }
-            // Xóa tất cả và đã lưu
-            else if( ViewModel.CheckLinhKienDuAnTamTonTai(AppData.ProjectID) == 0 && ViewModel.CheckLinhKienDuAnTonTai(AppData.ProjectID) == 0 && ViewModel.CheckDuAnTonTai(AppData.ProjectID) >0 && app.IsFirstLinhKienClick == false)
-            {
-                ViewModel.LoadLinhKienFromDuAn();
-                ViewModel.SaveToLinhKienDuAnToTam();
-            }
+        }
+        private void LoadDataForProject()
+        {
+            
             // Chưa lưu
-            else if (ViewModel.CheckLinhKienDuAnTamTonTai(AppData.ProjectID) > 0 && ViewModel.CheckLinhKienDuAnTonTai(AppData.ProjectID) == 0)
+            if (ViewModel.CheckLinhKienDuAnTamTonTai(AppData.ProjectID) > 0 && ViewModel.CheckLinhKienDuAnTonTai(AppData.ProjectID) == 0)
             {
                 ViewModel.LoadLinhKienFromTemp();
             }
@@ -80,11 +70,15 @@ namespace QuanLyMayMoc
                 ViewModel.LoadLinhKienFromDuAn();
                 ViewModel.SaveToLinhKienDuAnToTam();
             }
-            
+            // Đã lưu và mở dự án
+            else if (ViewModel.CheckLinhKienDuAnTamTonTai(AppData.ProjectID) > 0 && ViewModel.CheckLinhKienDuAnTonTai(AppData.ProjectID) > 0)
+            {
+                ViewModel.LoadLinhKienFromTemp();
+            }
+            // Mở dự án mới
             else
             {
                 ViewModel.LoadLinhKienFromDatabase();
-                app.IsFirstLinhKienClick = false;
             }
 
             this.Loaded += (sender, args) =>
@@ -97,7 +91,7 @@ namespace QuanLyMayMoc
         {
             refreshTimer = new DispatcherTimer
             {
-                Interval = TimeSpan.FromSeconds(2) // Khoảng thời gian lặp lại (2 giây)
+                Interval = TimeSpan.FromSeconds(3) // Khoảng thời gian lặp lại (2 giây)
             };
             refreshTimer.Tick += (sender, e) => ViewModel.RefreshData();
             refreshTimer.Start();

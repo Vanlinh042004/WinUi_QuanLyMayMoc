@@ -22,7 +22,7 @@ namespace QuanLyMayMoc.ViewModel
     {
         IDao _dao;
 
-
+       
         private Linhkien _currentSelectedLinhkien;
         public Linhkien CurrentSelectedLinhkien
         {
