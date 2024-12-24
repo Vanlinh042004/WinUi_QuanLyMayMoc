@@ -104,7 +104,7 @@
                 <Button Content="Lưu dữ liệu" Width="130" Margin="10" RequestedTheme="Light" CornerRadius="4"  BorderBrush="Black" BorderThickness="1" Click="OnSaveRowDataClick"/>
                 <Button Content="Sửa dòng dữ liệu" Width="130" Margin="10" RequestedTheme="Light" CornerRadius="4"  BorderBrush="Black" BorderThickness="1" Click="OnUpdateRowDataClick"/>
                 <Button Content="Xóa Lõi" Width="130" Margin="10" RequestedTheme="Light" CornerRadius="4"  BorderBrush="Black" BorderThickness="1" Click="OnDeleteRowDataClick"/>
-                <Button Content="Xóa tất cả" Width="130" Margin="10" RequestedTheme="Light" CornerRadius="4" BorderBrush="Black" BorderThickness="1" Click="OnDeleteAllRowDataClick"/>
+                <!--<Button Content="Xóa tất cả" Width="130" Margin="10" RequestedTheme="Light" CornerRadius="4" BorderBrush="Black" BorderThickness="1" Click="OnDeleteAllRowDataClick"/>-->
             </StackPanel>
         </Grid>
     </Grid>

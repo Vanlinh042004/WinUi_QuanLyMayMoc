@@ -59,7 +59,9 @@ namespace QuanLyMayMoc.View
             };
             Meo = new ObservableCollection<string>
             {
-                "•   Lưu dự án thường xuyên để tránh mất dữ liệu khi xảy ra sự cố."
+                "•   Lưu dự án thường xuyên để tránh mất dữ liệu khi xảy ra sự cố.",
+                "•   Sử dụng tính năng lọc để theo dõi chi tiết dịch vụ theo ngày/tháng.",
+                "•   Hạn chế thao tác với Linh kiện và Lõi gốc.",
             };
         }
     }
