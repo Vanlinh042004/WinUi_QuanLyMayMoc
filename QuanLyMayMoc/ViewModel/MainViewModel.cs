@@ -693,8 +693,58 @@ namespace QuanLyMayMoc.ViewModel
             _dao.SummaryProduct(monthlyProductSummaries);
         }
 
+        private void LoadLinhKienForProject()
+        {
+
+            // Chưa lưu
+            if (CheckLinhKienDuAnTamTonTai(AppData.ProjectID) > 0 && CheckLinhKienDuAnTonTai(AppData.ProjectID) == 0)
+            {
+                LoadLinhKienFromTemp();
+            }
+            // Đã lưu
+            else if (CheckLinhKienDuAnTonTai(AppData.ProjectID) > 0 && CheckLinhKienDuAnTamTonTai(AppData.ProjectID) == 0)
+            {
+                LoadLinhKienFromDuAn();
+            }
+            // Đã lưu và mở dự án
+            else if (CheckLinhKienDuAnTamTonTai(AppData.ProjectID) > 0 && CheckLinhKienDuAnTonTai(AppData.ProjectID) > 0)
+            {
+                LoadLinhKienFromTemp();
+            }
+            // Mở dự án mới
+            else
+            {
+                LoadLinhKienFromDatabase();
+            }
+
+          
+        }
 
 
+
+        private void LoadLoiForProject()
+        {
+            // Chưa lưu
+            if (CheckLoiDuAnTamTonTai(AppData.ProjectID) > 0 && CheckLoiDuAnTonTai(AppData.ProjectID) == 0)
+            {
+                LoadLoiFromTemp();
+            }
+            //Đã lưu
+            else if (CheckLoiDuAnTonTai(AppData.ProjectID) > 0 && CheckLoiDuAnTamTonTai(AppData.ProjectID) == 0)
+            {
+                LoadLoiFromDuAn();
+            }
+            // Đã lưu và mở dự án cũ
+            else if (CheckLoiDuAnTamTonTai(AppData.ProjectID) > 0 && CheckLoiDuAnTonTai(AppData.ProjectID) > 0)
+            {
+                LoadLoiFromTemp();
+            }
+            // Mở dự án mới
+            else
+            {
+                LoadLoiFromDatabase();
+            }
+        }
         private ObservableCollection<MonthlyProductSummary> AggregateTasksToMonthlyProductSummaries()
         {
             var monthlyProductSummaries = new ObservableCollection<MonthlyProductSummary>();
@@ -707,7 +757,7 @@ namespace QuanLyMayMoc.ViewModel
             {
                 if (!string.IsNullOrEmpty(task.MaLK))
                 {
-                    LoadLinhKienFromTemp();
+                    LoadLinhKienForProject();
                     var linhkien = Listlinhkien.FirstOrDefault(lk => lk.MaSanPham == task.MaLK);
 
                     results.Add(new
@@ -724,7 +774,7 @@ namespace QuanLyMayMoc.ViewModel
 
                 if (!string.IsNullOrEmpty(task.MaLoi))
                 {
-                    LoadLoiFromTemp();
+                    LoadLoiForProject();
                     var loi = ListLoi.FirstOrDefault(l => l.MaSanPham == task.MaLoi);
 
                     results.Add(new

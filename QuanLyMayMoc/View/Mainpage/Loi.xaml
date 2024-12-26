@@ -29,7 +29,7 @@
 
         <!-- Tiêu đề -->
         <Grid Grid.Row="0" Margin="0 10 0 0 ">
-            <TextBlock Text="CHI TIẾT GIÁ LÕI AOSMITH ĐÀ NẴNG"
+            <TextBlock Text="CHI TIẾT GIÁ LÕI LÕI FTTPT CÀ MAU"
                    HorizontalAlignment="Center"
                    FontSize="24"
                    FontWeight="Bold"

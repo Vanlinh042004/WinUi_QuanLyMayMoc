@@ -55,7 +55,7 @@
         </Grid>
         <StackPanel Grid.Row="1" HorizontalAlignment="Center">
             <TextBlock>
-                <Run Text="CHI TIẾT DỊCH VỤ AOSMITH ĐÀ NẴNG" FontSize="20" FontWeight="Bold" Foreground="Black"/>
+                <Run Text="CHI TIẾT DỊCH VỤ FTTPT CÀ MAU" FontSize="20" FontWeight="Bold" Foreground="Black"/>
             </TextBlock>
         </StackPanel>
 

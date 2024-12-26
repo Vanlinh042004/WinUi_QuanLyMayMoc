@@ -28,7 +28,7 @@
 
         <!-- Tiêu đề -->
         <Grid Grid.Row="0">
-            <TextBlock Text="CHI TIẾT GIÁ LINH KIỆN AOSMITH ĐÀ NẴNG"
+            <TextBlock Text="TỔNG HỢP MÁY FTTPT CÀ MAU"
                     HorizontalAlignment="Center"
                     FontSize="24"
                     FontWeight="Bold"
