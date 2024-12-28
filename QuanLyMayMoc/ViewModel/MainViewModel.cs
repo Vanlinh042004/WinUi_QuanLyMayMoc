@@ -12,6 +12,7 @@ using Microsoft.UI.Xaml.Controls;
 using Npgsql;
 using QuanLyMayMoc.Model;
 using QuanLyMayMoc.Service;
+using QuanLyMayMoc.View;
 
 namespace QuanLyMayMoc.ViewModel
 {
@@ -64,6 +65,16 @@ namespace QuanLyMayMoc.ViewModel
             get; set;
         }
 
+        private ObservableCollection<User> _users;
+        public ObservableCollection<User> Users
+        {
+            get => _users;
+            set
+            {
+                _users = value;
+                OnPropertyChanged(nameof(Users));
+            }
+        }
 
 
 
@@ -114,7 +125,8 @@ namespace QuanLyMayMoc.ViewModel
             GroupedYearItems = GroupProducts();
             GroupedYearServiecItems= GroupServices();
             ConsolidatedYearSummaries= SummaryYear();
-
+           // Users=_dao.GetUsers(AppData.ProjectID);
+            Users=new ObservableCollection<User>();
         }
 
         public ObservableCollection<ConsolidatedYearSummary> SummaryYear()
@@ -255,13 +267,14 @@ namespace QuanLyMayMoc.ViewModel
             }
             
 
-            LoadDataEmployee();
+            LoadDataEmployees();
+            LoadDataUsers();
             LoadSummary();
             LoadSummaryYear();
 
             RefreshLinhKien();
             RefreshLoi();
-
+            
         }
         public void LoadSummary()
         {
@@ -330,7 +343,7 @@ namespace QuanLyMayMoc.ViewModel
             }
         }
 
-        public void LoadDataEmployee()
+        public void LoadDataEmployees()
         {
             if (Employees != null)
             {
@@ -345,6 +358,27 @@ namespace QuanLyMayMoc.ViewModel
             foreach (var employee in allEmployees)
             {
                 Employees.Add(employee);
+            }
+
+
+
+        }
+
+        public void LoadDataUsers()
+        {
+            if (Users != null)
+            {
+                Users.Clear();
+            }
+
+            var allUsers = _dao.GetUsers(AppData.ProjectID);
+
+
+
+
+            foreach (var user in allUsers)
+            {
+                Users.Add(user);
             }
 
 
@@ -851,7 +885,7 @@ namespace QuanLyMayMoc.ViewModel
                 .GroupBy(task => new { Year = task.NgayThucHien.Year, Month = task.NgayThucHien.Month, EmployeeCode = task.MaNV, STT = task.Stt })
                 .Select(group =>
                 {
-                    LoadDataEmployee();
+                    LoadDataEmployees();
                     var employee = Employees.FirstOrDefault(emp => emp.MaNhanVien == group.Key.EmployeeCode);
 
                     return new MonthlyServiceSummary
@@ -915,6 +949,11 @@ namespace QuanLyMayMoc.ViewModel
         public void ClearAllTempData()
         {
             _dao.ClearAllTempData();
+        }
+
+        public void AddUserToProject(User newUser, string Id, string maduan)
+        {
+            _dao.AddUserToProject( newUser,  Id,  maduan);
         }
     }
 

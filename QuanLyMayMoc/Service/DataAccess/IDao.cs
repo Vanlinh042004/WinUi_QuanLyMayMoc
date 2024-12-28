@@ -12,6 +12,7 @@ namespace QuanLyMayMoc
     public interface IDao
     {
         public ObservableCollection<Employee> GetEmployees();
+        public ObservableCollection<User> GetUsers(string projectId);
 
 
         public ObservableCollection<MonthlyProductSummary> GetMonthlyProductSummaries();
@@ -82,6 +83,8 @@ namespace QuanLyMayMoc
         public int CountTask(Task congviec);
 
         public void ClearAllTempData();
+
+        public void AddUserToProject(User newUser, string Id, string maduan);
     }
 
 }

@@ -18,7 +18,14 @@ namespace QuanLyMayMoc
         private string _name;
 
         [JsonProperty("NgayThucHien")]
-        DateTime _timeCreate;
+        private DateTime _timeCreate;
+
+        [JsonProperty("Email")]
+        private string _email;
+
+        [JsonProperty("NameEmail")]
+        private string _nameEmail;
+
         public string ID
         {
             get => _id;
@@ -34,6 +41,17 @@ namespace QuanLyMayMoc
             get => _timeCreate;
             set { _timeCreate = value; OnPropertyChanged(nameof(TimeCreate)); }
         }
+        public string Email
+        {
+            get => _email;
+            set { _email = value; OnPropertyChanged(nameof(Email)); }
+        }
+        public string NameEmail
+        {
+            get => _nameEmail;
+            set { _nameEmail = value; OnPropertyChanged(nameof(NameEmail)); }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged(string propertyName)

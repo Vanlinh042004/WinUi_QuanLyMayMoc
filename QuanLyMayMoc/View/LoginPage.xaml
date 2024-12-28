@@ -14,7 +14,7 @@
     <Grid>
         <!--<Rectangle Fill="White" Opacity="0.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />-->
 
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" RequestedTheme="Light">
+        <!--<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" RequestedTheme="Light">
             <TextBlock Text="Đăng nhập" FontSize="24" Margin="0,0,0,20" TextAlignment="Center"/>
             <TextBox x:Name="UsernameTextBox" PlaceholderText="Tên đăng nhập" Margin="0,0,0,10" />
             <PasswordBox x:Name="PasswordBox" PlaceholderText="Mật khẩu" Margin="0,0,0,10"  />
@@ -22,6 +22,37 @@
                 <Button Content="Đăng nhập" Click="LoginButton_Click" HorizontalAlignment="Stretch" Width="140" Margin="5 0 5 0" Style="{ThemeResource AccentButtonStyle}"/>
                 <Button Content="Đăng ký" Click="RegisterButton_Click" HorizontalAlignment="Stretch" Width="140"/>
             </StackPanel>
-        </StackPanel>
+        </StackPanel>-->
+        <!--<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" RequestedTheme="Light">
+            <TextBlock Text="Đăng nhập với Google" FontSize="24" Margin="0,0,0,20" TextAlignment="Center"/>
+            <Button Content="Đăng nhập với Google" 
+            Click="GoogleLoginButton_Click" 
+            HorizontalAlignment="Stretch" 
+            Width="200" 
+            Style="{ThemeResource AccentButtonStyle}" 
+            Margin="0,0,0,10">-->
+                <Button Content="Đăng nhập với Google" 
+        Click="GoogleLoginButton_Click" 
+        HorizontalAlignment="Stretch" 
+        Width="200" 
+        Style="{ThemeResource AccentButtonStyle}" 
+        Margin="0,0,0,10">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Grid Background="{TemplateBinding Background}">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <!-- Logo Google -->
+                                    <Image Source="Assets/google_logo.png" Width="24" Height="24" Margin="0,0,10,0"/>
+                                    <!-- Nội dung nút -->
+                                    <TextBlock Text="Đăng nhập với Google" VerticalAlignment="Center" FontSize="14"/>
+                                </StackPanel>
+                            </Grid>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+
+            <!--</Button>
+        </StackPanel>-->
+
     </Grid>
 </Page>

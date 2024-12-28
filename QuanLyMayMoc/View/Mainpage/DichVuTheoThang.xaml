@@ -53,7 +53,20 @@
                 </Button>
             </StackPanel>
         </Grid>
-        <StackPanel Grid.Row="1" HorizontalAlignment="Center">
+        <ItemsControl ItemsSource="{x:Bind ViewModel.Users, Mode=OneWay}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="local:User">
+                    <StackPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center">
+                        <!-- Hiển thị tên người dùng -->
+                        <TextBlock Text="{x:Bind Name}" FontSize="20" FontWeight="Bold" Foreground="Black"/>
+                        <!-- Hiển thị email người dùng -->
+                        <!--<TextBlock Text="{x:Bind Email}" FontSize="16" Foreground="Gray"/>-->
+                    </StackPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <StackPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center">
             <TextBlock>
                 <Run Text="CHI TIẾT DỊCH VỤ FTTPT CÀ MAU" FontSize="20" FontWeight="Bold" Foreground="Black"/>
             </TextBlock>

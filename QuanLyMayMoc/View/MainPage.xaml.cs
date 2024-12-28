@@ -494,9 +494,21 @@ namespace QuanLyMayMoc
                             AppData.ProjectID = "";
                             AppData.ProjectName = "";
                             AppData.ProjectTimeCreate = DateTime.MinValue;
-                            //navigate to the login page using the function in ShellWindow
+
+                            // Xóa thông tin đăng nhập Google
+                            string currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
+                            string credPath = Path.Combine(currentDirectory, "token.json");
+
+                            // Kiểm tra nếu tệp token tồn tại và xóa nó
+                            if (Directory.Exists(credPath))
+                            {
+                                Directory.Delete(credPath, true); // Xóa toàn bộ thư mục token.json
+                            }
+
+                            // Điều hướng về trang đăng nhập
                             App.MainShellWindow.SetContentFrame(typeof(LoginPage));
                             return;
+
                     }
                 }
                 if (AppData.ProjectID == "")
