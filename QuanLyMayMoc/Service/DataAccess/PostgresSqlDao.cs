@@ -2871,7 +2871,42 @@ namespace QuanLyMayMoc
             return users;
         }
 
+        public void DeleteProjectUser(string email)
+        {
+            string deleteQuery = @"
+                        DELETE FROM duannguoidung WHERE email=@email;
+                       
+                    ";
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
 
+                using (var command = new NpgsqlCommand(deleteQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@email", email);
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void DeleteProjectUser(string email, string projectId)
+        {
+            string deleteQuery = @"
+                        DELETE FROM duannguoidung WHERE email=@email and maduan!=@maduan;
+                       
+                    ";
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+
+                using (var command = new NpgsqlCommand(deleteQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@email", email);
+                    command.Parameters.AddWithValue("@maduan", projectId);
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
     }
 
 }

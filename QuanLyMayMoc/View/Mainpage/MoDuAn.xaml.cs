@@ -15,7 +15,9 @@ using static QuanLyMayMoc.AppData;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
-
+using DotNetEnv;
+using System.IO;
+using Windows.Storage;
 
 
 // To learn more about WinUI, the WinUI project structure,
@@ -69,19 +71,44 @@ namespace QuanLyMayMoc.View
 
         private async void SendAuthCodeToEmail(string recipientEmail, string authCode)
         {
-            try
+            try { 
+            string projectRoot = Directory.GetParent(AppContext.BaseDirectory).Parent.Parent.Parent.Parent.Parent.Parent.FullName;
+            string filePath = Path.Combine(projectRoot, "Assets", ".env");
+
+            string envPath = filePath;
+            
+
+            // Kiểm tra file tồn tại
+            if (!File.Exists(envPath))
             {
+                Console.WriteLine("File .env không tồn tại tại đường dẫn này!");
+            }
+            else
+            {
+                DotNetEnv.Env.Load(envPath);
+                Console.WriteLine("Đã load file .env thành công!");
+            }
+
+               
+
+                
+                var smtpEmail = Environment.GetEnvironmentVariable("SMTP_EMAIL");
+                var smtpPassword = Environment.GetEnvironmentVariable("SMTP_PASSWORD");
+                if (string.IsNullOrEmpty(smtpEmail) || string.IsNullOrEmpty(smtpPassword))
+                {
+                    throw new Exception("SMTP_EMAIL hoặc SMTP_PASSWORD không được cấu hình.");
+                }
                 // Cấu hình các thông tin gửi email
                 var smtpClient = new SmtpClient("smtp.gmail.com")
                 {
                     Port = 587,
-                    Credentials = new NetworkCredential("mandeotv1234@gmail.com", "wyvr ptnk brbk ular"),
+                    Credentials = new NetworkCredential(smtpEmail, smtpPassword),
                     EnableSsl = true,
                 };
 
                 var mailMessage = new MailMessage
                 {
-                    From = new MailAddress("mandeotv1234@gmail.com"),
+                    From = new MailAddress(smtpEmail),
                     Subject = "Mã xác thực",
                     Body = $"Mã xác thực của bạn là: {authCode}",
                     IsBodyHtml = false, // Nếu cần gửi email dạng HTML, thay thành true
@@ -301,7 +328,7 @@ namespace QuanLyMayMoc.View
                         AppData.ProjectName = project.Name;
                         AppData.ProjectTimeCreate = project.TimeCreate;
                         addUserToProject(project);
-
+                        mainViewModel.DeleteProjectUser(AppData.Email,AppData.ProjectID);
                         this.Frame.Navigate(typeof(DichVuTheoThang), project);
 
                         UpdateShellWindowTitle(AppData.ProjectName);
@@ -309,6 +336,10 @@ namespace QuanLyMayMoc.View
                     else
                     {
                         HandleAccessRequest(project);
+                        AppData.ProjectID = project.ID;
+                        AppData.ProjectName = project.Name;
+                        AppData.ProjectTimeCreate = project.TimeCreate;
+                        mainViewModel.DeleteProjectUser(AppData.Email, AppData.ProjectID);
                     }
                 };
 

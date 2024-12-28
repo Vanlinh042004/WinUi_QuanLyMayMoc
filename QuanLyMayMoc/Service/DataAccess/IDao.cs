@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.UI.Xaml.Media;
 using Npgsql;
 using QuanLyMayMoc.Model;
 
@@ -78,7 +79,8 @@ namespace QuanLyMayMoc
         public void ClearSummary();
 
         public void DeleteProject(string maDuAn);
-
+        public void DeleteProjectUser(string email );
+        public void DeleteProjectUser(string email, string projectId );
         public int CountMaNhanVien(string MaNhanVien);
         public int CountTask(Task congviec);
 

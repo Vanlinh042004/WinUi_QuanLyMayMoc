@@ -955,6 +955,16 @@ namespace QuanLyMayMoc.ViewModel
         {
             _dao.AddUserToProject( newUser,  Id,  maduan);
         }
+
+        public void DeleteProjectUser(string email)
+        {
+            _dao.DeleteProjectUser( email );
+        }
+
+        public void DeleteProjectUser(string email,string projectId)
+        {
+            _dao.DeleteProjectUser(email, projectId);
+        }
     }
 
 

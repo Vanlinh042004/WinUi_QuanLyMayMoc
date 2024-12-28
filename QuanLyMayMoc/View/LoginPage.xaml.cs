@@ -28,6 +28,7 @@ using Google.Apis.Oauth2.v2;
 using Google.Apis.Oauth2.v2.Data;
 using Google.Apis.Services;
 using Google.Apis.Util.Store;
+using Windows.Storage;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -137,10 +138,14 @@ namespace QuanLyMayMoc.View
                 string[] Scopes = { "email", "profile" };
                 string ApplicationName = "QuanLyMayMoc-Window";
 
-                using (var stream = new FileStream(@"E:\DOANWINDOW\WinUi_QuanLyMayMoc\QuanLyMayMoc\client_secret.json", FileMode.Open, FileAccess.Read))
+                // Đường dẫn tương đối tới thư mục gốc dự án (Assets)
+                string projectRoot = Directory.GetParent(AppContext.BaseDirectory).Parent.Parent.Parent.Parent.Parent.Parent.FullName;
+                string filePath = Path.Combine(projectRoot, "Assets", "client_secret.json");
+
+                using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
                 {
-                    string currentDirectory = AppDomain.CurrentDomain.BaseDirectory; // Lấy thư mục hiện tại
-                    string credPath = Path.Combine(currentDirectory, "token.json"); // Tạo đường dẫn đến token.json
+                    // Tạo đường dẫn lưu token trong thư mục dữ liệu ứng dụng
+                    string credPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "token.json");
 
                     var credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
                         GoogleClientSecrets.FromStream(stream).Secrets,
@@ -192,6 +197,7 @@ namespace QuanLyMayMoc.View
                 await errorDialog.ShowAsync();
             }
         }
+
 
 
 
