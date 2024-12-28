@@ -20,6 +20,7 @@ using QuanLyMayMoc.View;
 using Microsoft.UI.Windowing;
 using Windows.UI.WindowManagement;
 using QuanLyMayMoc.View.Mainpage;
+using Windows.Storage;
 
 
 // To learn more about WinUI, the WinUI project structure,
@@ -64,8 +65,22 @@ namespace QuanLyMayMoc
             //buttonToggling();
             Current = this;
             HeaderText = HeaderTextBlock;
+          
+            if (App.MainShellWindow != null)
+            {
+                App.MainShellWindow.Closed += ShellWindow_Closed;
+               // App.MainShellWindow.Closing += ShellWindow_Closing;
+            }
+        }
+        private void ShellWindow_Closed(object sender, WindowEventArgs args)
+        {
+            ViewModel.DeleteProjectUser(AppData.Email);
+            // Xử lý logic khi cửa sổ bị đóng
+            Console.WriteLine("Cửa sổ đã được đóng.");
         }
 
+
+        
         private void dichVuTheoThangButton(object sender, RoutedEventArgs e)
         {
             // Navigate to the ShellWindow
@@ -273,6 +288,7 @@ namespace QuanLyMayMoc
 
         private void MoDuAnClick(object sender, RoutedEventArgs e)
         {
+            ViewModel.DeleteProjectUser(AppData.Email);
             // Navigate to the ShellWindow
             this.FrameContent.Navigate(typeof(MoDuAn), this);
         }
@@ -494,9 +510,23 @@ namespace QuanLyMayMoc
                             AppData.ProjectID = "";
                             AppData.ProjectName = "";
                             AppData.ProjectTimeCreate = DateTime.MinValue;
-                            //navigate to the login page using the function in ShellWindow
+
+                            // Xóa thông tin đăng nhập Google
+                            string credPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "token.json");
+                           
+
+                            // Kiểm tra nếu tệp token tồn tại và xóa nó
+                            if (Directory.Exists(credPath))
+                            {
+                                Directory.Delete(credPath, true); // Xóa toàn bộ thư mục token.json
+                            }
+                            ViewModel.DeleteProjectUser(AppData.Email);
+                            AppData.Email = "";
+                            AppData.Name = "";
+                            // Điều hướng về trang đăng nhập
                             App.MainShellWindow.SetContentFrame(typeof(LoginPage));
                             return;
+
                     }
                 }
                 if (AppData.ProjectID == "")

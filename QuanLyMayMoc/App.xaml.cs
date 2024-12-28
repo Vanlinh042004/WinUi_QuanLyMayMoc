@@ -39,8 +39,17 @@ namespace QuanLyMayMoc
         public App()
         {
             this.InitializeComponent();
+            var coreWindow = Microsoft.UI.Xaml.Window.Current;
+            if (coreWindow != null)
+            {
+                coreWindow.Closed += CoreWindow_Closed; // Đăng ký sự kiện khi cửa sổ đóng
+            }
         }
-
+        private void CoreWindow_Closed(object sender, WindowEventArgs args)
+        {
+            // Xử lý logic trước khi cửa sổ đóng
+            Console.WriteLine("Cửa sổ sắp bị đóng.");
+        }
         /// <summary>
         /// Invoked when the application is launched.
         /// </summary>

@@ -14,7 +14,8 @@ namespace QuanLyMayMoc
         public static DateTime ProjectTimeCreate { get; set; }
 
         public static string Username { get; set; }
-        
+        public static string Email { get; set; }
+        public static string Name { get; set; }
         public static int UserId { get; set; }
 
         public static bool isEnableFunctionButtion { get; set; }

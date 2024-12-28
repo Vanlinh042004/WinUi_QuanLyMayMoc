@@ -52,7 +52,7 @@ namespace QuanLyMayMoc
             ViewModel = new MainViewModel();
             InitializeRefreshTimer();
 
-            ViewModel.LoadDataEmployee();
+            ViewModel.LoadDataEmployees();
             _window = new Page();
             this.Loaded += (sender, args) =>
             {
