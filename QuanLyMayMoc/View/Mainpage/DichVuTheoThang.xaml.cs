@@ -1032,9 +1032,9 @@ namespace QuanLyMayMoc
                         ContentDialog dialog = new ContentDialog
                         {
                             Title = "Công việc không tồn tại",
-                            Content = "Dòng công việc này đã bị người khác xóa khỏi cơ sở dữ liệu. Bạn muốn thêm lại hay bỏ qua?",
-                            PrimaryButtonText = "Thêm lại",
-                            SecondaryButtonText = "Bỏ qua",
+                            Content = "Dòng công việc này đã bị người khác xóa khỏi cơ sở dữ liệu.",
+                            PrimaryButtonText = "Bỏ qua",
+                           // SecondaryButtonText = "Bỏ qua",
                             DefaultButton = ContentDialogButton.Primary,
                             XamlRoot = this.XamlRoot // Đảm bảo XamlRoot được sử dụng trong các hàm giao diện
                         };
@@ -1045,23 +1045,23 @@ namespace QuanLyMayMoc
                         if (result == ContentDialogResult.Primary)
                         {
                             // Nếu người dùng chọn "Thêm lại", gọi hàm thêm mới task
-                              ViewModel.InsertTaskToDaTaBaseTemp(task);
+                              //ViewModel.InsertTaskToDaTaBaseTemp(task);
                            
-                                // Thông báo thành công
-                                ContentDialog successDialog = new ContentDialog
-                                {
-                                    Title = "Thành công",
-                                    Content = "Công việc đã được thêm vào tạm thời thành công\nNếu muốn lưu lại hãy nhấn lưu dự án!",
-                                    CloseButtonText = "Đóng",
-                                    XamlRoot = this.XamlRoot
-                                };
-                                await successDialog.ShowAsync();
+                              //  // Thông báo thành công
+                              //  ContentDialog successDialog = new ContentDialog
+                              //  {
+                              //      Title = "Thành công",
+                              //      Content = "Công việc đã được thêm vào tạm thời thành công\nNếu muốn lưu lại hãy nhấn lưu dự án!",
+                              //      CloseButtonText = "Đóng",
+                              //      XamlRoot = this.XamlRoot
+                              //  };
+                              //  await successDialog.ShowAsync();
                            
                         }
-                        else if (result == ContentDialogResult.Secondary)
-                        {
-                            // Nếu người dùng chọn "Bỏ qua", không làm gì thêm
-                        }
+                        //else if (result == ContentDialogResult.Secondary)
+                        //{
+                        //    // Nếu người dùng chọn "Bỏ qua", không làm gì thêm
+                        //}
                     }
 
                     else

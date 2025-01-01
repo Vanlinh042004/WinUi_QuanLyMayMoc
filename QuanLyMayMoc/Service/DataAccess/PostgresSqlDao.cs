@@ -34,7 +34,9 @@ namespace QuanLyMayMoc
                 hoten, manv, gioitinh, ngaykyhopdong, ngaysinh, 
                 trangthai, dantoc, cccd, phongban, email, 
                 sdt, diachi, maduan, anhdaidien
-            FROM nhanvien";
+            FROM nhanvien
+            WHERE maduan=@maduan    
+            ";
 
 
             ObservableCollection<Employee> employees = new ObservableCollection<Employee>();
@@ -46,7 +48,7 @@ namespace QuanLyMayMoc
                 {
                     // Truyền giá trị cho tham số @maduan
                     // command.Parameters.AddWithValue("@maduan", AppData.ProjectID);
-
+                    command.Parameters.AddWithValue("@maduan", AppData.ProjectID);
                     using (var reader = command.ExecuteReader())
                     {
                         while (reader.Read())

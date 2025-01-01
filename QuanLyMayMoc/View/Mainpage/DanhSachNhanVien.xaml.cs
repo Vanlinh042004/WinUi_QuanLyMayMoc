@@ -131,31 +131,175 @@ namespace QuanLyMayMoc
 
         private async void OnSaveEmployeeClicked(object sender, RoutedEventArgs e)
         {
+            // Kiểm tra các trường bắt buộc
+            if (string.IsNullOrWhiteSpace(MaNhanVienInput.Text))
+            {
+                await new ContentDialog
+                {
+                    Title = "Lỗi",
+                    Content = "Vui lòng nhập mã nhân viên.",
+                    CloseButtonText = "OK",
+                    XamlRoot = this.XamlRoot
+                }.ShowAsync();
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(HoTenInput.Text))
+            {
+                await new ContentDialog
+                {
+                    Title = "Lỗi",
+                    Content = "Vui lòng nhập họ tên.",
+                    CloseButtonText = "OK",
+                    XamlRoot = this.XamlRoot
+                }.ShowAsync();
+                return;
+            }
+
+            if (!NgaySinhInput.SelectedDate.HasValue)
+            {
+                await new ContentDialog
+                {
+                    Title = "Lỗi",
+                    Content = "Vui lòng chọn ngày sinh.",
+                    CloseButtonText = "OK",
+                    XamlRoot = this.XamlRoot
+                }.ShowAsync();
+                return;
+            }
+
+            if ((DateTime.Now.Year - NgaySinhInput.SelectedDate.Value.Year) < 18 ||
+                ((DateTime.Now.Year - NgaySinhInput.SelectedDate.Value.Year) == 18 &&
+                DateTime.Now.DayOfYear < NgaySinhInput.SelectedDate.Value.DayOfYear))
+            {
+                await new ContentDialog
+                {
+                    Title = "Lỗi",
+                    Content = "Nhân viên phải đủ 18 tuổi.",
+                    CloseButtonText = "OK",
+                    XamlRoot = this.XamlRoot
+                }.ShowAsync();
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(CCCDInput.Text) || CCCDInput.Text.Length != 12 || !CCCDInput.Text.All(char.IsDigit))
+            {
+                await new ContentDialog
+                {
+                    Title = "Lỗi",
+                    Content = "CCCD phải là 12 ký tự số.",
+                    CloseButtonText = "OK",
+                    XamlRoot = this.XamlRoot
+                }.ShowAsync();
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(SoDienThoaiInput.Text) || SoDienThoaiInput.Text.Length != 10 || !SoDienThoaiInput.Text.All(char.IsDigit))
+            {
+                await new ContentDialog
+                {
+                    Title = "Lỗi",
+                    Content = "Số điện thoại phải là 10 ký tự số.",
+                    CloseButtonText = "OK",
+                    XamlRoot = this.XamlRoot
+                }.ShowAsync();
+                return;
+            }
+
+            if (!NgayDKHDInput.SelectedDate.HasValue || NgayDKHDInput.SelectedDate.Value > DateTime.Now)
+            {
+                await new ContentDialog
+                {
+                    Title = "Lỗi",
+                    Content = "Ngày ký hợp đồng phải nhỏ hơn hoặc bằng ngày hiện tại.",
+                    CloseButtonText = "OK",
+                    XamlRoot = this.XamlRoot
+                }.ShowAsync();
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(EmailInput.Text))
+            {
+                await new ContentDialog
+                {
+                    Title = "Lỗi",
+                    Content = "Vui lòng nhập email.",
+                    CloseButtonText = "OK",
+                    XamlRoot = this.XamlRoot
+                }.ShowAsync();
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(DiaChiInput.Text))
+            {
+                await new ContentDialog
+                {
+                    Title = "Lỗi",
+                    Content = "Vui lòng nhập địa chỉ.",
+                    CloseButtonText = "OK",
+                    XamlRoot = this.XamlRoot
+                }.ShowAsync();
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(DanTocInput.Text))
+            {
+                await new ContentDialog
+                {
+                    Title = "Lỗi",
+                    Content = "Vui lòng nhập dân tộc.",
+                    CloseButtonText = "OK",
+                    XamlRoot = this.XamlRoot
+                }.ShowAsync();
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(TrangThaiInput.Text))
+            {
+                await new ContentDialog
+                {
+                    Title = "Lỗi",
+                    Content = "Vui lòng nhập trạng thái.",
+                    CloseButtonText = "OK",
+                    XamlRoot = this.XamlRoot
+                }.ShowAsync();
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(PhongBanInput.Text))
+            {
+                await new ContentDialog
+                {
+                    Title = "Lỗi",
+                    Content = "Vui lòng nhập phòng ban.",
+                    CloseButtonText = "OK",
+                    XamlRoot = this.XamlRoot
+                }.ShowAsync();
+                return;
+            }
             var newEmployee = new Employee
             {
                 MaNhanVienDuAn = MaNhanVienInput.Text + AppData.ProjectID,
-                MaNhanVien = MaNhanVienInput.Text ?? "Không có",
-                HoTen = HoTenInput.Text ?? "Không rõ",
+                MaNhanVien = MaNhanVienInput.Text,
+                HoTen = HoTenInput.Text,
                 GioiTinh = (GioiTinhInput.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "Khác",
-                NgaySinh = NgaySinhInput.SelectedDate?.Date ?? DateTime.MinValue,
-                NgayKyHD = NgayDKHDInput.SelectedDate?.Date ?? DateTime.MinValue,
-                CCCD = CCCDInput.Text ?? "Không có",
-                SoDienThoai = SoDienThoaiInput.Text ?? "Không có",
-                Email = EmailInput.Text ?? "Không có",
+                NgaySinh = NgaySinhInput.SelectedDate.Value.Date,
+                NgayKyHD = NgayDKHDInput.SelectedDate.Value.Date,
+                CCCD = CCCDInput.Text,
+                SoDienThoai = SoDienThoaiInput.Text,
+                Email = EmailInput.Text,
                 DanToc = DanTocInput.Text ?? "Không có",
-                DiaChi = DiaChiInput.Text ?? "Không có",
+                DiaChi = DiaChiInput.Text,
                 TrangThai = TrangThaiInput.Text ?? "Không có",
                 PhongBan = PhongBanInput.Text ?? "Không có",
-                AnhDaiDien = _selectedImagePath/*"ms-appx:///Assets/"*/ /*+ AnhDaiDienInput.Text*/,
+                AnhDaiDien = _selectedImagePath,
                 MaDuAn = AppData.ProjectID,
             };
 
             try
             {
                 // Kiểm tra mã nhân viên trong cơ sở dữ liệu
-                bool isDuplicate =  ViewModel.CheckEmployeeExistsAsync(newEmployee.MaNhanVien);
-
-                if (isDuplicate)
+                if (ViewModel.CheckEmployeeExistsAsync(newEmployee.MaNhanVien))
                 {
                     await new ContentDialog
                     {
@@ -164,7 +308,7 @@ namespace QuanLyMayMoc
                         CloseButtonText = "OK",
                         XamlRoot = this.XamlRoot
                     }.ShowAsync();
-                    return; // Dừng việc thêm nhân viên mới
+                    return;
                 }
 
                 // Thêm nhân viên mới
