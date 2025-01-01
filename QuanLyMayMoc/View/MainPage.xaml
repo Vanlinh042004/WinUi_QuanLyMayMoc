@@ -37,7 +37,7 @@
                 <MenuFlyoutItem Text="Exit" Click="ExitClick"/>
             </MenuBarItem>
 
-            <MenuBarItem Title="Chia sẻ dự án" Margin="0,0,10,0"/>
+            <!--<MenuBarItem Title="Chia sẻ dự án" Margin="0,0,10,0"/>-->
 
             <MenuBarItem Title="Hướng dẫn" Margin="0,0,10,0">
                 <MenuFlyoutItem Text="Demo" Click="DemoClick"/>
@@ -96,7 +96,7 @@
                     
                 </NavigationView.MenuItems>
                 <NavigationView.FooterMenuItems>
-                    <NavigationViewItem Content="Tài khoản" Tag="User" Icon="OtherUser" />
+                    <!--<NavigationViewItem Content="Tài khoản" Tag="User" Icon="OtherUser" />-->
                     <NavigationViewItem Content="Đăng xuất" Tag="Logout" Icon="Switch"/>
                     <!--<NavigationViewItem Content="Your Cart" Tag="SamplePage5" Icon="Shop" />
                     <NavigationViewItem Content="Help" Tag="SamplePage6" Icon="Help" />-->

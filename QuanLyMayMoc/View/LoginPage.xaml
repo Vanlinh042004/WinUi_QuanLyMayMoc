@@ -12,9 +12,90 @@
     </Page.Background>
 
     <Grid>
-        <!--<Rectangle Fill="White" Opacity="0.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />-->
+        <!--<Button Content="Đăng nhập với Google" 
+        Click="GoogleLoginButton_Click" 
+        HorizontalAlignment="Stretch" 
+        Width="300" 
+        Style="{ThemeResource AccentButtonStyle}" 
+        Margin="0,0,0,10">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Grid Background="{TemplateBinding Background}" CornerRadius="8" Padding="20">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            --><!-- Logo Google --><!--
+                        <Image Source="ms-appx:///Assets/google_logo.png" Width="24" Height="24" Margin="0,0,10,0"/>
+                            --><!-- Nội dung nút --><!--
+                            <TextBlock Text="Đăng nhập với Google" VerticalAlignment="Center" FontSize="14"/>
+                        </StackPanel>
+                    </Grid>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>-->
 
-        <!--<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" RequestedTheme="Light">
+        <Button Content="Đăng nhập với Google" 
+        Click="GoogleLoginButton_Click" 
+        HorizontalAlignment="Stretch" 
+        Width="300" 
+        Style="{ThemeResource AccentButtonStyle}" 
+        Margin="0,0,0,10">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Grid x:Name="BackgroundGrid" Background="{TemplateBinding Background}" CornerRadius="8" Padding="20">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <!-- Logo Google -->
+                                <Image Source="ms-appx:///Assets/google_logo.png" Width="24" Height="24" Margin="0,0,10,0"/>
+                                <!-- Nội dung nút -->
+                                <TextBlock Text="Đăng nhập với Google" VerticalAlignment="Center" FontSize="14"/>
+                            </StackPanel>
+                        </Grid>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <!-- Trạng thái mặc định -->
+                                <VisualState x:Name="Normal" />
+
+                                <!-- Trạng thái hover (PointerOver) -->
+                                <VisualState x:Name="PointerOver">
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="BackgroundGrid" 
+                                                Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)" 
+                                                To="#FFD6D6D6" Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </VisualState>
+
+                                <!-- Trạng thái nhấn (Pressed) -->
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="BackgroundGrid" 
+                                                Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)" 
+                                                To="#FFB0B0B0" Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </VisualState>
+
+                                <!-- Trạng thái disabled -->
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="BackgroundGrid" 
+                                                Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)" 
+                                                To="#FFE0E0E0" Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Grid>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+
+
+
+    </Grid>
+</Page>
+
+
+<!--<Rectangle Fill="White" Opacity="0.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />-->
+
+<!--<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" RequestedTheme="Light">
             <TextBlock Text="Đăng nhập" FontSize="24" Margin="0,0,0,20" TextAlignment="Center"/>
             <TextBox x:Name="UsernameTextBox" PlaceholderText="Tên đăng nhập" Margin="0,0,0,10" />
             <PasswordBox x:Name="PasswordBox" PlaceholderText="Mật khẩu" Margin="0,0,0,10"  />
@@ -23,7 +104,7 @@
                 <Button Content="Đăng ký" Click="RegisterButton_Click" HorizontalAlignment="Stretch" Width="140"/>
             </StackPanel>
         </StackPanel>-->
-        <!--<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" RequestedTheme="Light">
+<!--<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" RequestedTheme="Light">
             <TextBlock Text="Đăng nhập với Google" FontSize="24" Margin="0,0,0,20" TextAlignment="Center"/>
             <Button Content="Đăng nhập với Google" 
             Click="GoogleLoginButton_Click" 
@@ -31,28 +112,3 @@
             Width="200" 
             Style="{ThemeResource AccentButtonStyle}" 
             Margin="0,0,0,10">-->
-                <Button Content="Đăng nhập với Google" 
-        Click="GoogleLoginButton_Click" 
-        HorizontalAlignment="Stretch" 
-        Width="200" 
-        Style="{ThemeResource AccentButtonStyle}" 
-        Margin="0,0,0,10">
-                    <Button.Template>
-                        <ControlTemplate TargetType="Button">
-                            <Grid Background="{TemplateBinding Background}">
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                    <!-- Logo Google -->
-                                    <Image Source="Assets/google_logo.png" Width="24" Height="24" Margin="0,0,10,0"/>
-                                    <!-- Nội dung nút -->
-                                    <TextBlock Text="Đăng nhập với Google" VerticalAlignment="Center" FontSize="14"/>
-                                </StackPanel>
-                            </Grid>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
-
-            <!--</Button>
-        </StackPanel>-->
-
-    </Grid>
-</Page>
