@@ -40,25 +40,7 @@
         <!-- Nội dung cuộn -->
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
             <StackPanel>
-                <!-- Tiêu đề cột --><!--
-                <Grid Background="LightGray">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100" />
-                        <ColumnDefinition Width="100" />
-                        <ColumnDefinition Width="300" />
-                        <ColumnDefinition Width="300" />
-                        <ColumnDefinition Width="300" />
-                        <ColumnDefinition Width="300" />
-                    </Grid.ColumnDefinitions>
-
-                    --><!-- Tiêu đề từng cột --><!--
-                    <TextBlock Text="NĂM" Grid.Column="0" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black" />
-                    <TextBlock Text="THÁNG" Grid.Column="1" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black" />
-                    <TextBlock Text="TỔNG PHÍ DỊCH VỤ THÁNG" Grid.Column="2" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black" />
-                    <TextBlock Text="TỔNG TIỀN MÁY THÁNG" Grid.Column="3" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black" />
-                    <TextBlock Text="TỔNG DOANH THU THÁNG" Grid.Column="4" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black" />
-                    <TextBlock Text="TỔNG DOANH THU NĂM" Grid.Column="5" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black" />
-                </Grid>-->
+              
 
                 <Grid Background="Transparent">
                     <Grid.ColumnDefinitions>
@@ -98,7 +80,7 @@
                         <DataTemplate x:DataType="local:ConsolidatedYearSummary">
                             <Grid Margin="0,5,0,5">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="100" />
@@ -108,10 +90,10 @@
                                     <ColumnDefinition Width="300" />
                                     <ColumnDefinition Width="300" />
                                 </Grid.ColumnDefinitions>
-
+                            
                                 <!-- Border cho Năm -->
                                 <Border Grid.Row="0" Grid.RowSpan="{x:Bind MonthlySummaries.Count}" Grid.Column="0" BorderBrush="Gray" BorderThickness="1" Padding="5">
-                                    <TextBlock Text="{x:Bind Year}" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black" />
+                                    <TextBlock Text="{x:Bind Year}" FontSize="18" FontWeight="Bold"  HorizontalAlignment="Center" VerticalAlignment="Center"  Foreground="Blue" />
                                 </Border>
                                 <Border Grid.Row="0" Grid.RowSpan="{x:Bind MonthlySummaries.Count}" Grid.Column="5" BorderBrush="Gray" BorderThickness="1" Padding="5" Background="LightYellow">
                                     <TextBlock Text="{x:Bind TotalYear, Converter={StaticResource CurrencyFormatConverter}}" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Red" />
@@ -140,7 +122,7 @@
                                                     <TextBlock Text="{x:Bind TotalProductFee, Converter={StaticResource CurrencyFormatConverter}}" HorizontalAlignment="Center" Foreground="Black" />
                                                 </Border>
                                                 <Border Grid.Column="3" BorderBrush="Gray" BorderThickness="1" Padding="5"  >
-                                                    <TextBlock Text="{x:Bind CombinedTotal, Converter={StaticResource CurrencyFormatConverter}}" HorizontalAlignment="Center"  />
+                                                    <TextBlock Text="{x:Bind CombinedTotal, Converter={StaticResource CurrencyFormatConverter}}" HorizontalAlignment="Center"  Foreground="Black"/>
                                                 </Border>
                                             </Grid>
                                         </DataTemplate>
