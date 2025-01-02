@@ -14,7 +14,7 @@ namespace QuanLyMayMoc
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             bool isSelected = (bool)value;
-            return isSelected ? new SolidColorBrush(Colors.LightGray) : new SolidColorBrush(Colors.White);
+            return isSelected ? new SolidColorBrush(Colors.LightGray) : new SolidColorBrush(Colors.Transparent);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language) => throw new NotImplementedException();

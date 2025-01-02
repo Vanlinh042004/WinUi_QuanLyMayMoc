@@ -242,19 +242,19 @@
 
                                                                         <!-- Hiển thị dữ liệu sản phẩm -->
                                                                         <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="0" Margin="0,5,5,0">
-                                                                            <TextBlock Text="{x:Bind ProductCode}" Foreground="Red" HorizontalAlignment="Center" Margin="5" />
+                                                                            <TextBlock Text="{x:Bind ProductCode}" Foreground="Black" HorizontalAlignment="Center" Margin="5" />
                                                                         </Border>
                                                                         <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="1" Margin="0,5,5,0">
-                                                                            <TextBlock Text="{x:Bind ProductName}" Foreground="Red" HorizontalAlignment="Center" Margin="5" />
+                                                                            <TextBlock Text="{x:Bind ProductName}" Foreground="Black" HorizontalAlignment="Center" Margin="5" />
                                                                         </Border>
                                                                         <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="2" Margin="0,5,5,0">
-                                                                            <TextBlock Text="{x:Bind Quantity}" Foreground="Red" HorizontalAlignment="Center" Margin="5" />
+                                                                            <TextBlock Text="{x:Bind Quantity}" Foreground="Black" HorizontalAlignment="Center" Margin="5" />
                                                                         </Border>
                                                                         <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="3" Margin="0,5,5,0">
-                                                                            <TextBlock Text="{x:Bind Price, Converter={StaticResource CurrencyFormatConverter}}" Foreground="Red" HorizontalAlignment="Center" Margin="5" />
+                                                                            <TextBlock Text="{x:Bind Price, Converter={StaticResource CurrencyFormatConverter}}" Foreground="Black" HorizontalAlignment="Center" Margin="5" />
                                                                         </Border>
                                                                         <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Grid.Column="4" Margin="0,5,5,0">
-                                                                            <TextBlock Text="{x:Bind TotalPrice, Converter={StaticResource CurrencyFormatConverter}}" Foreground="Red" HorizontalAlignment="Center" Margin="5" />
+                                                                            <TextBlock Text="{x:Bind TotalPrice, Converter={StaticResource CurrencyFormatConverter}}" Foreground="Black" HorizontalAlignment="Center" Margin="5" />
                                                                         </Border>
                                                                     </Grid>
                                                                 </DataTemplate>
@@ -262,7 +262,7 @@
                                                         </ItemsControl>
 
                                                         <!-- Tổng tiền tháng -->
-                                                        <Border Grid.Row="0" Grid.RowSpan="1" BorderBrush="Gray" BorderThickness="2" CornerRadius="5" Grid.Column="2" Margin="0,5,5,5" VerticalAlignment="Stretch">
+                                                        <Border Grid.Row="0" Grid.RowSpan="1" BorderBrush="Gray" BorderThickness="2" CornerRadius="5" Grid.Column="2" Margin="0,5,5,5" VerticalAlignment="Stretch" Background="LightCyan">
                                                             <TextBlock Text="{x:Bind TotalMonth, Converter={StaticResource CurrencyFormatConverter}}" Foreground="Green" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" />
                                                         </Border>
                                                     </Grid>
@@ -271,8 +271,8 @@
                                         </ItemsControl>
 
                                         <!-- Ô hiển thị Tổng tiền năm -->
-                                        <Border Grid.Row="0" Grid.RowSpan="{x:Bind MonthlyGroups.Count}" BorderBrush="Gray" BorderThickness="2" CornerRadius="5" Grid.Column="2" Margin="0,5,5,5" VerticalAlignment="Stretch">
-                                            <TextBlock Text="{x:Bind TotalYear, Converter={StaticResource CurrencyFormatConverter}}" Foreground="Green" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        <Border Grid.Row="0" Grid.RowSpan="{x:Bind MonthlyGroups.Count}" BorderBrush="Gray" BorderThickness="2" CornerRadius="5" Grid.Column="2" Margin="0,5,5,5" VerticalAlignment="Stretch" Background="LightYellow">
+                                            <TextBlock Text="{x:Bind TotalYear, Converter={StaticResource CurrencyFormatConverter}}" Foreground="Red" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" />
                                         </Border>
                                     </Grid>
                                 </DataTemplate>

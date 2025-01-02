@@ -748,7 +748,7 @@ namespace QuanLyMayMoc.ViewModel
             // Mở dự án mới
             else
             {
-                LoadLinhKienFromDatabase();
+                //LoadLinhKienFromDatabase();
             }
 
           

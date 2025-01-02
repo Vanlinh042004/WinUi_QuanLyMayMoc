@@ -1887,13 +1887,32 @@ namespace QuanLyMayMoc
             }
             catch (Exception ex)
             {
-                await new ContentDialog
+                //await new ContentDialog
+                //{
+                //    Title = "Lỗi",
+                //    Content = $"Có lỗi xảy ra khi tạo dự án: {ex.Message}",
+                //    CloseButtonText = "OK",
+                //    XamlRoot = this.XamlRoot
+                //}.ShowAsync();
+
+                if (this.XamlRoot != null)
                 {
-                    Title = "Lỗi",
-                    Content = $"Có lỗi xảy ra khi tạo dự án: {ex.Message}",
-                    CloseButtonText = "OK",
-                    XamlRoot = this.XamlRoot
-                }.ShowAsync();
+                    var dialog = new ContentDialog
+                    {
+                        Title = "Lỗi",
+                        Content = $"Có lỗi xảy ra khi tạo dự án: {ex.Message}",
+                        CloseButtonText = "OK",
+                        XamlRoot = this.XamlRoot
+                    };
+
+                    await dialog.ShowAsync();
+                }
+                else
+                {
+                    // Xử lý trường hợp XamlRoot null
+                    Debug.WriteLine("XamlRoot is null. Dialog cannot be displayed.");
+                }
+
             }
 
         }

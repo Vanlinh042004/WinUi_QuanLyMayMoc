@@ -40,7 +40,7 @@
         <!-- Nội dung cuộn -->
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
             <StackPanel>
-                <!-- Tiêu đề cột -->
+                <!-- Tiêu đề cột --><!--
                 <Grid Background="LightGray">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="100" />
@@ -51,14 +51,46 @@
                         <ColumnDefinition Width="300" />
                     </Grid.ColumnDefinitions>
 
-                    <!-- Tiêu đề từng cột -->
+                    --><!-- Tiêu đề từng cột --><!--
                     <TextBlock Text="NĂM" Grid.Column="0" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black" />
                     <TextBlock Text="THÁNG" Grid.Column="1" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black" />
                     <TextBlock Text="TỔNG PHÍ DỊCH VỤ THÁNG" Grid.Column="2" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black" />
                     <TextBlock Text="TỔNG TIỀN MÁY THÁNG" Grid.Column="3" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black" />
                     <TextBlock Text="TỔNG DOANH THU THÁNG" Grid.Column="4" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black" />
                     <TextBlock Text="TỔNG DOANH THU NĂM" Grid.Column="5" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black" />
+                </Grid>-->
+
+                <Grid Background="Transparent">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="300" />
+                        <ColumnDefinition Width="300" />
+                        <ColumnDefinition Width="300" />
+                        <ColumnDefinition Width="300" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Tiêu đề từng cột -->
+                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <TextBlock Text="NĂM" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
+                    </Border>
+                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <TextBlock Text="THÁNG" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
+                    </Border>
+                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <TextBlock Text="TỔNG PHÍ DỊCH VỤ THÁNG" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
+                    </Border>
+                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <TextBlock Text="TỔNG TIỀN MÁY THÁNG" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
+                    </Border>
+                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <TextBlock Text="TỔNG DOANH THU THÁNG" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
+                    </Border>
+                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <TextBlock Text="TỔNG DOANH THU NĂM" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5"/>
+                    </Border>
                 </Grid>
+
 
                 <!-- Dữ liệu trong ItemsControl -->
                 <ItemsControl ItemsSource="{x:Bind ViewModel.ConsolidatedYearSummaries}">
@@ -81,8 +113,8 @@
                                 <Border Grid.Row="0" Grid.RowSpan="{x:Bind MonthlySummaries.Count}" Grid.Column="0" BorderBrush="Gray" BorderThickness="1" Padding="5">
                                     <TextBlock Text="{x:Bind Year}" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black" />
                                 </Border>
-                                <Border Grid.Row="0" Grid.RowSpan="{x:Bind MonthlySummaries.Count}" Grid.Column="5" BorderBrush="Gray" BorderThickness="1" Padding="5">
-                                    <TextBlock Text="{x:Bind TotalYear, Converter={StaticResource CurrencyFormatConverter}}" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black" />
+                                <Border Grid.Row="0" Grid.RowSpan="{x:Bind MonthlySummaries.Count}" Grid.Column="5" BorderBrush="Gray" BorderThickness="1" Padding="5" Background="LightYellow">
+                                    <TextBlock Text="{x:Bind TotalYear, Converter={StaticResource CurrencyFormatConverter}}" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Red" />
                                 </Border>
                                 <!-- Danh sách Tháng -->
                                 <ItemsControl Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="4" ItemsSource="{x:Bind MonthlySummaries}">
@@ -107,8 +139,8 @@
                                                 <Border Grid.Column="2" BorderBrush="Gray" BorderThickness="1" Padding="5">
                                                     <TextBlock Text="{x:Bind TotalProductFee, Converter={StaticResource CurrencyFormatConverter}}" HorizontalAlignment="Center" Foreground="Black" />
                                                 </Border>
-                                                <Border Grid.Column="3" BorderBrush="Gray" BorderThickness="1" Padding="5">
-                                                    <TextBlock Text="{x:Bind CombinedTotal, Converter={StaticResource CurrencyFormatConverter}}" HorizontalAlignment="Center" Foreground="Black" />
+                                                <Border Grid.Column="3" BorderBrush="Gray" BorderThickness="1" Padding="5"  >
+                                                    <TextBlock Text="{x:Bind CombinedTotal, Converter={StaticResource CurrencyFormatConverter}}" HorizontalAlignment="Center"  />
                                                 </Border>
                                             </Grid>
                                         </DataTemplate>

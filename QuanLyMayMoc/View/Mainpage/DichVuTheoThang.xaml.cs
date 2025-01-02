@@ -807,7 +807,7 @@ namespace QuanLyMayMoc
 
             ContentDialog deleteDialog = new ContentDialog
             {
-                Title = "Xác nhận xóa",
+                Title = "Xác nhận chỉnh sửa",
                 Content = "Bạn có chắc chắn muốn chỉnh sửa dòng này?",
                 PrimaryButtonText = "OK",
                 CloseButtonText = "Hủy",

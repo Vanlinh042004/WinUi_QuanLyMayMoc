@@ -170,11 +170,14 @@
 
                                 <DataTemplate x:DataType="local:Task">
                                     <Grid Padding="3"  Tapped="OnTaskTapped" 
-                  BorderBrush="{Binding IsSelected, Converter={StaticResource BooleanToBorderBrushConverter}}" >
+                                          BorderBrush="{Binding IsSelected, Converter={StaticResource BooleanToBorderBrushConverter}}" 
+                                          Background="{Binding IsSelected, Converter={StaticResource BooleanToBrushConverter}}"
+                                          >
                                         <!-- Hình nền mặc định -->
-                                        <Grid.Background>
+                                        <!--<Grid.Background >
                                             <ImageBrush ImageSource="ms-appx:///Assets/empty_background.jpg" Stretch="UniformToFill" />
-                                        </Grid.Background>
+                                            
+                                        </Grid.Background>-->
 
 
                                         <!-- Thêm Padding cho Grid -->  
