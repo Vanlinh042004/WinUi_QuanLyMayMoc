@@ -608,6 +608,7 @@ namespace QuanLyMayMoc.ViewModel
             {
                 Listlinhkien.Clear();
             }
+            Listlinhkien.Clear();
             var allLinhKien = _dao.GetAllLinhKienTam();
             foreach (var linhkien in allLinhKien)
             {
@@ -844,7 +845,7 @@ namespace QuanLyMayMoc.ViewModel
             {
                 monthlyProductSummaries.Add(new MonthlyProductSummary
                 {
-                    Code = GenerateUniqueCode(),
+                    Code = GenerateUniqueCode()+ GenerateUniqueCode(),
                     Year = groupedTask.Year,
                     Month = groupedTask.Month,
                     ProductCode = groupedTask.ProductCode,

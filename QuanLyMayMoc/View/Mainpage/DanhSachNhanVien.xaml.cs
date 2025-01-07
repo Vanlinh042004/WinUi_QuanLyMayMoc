@@ -230,6 +230,20 @@ namespace QuanLyMayMoc
                 return;
             }
 
+            // Kiểm tra định dạng email
+            string emailPattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+            if (!System.Text.RegularExpressions.Regex.IsMatch(EmailInput.Text, emailPattern))
+            {
+                await new ContentDialog
+                {
+                    Title = "Lỗi",
+                    Content = "Vui lòng nhập email hợp lệ.",
+                    CloseButtonText = "OK",
+                    XamlRoot = this.XamlRoot
+                }.ShowAsync();
+                return;
+            }
+
             if (string.IsNullOrWhiteSpace(DiaChiInput.Text))
             {
                 await new ContentDialog
