@@ -35,11 +35,14 @@ namespace QuanLyMayMoc
         public bool IsFirstLinhKienClick { get; set; } = true;
         public bool IsFirstLoiClick { get; set; } = true;
         public static ShellWindow MainShellWindow { get; private set; }
+        public static Microsoft.UI.Xaml.Window MainWindow { get; set; }
+
 
         public App()
         {
             this.InitializeComponent();
             var coreWindow = Microsoft.UI.Xaml.Window.Current;
+
             if (coreWindow != null)
             {
                 coreWindow.Closed += CoreWindow_Closed; // Đăng ký sự kiện khi cửa sổ đóng

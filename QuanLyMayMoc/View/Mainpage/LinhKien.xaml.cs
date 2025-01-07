@@ -52,7 +52,7 @@ namespace QuanLyMayMoc
             this.InitializeComponent();
             HideFirstRow(); // Thêm dòng đầu tiên
             ViewModel = new MainViewModel();
-            InitializeRefreshTimer();
+            //InitializeRefreshTimer();
             LoadDataForProject();
 
         }

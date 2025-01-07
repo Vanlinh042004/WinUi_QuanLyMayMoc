@@ -22,6 +22,9 @@ using Npgsql;
 using System.Threading.Tasks;
 using Microsoft.UI.Xaml;
 using System.Threading;
+using Windows.Storage.Pickers;
+using Windows.Storage;
+using WinRT.Interop;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -1116,6 +1119,93 @@ namespace QuanLyMayMoc
                 await errorDialog.ShowAsync();
             }
         }
+        //private async void OnExportToExcelClick(object sender, RoutedEventArgs e)
+        //{
+        //    try
+        //    {
+        //        var savePicker = new FileSavePicker();
+        //        savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
+        //        savePicker.FileTypeChoices.Add("Excel Files", new List<string>() { ".xlsx" });
+        //        savePicker.SuggestedFileName = "DichVu_" + DateTime.Now.ToString("yyyyMMdd");
+
+        //        StorageFile file = await savePicker.PickSaveFileAsync();
+        //        if (file != null)
+        //        {
+        //            await ExcelExporter.ExportToExcel(ViewModel.Tasks, file.Path);
+
+        //            ContentDialog dialog = new ContentDialog()
+        //            {
+        //                Title = "Thông báo",
+        //                Content = "Xuất file Excel thành công!",
+        //                CloseButtonText = "OK"
+        //            };
+        //            await dialog.ShowAsync();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ContentDialog dialog = new ContentDialog()
+        //        {
+        //            Title = "Lỗi",
+        //            Content = "Có lỗi xảy ra: " + ex.Message,
+        //            CloseButtonText = "OK"
+        //        };
+
+        //        if (XamlRoot != null)
+        //        {
+        //            dialog.XamlRoot = XamlRoot;
+        //        }
+        //        await dialog.ShowAsync();
+        //    }
+        //}
+
+        private async void OnExportToExcelClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                // Create the picker
+                var savePicker = new FileSavePicker();
+
+                // Get the current window handle
+                IntPtr hwnd = WindowNative.GetWindowHandle(App.MainShellWindow);
+
+                // Initialize the picker with the window handle
+                InitializeWithWindow.Initialize(savePicker, hwnd);
+
+                // Configure the picker
+                savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
+                savePicker.FileTypeChoices.Add("Excel Files", new List<string>() { ".xlsx" });
+                savePicker.SuggestedFileName = "DichVu_" + DateTime.Now.ToString("yyyyMMdd");
+
+                // Show the picker and handle the result
+                StorageFile file = await savePicker.PickSaveFileAsync();
+                if (file != null)
+                {
+                    await ExcelExporter.ExportToExcel(ViewModel.Tasks, file.Path);
+
+                    var dialog = new ContentDialog()
+                    {
+                        Title = "Thông báo",
+                        Content = "Xuất file Excel thành công!",
+                        CloseButtonText = "OK",
+                        XamlRoot = XamlRoot
+                    };
+                    await dialog.ShowAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                var dialog = new ContentDialog()
+                {
+                    Title = "Lỗi",
+                    Content = "Có lỗi xảy ra: " + ex.Message,
+                    CloseButtonText = "OK",
+                    XamlRoot = XamlRoot
+                };
+                await dialog.ShowAsync();
+            }
+        }
+
 
     }
 }

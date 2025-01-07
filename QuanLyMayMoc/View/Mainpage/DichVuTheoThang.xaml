@@ -285,7 +285,14 @@
                 <Button Content="Sửa dòng" Width="150" Margin="10 0 10 0" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnUpdateRowDataClick" RequestedTheme="Light"/>
                 <Button Content="Lưu" Width="100" Margin="10 0 10 0" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnSaveRowDataClick" RequestedTheme="Light"/>
                 <Button Content="Xóa tất cả" Width="100" Margin="10 0 10 0" Foreground="Black" BorderBrush="Black" BorderThickness="1" Click="OnDeleteAllRowDataClick" RequestedTheme="Light"/>
-
+                <Button Content="Xuất Excel" 
+                    Width="150" 
+                    Margin="10 0 10 0" 
+                    Foreground="Black" 
+                    BorderBrush="Black" 
+                    BorderThickness="1" 
+                    Click="OnExportToExcelClick" 
+                    RequestedTheme="Light"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>
