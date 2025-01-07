@@ -2170,8 +2170,8 @@ namespace QuanLyMayMoc
             List<String> Queries = new List<string>
             {
                 @"
-                INSERT INTO duan (maduan, tenduan, ngaythuchien, @userid)
-                SELECT @maDuAnMoi, @tenDuAnMoi, @ngayThucHienDuAnMoi
+                INSERT INTO duan (maduan, tenduan, ngaythuchien,email,name)
+                SELECT @maDuAnMoi, @tenDuAnMoi, @ngayThucHienDuAnMoi,@email,@name
                 FROM duan
                 WHERE maduan = @maDuAnCu;
                 "
@@ -2193,7 +2193,8 @@ namespace QuanLyMayMoc
                                 command.Parameters.AddWithValue("@maDuAnMoi", maDuAnMoi);
                                 command.Parameters.AddWithValue("@tenDuAnMoi", tenDuAnMoi);
                                 command.Parameters.AddWithValue("@ngayThucHienDuAnMoi", ngayBatDauDuAnMoi);
-                                command.Parameters.AddWithValue("@userid", AppData.UserId);
+                                command.Parameters.AddWithValue("@email", projectInsert.Email);
+                                command.Parameters.AddWithValue("@name", projectInsert.NameEmail);
 
                                 command.ExecuteNonQuery();
                             }

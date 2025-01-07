@@ -34,7 +34,7 @@
                 <MenuFlyoutSeparator/>
                 <MenuFlyoutItem Text="Xóa dự án" Click="XoaDuAnClick"/>
                 <MenuFlyoutSeparator/>
-                <MenuFlyoutItem Text="Exit" Click="ExitClick"/>
+                <MenuFlyoutItem Text="Thoát" Click="ExitClick"/>
             </MenuBarItem>
 
             <!--<MenuBarItem Title="Chia sẻ dự án" Margin="0,0,10,0"/>-->

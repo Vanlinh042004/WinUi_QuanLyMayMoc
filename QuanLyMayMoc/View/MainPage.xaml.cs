@@ -389,7 +389,9 @@ namespace QuanLyMayMoc
                 {
                     ID = AppData.ProjectID,
                     Name = AppData.ProjectName,
-                    TimeCreate = AppData.ProjectTimeCreate
+                    TimeCreate = AppData.ProjectTimeCreate,
+                    Email=AppData.Email,
+                    NameEmail=AppData.Name,
                 };
                 try
                 {   
